@@ -47,7 +47,8 @@
 										<span>旅行地区：</span><div><?php echo $tour[$i]['destination']?></div>
 									</dd>
 									<dd>
-									<span>最佳季节：</span><div><?php echo $tour[$i]['tags'];?></div>
+									<span>活动时间：</span>
+										<div><?php echo $tour[$i]['term'];?></div>
 									</dd>
 									<dd class="last">
 										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="but">线路详情</a>	

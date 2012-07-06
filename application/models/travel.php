@@ -53,5 +53,17 @@ class Travel extends CI_Model
 		$query=$this->db->get();
 		return $query->row_array();
 	}
+	public function getupnote($id)
+	{
+		$this->db->query('select * from travel_note where Id<'.$id.'limit 1 order by edit_time desc');
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+	public function getnextnote($id)
+	{
+		$this->db->query('select * from travel_note where Id>'.$id.'limit 1 order by edit_time asc');
+		$query=$this->db->get();
+		return $query->row_array();
+	}
 }
 ?>

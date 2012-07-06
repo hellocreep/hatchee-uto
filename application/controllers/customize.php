@@ -75,7 +75,7 @@ class Customize extends CI_Controller
 			$data['status']=true;
 			$data['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
 		}
-		echo json_encode($data['result']);
+		echo json_encode($data);
 	}	
 }
 ?>

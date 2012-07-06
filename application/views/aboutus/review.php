@@ -26,12 +26,16 @@
 						精彩瞬间 - 记录我们的精彩回忆。(游记)
 					</p>
 					<ul>
-						<li><a href="#">【公司出游】：记录我们的精彩回忆</a></li>
-						<li><a href="#">【公司出游】：记录我们的精彩回忆</a></li>
-						<li><a href="#">【公司出游】：记录我们的精彩回忆</a></li>
-						<li><a href="#">【公司出游】：记录我们的精彩回忆</a></li>
-						<li><a href="#">【公司出游】：记录我们的精彩回忆</a></li>
+						<?php foreach($note as $travel):?>
+							<li><a href="aboutus/note?id=<?php echo $travel->Id;?>">【<?php echo $travel->type;?>】：<?php echo $travel->title;?></a></li>
+						<?php endforeach;?>
 					</ul>
+					<div class="pagenate">
+							<a href="<?php echo $page['first'];?>">首页</a>
+							<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>
+							<a href="<?php echo $page['next'];?>" class="nextPage">下一页</a>
+							<a href="<?php echo $page['end'];?>">尾页</a>
+					</div>
 					<h2>小小镜头里的四川大世界</h2>
 						<div class="imglist clearfix">
 							<a rel="fancyimg" href="" title="" > <img class="fancyimg" alt="" src="assets/images/img.jpg"> </a>

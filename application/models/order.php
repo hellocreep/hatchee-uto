@@ -31,14 +31,21 @@ class Order extends CI_Model
 		return $this->db->affected_rows();
 	}
 	public function getorder($id){
-		$sql = "select * from inquiry where Id=".$id;
+		
+		$sql="select u.name,t.name as tourname,o.Id,o.uuid,o.people,o.tour_term,o.tour_time,o.create_date,o.comment,t.is_private from users as u left join inquiry as o on u.id=o.user left join tour as t on o.tour=t.id where o.Id=".$id;
 		$query=$this->db->query($sql);
-		$data=$query->result();
-		echo $data;
+		$data=$query->row_array();
+		return $data;
+	}
+	public function updateorder($id,$conment)
+	{
+		$this->db->where('Id',$id);
+		$this->db->update('inquiry',$conment);
+		return $this->db->affected_rows();
 	}
 	public function checkorder($condition)
 	{
-		$sql="select from users as u left join inquiry as o on u.id=o.user left join tour as t on o.tour=t.id where o.uuid=".$condition." or u.tel='".$condition."'";
+		$sql="select * from users as u left join inquiry as o on u.id=o.user left join tour as t on o.tour=t.id where o.uuid=".$condition." or u.tel='".$condition."'";
 		$query=$this->db->query($sql);
 		$data=$query->row_array();
 		return $data;

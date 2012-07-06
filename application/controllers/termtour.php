@@ -75,9 +75,7 @@ class Termtour extends CI_Controller
 		$type="regular_tour";
 		$data['webinfo'] = $this->webpage->getpage($type);
 		$data['tour']=$this->show->showtermtour($start,$per_page,$action);
-		$this->load->view('web/landingpage-term',$data);
-
-		
+		$this->load->view('web/landingpage-term',$data);	
 	}
 }
 ?>

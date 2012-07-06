@@ -2,21 +2,11 @@
 
 class Aboutus extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->helper('url');
+	}
 	public function index()
 	{
 		$this->load->view('aboutus/aboutus');
@@ -44,9 +34,50 @@ class Aboutus extends CI_Controller {
 
 	public function review()
 	{
-		$this->load->view('aboutus/review');
+		$step='5';
+		$this->load->model('travel');
+		$num=$this->travel->notecount();
+		$count=ceil($num/$step);
+		$page=$this->uri->segment(3);
+		if($page=='')
+		{
+			$page=1;
+		}
+		$data['page']['first']='aboutus/review/1';
+		$data['page']['end']='aboutus/review/'.$count;
+		if(isset($page) && $page>1)
+		{
+			$pagepre=$page-1;
+		}
+		else
+		{
+			$pagepre=1;
+		}
+		if(isset($page) && $page<$count)
+		{
+			$pagenext=$page+1;
+		}
+		else
+		{
+			$pagenext=$count;
+		}
+		$data['page']['pre']='aboutus/review/'.$pagepre;
+		$data['page']['next']='aboutus/review/'.$pagenext;
+		$data['note']=$this->travel->notelist($page,$step);
+		$this->load->view('aboutus/review',$data);
 	}
-
+	public function note()
+	{
+		$id=addslashes($_GET['id']);
+		$this->load->model('travel');
+		$data['note']=$this->travel->getnote($id);
+		$data['upnote']=$this->travel->getupnote($id);
+		$data['nextnote']=$this->travel->getnextnote($id);
+		echo "<pre>";
+		print_r($data);
+		echo "</pre>";
+		//$this->load->view("aboutus/tripnote",$data);
+	}
 	public function tripnote()
 	{
 		$this->load->view('aboutus/tripnote');

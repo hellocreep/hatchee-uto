@@ -21,9 +21,9 @@
 					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
 				</div>
 				<div class="article">
-					<h1>【友途活动回顾】端午特别定制团：徒步双桥沟，勇攀四姑娘山二峰！</h1>				
+					<h1>【<?php echo $note['type'];?>】<?php echo $note['title'];?></h1>				
 					<p class="note">
-						2012-7-2 | 张磊编辑
+						<?php echo $note['edit_time'];?> | <?php echo $note['editor'];?>
 					</p>	
 					<div class="note-content">
 						<img src="assets/images/img.jpg" alt="" width="720" height="300">
@@ -40,6 +40,8 @@
 										第四天：二峰大本营—二峰峰顶—二峰大本营—日隆镇<br>
 										第五天：日隆镇—成都
 						</p>
+						<?php echo $note['content'];?>
+
 					</div>
 				</div> <!-- end of div.article -->
 				<!-- Baidu Button BEGIN -->

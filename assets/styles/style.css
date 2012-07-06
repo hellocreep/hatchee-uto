@@ -143,17 +143,19 @@ img, div {
 	display:inline;
 }
 .wrapper{
-	background:url('../images/banner-big.jpg') no-repeat center top;
+	background:url('../images/header-bg.png') repeat-x;
 }
 .header{
 	height:425px;
-	background:url('../images/header-bg.png') repeat-x center top;
+	background: url('../images/banner-big.jpg') no-repeat center top;
 	behavior: url(iepngfix.htc);
 }
 .header .wrap{
 	width:1000px;
 	margin:0 auto;
 	height:100px;
+	padding: 0 47px;
+	background:url('../images/trans-bg.png') repeat-x;
 }
 .header .logo{
 	display:block;

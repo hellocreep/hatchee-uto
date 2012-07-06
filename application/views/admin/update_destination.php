@@ -86,7 +86,9 @@
 				des_editor.sync();
 				img = [];
 				$( '.thumbnail' ).each(function(){
-					img.push( $(this).attr('rel') );
+					if( $(this).attr('rel')>0 ){
+						img.push( $(this).attr('rel') );
+					}
 				});
 				var data = {
 					id: $( '#d_id' ).val(),
@@ -128,6 +130,7 @@
 				}
 				
 			});
+			
 
 			$( '#cancel-des' ).click(function(){
 				changeFlag = false;

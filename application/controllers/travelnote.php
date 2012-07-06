@@ -20,7 +20,8 @@ class Travelnote extends CI_Controller
 		$this->load->model('travel');
 		$this->travel=new Travel();
 		$page = $_POST['page'];
-		$note=$this->travel->notelist( $page );
+		$step = 15;
+		$note=$this->travel->notelist($page,$step);
 		echo json_encode( $note );
 	}
 

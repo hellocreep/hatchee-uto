@@ -7,15 +7,14 @@ class Travel extends CI_Model
 		$this -> load -> database();
 	}
 
-	public function notelist($page){
-		$step = 15;
+	public function notelist($page,$step){
 		$begin = ($page-1) * $step;
-		$sql = "select Id,title,edit_time from travel_note limit ".$begin.",".$step;
+		$sql = "select * from travel_note limit ".$begin.",".$step;
 		$query=$this->db->query($sql);
 		$data=$query->result();
 		return $data;
 	}
-
+	
 	public function notecount(){
 		$sql = "select Id from travel_note";
 		$query = $this->db->query($sql);

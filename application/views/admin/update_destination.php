@@ -110,7 +110,7 @@
 								loadings.show('保存成功');
 								changeFlag = false;
 								setTimeout(function() {
-									history.go( -1 );
+									location.href="manage#destination-manage-list";
 								}, 1000)
 							}else{
 								loadings.show('保存失败');
@@ -131,7 +131,7 @@
 
 			$( '#cancel-des' ).click(function(){
 				changeFlag = false;
-				history.go( -1 );
+				location.href="manage#destination-manage-list";
 			})
 
 		});

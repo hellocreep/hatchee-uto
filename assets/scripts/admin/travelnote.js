@@ -31,7 +31,7 @@ $(function(){
 					content: content
 				},
 				success: function( result ){
-					history.go( -1 );
+					location.href = 'manage/#travelnote-manage-list';
 				}
 			});
 		}else{
@@ -45,7 +45,7 @@ $(function(){
 	});
 
 	$( '#cancel-note' ).click(function(){
-		history.go( -1 );
+		location.href = 'manage/#travelnote-manage-list';
 	});
 
 })

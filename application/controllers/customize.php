@@ -61,19 +61,19 @@ class Customize extends CI_Controller
 		$this->email->initialize($config);
 		$this->email->from('remaintears@163.com');
 		$this->email->to($email);
-		$this->email->subject('ÄúºÃ£º'.$name);
+		$this->email->subject('æ‚¨å¥½ï¼š'.$name);
 		$this->email->message($content);
 		if(!$this->email->send())
 		{
 			$data['uuid']=$content;
 			$data['status']=false;
-			$data['result']="<font color='red'>ÓÊ¼ş·¢ËÍÊ§°Ü£¬¿ÉÄÜÊÇÓÉÏµÍ³ÓÊÏä»òÃÜÂë²»Æ¥ÅäÔì³É£¡</font>";
+			$data['result']="<font color='red'>é‚®ä»¶å‘é€å¤±è´¥ï¼Œå¯èƒ½æ˜¯ç”±ç³»ç»Ÿé‚®ç®±æˆ–å¯†ç ä¸åŒ¹é…é€ æˆï¼</font>";
 		}
 		else
 		{
 			$data['uuid']=$content;
 			$data['status']=true;
-			$data['result']="<font color='red'>ÎÒÃÇÒÑ½«ÄúµÄ¶©µ¥ĞÅÏ¢·¢ËÍµ½ÄúµÄÓÊÏä£¬Çë×¢Òâ²éÊÕ£¡</font>";
+			$data['result']="<font color='red'>æˆ‘ä»¬å·²å°†æ‚¨çš„è®¢å•ä¿¡æ¯å‘é€åˆ°æ‚¨çš„é‚®ç®±ï¼Œè¯·æ³¨æ„æŸ¥æ”¶ï¼</font>";
 		}
 		echo json_encode($data['result']);
 	}	

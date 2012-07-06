@@ -1,0 +1,221 @@
+.login-panel {
+	margin: 200px auto;
+}
+
+.window-tip {
+	display: none;
+	color: #fff;
+	left: 50%;
+	position: fixed;
+	text-align: center;
+	top: 0;
+	z-index: 10000;
+	border-width: 1px;
+	height: 14px;
+	opacity: 1;
+	padding: 6px 16px;
+	line-height: 16px;
+}
+
+.uto-body {
+    width: 71%;
+}
+
+#images_panel {
+    width: 80%;
+    left: 30%;
+}
+
+ #route_panel {
+    width: 50%;
+    left: 45%;
+ }
+
+.tour-tags {
+    cursor: pointer;
+}
+
+.tags-color-1:hover, .tags-color-1.active {
+    background-color: #F89406;
+}
+
+.tags-color-2:hover, .tags-color-2.active{
+    background-color: #468847;
+}
+
+.tags-color-3:hover, .tags-color-3.active {
+    background-color: #3A87AD;
+}
+
+.tags-color-4:hover, .tags-color-4.active {
+    background-color: #D95762;
+}
+
+.tags-checkbox {
+    visibility: hidden;
+}
+
+#new-route-list {
+    margin-left: -20px;
+}
+
+#new-route-list li {
+    padding: 0;
+    margin-right: 5px;
+}
+
+#new-route-list .btn-success a{
+    color: #fff;
+}
+
+#new-route-list li a {
+    display: block;
+    padding: 5px 13px;
+    text-decoration: none;
+}
+
+.subnav {
+    background-color: #EEEEEE;
+    background-image: -moz-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
+    background-image: -webkit-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
+    background-image: -ms-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
+    background-image: -o-linear-gradient(center top , #F5F5F5 0%, #EEEEEE 100%);
+    background-repeat: repeat-x;
+    border: 1px solid #E5E5E5;
+    border-radius: 4px 4px 4px 4px;
+    height: 36px;
+    padding: 10px 0 0 10px;
+    width: 970px;
+}
+
+.subnav-fixed {
+    box-shadow: 0 1px 0 #FFFFFF inset, 0 1px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    z-index: 1020;
+}
+
+#route_panel {
+}
+
+.required-info {
+    margin-left: 0;
+}
+
+.update_price {
+    margin: -9px 0 0 8px;
+}
+
+#route-list {
+    display: none;
+}
+
+.images_wrap {
+    width: 300px;
+    display: block;
+    overflow: hidden;
+}
+
+.destination-span {
+    margin-top: -24px;
+}
+
+.destination-span .span1 {
+    width: 115px;
+}
+
+#list-title .badge {
+    text-align: center;
+    padding: 1px 10px;
+    width: 20px;
+}
+
+.form-horizontal .input-prepend {
+    margin-left: 130px;
+}
+
+.t_price {
+    color: #DD1144;
+}
+
+.web-manage {
+    position: relative;
+}
+
+.preview-link {
+    position: absolute; 
+    right: 20px;
+     top: 0;
+}
+
+.form-horizontal p .des-lable {
+    width: 90px;
+}
+
+#synopsis {
+    width: 80%;
+    height: 220px;
+}
+
+/*重写bootstrap样式*/
+.navbar .brand {
+    color: #fff;
+}
+
+.navbar-inner {
+    border-radius: 0;
+}
+
+.container {
+    width: 980px;
+}
+
+.modal-body {
+    max-height: 500px;
+}
+
+.span1 {
+    width: 80px;
+}
+
+.show-grid {
+    margin-bottom: 20px;
+    margin-top: 10px;
+}
+
+textarea.input-xlarge {
+	width: 480px;
+}
+
+input.input-xlarge {
+	width: 480px;
+}
+
+.form-horizontal .control-label {
+	width: 150px;
+	font-weight: bold;
+}
+
+.form-horizontal .required {
+	width: 20px;
+}
+
+.input-prepend input {
+            height: 22px;
+}
+
+ .input-prepend .add-on {
+    height: 22px;
+    line-height: 22px;
+    width: 25px;
+ }
+
+.input-prepend .add-on, .input-prepend .btn {
+    margin-right: -5px;
+}
+
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    filter:alpha(opacity=5);
+}

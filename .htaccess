@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteCond $1 !^(index\.php|assets|styles|uploads|thumbnails|images|scripts|css|lib|robots\.txt)
+RewriteRule ^(.*)$ /uto/index.php/$1 [L]
+AddType text/x-component .htc

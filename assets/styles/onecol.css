@@ -1,0 +1,81 @@
+/*定制旅程样式*/
+.onecol{
+	background: #fff;
+	width: 960px;
+	min-height: 400px;
+	margin: 0 auto;
+	border-radius: 10px 10px 0 0;
+}
+.guidenav{
+	border-radius: 10px 10px 0 0;
+	background: #F4F4F4;
+}
+.guidefoot{
+	border-radius:0 0 10px 10px;
+	background: #F4F4F4;
+	padding:0 40px;
+}
+.guidenav li{
+	padding:15px 20px;
+	float: left;
+	margin: 0 5px 0 0;
+	border-radius: 10px 10px 0 0;
+	color:#60a6a2;
+	font-size: 14px;
+	font-weight: bold;
+}
+.guidefoot li.btn{
+	padding: 5px 30px;
+	/*font-size: 14px;*/
+}
+.guidefoot li{
+	float: right;
+	margin: 10px 10px 10px 10px;
+}
+.guidefoot li.note{
+	float:left;
+}
+
+.guidenav li.current{
+	background: #fff;
+	color:#333333;
+}
+.guidezone{
+	margin:0 auto; 
+	width: 900px;
+	background: #fff;
+	overflow: hidden;
+}
+.guidezone .unit{
+	width: 900px;
+	float: left;
+	clear: none;
+}
+
+.guidezone .marqueen{
+	width: 4500px;
+}
+.guidezone h2{
+	border-bottom: 1px dotted #ddd;
+	padding: 25px 0 5px;
+}
+table.infozone{
+	margin: 20px 0 0 20px;
+}
+.placelist li{
+	display: block;
+	float: left;
+	width: 100px;
+	height: 80px;
+	overflow: hidden;
+	padding:10px;
+	border-radius: 3px;
+}
+.placelist li:hover{
+	background: #eeeeee;
+}
+.placelist li img{
+	width:100px;
+	border:1px solid #fff;
+	height: 60px;
+}

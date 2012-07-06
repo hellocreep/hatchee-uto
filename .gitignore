@@ -1,0 +1,12 @@
+application/config/database.php
+*/config/development
+*/logs/log-*.php
+*/logs/!index.html
+*/cache/*
+*/cache/!index.html
+*.bak
+.project
+.buildpath
+.settings
+uploads/*
+kcfinder-2.51

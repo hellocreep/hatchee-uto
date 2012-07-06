@@ -196,7 +196,7 @@
 							<ul class="thumbnails" id="gallery-preview">
 								<?php if(isset($img)):?>
 									<?php foreach($img as $m):?>
-										<li><img src="<?php echo $m['small'];?>" alt="<?php echo $m['Id'];?>"></li>	
+									<li class="span2"><span class="thumbnail" rel="<?php echo $m['Id'];?>"><img src="<?php echo $m['small'];?>" /></span></li>
 									<?php endforeach;?>
 								<?php endif;?>
 							</ul>

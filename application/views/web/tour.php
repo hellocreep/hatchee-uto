@@ -15,7 +15,7 @@
 		<base src="<?php echo base_url();?>"/>
 		<?php $this -> load -> view("web/global_source");?>
 	</head>
-	<body>
+	<body id="n-trip">
 		<div class="wrapper">
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">

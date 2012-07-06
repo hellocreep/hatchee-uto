@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="assets/styles/landingpage.css">
 		<?php $this -> load -> view("web/global_source");?>
 	</head>
-	<body>
+	<body id="n-trip">
 		<div class="wrapper">
 			<?php $this->load->view('web/header'); ?>
 			

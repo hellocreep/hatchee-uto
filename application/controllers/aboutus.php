@@ -37,6 +37,11 @@ class Aboutus extends CI_Controller {
 		$this->load->view('aboutus/contactus');
 	}
 
+	public function join()
+	{
+		$this->load->view('aboutus/join');
+	}
+
 	public function review()
 	{
 		$this->load->view('aboutus/review');

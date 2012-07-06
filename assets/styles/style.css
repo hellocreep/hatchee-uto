@@ -112,6 +112,10 @@ body{
 	background:url("../images/body-bg.jpg") repeat;
 }
 
+
+
+
+
 .fancyimg {
 	padding: 1px;
 	border: 1px solid #ddd;
@@ -203,6 +207,21 @@ img, div {
 	color:#8b6620;
 	border-radius:5px 5px 0 0;
 }
+#n-index .a-index,
+#n-trip .a-trip,
+#n-theme .a-theme,
+#n-customize .a-customize,
+#n-company .a-company,
+#n-about .a-about
+{
+	background:url("../images/nav-a-bg.png") repeat-x;
+	color:#8b6620;
+	border-radius:5px 5px 0 0;
+}
+
+
+
+
 .breadcrumb{
 	height: 40px;
 	line-height: 40px;

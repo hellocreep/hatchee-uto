@@ -39,3 +39,11 @@ table.data th{
 	display: inline-block;
 	background:url(assets/images/body-bg.jpg) repeat #000;
 }*/
+
+.note-content{
+	font-size: 14px;
+}
+.note-content p{
+	font-size: 14px;
+	line-height: 30px;
+}

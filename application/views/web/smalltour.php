@@ -17,7 +17,7 @@
 		<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
 		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 	</head>
-	<body>
+	<body id="n-theme">
 		<div class="wrapper">
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">

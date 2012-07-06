@@ -10,7 +10,7 @@
 		<?php $this -> load -> view("web/global_source");?>
 		<link rel="stylesheet" type="text/css" href="assets/styles/aboutus.css">
 	</head>
-	<body>
+	<body id="n-about">
 		<div class="wrapper">
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">
@@ -18,23 +18,14 @@
 					您的位置：<a href="#">首页</a> > 友途互动
 				</div>
 				<div class="aside">
-					<dl>
-						<dt>关于我们</dt>
-						<dd class="active"> >和友途一起旅行</dd>
-						<dd> >友途使命</dd>
-						<dd> >友途领队</dd>
-						<dd> >加入友途</dd>
-						<dd> >联系我们</dd>
-					</dl>
-
-
+					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
 				</div>
 				<div class="article">
 					<h1>【友途活动回顾】端午特别定制团：徒步双桥沟，勇攀四姑娘山二峰！</h1>				
 					<p class="note">
 						2012-7-2 | 张磊编辑
 					</p>	
-					<div>
+					<div class="note-content">
 						<img src="assets/images/img.jpg" alt="" width="720" height="300">
 						<p>
 							【活动时间】2012年6月21-25日<br>

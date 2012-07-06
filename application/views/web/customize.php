@@ -12,7 +12,7 @@
 		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 		<?php $this -> load -> view("web/global_source");?>
 	</head>
-	<body>
+	<body id="n-customize">
 		<div class="wrapper">
 			<?php $this->load->view('web/header'); ?>
 			

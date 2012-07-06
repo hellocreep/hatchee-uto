@@ -160,11 +160,11 @@
 
 			<form class="well form-horizontal" action="" method="post">
 				<fieldset>
-					<input type="hidden" id="d_id" value="<?php echo $des[0]->Id;?>">
+					<input type="hidden" id="d_id" value="<?php echo $des['Id'];?>">
 					<div class="control-group">
 						<label class="control-label" for="name">名称：</label>
 						<div class="controls">
-							<input class="input-xlarge" name="name" value="<?php echo $des[0]->name?>">
+							<input class="input-xlarge" name="name" value="<?php echo $des['name']?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>
@@ -176,7 +176,11 @@
 					<div class="control-group">
 						<label class="control-label" for="type">景点简介：</label>
 						<div class="controls">
-							<textarea id="editor" value="<?php echo $des[0]->synopsis;?>" class="input-xlarge" name="synopsis" style="height: 500px;"><?php echo $des[0]->synopsis?></textarea>
+							<?php if(isset($des['synopsis']) && $des['synopsis']!='' ):?>
+							<textarea id="editor" value="<?php echo $des['synopsis'];?>" class="input-xlarge" name="synopsis" style="height: 500px;"><?php echo $des['synopsis'];?></textarea>
+							<?php else:?>
+								<textarea id="editor" value="" class="input-xlarge" name="synopsis" style="height: 500px;"></textarea>
+							<?php endif;?>
 						</div>
 					</div>
 
@@ -190,7 +194,11 @@
 						<input type="hidden" name="gallery" >
 						<div class="well show-grid offset1">
 							<ul class="thumbnails" id="gallery-preview">
-
+								<?php if(isset($img)):?>
+									<?php foreach($img as $m):?>
+										<li><img src="<?php echo $m['small'];?>" alt="<?php echo $m['Id'];?>"></li>	
+									<?php endforeach;?>
+								<?php endif;?>
 							</ul>
 						</div>
 					</div>

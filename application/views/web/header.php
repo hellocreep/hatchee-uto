@@ -16,22 +16,22 @@
 <div class="nav">
 	<ul>
 		<li>
-			<a href="#">首页</a>
+			<a class="a-index" href="">首页</a>
 		</li>
 		<li>
-			<a class="active" href="#">友途互动</a>
+			<a class="a-trip" href="termtour">友途旅行</a>
 		</li>
 		<li>
-			<a href="themetour">主题旅行</a>
+			<a class="a-theme" href="themetour">主题旅行</a>
 		</li>
 		<li>
-			<a href="#">定制旅行</a>
+			<a class="a-customize" href="customize">定制旅行</a>
 		</li>
 		<li>
-			<a href="#">公司出游</a>
+			<a class="a-company" href="#">公司出游</a>
 		</li>
 		<li>
-			<a href="#">友途理念</a>
+			<a class="a-about" href="aboutus">关于友途</a>
 		</li>
 	</ul>
 </div>

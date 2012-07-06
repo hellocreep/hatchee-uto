@@ -4,7 +4,6 @@
 
 .sort{
 	background: #F4F4F4;	
-	margin: 0 0 15px 0;
 	height: 30px;
 	line-height: 30px;
 	padding: 0 5px;
@@ -27,8 +26,8 @@
 	width: 720px;
 	border-bottom: 1px solid #dddddd;
 	/*background: #ddd;*/
-	margin: 0 0 20px 0;
-	padding:0 0 10px 0;
+	margin: 0 0 5px;
+	padding:0 0 10px;
 }
 .routelist h2{
 	height: 29px;
@@ -46,7 +45,7 @@
 	background: url(../images/ico_days.gif) no-repeat;
 	text-align: center;
 	color: #fff;
-	margin-right: 10px;
+	margin:10px 10px 0 0;
 }
 .routelist dt{
 	display: block;

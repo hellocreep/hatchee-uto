@@ -36,6 +36,16 @@ class Aboutus extends CI_Controller {
 	{
 		$this->load->view('aboutus/contactus');
 	}
+
+	public function review()
+	{
+		$this->load->view('aboutus/review');
+	}
+
+	public function tripnote()
+	{
+		$this->load->view('aboutus/tripnote');
+	}
 }
 
 /* End of file welcome.php */

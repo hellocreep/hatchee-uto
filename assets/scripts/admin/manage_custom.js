@@ -614,13 +614,14 @@ var custom_order = {
 			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
 			<td class='o_uuid'>"+result[i].orderid+"</td> \
 			<td class='o_name'><a class='edit_member' data-toggle='modal' href='#edit-panel' rel='"+result[i].uid+"'>"+result[i].username+"</a></td> \
+			<td>"+result[i].tourtime+"</td> \
 			<td>"+result[i].ordertime+"</td> \
 			<td><i class='icon-pencil'></i><a href='#' class='edit-order'>修改</a> \
 			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+"</td></tr>";
 		}
 		$( '#list-head' ).html( order_list_tpl );
 		list_panel.html( order_list );
-		$( '#list-head th' ).eq(3).remove();
+		$( '#list-head th' ).eq(3).text( '出行时间' );
 		loadings.hide();
 		custom_order.count_order();
 		//custom_order.del_order();

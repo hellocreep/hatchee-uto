@@ -6,6 +6,7 @@ class Ordermanage extends CI_Controller
 
 		parent::__construct();
 		session_start();
+		$this->load->helper('url');
 		$this->load->model('order');
 		$this->order=new order();
 	}
@@ -93,19 +94,31 @@ class Ordermanage extends CI_Controller
 		echo json_encode($resinfo);
 	}
 	public function editorder(){
-		$id=$_GET['oid'];
+		$id=addslashes($_GET['oid']);
 		$this->load->model('order');
 		$order=new Order();
-		$this->load->view('admin/updateorder');
+		$data['order']=$order->getorder($id);
+		
+		$this->load->view('admin/updateorder',$data);
 	}
-	
+	public function updateorder()
+	{
+		$id=$_POST['order_id'];
+		$conment=array("comment"=>$_POST['comment']);
+		$this->load->model('order');
+		$result=$this->order->updateorder($id,$conment);
+		if($result)
+		{
+			echo "<script>location.href='../manage#order-manage-list';</script>";
+		}
+		else
+		{
+			echo "<script>location.href='../manage#order-manage-list';</script>";
+		}
+	}
 	public function getorder($condition)
 	{
 		echo $this->order->checkorder($condition);
-	}
-	public function checkorder()
-	{
-		$action='';
 	}
 	public function sendmail($name,$email)
 	{

@@ -37,7 +37,8 @@ class Customize extends CI_Controller
 			"add_des"=>$cusinfo->place,
 			"tour_theme"=>$cusinfo->theme,
 			"other"=>$cusinfo->comment,
-			"special_day"=>$cusinfo->special_day
+			"special_day"=>$cusinfo->special_day,
+			"create_date"=>date('Y-m-d H:i:s',time())
 		);
 		$this->load->model('order');
 		$res=$this->order->tailormade($data);

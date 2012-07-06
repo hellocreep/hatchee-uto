@@ -30,13 +30,13 @@ $(function(){
 				data: $.toJSON(data)
 			},
 			success: function( result ){
-				history.go( -1 );
+				location.href="manage";
 			}
 		});
 	});
 
 	$( '#cancel' ).click(function(){
-		history.go( -1 );
+		location.href="manage";
 	});
 
 

@@ -56,7 +56,7 @@ $.fn.uto_pag = function( opts ){
 					travel_note.list_note( result );
 				}
 				if( opts.type=='custom_order' ){
-					custom_order.orderlist( result );
+					custom_order.list_order( result );
 				}
 			}
 		});
@@ -558,7 +558,6 @@ var order = {
 		list_panel.html( order_list );
 		loadings.hide();
 		order.count_order();
-		order.edit_order();
 		order.del_order();
 		member.edit_member();
 		$( '.pagination' ).show();
@@ -773,7 +772,7 @@ $(function(){
 		});
 	}
 
-	//页面列表
+	//页面
 	//TODO
 	$( '.web-manage' ).each(function( e ){
 		$( this ).hover(function(){
@@ -867,7 +866,6 @@ $(function(){
 	$( '#custome-order-manage' ).click(function( e ){
 		left_menu_post_list( e );
 		$( '#list-title' ).text( '定制化旅行订单管理' );
-		//$( '#list-title' ).html( '<span>定制旅行订单管理</span>' );
 		$( '#tool-bar' ).empty();
 		$.ajax({
 			url: 'ordermanage/getcustomize',

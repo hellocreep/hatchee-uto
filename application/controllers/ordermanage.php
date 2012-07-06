@@ -154,9 +154,8 @@ class Ordermanage extends CI_Controller
 		echo $data; 
 	}
 	public function delcustomize()
-	{
-		$this->load->helper('url');
-		$id=$this->uri->segment(3);
+	{	
+		$id = $_POST['id'];
 		$this->load->model('order');
 		echo $this->order->delcustomize($id);
 	}

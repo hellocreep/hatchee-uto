@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50148
 File Encoding         : 65001
 
-Date: 2012-07-05 16:47:30
+Date: 2012-07-06 12:10:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -73,6 +73,7 @@ CREATE TABLE `custom_inquiry` (
   `add_des` varchar(255) DEFAULT NULL COMMENT '增加的旅行目的地',
   `other` varchar(255) DEFAULT NULL COMMENT '其他要求',
   `special_day` varchar(255) DEFAULT NULL COMMENT '是否有特别纪念的日子？',
+  `create_date` date DEFAULT NULL COMMENT '下单时间',
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 

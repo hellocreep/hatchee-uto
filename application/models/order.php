@@ -59,7 +59,7 @@ class Order extends CI_Model
 	{
 		$step = 15;
 		$begin = ($page-1) * $step;
-		$query=$this->db->query("select c.Id as id, c.uuid as orderid,c.tour_time as ordertime,u.name as username,u.Id as uid from custom_inquiry as c left join users as u on c.user=u.Id limit " .$begin.",".$step);
+		$query=$this->db->query("select c.Id as id, c.uuid as orderid,c.create_date as ordertime,c.tour_time as tourtime,u.name as username,u.Id as uid from custom_inquiry as c left join users as u on c.user=u.Id limit " .$begin.",".$step);
 		$data=$query->result();
 		return $data;
 	}

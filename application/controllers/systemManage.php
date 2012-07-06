@@ -67,8 +67,9 @@ class Systemmanage extends CI_Controller
 		$arrimg=explode(",",$data['des']['img']);
 		for($i=0;$i<count($arrimg);$i++)
 		{
-			$data['img']=$this->image->getimg($arrimg[$i]);
+			$data['img'][]=$this->image->getimg($arrimg[$i]);
 		}
+		//print_r($data['img']);
 		$this->load->view('admin/update_destination',$data);
 	}
 

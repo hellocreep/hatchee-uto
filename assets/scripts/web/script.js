@@ -277,9 +277,9 @@ $(function(){
 				},
 
 				success: function( result ){
-					if( result[0].status ){
+					if( result.status ){
 						$('#next').click();
-						$('.marqueen .unit:eq(3)').html('<h2>定制完成</h2><p>您的订单号为'+result[0].uuid+'，我们将在3个工作日内处理好您的订单！请注意查收邮件！</p>');
+						$('.marqueen .unit:eq(3)').html('<h2>定制完成</h2><p>您的订单号为'+result.uuid+'，我们将在3个工作日内处理好您的订单！请注意查收邮件！</p>');
 					}else{ 
 						$( '#customize-submit' ).attr( 'value','确认提交' ).removeClass( 'btn-updating' )
 						.after( '<span class="red">请核对您提供的信息是否完整。</span>');

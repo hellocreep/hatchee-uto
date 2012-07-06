@@ -551,13 +551,14 @@ var order = {
 			<td class='o_name'><a class='edit_member' data-toggle='modal' href='#edit-panel' rel='"+result[i].uid+"'>"+result[i].username+"</a></td> \
 			<td class='o_tour'><a target='_blank' href='tourdetail/?tid="+result[i].tid+"'>"+result[i].tourname+"</a></td> \
 			<td>"+result[i].ordertime+"</td> \
-			<td><i class='icon-pencil'></i><a href='#' class='edit-order'>修改</a> \
+			<td><i class='icon-pencil'></i><a href='ordermanage/editorder/?oid="+result[i].id+"' class='edit-order'>查看</a> \
 			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+"</td></tr>";
 		}
 		$( '#list-head' ).html( order_list_tpl );
 		list_panel.html( order_list );
 		loadings.hide();
 		order.count_order();
+		order.edit_order();
 		order.del_order();
 		member.edit_member();
 		$( '.pagination' ).show();
@@ -568,13 +569,6 @@ var order = {
 			url1: 'ordermanage/countorder',
 			url2:  'ordermanage/orderlist',
 			type: 'order'
-		});
-	},
-
-	//TODO
-	edit_order: function(){
-		$( '.edit-order' ).on('click',function( e ){
-			e.preventDefault();
 		});
 	},
 
@@ -614,16 +608,17 @@ var custom_order = {
 			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
 			<td class='o_uuid'>"+result[i].orderid+"</td> \
 			<td class='o_name'><a class='edit_member' data-toggle='modal' href='#edit-panel' rel='"+result[i].uid+"'>"+result[i].username+"</a></td> \
+			<td>"+result[i].tourtime+"</td> \
 			<td>"+result[i].ordertime+"</td> \
-			<td><i class='icon-pencil'></i><a href='#' class='edit-order'>修改</a> \
+			<td><i class='icon-pencil'></i><a href='#' class='edit-order'>查看</a> \
 			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+"</td></tr>";
 		}
 		$( '#list-head' ).html( order_list_tpl );
 		list_panel.html( order_list );
-		$( '#list-head th' ).eq(3).remove();
+		$( '#list-head th' ).eq(3).text( '出行时间' );
 		loadings.hide();
 		custom_order.count_order();
-		//custom_order.del_order();
+		custom_order.del_order();
 		member.edit_member();
 		$( '.pagination' ).show();
 	},
@@ -642,8 +637,7 @@ var custom_order = {
 			e.preventDefault();
 		});
 	},
-	//TODO
-	/*
+
 	del_order: function(){
 		$( '.del-order' ).on('click', function( e ){
 			e.preventDefault();
@@ -652,7 +646,7 @@ var custom_order = {
 			if( r ){
 				var id = $( this ).parent().siblings( '.o_id' ).text();
 				$.ajax({
-					url: 'ordermanage/delorder',
+					url: 'ordermanage/delcustomize',
 					data: {
 						id: id
 					},
@@ -663,7 +657,7 @@ var custom_order = {
 			}
 		});
 	}
-	*/
+	
 }
 
 //标签

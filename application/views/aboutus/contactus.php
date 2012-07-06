@@ -37,11 +37,10 @@
 					<p>
 						无论是对多彩魔幻的水世界九寨沟，天边灵魂自由如风的若儿盖，东方阿尔卑斯的四姑娘山，中国最美高原古村丹巴，摄影家的天堂新都桥，落入凡间的水晶宫殿海螺沟，还是对您，家人，朋友的任何旅行问题，或者对我们的服务，网站建设及品牌提出的任何意见或建议，友途的工作人员都将竭力在两小时以内回复您。
 					</p>
-
-
 					<h2>在线咨询</h2>
+					<form>
+					<h4>您的联系方式：</h4>
 					<table class="formtab">
-						<h2>xdfjkdf</h2>
 						<tr>
 							<td><em>*</em>姓名：</td>
 							<td><input name="" type="text"></td>
@@ -55,10 +54,10 @@
 							<td><input name="" type="text"></td>
 						</tr>
 						<tr>
-							<td>希望我们联系您的方式是：：</td>
+							<td>希望我们联系您的方式是：</td>
 							<td>
-								<label><input type="checkbox">通过QQ</label>
-								<label><input type="checkbox">通过电话</label>
+								<label><input type="checkbox">通过QQ</label><br>
+								<label><input type="checkbox">通过电话</label><br>
 								<label><input type="checkbox">通过邮件</label>
 							</td>
 						</tr>
@@ -66,7 +65,9 @@
 							<td>所在城市：</td>
 							<td><input type="text"></td>
 						</tr>
-						<h2>xdfjkdf</h2>
+					</table>
+					<h4>您的问题：</h4>
+					<table class="formtab">
 						<tr>
 							<td>主题：</td>
 							<td>
@@ -85,7 +86,12 @@
 								<textarea></textarea>
 							</td>
 						</tr>
+						<tr>
+							<td></td>
+							<td><input class="btn" type="submit" value="提  交"></td>
+						</tr>
 					</table>
+				</form>
 				</div> <!-- end of div.article -->
 			</div>
 			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->

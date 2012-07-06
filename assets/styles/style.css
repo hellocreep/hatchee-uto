@@ -41,15 +41,15 @@ h1{
 }
 h2{
 	font-size:18px;
-	margin:0 0 9px;
+	margin:9px 0 9px;
 }
 h3{
 	font-size:16px;
-	margin:0 0 8px;
+	margin:8px 0;
 }
 h4{
 	font-size:14px;
-	margin:0 0 4px;
+	margin:4px 0;
 }
 h5{
 	font-size:13px;
@@ -428,7 +428,7 @@ select{
 }
 
 .inquiry-form h3 {
-	background: #B0D1FA;
+	background: #60A6A2;
 	color: #fff;
 	padding: 5px;
 }
@@ -439,7 +439,8 @@ select{
 	text-align: center;
 	width: 50px;
 }
-.customize h4{
+.customize h4,
+form h4{
 	margin: 5px 0;
 	border-bottom: 1px dashed #ddd;
 	padding: 3px 0;
@@ -474,7 +475,7 @@ select{
 
 /*表单公用样式*/
 table.formtab{
-	/*margin:0 auto;*/
+	width: 85%;
 }
 .formtab td{
 	padding:3px 0;

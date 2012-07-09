@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50148
 File Encoding         : 65001
 
-Date: 2012-07-09 11:06:50
+Date: 2012-07-09 12:27:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -74,8 +74,9 @@ CREATE TABLE `custom_inquiry` (
   `special_day` varchar(255) DEFAULT NULL COMMENT '是否有特别纪念的日子？',
   `create_date` date DEFAULT NULL COMMENT '下单时间',
   `is_worked` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否处理',
+  `handle_time` datetime DEFAULT NULL COMMENT '订单处理时间',
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of custom_inquiry
@@ -159,15 +160,16 @@ CREATE TABLE `inquiry` (
   `comment` varchar(255) DEFAULT NULL COMMENT '备注',
   `status` tinyint(1) DEFAULT '0' COMMENT '订单状态(0-未付款，1-已付款，2-已发团)',
   `is_worked` tinyint(1) DEFAULT '0' COMMENT '订单是否处理',
+  `handle_time` datetime DEFAULT NULL COMMENT '订单处理时间',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='订单';
 
 -- ----------------------------
 -- Records of inquiry
 -- ----------------------------
-INSERT INTO `inquiry` VALUES ('15', '4fed5d0df1796', '16', '25', '8', '2012-06-29 15:45:17', '', null, null, '留言试试', '0', '0');
-INSERT INTO `inquiry` VALUES ('16', '4fed5d39b9930', '17', '24', '2', '2012-06-29 15:46:01', '', null, null, 'fdfsdfsfsfsd', '0', '0');
-INSERT INTO `inquiry` VALUES ('17', '4ff244af48561', '18', '24', '3', '2012-07-03 09:02:39', '', null, null, '', '0', '0');
+INSERT INTO `inquiry` VALUES ('15', '4fed5d0df1796', '16', '25', '8', '2012-06-29 15:45:17', '', null, null, '留言试试', '0', '0', null);
+INSERT INTO `inquiry` VALUES ('16', '4fed5d39b9930', '17', '24', '2', '2012-06-29 15:46:01', '', null, null, 'fdfsdfsfsfsd', '0', '0', null);
+INSERT INTO `inquiry` VALUES ('17', '4ff244af48561', '18', '24', '3', '2012-07-03 09:02:39', '', null, null, '', '0', '0', null);
 
 -- ----------------------------
 -- Table structure for `route`

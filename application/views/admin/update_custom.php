@@ -114,7 +114,7 @@
 			</fieldset>
 			<div class="offset9">
 				<input type="submit" class="btn btn-success" value="保存">
-				<a class="btn" href="javascript:location.href='manage#order-manage-list'" id="cancel">取消</a>
+				<a class="btn" href="javascript:location.href='manage#custome-order-manage-list'" id="cancel">取消</a>
 			</div>
 
 		</form>

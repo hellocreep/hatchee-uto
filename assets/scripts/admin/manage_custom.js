@@ -604,12 +604,9 @@ var custom_order = {
 	list_order: function( result ){
 		var order_list = ' ';
 		for( i = 0; i < result.length; i++ ){
-			var pay_info = '<span class="label label-warning">未付</span>';
-			if( result[i].status == 1 ){
-				pay_info = '<span class="label label-success">已付</span>';
-			}
-			if( result[i].status == 2 ){
-				pay_info = '<span class="label label-success">已发团</span>';
+			var is_worked = '<span class="label label-important">未处理</span>';
+			if( result[i].is_worked == 1 ){
+				is_worked =  '<span class="label label-success">已处理</span>';
 			}
 			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
 			<td class='o_uuid'>"+result[i].orderid+"</td> \
@@ -617,7 +614,7 @@ var custom_order = {
 			<td>"+result[i].tourtime+"</td> \
 			<td>"+result[i].ordertime+"</td> \
 			<td><i class='icon-pencil'></i><a href='ordermanage/editorder/?oid="+result[i].id+"&type=custom' class='edit-order'>查看</a> \
-			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+"</td></tr>";
+			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+is_worked+"</td></tr>";
 		}
 		$( '#list-head' ).html( order_list_tpl );
 		list_panel.html( order_list );

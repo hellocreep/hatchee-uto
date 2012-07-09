@@ -35,24 +35,24 @@ h1,h2,h3,h4,h5{
 }
 
 h1{
-	font-size:22px;
+	font-size:24px;
 	margin:0 0 10px;
 	/*font-family:'Microsoft YaHei','SimSun';*/
 }
 h2{
-	font-size:18px;
+	font-size:20px;
 	margin:9px 0 9px;
 }
 h3{
-	font-size:16px;
+	font-size:18px;
 	margin:8px 0;
 }
 h4{
-	font-size:14px;
+	font-size:16px;
 	margin:4px 0;
 }
 h5{
-	font-size:13px;
+	font-size:14px;
 	margin:0;
 }
 p{
@@ -106,15 +106,11 @@ input[type='text'] {
 
 body{
 	font-family:Arial,Helvetica,sans-serif,"宋体";
-	font-size:13px;
+	font-size:14px;
 	color:#555555;
 	-webkit-text-size-adjust:none; /*chorme最小字体解决*/
 	background:url("../images/body-bg.jpg") repeat;
 }
-
-
-
-
 
 .fancyimg {
 	padding: 1px;
@@ -220,7 +216,15 @@ img, div {
 	color:#8b6620;
 	border-radius:5px 5px 0 0;
 }
-
+.n-ab .a-aboutus,
+.n-co .a-contactus,
+.n-jo .a-join,
+.n-le .a-leader,
+.n-mi .a-mission,
+.n-re .a-review
+{
+	color: #866820;
+}
 
 
 
@@ -246,7 +250,6 @@ img, div {
 	background:#fff;
 }
 .article p{
-	line-height:22px;
 	margin:0 0 12px;
 }
 /*.article img{

@@ -10,7 +10,7 @@
 		<?php $this -> load -> view("web/global_source");?>
 		<link rel="stylesheet" type="text/css" href="assets/styles/aboutus.css">
 	</head>
-	<body id="n-about">
+	<body id="n-about" class="n-co">
 		<div class="wrapper">
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">
@@ -20,7 +20,7 @@
 				<div class="aside">
 					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
 				</div>
-				<div class="article">
+				<div class="article contact-con">
 					<h1>联系我们</h1>					
 					<p>
 						交流，互助，友爱与分享，是友途铭记在心的理念，因而，我们真心聆听您的每个问题，珍惜每次跟您交流的机会。
@@ -28,6 +28,22 @@
 					<p>
 						无论是对多彩魔幻的水世界九寨沟，天边灵魂自由如风的若儿盖，东方阿尔卑斯的四姑娘山，中国最美高原古村丹巴，摄影家的天堂新都桥，落入凡间的水晶宫殿海螺沟，还是对您，家人，朋友的任何旅行问题，或者对我们的服务，网站建设及品牌提出的任何意见或建议，友途的工作人员都将竭力在两小时以内回复您。
 					</p>
+					<div class="method clearfix">
+						<dl>
+							<dt>友途电话联系：</dt>
+							<dd>24小时热线：<span>4000-520-161</span></dd>
+							<dd>公司电话：<span>028-85227215</span></dd>
+						</dl>
+						<dl>
+							<dt>友途QQ咨询： </dt>
+							<dd><span>1758863234</span></dd>
+						</dl>
+						<dl>
+							<dt>邮件联系： </dt>
+							<dd><a href="mailto:bm@utotrip.com"><span>bm@utotrip.com</span></a></dd>
+						</dl>	
+					</div>
+					<p><b>友途地址：</b> 成都市武侯区武阳大道1段288号中央花园城市别墅1栋23号</p>
 					<h2>在线咨询</h2>
 					<form>
 					<h4>您的联系方式：</h4>

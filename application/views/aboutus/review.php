@@ -10,8 +10,8 @@
 		<?php $this -> load -> view("web/global_source");?>
 		<link rel="stylesheet" type="text/css" href="assets/styles/aboutus.css">
 	</head>
-	<body id="n-about">
-		<div class="wrapper">
+	<body id="n-about" class="n-re">
+		<div class="wrapper" >
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">
 				<div class="breadcrumb">

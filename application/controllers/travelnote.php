@@ -19,7 +19,14 @@ class Travelnote extends CI_Controller
 	{	
 		$this->load->model('travel');
 		$this->travel=new Travel();
-		$page = $_POST['page'];
+		if(isset($_POST['page']) &&$_POST['page']!='')
+		{
+			$page = $_POST['page'];
+		}
+		else
+		{
+			$page=1;
+		}
 		$step = 15;
 		$note=$this->travel->notelist($page,$step);
 		echo json_encode( $note );

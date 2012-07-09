@@ -71,12 +71,12 @@ class Aboutus extends CI_Controller {
 		$id=addslashes($_GET['id']);
 		$this->load->model('travel');
 		$data['note']=$this->travel->getnote($id);
-		$data['upnote']=$this->travel->getupnote($id);
-		$data['nextnote']=$this->travel->getnextnote($id);
-		echo "<pre>";
-		print_r($data);
-		echo "</pre>";
-		//$this->load->view("aboutus/tripnote",$data);
+		//$data['upnote']=$this->travel->getupnote($id);
+		//$data['nextnote']=$this->travel->getnextnote($id);
+		//echo "<pre>";
+		//print_r($data);
+		//echo "</pre>";
+		$this->load->view("aboutus/tripnote",$data);
 	}
 	public function tripnote()
 	{

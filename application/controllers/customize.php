@@ -10,7 +10,13 @@ class Customize extends CI_Controller
 		$this->load->model('tour');
 		$data['theme']=$this->tour->tourtheme();
 		$data['des']=$this->tour->destination();
-		$this->load->view('web/customize',$data);
+		$this->load->model('image');
+		for($i=0;count($data['des']);$i++)
+		{
+			$data['des'][$i]->img=$this->image->getimg($data['des'][$i]->img);
+		}
+		print_r($data['des']);
+		//$this->load->view('web/customize',$data);
 	}
 	public function customize_order()
 	{

@@ -37,7 +37,7 @@
 						<?php foreach($des as $d):?>
 							<li>
 							<label>
-							<img src="./assets/images/img.jpg" alt="">
+							<img src="" alt="">
 							<input name="place" type="checkbox" value="<?php echo $d->name;?>"><?php echo $d->name;?>
 							</label>
 							</li>

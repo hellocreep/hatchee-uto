@@ -172,6 +172,23 @@ class Ordermanage extends CI_Controller
 		$this->load->model('order');
 		echo $this->order->delcustomize($id);
 	}
+	public function handleinquiry()//未处理的订单
+	{
+		
+	}
+	public function searchinquiry()
+	{
+		$id=$_POST['id'];
+		$this->load->model('order');
+		$data['inquiry']=$this->order->getorder($id);
+	}
+	public function checkcustomize()
+	{
+		$id=$this->uri->segment(3);
+		$this->load->model('order');
+		$data['customize']=$this->order->getcustomize($id);
+	}
+
 }
 
 ?>

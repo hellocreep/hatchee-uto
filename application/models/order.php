@@ -81,5 +81,11 @@ class Order extends CI_Model
 		$this->db->delete('custom_inquiry');
 		return $this->db->affected_rows();
 	}
+	public function getcustomize($id)
+	{
+		$sql="select c.Id as id,c.uuid,c.city,c.car,c.people,c.tour_time,c.create_date,u.name,t.name as tourname from users as u left join custom_inquiry as c on u.Id=c.user left join tour as t on c.tour=t.Id where c.Id=".$id;
+		$query=$this->db->query($sql);
+		return $query->row_array();
+	}
 }
 ?>

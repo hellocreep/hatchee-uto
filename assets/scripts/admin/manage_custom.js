@@ -21,10 +21,10 @@ $.ajaxSetup({
 	cache: false,
 	error: function(){
 		//$( '.window-tip' ).text( '加载失败，请稍后重试' ).show();
-		if( $('#list-panel') ){
+		if( $('#list-panel').length > 0 ){
 			$('#list-panel').empty();
 		}
-		if( $('.modal-backdrop') ){
+		if( $('.modal-backdrop').length > 0 ){
 			$( '.modal-backdrop' ).hide();
 		}
 	}

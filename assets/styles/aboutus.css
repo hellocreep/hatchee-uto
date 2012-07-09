@@ -20,7 +20,11 @@
 
 .article .ptop img{
 	float: right;
-	margin: 0 0 0 15px;
+	margin: 4px 0 0 15px;
+}
+.n-ab h2{
+	border-bottom: 1px dotted #ccc;
+	padding-bottom: 5px;
 }
 table.data td,
 table.data th{
@@ -46,4 +50,64 @@ table.data th{
 .note-content p{
 	font-size: 14px;
 	line-height: 30px;
+}
+.pagenate{
+	margin: 10px 0;
+}
+
+.know .left{
+	width: 350px;
+	float: left;
+}
+.know .right{
+	margin: 0 0 0 15px;
+	width: 350px;
+	float: right;
+	background: #990033;
+	border-radius: 5px;
+}
+.know .over{
+	border-radius: 5px;
+	margin: 5px;
+	background: #fff;
+	padding: 5px;
+	font-size: 12px;
+}
+.know .right h4{
+	color: #fff;
+	text-indent: 5px;
+}
+.know h5{
+	/*color: #fff;*/
+}
+.know .over img{
+	float: left;
+	width: 140px;
+	margin: 0 5px 0 0;
+	height: 100px;
+}
+.know .they{
+	float: right;
+}
+.person img{
+	margin: 0 0 0 10px;
+	float: right;
+}
+
+.method{
+	margin: 20px 0 30px;
+}
+.method dt{
+	padding: 3px 0;
+	border-bottom: 1px dashed #ddd;
+	margin: 3px 0;
+}
+.method dl{
+	float: left;
+	color: #60A6A2;
+	margin: 0 50px;
+}
+.method dd span{
+	font-size: 16px;
+	font-weight: bold;
 }

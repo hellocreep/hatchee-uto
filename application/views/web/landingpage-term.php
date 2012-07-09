@@ -37,7 +37,7 @@
 							<?php for($i=0;$i<count($tour);$i++):?>
 								<li>
 								<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
-								<p><?php echo mb_substr($tour[$i]['intro'],0,100,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
+								<p><?php echo mb_substr($tour[$i]['intro'],0,90,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 								<dl class="route-detail">
 									<dt><a href="#" alt="#"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" /></a></dt>
 									<dd>

@@ -28,7 +28,7 @@
 			<a class="a-customize" href="customize">定制旅行</a>
 		</li>
 		<li>
-			<a class="a-company" href="">公司出游</a>
+			<a class="a-company" href="company">公司出游</a>
 		</li>
 		<li>
 			<a class="a-about" href="aboutus">关于友途</a>

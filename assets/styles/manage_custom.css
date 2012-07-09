@@ -111,9 +111,9 @@
 }
 
 .images_wrap {
-    width: 300px;
     display: block;
     overflow: hidden;
+    text-align: center;
 }
 
 .destination-span {

@@ -95,16 +95,31 @@ class Ordermanage extends CI_Controller
 	}
 	public function editorder(){
 		$id=addslashes($_GET['oid']);
-		$this->load->model('order');
-		$order=new Order();
-		$data['order']=$order->getorder($id);
-		
-		$this->load->view('admin/updateorder',$data);
+		$type = addslashes($_GET['type']);
+		if( $type == 'normal' ){
+			$this->load->model('order');
+			$order=new Order();
+			$data['order']=$order->getorder($id);
+			$this->load->view('admin/updateorder',$data);
+		}
+		if( $type == 'custom' ){
+			$this->load->model('order');
+			$order=new Order();
+			$data['order']=$order->getcustomize($id);
+			$this->load->view('admin/update_custom',$data);
+		}
 	}
 	public function updateorder()
 	{
 		$id=$_POST['order_id'];
-		$conment=array("comment"=>$_POST['comment']);
+		$is_worked = 0;
+		if( isset( $_POST['is_worked']) ){
+			$is_worked = 1;
+		}
+		$conment=array("comment"=>$_POST['comment'],
+				"is_worked"=>$is_worked,
+				"handle_time"=>date('Y-m-d H:i:s',time())
+				);
 		$this->load->model('order');
 		$result=$this->order->updateorder($id,$conment);
 		if($result)
@@ -114,6 +129,28 @@ class Ordermanage extends CI_Controller
 		else
 		{
 			echo "<script>location.href='../manage#order-manage-list';</script>";
+		}
+	}
+	public function updatecustomize()
+	{
+		$id=$_POST['order_id'];
+		$is_worked = 0;
+		if( isset( $_POST['is_worked']) ){
+			$is_worked = 1;
+		}
+		$conment=array("other"=>$_POST['comment'],
+				"is_worked"=>$is_worked,
+				"handle_time"=>date('Y-m-d H:i:s',time())
+				);
+		$this->load->model('order');
+		$result=$this->order->updatecustomize($id,$conment);
+		if($result)
+		{
+			echo "<script>location.href='../manage#custome-order-manage-list';</script>";
+		}
+		else
+		{
+			echo "<script>location.href='../manage#custome-order-manage-list';</script>";
 		}
 	}
 	public function getorder($condition)
@@ -172,6 +209,23 @@ class Ordermanage extends CI_Controller
 		$this->load->model('order');
 		echo $this->order->delcustomize($id);
 	}
+	public function handleinquiry()//未处理的订单
+	{
+		
+	}
+	public function searchinquiry()
+	{
+		$id=$_POST['id'];
+		$this->load->model('order');
+		$data['inquiry']=$this->order->getorder($id);
+	}
+	public function checkcustomize()
+	{
+		$id=$this->uri->segment(3);
+		$this->load->model('order');
+		$data['customize']=$this->order->getcustomize($id);
+	}
+
 }
 
 ?>

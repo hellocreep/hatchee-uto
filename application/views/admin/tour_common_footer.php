@@ -85,11 +85,11 @@
 			<a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img class="images_list" name="{%=file.imgid%}" width="100px" src="{%=file.thumbnail_url%}"></a>
 			{% } %}</td>
 			<td class="name">
-			<a class="images_wrap" href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
+			<a class="images_wrap" href="{%=file.url%}" title="{%=file.name%}" target="_blank" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>
 				<div rel="{%=file.imgid%}" class="img-info form-horizontal">
 					<div class="control-group"><label class="control-label">alt:</label><input class="input-xlarge" type="text" name="alt"></div>
 					<div class="control-group"><label class="control-label">描述：</label><textarea class="input-xlarge" type="text" name="des"></textarea></div>
-					<div class="control-group"><label class="control-label">标签</label><input class="input-xlarge" type="text" name="tags"></div>
+					<div class="control-group"><label class="control-label">标签(空格隔开)：</label><input class="input-xlarge" type="text" name="tags"></div>
 				</div>
 			</td>
 			<td class="size">{%=o.formatFileSize(file.size)%}</td>

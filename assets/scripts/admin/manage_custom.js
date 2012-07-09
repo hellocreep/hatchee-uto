@@ -21,10 +21,10 @@ $.ajaxSetup({
 	cache: false,
 	error: function(){
 		//$( '.window-tip' ).text( '加载失败，请稍后重试' ).show();
-		if( $('#list-panel') ){
+		if( $('#list-panel').length > 0 ){
 			$('#list-panel').empty();
 		}
-		if( $('.modal-backdrop') ){
+		if( $('.modal-backdrop').length > 0 ){
 			$( '.modal-backdrop' ).hide();
 		}
 	}
@@ -84,6 +84,7 @@ var tour_list_tpl = "<tr> \
 var user_list_tpl = "<tr> \
 			<th class='span1'>ID</th> \
 			<th>姓名</th> \
+			<th>QQ</th> \
 			<th>邮箱</th> \
 			<th>电话</th> \
 			<th>最后登录时间</th> \
@@ -442,11 +443,11 @@ var member = {
 		for( var i= 0; i<result.length; i++ ){
 			member_list += "<tr><td class='m_id'>"+result[i].Id+"</td>\
 			<td class='m_name'>" +result[i].name+ "</td> \
+			<td>"+result[i].qq+ "</td> \
 			<td>"+result[i].email+ "</td> \
 			<td>"+result[i].tel+"</td> \
 			<td>"+result[i].logintime+"</td> \
-			<td> \
-			<i class='icon-trash'></i><a class='del-member' href='#'>删除</a></td></tr>";
+			<td><i class='icon-trash'></i><a class='del-member' href='#'>删除</a></td></tr>";
 		}
 		$( '#list-head' ).html( user_list_tpl );
 		list_panel.html( member_list );
@@ -487,6 +488,8 @@ var member = {
 					$( '#save' ).unbind( 'click' );//取消上次绑定的方法
 					$( '#save' ).click(function( e ){
 						e.preventDefault();
+						$( '.close' ).click();
+						return;
 						var data = {
 							id: $( '#user-id' ).val(),
 							email: $( '.input[name="u_email"]' ).val(),
@@ -538,21 +541,25 @@ var member = {
 var order = {
 	list_order: function( result ){
 		var order_list = ' ';
-		var pay_info = '<span class="label label-warning">未付</span>';
 		for( i = 0; i < result.length; i++ ){
+			var pay_info = '<span class="label label-warning">未付</span>';
+			var is_worked = '<span class="label label-important">未处理</span>';
 			if( result[i].status == 1 ){
 				pay_info = '<span class="label label-success">已付</span>';
 			}
 			if( result[i].status == 2 ){
 				pay_info = '<span class="label label-success">已发团</span>';
 			}
+			if( result[i].is_worked == 1 ){
+				is_worked =  '<span class="label label-success handle_time" data-original-title="'+result[i].handle_time+'">已处理</span>';
+			}
 			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
 			<td class='o_uuid'>"+result[i].orderid+"</td> \
 			<td class='o_name'><a class='edit_member' data-toggle='modal' href='#edit-panel' rel='"+result[i].uid+"'>"+result[i].username+"</a></td> \
 			<td class='o_tour'><a target='_blank' href='tourdetail/?tid="+result[i].tid+"'>"+result[i].tourname+"</a></td> \
 			<td>"+result[i].ordertime+"</td> \
-			<td><i class='icon-pencil'></i><a href='ordermanage/editorder/?oid="+result[i].id+"' class='edit-order'>查看</a> \
-			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+"</td></tr>";
+			<td><i class='icon-pencil'></i><a href='ordermanage/editorder/?oid="+result[i].id+"&type=normal' class='edit-order'>查看</a> \
+			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+is_worked+"</td></tr>";
 		}
 		$( '#list-head' ).html( order_list_tpl );
 		list_panel.html( order_list );
@@ -560,6 +567,7 @@ var order = {
 		order.count_order();
 		order.del_order();
 		member.edit_member();
+		$( '.handle_time' ).tooltip();//处理订单时间
 		$( '.pagination' ).show();
 	},
 
@@ -596,21 +604,18 @@ var order = {
 var custom_order = {
 	list_order: function( result ){
 		var order_list = ' ';
-		var pay_info = '<span class="label label-warning">未付</span>';
 		for( i = 0; i < result.length; i++ ){
-			if( result[i].status == 1 ){
-				pay_info = '<span class="label label-success">已付</span>';
-			}
-			if( result[i].status == 2 ){
-				pay_info = '<span class="label label-success">已发团</span>';
+			var is_worked = '<span class="label label-important">未处理</span>';
+			if( result[i].is_worked == 1 ){
+				is_worked =  '<span class="label label-success handle_time" data-original-title="'+result[i].handle_time+'">已处理</span>';
 			}
 			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
 			<td class='o_uuid'>"+result[i].orderid+"</td> \
 			<td class='o_name'><a class='edit_member' data-toggle='modal' href='#edit-panel' rel='"+result[i].uid+"'>"+result[i].username+"</a></td> \
 			<td>"+result[i].tourtime+"</td> \
 			<td>"+result[i].ordertime+"</td> \
-			<td><i class='icon-pencil'></i><a href='#' class='edit-order'>查看</a> \
-			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+"</td></tr>";
+			<td><i class='icon-pencil'></i><a href='ordermanage/editorder/?oid="+result[i].id+"&type=custom' class='edit-order'>查看</a> \
+			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+is_worked+"</td></tr>";
 		}
 		$( '#list-head' ).html( order_list_tpl );
 		list_panel.html( order_list );
@@ -619,6 +624,7 @@ var custom_order = {
 		custom_order.count_order();
 		custom_order.del_order();
 		member.edit_member();
+		$( '.handle_time' ).tooltip();//处理订单时间
 		$( '.pagination' ).show();
 	},
 
@@ -627,13 +633,6 @@ var custom_order = {
 			url1: 'ordermanage/countcustomize',
 			url2:  'ordermanage/getcustomize',
 			type: 'custom_order'
-		});
-	},
-
-	//TODO
-	edit_order: function(){
-		$( '.edit-order' ).on('click',function( e ){
-			e.preventDefault();
 		});
 	},
 

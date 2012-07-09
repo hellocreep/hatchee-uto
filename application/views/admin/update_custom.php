@@ -21,7 +21,7 @@
 			<h1>订单修改</h1>
 		</div>
 
-		<form class="well form-horizontal" action="ordermanage/updateorder" method="post">
+		<form class="well form-horizontal" action="ordermanage/updatecustomize" method="post">
 			<fieldset class="offset1">
 				<input type="hidden" name="order_id" value="<?php echo $order['Id'];?>">
 				<div class="control-group">
@@ -42,21 +42,31 @@
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="tour">线路名称：</label>
+					<label class="control-label" for="tour">活动主题：</label>
 					<div class="controls">
-						<input name="tour" class="input-xlarge disabled" type="text" disabled="disabled" value="<?php echo $order['tourname'];?>">
+						<input name="tour" class="input-xlarge disabled" type="text" disabled="disabled" value="<?php echo $order['tour_theme'];?>">
 					</div>
 				</div>
-
+				<div class="control-group">
+					<label class="control-label" for="tour">旅行目的地：</label>
+					<div class="controls">
+						<input name="tour" class="input-xlarge disabled" type="text" disabled="disabled" value="<?php echo $order['add_des'];?>">
+					</div>
+				</div>
 				<div class="control-group">
 					<label class="control-label" for="people">人数：</label>
 					<div class="controls">
 						<input name="people" class="input-small disabled" disabled="disabled" value="<?php echo $order['people'];?>">
 					</div>
 				</div>
-				
 				<div class="control-group">
-					<label class="control-label" for="term">排期：</label>
+					<label class="control-label" for="tour">车型：</label>
+					<div class="controls">
+						<input name="tour" class="input-xlarge disabled" type="text" disabled="disabled" value="<?php echo $order['car'];?>">
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="term">出发时间：</label>
 					<div class="controls">
 					<?php if(isset($order['is_private']) && $order['is_private']!='1'):?>
 						<input name="term" class="input-xlarge disabled" type="text" disabled="disabled" value="<?php echo $order['tour_term'];?>">
@@ -65,12 +75,18 @@
 					<?php endif;?>
 					</div>
 				</div>
-				
 				<div class="control-group">
 					<label class="control-label" for="date">下单日期：</label>
 					<div class="controls">
 						<input name="date" class="input-xlarge disabled" type="text" disabled="disabled" value="<?php echo $order['create_date'];?>">
-						<p class="help-block">SEO</p>
+						<p class="help-block"></p>
+					</div>
+				</div>
+				<div class="control-group">
+					<label class="control-label" for="date">特别纪念：</label>
+					<div class="controls">
+						<input name="date" class="input-xlarge disabled" type="text" disabled="disabled" value="<?php echo $order['special_day'];?>">
+						<p class="help-block"></p>
 					</div>
 				</div>
 				
@@ -98,7 +114,7 @@
 			</fieldset>
 			<div class="offset9">
 				<input type="submit" class="btn btn-success" value="保存">
-				<a class="btn" href="javascript:location.href='manage#order-manage-list'" id="cancel">取消</a>
+				<a class="btn" href="javascript:location.href='manage#custome-order-manage-list'" id="cancel">取消</a>
 			</div>
 
 		</form>

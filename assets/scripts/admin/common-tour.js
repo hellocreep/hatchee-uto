@@ -403,7 +403,7 @@ var submittour = function(){
 $(function(){
 	
 	//修改线路页面直接绑定修改图片方法
-	if( location.href.indexOf( 'edittour' ) > -1 ){
+	if( location.href.indexOf( 'newtour' ) == -1 ){
 		editimage();
 	}
 

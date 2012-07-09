@@ -9,7 +9,13 @@ class Customize extends CI_Controller
 	{
 		$this->load->model('tour');
 		$data['theme']=$this->tour->tourtheme();
-		$data['des']=$this->tour->destination();
+		$data['des']=$this->tour->destinations();
+		$this->load->model('image');
+		for($i=0;$i<count($data['des']);$i++)
+		{
+			$arr=$this->image->getimg($data['des'][$i]['img']);
+			$data['des'][$i]['img']=$arr['small'];
+		}
 		$this->load->view('web/customize',$data);
 	}
 	public function customize_order()
@@ -29,7 +35,6 @@ class Customize extends CI_Controller
 			"uuid"=>'TM-'.time(),
 			"user"=>$user[0]->Id,
 			"tour"=>'0',
-			"city"=>$cusinfo->city,
 			"tour_time"=>$cusinfo->tour_time,
 			"car"=>$cusinfo->car,
 			"people"=>$cusinfo->people,

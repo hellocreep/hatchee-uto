@@ -166,7 +166,7 @@ $(function(){
 				$( '.car-select' ).append( car_type );
 			}
 			
-			btn_mask( '#inquiry-submit ');
+			btn_mask( '#inquiry-submit' );
 			$( '.inquiry-form' ).validate({
 				submitHandler: function(form) {
 					var data = {
@@ -262,13 +262,21 @@ $(function(){
 	//定制旅行栏目页表单
 	$( '#customize' ).validate({
 		submitHandler: function(){
+			var place = [], theme = [];
+			$('input[name="place"]:checked').each(function(){
+				place.push( $(this).val() );
+			});
+			$('input[name="theme"]:checked').each(function(){
+				theme.push( $(this).val() );
+			});
+			btn_mask( '#customize-submit' );
 			var data = {
-				place: $('input[name="place"]').val(),
+				place: place.toString(),
 				tour_time: $('input[name="tour_time"]').val(),
 				car: $('select[name="car"]').val(),
 				people: $('input[name="people"]').val(),
 				day: $('input[name="day"]').val(),
-				theme: $('input[name="theme"]').val(),
+				theme: theme.toString(), 
 				special_day: $('textarea[name="special"]').val(),
 				comment: $('textarea[name="comment"]').val(),
 				name: $('input[name="name"]').val(),
@@ -282,7 +290,6 @@ $(function(){
 				data: {
 					data: $.toJSON(data)
 				},
-
 				success: function( result ){
 					if( result.status ){
 						$('#next').click();

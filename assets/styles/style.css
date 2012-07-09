@@ -112,6 +112,10 @@ body{
 	background:url("../images/body-bg.jpg") repeat;
 }
 
+
+
+
+
 .fancyimg {
 	padding: 1px;
 	border: 1px solid #ddd;
@@ -139,17 +143,19 @@ img, div {
 	display:inline;
 }
 .wrapper{
-	background:url('../images/banner-big.jpg') no-repeat center top;
+	background:url('../images/header-bg.png') repeat-x;
 }
 .header{
 	height:425px;
-	background:url('../images/header-bg.png') repeat-x center top;
+	background: url('../images/banner-big.jpg') no-repeat center top;
 	behavior: url(iepngfix.htc);
 }
 .header .wrap{
 	width:1000px;
 	margin:0 auto;
 	height:100px;
+	padding: 0 47px;
+	background:url('../images/trans-bg.png') repeat-x;
 }
 .header .logo{
 	display:block;
@@ -203,6 +209,21 @@ img, div {
 	color:#8b6620;
 	border-radius:5px 5px 0 0;
 }
+#n-index .a-index,
+#n-trip .a-trip,
+#n-theme .a-theme,
+#n-customize .a-customize,
+#n-company .a-company,
+#n-about .a-about
+{
+	background:url("../images/nav-a-bg.png") repeat-x;
+	color:#8b6620;
+	border-radius:5px 5px 0 0;
+}
+
+
+
+
 .breadcrumb{
 	height: 40px;
 	line-height: 40px;
@@ -475,7 +496,7 @@ form h4{
 
 /*表单公用样式*/
 table.formtab{
-	width: 85%;
+	width: 95%;
 }
 .formtab td{
 	padding:3px 0;

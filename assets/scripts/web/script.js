@@ -68,6 +68,13 @@ var btn_mask = function( target ){
 
 
 $(function(){
+
+	// 导航.active效果
+	
+
+
+
+
 	// 线路内页选项卡切换
 	$('.sub-nav > li').each(function(index){
 		$(this).click(function(){

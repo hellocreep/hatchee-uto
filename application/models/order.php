@@ -8,7 +8,7 @@ class Order extends CI_Model
 	public function orderlist( $page ){
 		$step = 15;
 		$begin = ($page-1) * $step;
-		$query=$this->db->query('select inquiry.Id as id,inquiry.user as uid,inquiry.tour as tid,inquiry.status as status,inquiry.uuid as orderid,inquiry.people as num,inquiry.create_date as ordertime,users.name as username,tour.name as tourname from inquiry,users,tour where inquiry.user=users.id and inquiry.tour=tour.id order by id desc limit ' .$begin.','.$step);
+		$query=$this->db->query('select inquiry.Id as id,inquiry.user as uid,inquiry.tour as tid,inquiry.status as status,inquiry.uuid as orderid,inquiry.people as num,inquiry.create_date as ordertime,inquiry.is_worked as is_worked,users.name as username,tour.name as tourname from inquiry,users,tour where inquiry.user=users.id and inquiry.tour=tour.id order by id desc limit ' .$begin.','.$step);
 		$data=$query->result();
 		return $data;
 	}
@@ -32,7 +32,7 @@ class Order extends CI_Model
 	}
 	public function getorder($id){
 		
-		$sql="select u.name,t.name as tourname,o.Id,o.uuid,o.people,o.tour_term,o.tour_time,o.create_date,o.comment,t.is_private from users as u left join inquiry as o on u.id=o.user left join tour as t on o.tour=t.id where o.Id=".$id;
+		$sql="select u.name,t.name as tourname,o.Id,o.uuid,o.people,o.tour_term,o.tour_time,o.create_date,o.comment,o.is_worked,t.is_private from users as u left join inquiry as o on u.id=o.user left join tour as t on o.tour=t.id where o.Id=".$id;
 		$query=$this->db->query($sql);
 		$data=$query->row_array();
 		return $data;

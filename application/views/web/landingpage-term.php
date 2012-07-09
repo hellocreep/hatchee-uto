@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="assets/styles/landingpage.css">
 		<?php $this -> load -> view("web/global_source");?>
 	</head>
-	<body>
+	<body id="n-trip">
 		<div class="wrapper">
 			<?php $this->load->view('web/header'); ?>
 			
@@ -36,7 +36,7 @@
 						<?php if(isset($tour)):?>
 							<?php for($i=0;$i<count($tour);$i++):?>
 								<li>
-								<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="#"><?php echo $tour[$i]['name'];?></a></h2>
+								<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 								<p><?php echo mb_substr($tour[$i]['intro'],0,100,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 								<dl class="route-detail">
 									<dt><a href="#" alt="#"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" /></a></dt>
@@ -46,7 +46,7 @@
 									<dd>
 										<span>旅行地区：</span><div><?php echo $tour[$i]['destination']?></div>
 									</dd>
-									<dd>
+									<dd class="datescroll">
 									<span>活动时间：</span>
 										<div><?php echo $tour[$i]['term'];?></div>
 									</dd>

@@ -10,7 +10,7 @@ class Member extends CI_Model
 	{	
 		$step = 15;
 		$begin = ($page-1) * $step;
-		$sql = "select Id,name,email,tel,logintime from users limit ".$begin.",".$step;
+		$sql = "select Id,name,qq,email,tel,logintime from users limit ".$begin.",".$step;
 		$query=$this->db->query($sql);
 		$data=$query->result();
 		return $data;

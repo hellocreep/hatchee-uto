@@ -117,6 +117,13 @@
 					</div>
 
 					<div class="control-group">
+						<label class="control-label" for="tour_time">活动的起止时间：</label>
+						<div class="controls">
+							<input name="tour_time" class="input-xlarge" type="text" value="<?php echo $note['tour_time'];?>">
+						</div>
+					</div>
+
+					<div class="control-group">
 						<label class="control-label" for="editor">留下小编的名字：</label>
 						<div class="controls">
 							<input name="editor" class="input-xlarge" type="text" value="<?php echo $note['editor'];?>">

@@ -29,7 +29,6 @@ class Customize extends CI_Controller
 			"uuid"=>'TM-'.time(),
 			"user"=>$user[0]->Id,
 			"tour"=>'0',
-			"city"=>$cusinfo->city,
 			"tour_time"=>$cusinfo->tour_time,
 			"car"=>$cusinfo->car,
 			"people"=>$cusinfo->people,

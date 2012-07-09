@@ -8,7 +8,7 @@ class Order extends CI_Model
 	public function orderlist( $page ){
 		$step = 15;
 		$begin = ($page-1) * $step;
-		$query=$this->db->query('select inquiry.Id as id,inquiry.user as uid,inquiry.tour as tid,inquiry.status as status,inquiry.uuid as orderid,inquiry.people as num,inquiry.create_date as ordertime,inquiry.is_worked as is_worked,users.name as username,tour.name as tourname from inquiry,users,tour where inquiry.user=users.id and inquiry.tour=tour.id order by id desc limit ' .$begin.','.$step);
+		$query=$this->db->query('select inquiry.Id as id,inquiry.user as uid,inquiry.tour as tid,inquiry.status as status,inquiry.uuid as orderid,inquiry.people as num,inquiry.create_date as ordertime,inquiry.is_worked,inquiry.handle_time,users.name as username,tour.name as tourname from inquiry,users,tour where inquiry.user=users.id and inquiry.tour=tour.id order by id desc limit ' .$begin.','.$step);
 		$data=$query->result();
 		return $data;
 	}
@@ -66,7 +66,7 @@ class Order extends CI_Model
 	{
 		$step = 15;
 		$begin = ($page-1) * $step;
-		$query=$this->db->query("select c.Id as id, c.uuid as orderid,c.create_date as ordertime,c.is_worked as is_worked,c.tour_time as tourtime,u.name as username,u.Id as uid from custom_inquiry as c left join users as u on c.user=u.Id limit " .$begin.",".$step);
+		$query=$this->db->query("select c.Id as id, c.uuid as orderid,c.create_date as ordertime,c.is_worked,c.handle_time,c.tour_time as tourtime,u.name as username,u.Id as uid from custom_inquiry as c left join users as u on c.user=u.Id limit " .$begin.",".$step);
 		$data=$query->result();
 		return $data;
 	}

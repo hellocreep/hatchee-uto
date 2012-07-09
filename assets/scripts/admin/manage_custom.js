@@ -551,7 +551,7 @@ var order = {
 				pay_info = '<span class="label label-success">已发团</span>';
 			}
 			if( result[i].is_worked == 1 ){
-				is_worked =  '<span class="label label-success">已处理</span>';
+				is_worked =  '<span class="label label-success handle_time" data-original-title="'+result[i].handle_time+'">已处理</span>';
 			}
 			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
 			<td class='o_uuid'>"+result[i].orderid+"</td> \
@@ -567,6 +567,7 @@ var order = {
 		order.count_order();
 		order.del_order();
 		member.edit_member();
+		$( '.handle_time' ).tooltip();//处理订单时间
 		$( '.pagination' ).show();
 	},
 
@@ -606,7 +607,7 @@ var custom_order = {
 		for( i = 0; i < result.length; i++ ){
 			var is_worked = '<span class="label label-important">未处理</span>';
 			if( result[i].is_worked == 1 ){
-				is_worked =  '<span class="label label-success">已处理</span>';
+				is_worked =  '<span class="label label-success handle_time" data-original-title="'+result[i].handle_time+'">已处理</span>';
 			}
 			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
 			<td class='o_uuid'>"+result[i].orderid+"</td> \
@@ -623,6 +624,7 @@ var custom_order = {
 		custom_order.count_order();
 		custom_order.del_order();
 		member.edit_member();
+		$( '.handle_time' ).tooltip();//处理订单时间
 		$( '.pagination' ).show();
 	},
 

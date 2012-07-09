@@ -51,10 +51,8 @@
 		}
 		public function destinations()
 		{
-			//$sql="select name from destination";
-			$this->db->select('name');
-			$this->db->from('destination');
-			$query=$this->db->get();
+			$sql="select * from destination";
+			$query=$this->db->query($sql);
 			return $query->result_array();
 		}
 		public function traveltime()

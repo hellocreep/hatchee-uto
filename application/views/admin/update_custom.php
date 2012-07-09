@@ -21,7 +21,7 @@
 			<h1>订单修改</h1>
 		</div>
 
-		<form class="well form-horizontal" action="ordermanage/updateorder" method="post">
+		<form class="well form-horizontal" action="ordermanage/updatecustomize" method="post">
 			<fieldset class="offset1">
 				<input type="hidden" name="order_id" value="<?php echo $order['Id'];?>">
 				<div class="control-group">

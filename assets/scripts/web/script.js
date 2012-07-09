@@ -69,11 +69,10 @@ var btn_mask = function( target ){
 
 $(function(){
 
-	// 导航.active效果
+	if( !$( '#a-index').length > 0 ){
+		$( window ).scrollTop( $('.nav').offset().top  );
+	}
 	
-
-
-
 
 	// 线路内页选项卡切换
 	$('.sub-nav > li').each(function(index){

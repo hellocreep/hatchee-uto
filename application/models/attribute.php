@@ -26,7 +26,7 @@ class Attribute extends CI_Model
 	/**************目的地**********/
 	public function listdes()
 	{
-		$query=$this->db->query('select * from destination');
+		$query=$this->db->query('select Id,name from destination');
 		return $query->result();
 	}
 

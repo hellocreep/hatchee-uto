@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50148
 File Encoding         : 65001
 
-Date: 2012-07-09 12:27:34
+Date: 2012-07-09 12:37:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -265,7 +265,7 @@ CREATE TABLE `travel_note` (
   `edit_time` date DEFAULT NULL COMMENT '更新日期',
   `who_edit` varchar(50) DEFAULT NULL COMMENT '正在编辑',
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of travel_note
@@ -333,7 +333,7 @@ CREATE TABLE `web_page` (
   `description` varchar(255) DEFAULT NULL COMMENT 'seo',
   `content` text COMMENT '页面内容',
   PRIMARY KEY (`Id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of web_page

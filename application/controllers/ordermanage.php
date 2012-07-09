@@ -95,16 +95,30 @@ class Ordermanage extends CI_Controller
 	}
 	public function editorder(){
 		$id=addslashes($_GET['oid']);
-		$this->load->model('order');
-		$order=new Order();
-		$data['order']=$order->getorder($id);
-		
-		$this->load->view('admin/updateorder',$data);
+		$type = addslashes($_GET['type']);
+		if( $type == 'normal' ){
+			$this->load->model('order');
+			$order=new Order();
+			$data['order']=$order->getorder($id);
+			$this->load->view('admin/updateorder',$data);
+		}
+		if( $type == 'custom' ){
+			$this->load->model('order');
+			$order=new Order();
+			//$data['order']=$order->getorder($id);
+			$this->load->view('admin/update_custom',$data);
+		}
 	}
 	public function updateorder()
 	{
 		$id=$_POST['order_id'];
-		$conment=array("comment"=>$_POST['comment']);
+		$is_worked = 0;
+		if( isset( $_POST['is_worked']) ){
+			$is_worked = 1;
+		}
+		$conment=array("comment"=>$_POST['comment'],
+				"is_worked"=>$is_worked
+				);
 		$this->load->model('order');
 		$result=$this->order->updateorder($id,$conment);
 		if($result)

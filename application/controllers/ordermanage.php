@@ -117,7 +117,8 @@ class Ordermanage extends CI_Controller
 			$is_worked = 1;
 		}
 		$conment=array("comment"=>$_POST['comment'],
-				"is_worked"=>$is_worked
+				"is_worked"=>$is_worked,
+				"handle_time"=>date('Y-m-d H:i:s',time())
 				);
 		$this->load->model('order');
 		$result=$this->order->updateorder($id,$conment);
@@ -138,7 +139,8 @@ class Ordermanage extends CI_Controller
 			$is_worked = 1;
 		}
 		$conment=array("other"=>$_POST['comment'],
-				"is_worked"=>$is_worked
+				"is_worked"=>$is_worked,
+				"handle_time"=>date('Y-m-d H:i:s',time())
 				);
 		$this->load->model('order');
 		$result=$this->order->updatecustomize($id,$conment);

@@ -38,11 +38,11 @@ h1,h2,h3,h4,h5{
 }
 
 h1{
-	font-size:24px;
+	font-size:22px;
 	margin:0 0 10px;
 }
 h2{
-	font-size:20px;
+	font-size:18px;
 	margin:9px 0 9px;
 }
 h3{
@@ -59,7 +59,7 @@ h5{
 }
 p{
 	margin:8px 0 14px;
-	line-height:22px;
+	line-height:20px;
 }
 b.red{
 	color:#DB555C;
@@ -108,7 +108,7 @@ input[type='text'] {
 
 body{
 	font-family:Arial,Helvetica,sans-serif,"宋体";
-	font-size:14px;
+	font-size:13px;
 	color:#555555;
 	-webkit-text-size-adjust:none; /*chorme最小字体解决*/
 	background:url("../images/body-bg.jpg") repeat;

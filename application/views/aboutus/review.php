@@ -63,6 +63,7 @@
 								<li>
 								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>
+
 								<?php echo mb_substr($cus['content'],0,50,'utf-8').'......';?>
 								<p>时间：<?php echo $cus['tour_time'];?></br>
 								地点：<?php echo $cus['tour_time'];?></p>

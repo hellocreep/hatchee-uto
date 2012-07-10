@@ -55,18 +55,46 @@ class Travel extends CI_Model
 	}
 	public function getupnote($id)
 	{
-		$this->db->query('select min(Id) from travel_note');
-		$res=$this->db->get();
-		return $res;
-		/*$this->db->query('select * from travel_note where Id<'.$id.'limit 1 order by edit_time desc');
+		$this->db->select('min(Id) as id');
+		$this->db->from('travel_note');
 		$query=$this->db->get();
-		return $query->row_array();*/
+		$res=$query->row_array();
+		if($id==$res['id'])
+		{
+			return false;
+		}
+		else
+		{
+			$this->db->select('Id,title');
+			$this->db->where('Id < ',$id);
+			$this->db->limit(1);
+			$this->db->from('travel_note');
+			$this->db->order_by('Id','desc');
+			$query=$this->db->get();
+			return $query->row_array();
+
+		}
 	}
 	public function getnextnote($id)
 	{
-		$this->db->query('select * from travel_note where Id>'.$id.'limit 1 order by edit_time asc');
+		$this->db->select('max(Id) as id');
+		$this->db->from('travel_note');
 		$query=$this->db->get();
-		return $query->row_array();
+		$res=$query->row_array();
+		if($id==$res['id'])
+		{
+			return false;
+		}
+		else
+		{
+			$this->db->select('Id,title');
+			$this->db->where('Id > ',$id);
+			$this->db->limit(1);
+			$this->db->from('travel_note');
+			$this->db->order_by('Id');
+			$query=$this->db->get();
+			return $query->row_array();
+		}
 	}
 }
 ?>

@@ -71,12 +71,26 @@ class Aboutus extends CI_Controller {
 		$id=addslashes($_GET['id']);
 		$this->load->model('travel');
 		$data['note']=$this->travel->getnote($id);
-		echo $data['upnote']=$this->travel->getupnote($id);
-		//$data['nextnote']=$this->travel->getnextnote($id);
-		//echo "<pre>";
-		//print_r($data);
-		//echo "</pre>";
-		//$this->load->view("aboutus/tripnote",$data);
+		if(!$this->travel->getupnote($id))
+		{
+			$data['upnote']='';
+		}
+		else
+		{
+			$data['upnote']=$this->travel->getupnote($id);
+			
+		}
+		if(!$this->travel->getnextnote($id))
+		{
+			
+			$data['nextnote']='';
+		}
+		else
+		{
+			$data['nextnote']=$this->travel->getnextnote($id);
+		}
+
+		$this->load->view("aboutus/tripnote",$data);
 	}
 	public function tripnote()
 	{

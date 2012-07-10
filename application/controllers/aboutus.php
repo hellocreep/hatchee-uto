@@ -90,7 +90,7 @@ class Aboutus extends CI_Controller {
 	{
 		$this->load->view('aboutus/tripnote');
 	}
-	public function contactus()
+	public function sendmail()
 	{
 		$data=json_decode($data);
 	}

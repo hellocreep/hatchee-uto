@@ -295,7 +295,7 @@ $(function(){
 			$( 'input[name="contact-way"]:checked' ).each(function(){
 				way.push( $(this).val() );
 			})
-				
+			btn_mask( '#contact-submit' );
 			var data = {
 				name: $( 'input[name="name"]' ),
 				phone: $( 'input[name="phone"]' ),
@@ -307,12 +307,16 @@ $(function(){
 				more: $( 'textarea[name="more"]' ).val()
 			}
 			$.ajax({
-				url:' ',
+				url: 'aboutus/sendmail',
 				data: {
 					data: $.toJSON(data)
 				},
 				success:function( result ){
-
+				
+						$( '#contact-submit' ).after( "<em>"+result.msg+"</em>" );
+					
+					$( '.btn-mask' ).remove();
+					$( '#contact-submit' ).val( '提 交' );
 				}
 			});
 		}

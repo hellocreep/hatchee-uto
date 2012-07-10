@@ -100,7 +100,7 @@
 						</tr>
 						<tr>
 							<td></td>
-							<td><input class="btn" type="submit" value="提  交"></td>
+							<td><input id="contact-submit" class="btn" type="submit" value="提  交"></td>
 						</tr>
 					</table>
 				</form>

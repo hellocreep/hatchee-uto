@@ -59,7 +59,7 @@
 								<li>
 								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>
-								<?php echo mb_substr($cus['content'],0,50,'utf-8').'......';?>
+								<div><?php echo mb_substr($cus['content'],0,50,'utf-8').'......';?></div>
 								<a class="detail" href="aboutus/note?id=<?php echo $cus['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>

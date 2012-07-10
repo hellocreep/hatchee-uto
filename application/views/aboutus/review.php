@@ -65,7 +65,7 @@
 							</li>
 						</ul>
 					</div>
-
+					<div class="separator"></div>
 					<div class="event">
 						<h3>友途旅行</h3>
 						<ul class="clearfix">
@@ -130,6 +130,10 @@
 						</div> -->
 
 					<h2>友途的电影狂欢之夜Film Night (视频)</h2>
+
+					<div>
+<embed src="http://player.youku.com/player.php/Type/Folder/Fid/17829831/Ob/1/sid/XNDI1MzM2OTQ4/v.swf" quality="high" width="240" height="200" align="middle" allowScriptAccess="always" allowFullScreen="true" mode="transparent" type="application/x-shockwave-flash"></embed>
+					</div>
 				</div> <!-- end of div.article -->
 			</div>
 			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->

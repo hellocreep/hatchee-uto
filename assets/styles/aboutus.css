@@ -89,11 +89,37 @@ table.data th{
 .know .they{
 	float: right;
 }
+.person{
+	overflow: hidden;
+	margin: 30px 0 0 0;
+}
 .person img{
 	margin: 0 0 0 10px;
 	float: right;
+	width: 200px;
+	height: 300px;
+	border:1px solid #ddd;
+	padding:1px;
 }
-
+.person h4{
+	margin: 0 0 10px 0;
+	background: url("../images/separator.png") no-repeat left center;
+	line-height: 30px;
+	text-indent: 60px;
+	border-bottom: 1px dashed #cccccc;
+}
+.person h4 span{
+	color:#555555;
+	margin: 0 0 0 30px;
+}
+.person h5{
+	color: #333;
+}
+div.separator{
+	background: url("../images/sep-line.png") no-repeat center center;
+	width: 100%;
+	height: 40px;
+}
 .method{
 	margin: 20px 0 30px;
 }
@@ -112,7 +138,7 @@ table.data th{
 	font-weight: bold;
 }
 .event {
-	border-bottom: 1px solid #ddd;
+	/*border-bottom: 1px solid #ddd;*/
 	padding: 0 0 10px 0;
 }
 .event li{

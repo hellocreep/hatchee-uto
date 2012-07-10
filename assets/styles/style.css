@@ -38,7 +38,7 @@ h1,h2,h3,h4,h5{
 }
 
 h1{
-	font-size:22px;
+	font-size:20px;
 	margin:0 0 10px;
 }
 h2{
@@ -176,6 +176,7 @@ img, div {
 	border-radius:0 10px 10px 10px;
 	position:relative;
 }
+/*导航样式*/
 .nav{
 	height:37px;
 	width:1000px;
@@ -228,18 +229,16 @@ img, div {
 	color: #866820;
 }
 
-
-
 .breadcrumb{
 	height: 40px;
-	line-height: 40px;
+	line-height: 67px;
 	text-indent: 20px;
+	font-size: 12px;
 }
 .aside{
 	width:200px;
 	min-height:300px;
 	float:left;
-	/*outline:1px solid #ddd;*/
 	margin:0 0 0 20px;
 }
 .article{
@@ -336,14 +335,12 @@ span.tel{
 	width:7px;
 	height:4px;
 }
-
 .sub-nav li.current{
 	border:1px solid #60a6a2;
 	background:#60a6a2;
 	cursor:pointer;
 	color:#fff;
 }
-
 .sub-nav li.current span{
 	background:url("../images/subnav-arrow.gif") no-repeat;
 }
@@ -370,7 +367,6 @@ span.tel{
 	height:150px;
 	margin:0;
 }
-
 .route dl{
 	float:left;
 	width:100%;
@@ -390,7 +386,6 @@ span.tel{
 	width:80%;
 	float:left;
 }
-
 .fee dt{
 	margin:10px 0 4px 0;
 	font-weight:bold;
@@ -411,17 +406,10 @@ span.tel{
 	background:url("../images/zoom.png") right bottom no-repeat;
 	/*opacity:0.2;*/
 }
-/*ol li{
-	margin:8px 0;
-}
-.experience{
-
-}*/
 select{
 	border:1px solid #E1E1E1;
 	color:#333333;
 }
-
 .schedule_table table {
 	width: 100%;
 	margin-bottom: 10px;
@@ -431,7 +419,6 @@ select{
 	border: 1px solid #ddd;
 	padding: 5px;
 }
-
 .inquiry-form {
 	width: 500px;
 	border: 1px solid #ddd;
@@ -443,11 +430,9 @@ select{
 .inquiry-form td{
 	padding:3px 0;
 }
-
 .inquiry-form label.error {
 	float: none;
 }
-
 .inquiry-form h3 {
 	background: #60A6A2;
 	color: #fff;
@@ -467,7 +452,7 @@ form h4{
 	padding: 3px 0;
 }
 
-/*公用组件*/
+/*------------公用组件------------*/
 .btn{
 	background: url(../images/but.png) repeat-x;
 	color: #fff;
@@ -491,10 +476,16 @@ form h4{
 	position: relative;
 	z-index: 3;
 	width:100%;
-
 }
 
-/*表单公用样式*/
+div.separator{
+	background: url("../images/sep-line.png") no-repeat center center;
+	width: 100%;
+	height: 30px;
+	margin: 20px 0;
+}
+
+/*------------表单公用样式------------*/
 table.formtab{
 	width: 95%;
 }

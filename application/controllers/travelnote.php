@@ -63,7 +63,7 @@ class Travelnote extends CI_Controller
 		);	
 		if($this->travel->add($travel))
 		{
-			echo "<script>window.loaction.href='../aboutus/review';</script>"
+			echo "<script>window.loaction.href='../aboutus/review';</script>";
 		}
 
 	}

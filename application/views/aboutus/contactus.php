@@ -45,32 +45,37 @@
 					</div>
 					<p><b>友途地址：</b> 成都市武侯区武阳大道1段288号中央花园城市别墅1栋23号</p>
 					<h2>在线咨询</h2>
-					<form>
+					<form id="contact-form">
 					<h4>您的联系方式：</h4>
 					<table class="formtab">
 						<tr>
 							<td><em>*</em>姓名：</td>
-							<td><input name="" type="text"></td>
+							<td><input name="name" type="text" class="required"></td>
 						</tr>
 						<tr>
 							<td><em>*</em>手机：</td>
-							<td><input name="" type="text"></td>
+							<td><input name="phone" type="text" class="required num"></td>
 						</tr>						
 						<tr>
 							<td><em>*</em>Email：</td>
-							<td><input name="" type="text"></td>
+							<td><input name="email" type="text" class="required email"></td>
 						</tr>
+						<tr>
+							<td><em>*</em>QQ：</td>
+							<td><input name="qq" type="text" class="required num"></td>
+						</tr>
+	
 						<tr>
 							<td>希望我们联系您的方式是：</td>
 							<td>
-								<label><input type="checkbox">通过QQ</label><br>
-								<label><input type="checkbox">通过电话</label><br>
-								<label><input type="checkbox">通过邮件</label>
+								<label><input type="checkbox" name="contact-way" value="通过QQ">通过QQ</label><br>
+								<label><input type="checkbox" name="contact-way" value="通过电话">通过电话</label><br>
+								<label><input type="checkbox" name="contact-way" value="通过邮件">通过邮件</label>
 							</td>
 						</tr>
 						<tr>
 							<td>所在城市：</td>
-							<td><input type="text"></td>
+							<td><input type="text" name="city"></td>
 						</tr>
 					</table>
 					<h4>您的问题：</h4>
@@ -78,19 +83,19 @@
 						<tr>
 							<td>主题：</td>
 							<td>
-								<select name="" id="">
-									<option value="">关于四川旅行</option>
-									<option value="">关于友途网站反馈</option>
-									<option value="">商业合作</option>
-									<option value="">我们的领队和工作人员</option>
-									<option value="">其它</option>
+								<select>
+									<option name="theme" value="关于四川旅行">关于四川旅行</option>
+									<option name="theme" value="关于友途网站反馈">关于友途网站反馈</option>
+									<option name="theme" value="商业合作">商业合作</option>
+									<option name="theme" value="我们的领队和工作人员">我们的领队和工作人员</option>
+									<option name="theme" value="其它">其它</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td>更多信息：</td>
 							<td>
-								<textarea></textarea>
+								<textarea name="more"></textarea>
 							</td>
 						</tr>
 						<tr>

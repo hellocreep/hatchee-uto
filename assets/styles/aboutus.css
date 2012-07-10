@@ -1,5 +1,7 @@
+/*关于我们侧边栏样式*/
 .aside dl{
 	border:2px solid #866820;
+	margin: 26px 0 0 0;
 	border-radius: 5px;
 	text-indent: 12px;
 }
@@ -11,13 +13,19 @@
 	font-size: 14px;
 }
 .aside dd{
+	font-size: 14px;
 	padding: 10px 0 5px;
 }
 .aside dd:hover{
 	color: #866820;
 	cursor: pointer;
 }
+/*-------- Page mission ---------*/
 
+
+
+
+/*-------- Page aboutus ---------*/
 .article .ptop img{
 	float: right;
 	margin: 4px 0 0 15px;
@@ -34,12 +42,6 @@ table.data th{
 .compare th{
 	min-width: 80px;
 }
-
-/*img{
-	display: inline-block;
-	background:url(assets/images/body-bg.jpg) repeat #000;
-}*/
-
 .note-content{
 	font-size: 14px;
 }
@@ -51,13 +53,17 @@ table.data th{
 	margin: 10px 0;
 }
 
+
+
+
+/*--------- Page leader ----------*/
 .know .left{
 	width: 350px;
 	float: left;
 }
 .know .right{
 	margin: 0 0 0 15px;
-	width: 350px;
+	width: 330px;
 	float: right;
 	background: #990033;
 	border-radius: 5px;
@@ -72,9 +78,6 @@ table.data th{
 .know .right h4{
 	color: #fff;
 	text-indent: 5px;
-}
-.know h5{
-	/*color: #fff;*/
 }
 .know .over img{
 	float: left;
@@ -111,17 +114,17 @@ table.data th{
 .person h5{
 	color: #333;
 }
-div.separator{
-	background: url("../images/sep-line.png") no-repeat center center;
-	width: 100%;
-	height: 40px;
-}
+
+
+
+
+
+/*---------- Page contactus -----------*/
 .method{
 	margin: 20px 0 30px;
 }
 .method dt{
 	padding: 3px 0;
-	border-bottom: 1px dashed #ddd;
 	margin: 3px 0;
 }
 .method dl{
@@ -133,8 +136,13 @@ div.separator{
 	font-size: 16px;
 	font-weight: bold;
 }
+
+
+
+
+
+/*----------- Page review -----------*/
 .event {
-	/*border-bottom: 1px solid #ddd;*/
 	padding: 0 0 10px 0;
 }
 .event li{
@@ -158,6 +166,11 @@ div.separator{
 }
 
 
+
+
+
+
+/*------------ Page jion --------------*/
 .hire dt{
 	font-weight: bold;
 	padding: 3px 0;

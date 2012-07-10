@@ -297,12 +297,12 @@ $(function(){
 			})
 			btn_mask( '#contact-submit' );
 			var data = {
-				name: $( 'input[name="name"]' ),
-				phone: $( 'input[name="phone"]' ),
-				email: $( 'input[name="email"]' ),
-				qq: $( 'input[name="qq"]' ),
+				name: $( 'input[name="name"]' ).val(),
+				phone: $( 'input[name="phone"]' ).val(),
+				email: $( 'input[name="email"]' ).val(),
+				qq: $( 'input[name="qq"]' ).val(),
 				way: way.toString(),
-				city: $( 'input[name="city"]' ),
+				city: $( 'input[name="city"]' ).val(),
 				theme: $( 'option[name="theme"]:checked' ).val(),
 				more: $( 'textarea[name="more"]' ).val()
 			}

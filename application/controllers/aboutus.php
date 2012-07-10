@@ -92,7 +92,7 @@ class Aboutus extends CI_Controller {
 	}
 	public function sendmail()
 	{
-		$data=json_decode($data);
+		$data=json_decode($_POST['data']);
 		$str="客户姓名：".$data->name."<br>手机：".$data->tel."</br>Email：".$data->email."</br>联系方式：".$data->contact."</br>主题：".$data->theme."</br>更多信息：".$data->more;
 		$config['protocol']='smtp';
 		$config['smtp_host']='smtp.163.com';

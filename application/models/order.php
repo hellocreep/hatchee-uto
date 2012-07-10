@@ -95,7 +95,9 @@ class Order extends CI_Model
 	}
 	public function handleinquiry()
 	{
-			
+			$query=$this->db->query('select inquiry.Id as id,inquiry.user as uid,inquiry.tour as tid,inquiry.status as status,inquiry.uuid as orderid,inquiry.people as num,inquiry.create_date as ordertime,inquiry.is_worked,inquiry.handle_time,users.name as username,tour.name as tourname from inquiry,users,tour where inquiry.user=users.id and inquiry.tour=tour.id and inquiry.is_worked=0');
+			$data=$query->result();
+			return $data;
 	}
 }
 ?>

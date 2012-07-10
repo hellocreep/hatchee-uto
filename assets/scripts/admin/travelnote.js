@@ -10,6 +10,7 @@ $(function(){
 			title: $( 'input[name="title"]' ).val(),
 			description: $( 'input[name="des"]' ).val(),
 			keywords: $( 'input[name="keywords"]' ).val(),
+			tour_time: $( 'input[name="tour_time"]' ).val(),
 			editor: $( 'input[name="editor"]' ).val()
 		}
 		var content = $( 'textarea[name="note"]' ).val();
@@ -23,7 +24,7 @@ $(function(){
 		if( data.title!=='' ){
 			loadings.show();
 			$( 'body' ).append( '<div class="modal-backdrop fade in"></div>' );
-			$( '#submit-tour' ).addClass( 'disabled' ).text( '正在保存...' );
+			$( '#submit-note' ).addClass( 'disabled' ).text( '正在保存...' );
 			$.ajax({
 				url: url,
 				data: {

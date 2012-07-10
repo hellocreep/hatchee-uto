@@ -46,6 +46,7 @@ class Travelnote extends CI_Controller
 			"keywords"=>$data->keywords,
 			"content"=>$content,
 			"editor"=>$data->editor,
+			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time())
 		);
 		echo $this->travel->add($travel);
@@ -77,6 +78,7 @@ class Travelnote extends CI_Controller
 			"keywords"=>$data->keywords,
 			"content"=>$content,
 			"editor"=>$data->editor,
+			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time())
 		);
 		echo $this->travel->update($id,$travel);

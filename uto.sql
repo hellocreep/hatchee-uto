@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50148
 File Encoding         : 65001
 
-Date: 2012-07-09 12:37:55
+Date: 2012-07-09 17:24:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -76,11 +76,12 @@ CREATE TABLE `custom_inquiry` (
   `is_worked` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否处理',
   `handle_time` datetime DEFAULT NULL COMMENT '订单处理时间',
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of custom_inquiry
 -- ----------------------------
+INSERT INTO `custom_inquiry` VALUES ('1', 'TM-1341817278', '19', '0', '休闲度假,摄影旅行', '2012-07-11', '车型2', '3', '17', '四姑娘山,九寨沟', '321323232', '323232', '2012-07-09', '0', null);
 
 -- ----------------------------
 -- Table structure for `destination`
@@ -169,7 +170,7 @@ CREATE TABLE `inquiry` (
 -- ----------------------------
 INSERT INTO `inquiry` VALUES ('15', '4fed5d0df1796', '16', '25', '8', '2012-06-29 15:45:17', '', null, null, '留言试试', '0', '0', null);
 INSERT INTO `inquiry` VALUES ('16', '4fed5d39b9930', '17', '24', '2', '2012-06-29 15:46:01', '', null, null, 'fdfsdfsfsfsd', '0', '0', null);
-INSERT INTO `inquiry` VALUES ('17', '4ff244af48561', '18', '24', '3', '2012-07-03 09:02:39', '', null, null, '', '0', '0', null);
+INSERT INTO `inquiry` VALUES ('17', '4ff244af48561', '18', '24', '3', '2012-07-03 09:02:39', '', null, null, '', '0', '1', '2012-07-09 15:36:58');
 
 -- ----------------------------
 -- Table structure for `route`
@@ -264,6 +265,8 @@ CREATE TABLE `travel_note` (
   `editor` varchar(50) DEFAULT NULL COMMENT '小编',
   `edit_time` date DEFAULT NULL COMMENT '更新日期',
   `who_edit` varchar(50) DEFAULT NULL COMMENT '正在编辑',
+  `tour_time` varchar(255) DEFAULT NULL COMMENT '活动的开始截至时间',
+  `thumb` varchar(255) DEFAULT NULL COMMENT '游记缩略图',
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -312,7 +315,7 @@ CREATE TABLE `users` (
   `registered` datetime NOT NULL,
   `logintime` datetime NOT NULL,
   PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='用户';
 
 -- ----------------------------
 -- Records of users
@@ -320,6 +323,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` VALUES ('16', '李文', 'liwen@liwen.com', '123', '774949384', null, null, '', '', '2012-06-29 15:45:17', '0000-00-00 00:00:00');
 INSERT INTO `users` VALUES ('17', '陈照', 'chenzhao@chenzhao.com', '123', '32329392', null, null, '', '', '2012-06-29 15:46:01', '0000-00-00 00:00:00');
 INSERT INTO `users` VALUES ('18', 'Ivan', 'guilinivan@gmail.com', '100192', '13308180640', null, null, '', '', '2012-07-03 09:02:39', '0000-00-00 00:00:00');
+INSERT INTO `users` VALUES ('19', 'test', '11206352@qq.com', '232054', '23232323', '32323232', 'CD', null, null, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- ----------------------------
 -- Table structure for `web_page`

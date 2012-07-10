@@ -92,8 +92,9 @@ class Aboutus extends CI_Controller {
 	}
 	public function sendmail()
 	{
-		$data=json_decode($data);
-		$str="客户姓名：".$data->name."<br>手机：".$data->tel."</br>Email：".$data->email."</br>联系方式：".$data->contact."</br>主题：".$data->theme."</br>更多信息：".$data->more;
+		$data=json_decode($_POST['data']);
+		print_r($data);
+		/*$str="客户姓名：".$data->name."<br>手机：".$data->tel."</br>Email：".$data->email."</br>联系方式：".$data->contact."</br>主题：".$data->theme."</br>更多信息：".$data->more;
 		$config['protocol']='smtp';
 		$config['smtp_host']='smtp.163.com';
 		$config['smtp_user']='remaintears@163.com';
@@ -117,7 +118,7 @@ class Aboutus extends CI_Controller {
 			$data['status']=true;
 			$data['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
 		}
-		echo json_encode($data['result']);
+		echo json_encode($data['result']);*/
 	} 
 }
 

@@ -28,84 +28,44 @@
 					<div class="event">
 						<h3>公司出游</h3>
 						<ul class="clearfix">
-							<li>
-								<a href="#"><img src="assets/images/img.jpg" alt=""></a>
-								<h5><a href="#">记录我们的精彩回忆</a></h5>
-								<p>
-									主题：摄影<br>
-									时间：2012年5月13-15日<br>
-									地点：四川-燕子沟风景区<br>
-									活动介绍：那一刻，我踏进香雾飘香的经殿，听见四面传来的祈祷；那一...... 
-								</p>
-								<a class="detail" href="#">活动详情</a>
-							</li>
-
-							<li>
-								<a href="#"><img src="assets/images/img.jpg" alt=""></a>
-								<h5><a href="#">记录我们的精彩回忆</a></h5>
-								<p>
-									主题：摄影<br>
-									时间：2012年5月13-15日<br>
-									地点：四川-燕子沟风景区<br>
-									活动介绍：那一刻，我踏进香雾飘香的经殿，听见四面传来的祈祷；那一...... 
-								</p>
-								<a class="detail" href="#">活动详情</a>
-							</li>
-
-							<li>
-								<a href="#"><img src="assets/images/img.jpg" alt=""></a>
-								<h5><a href="#">记录我们的精彩回忆</a></h5>
-								<p>
-									主题：摄影<br>
-									时间：2012年5月13-15日<br>
-									地点：四川-燕子沟风景区<br>
-									活动介绍：那一刻，我踏进香雾飘香的经殿，听见四面传来的祈祷；那一...... 
-								</p>
-								<a class="detail" href="#">活动详情</a>
-							</li>
+							<?php foreach($company as $c):?>
+								<li>
+								<a href="aboutus/note?id=<?php echo $c['Id'];?>"><img src="<?php echo $c['thumb'];?>" alt=""></a>
+								<h5><a href="aboutus/note?id=<?php echo $c['Id'];?>"><?php echo $c['title'];?></a></h5>
+								<?php echo mb_substr($c['content'],0,50,'utf-8').'......';?>
+								<a class="detail" href="aboutus/note?id=<?php echo $c['Id'];?>">活动详情</a>
+								</li>
+							<?php endforeach;?>
 						</ul>
 					</div>
 					<div class="separator"></div>
 					<div class="event">
-						<h3>友途旅行</h3>
+						<h3>主题旅行</h3>
 						<ul class="clearfix">
-							<li>
-								<a href="#"><img src="assets/images/img.jpg" width="250" alt=""></a>
-								<h5><a href="#">记录我们的精彩回忆</a></h5>
-								<p>
-									主题：摄影<br>
-									时间：2012年5月13-15日<br>
-									地点：四川-燕子沟风景区<br>
-									活动介绍：那一刻，我踏进香雾飘香的经殿，听见四面传来的祈祷；那一...... 
-								</p>
-								<a class="detail" href="#">活动详情</a>
-							</li>
-
-							<li>
-								<a href="#"><img src="assets/images/img.jpg" width="250" alt=""></a>
-								<h5><a href="#">记录我们的精彩回忆</a></h5>
-								<p>
-									主题：摄影<br>
-									时间：2012年5月13-15日<br>
-									地点：四川-燕子沟风景区<br>
-									活动介绍：那一刻，我踏进香雾飘香的经殿，听见四面传来的祈祷；那一...... 
-								</p>
-								<a class="detail" href="#">活动详情</a>
-							</li>
-
-							<li>
-								<a href="#"><img src="assets/images/img.jpg" width="250" alt=""></a>
-								<h5><a href="#">记录我们的精彩回忆</a></h5>
-								<p>
-									主题：摄影<br>
-									时间：2012年5月13-15日<br>
-									地点：四川-燕子沟风景区<br>
-									活动介绍：那一刻，我踏进香雾飘香的经殿，听见四面传来的祈祷；那一...... 
-								</p>
-								<a class="detail" href="#">活动详情</a>
-							</li>
+							<?php foreach($theme as $t):?>
+								<li>
+								<a href="aboutus/note?id=<?php echo $t['Id'];?>"><img src="<?php echo $t['thumb'];?>" alt=""></a>
+								<h5><a href="aboutus/note?id=<?php echo $t['Id'];?>"><?php echo $t['title'];?></a></h5>
+								<?php echo mb_substr($t['content'],0,50,'utf-8').'......';?>
+								<a class="detail" href="aboutus/note?id=<?php echo $t['Id'];?>">活动详情</a>
+								</li>
+							<?php endforeach;?>
 						</ul>
 					</div>
+					<div class="event">
+						<h3>定制旅行</h3>
+						<ul class="clearfix">
+							<?php foreach($customize as $cus):?>
+								<li>
+								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
+								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>
+								<?php echo mb_substr($cus['content'],0,50,'utf-8').'......';?>
+								<a class="detail" href="aboutus/note?id=<?php echo $cus['Id'];?>">活动详情</a>
+								</li>
+							<?php endforeach;?>
+						</ul>
+					</div>
+
 
 
 					<!-- <ul>

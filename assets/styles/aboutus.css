@@ -22,10 +22,6 @@
 	float: right;
 	margin: 4px 0 0 15px;
 }
-.n-ab h2{
-	border-bottom: 1px dotted #ccc;
-	padding-bottom: 5px;
-}
 table.data td,
 table.data th{
 	border: 1px solid #ddd;
@@ -159,4 +155,13 @@ div.separator{
 }
 .event li .detail{
 	float: right;
+}
+
+
+.hire dt{
+	font-weight: bold;
+	padding: 3px 0;
+}
+.hire dd{
+	padding: 2px 0;
 }

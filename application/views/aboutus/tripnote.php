@@ -24,9 +24,11 @@
 					<h1>【<?php echo $note['type'];?>】<?php echo $note['title'];?></h1>				
 					<p class="note">
 						<?php echo $note['edit_time'];?> | <?php echo $note['editor'];?>
-					</p>	
-					<a class="prev" href="#">上一篇</a> |
-					<a class="next" href="#">下一篇：日志名称</a>
+					</p>
+					<p>	
+						<a class="prev" href="#">上一篇</a> |
+						<a class="next" href="#">下一篇：日志名称</a>
+					</p>
 					<div class="note-content">
 						<!-- <img src="assets/images/img.jpg" alt="" width="720" height="300">
 						<p>

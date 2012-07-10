@@ -212,7 +212,7 @@ class Ordermanage extends CI_Controller
 	public function handleinquiry()//未处理的订单
 	{
 		$this->load->model("order");
-		//$this->order->
+		$this->order->handleinquiry();
 	}
 	public function searchinquiry()
 	{

@@ -4,15 +4,16 @@ class Travel extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
-		$this -> load -> database();
+		$this->load->database();
 	}
 
-	public function notelist($page,$step){
-		$begin = ($page-1) * $step;
-		$sql = "select * from travel_note limit ".$begin.",".$step;
-		$query=$this->db->query($sql);
-		$data=$query->result();
-		return $data;
+	public function notelist($type)
+	{
+		$this->db->where('type',$type);
+		$this->db->from('travel_note');
+		$query=$this->db->get();
+		return $query->result_array();
+		
 	}
 	
 	public function notecount(){

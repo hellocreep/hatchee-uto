@@ -316,7 +316,11 @@ $(function(){
 						$( '#contact-submit' ).after( "<em>"+result.msg+"</em>" );
 					
 					$( '.btn-mask' ).remove();
-					$( '#contact-submit' ).val( '提 交' );
+					$( '#contact-submit' ).removeClass( 'btn-updating' ).val( '提 交' );
+				},
+				error: function(){
+					$( '.btn-mask' ).remove();
+					$( '#contact-submit' ).val( '提 交' ).removeClass( 'btn-updating' ).after( "<em>发送失败，请重新提交</em>" );
 				}
 			});
 		}

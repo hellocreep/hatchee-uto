@@ -107,15 +107,16 @@ class Aboutus extends CI_Controller {
 		$this->email->to('363897046@qq.com');
 		$this->email->subject('你好'.$data->name);
 		$this->email->message($str);
+
 		if(!$this->email->send())
 		{
 			$res['status']=false;
-			$res['result']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
+			$res['msg']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
 		}
 		else
 		{
 			$res['status']=true;
-			$res['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
+			$res['msg']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
 		}
 		echo json_encode($res);
 	} 

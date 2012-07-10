@@ -47,7 +47,15 @@ class Travelnote extends CI_Controller
 		$content = $_POST['content'];
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
-		$img=$match[1][0];
+		if(!empty($match[1]))
+		{
+			$img=$match[1][0];
+		}
+		else
+		{
+			$img='assets/images/img.jpg';
+		}
+		
 		$travel=array(
 			"tour"=>$data->tour,
 			"type"=>$data->type,
@@ -62,7 +70,7 @@ class Travelnote extends CI_Controller
 		);	
 		if($this->travel->add($travel))
 		{
-			echo "<script>window.loaction.href='../aboutus/review';</script>";
+			echo "<script>location.href='../manage#travelnote-manage-list';</script>";
 		}
 
 	}
@@ -85,7 +93,14 @@ class Travelnote extends CI_Controller
 		$id=$data->id;
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
-		$img=$match[1][0];
+		if(!empty($match[1]))
+		{
+			$img=$match[1][0];
+		}
+		else
+		{
+			$img='assets/images/img.jpg';
+		}
 		$travel=array(
 			"tour"=>$data->tour,
 			"type"=>$data->type,

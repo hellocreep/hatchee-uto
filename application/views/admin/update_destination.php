@@ -23,7 +23,7 @@
 		<script src="assets/jQuery-File-Upload/js/main.js"></script>
 		<script charset="utf-8" src="assets/kindeditor/kindeditor-min.js"></script>
 		<script charset="utf-8" src="assets/kindeditor/lang/zh_CN.js"></script>
-		<script src="assets/scripts/admin/common-tour.js"></script>
+		<script src="assets/scripts/admin/manage_gallery.js"></script>
 <script>
 
 	(function(){
@@ -68,9 +68,9 @@
 											$('input[name="gallery"]').val(result[0].Id);
 										}
 										if( result[0].small !== null ){
-											$('#gallery-preview').append("<li class='span2'><span class='thumbnail' rel='"+result[0].Id+"'><img src=" + result[0].small + " /></span></li>");
+											$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img src=" + result[0].small + " /></a></li>");
 										}else{
-											$('#gallery-preview').append("<li class='span2'><span class='thumbnail' rel='"+result[0].Id+"'><img width='130px' height='80px' src=" + result[0].path + " /></span></li>");
+											$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img width='130px' height='80px' src=" + result[0].path + " /></a></li>");
 										}
 										
 									}

@@ -102,6 +102,39 @@ var empty_route_input = function(){
 
 //行程
 var route = {
+	createroute: function(){
+		$( '#create-route' ).click(function( e ){
+			e.preventDefault();
+			var days = $( 'input[name="days"]' ).val() * 1;
+			var exist_route = $( '#new-route-list li' ).length;
+			var route_list = '';
+			if( days > exist_route ){
+				for( var i = exist_route+1; i <= days; i++ ){
+					route_list += "<li class='btn'><a href=#route_panel rel="+i+">"+i+"</a></li>";
+				}
+				$( '#new-route-list' ).append( route_list );
+				$( '#new-route-list li a' ).each(function(){
+					if( $(this).attr('rel')*1 > 0 ){
+						$( this ).click(function( e ){
+							e.preventDefault();
+							if( $( this ).attr( 'id' ) > 0 ){ 
+								route.getroute( $(this).attr('id') );
+								route.delroute( $(this).attr('id') );
+							}else{
+								route.addroute();
+							}
+							$( '.route-title' ).text( '第'+$(this).text()+'天的行程' );
+							$( '#route-day' ).val( $(this).text() );
+							$( '#route_panel' ).modal();
+						});
+					}
+				});
+			}else{
+				alert( '请手动删除行程' );
+			}
+		});
+	},
+
 	addroute: function(){
 		$( '#submit-route' ).unbind( 'click' ); //取消上次绑定方法
 		$( '#submit-route' ).click(function( e ){
@@ -129,8 +162,7 @@ var route = {
 				}
 			});
 		});
-	//清空上次添加到数据
-	empty_route_input()
+	empty_route_input();//清空上次添加到数据
 	},
 
 	getroute: function( id ){
@@ -166,8 +198,7 @@ var route = {
 				});
 			}
 		});
-	//清空上次添加的数据
-	empty_route_input();
+	empty_route_input();//清空上次添加的数据
 	},
 
 	selectroute: function(){
@@ -194,104 +225,6 @@ var route = {
 		});
 	}
 
-}
-
-//获取与修改图片信息
-var editimage = function(){
-	$( '.thumbnail' ).unbind( 'click' );
-	var info = $('#edit-image-info' );
-	$( '#update-image' ).unbind( 'click' );
-	$( '#update-image' ).click(function( e ){
-		e.preventDefault();
-		var data = {
-			id: info.find( '.image-id' ).val(),
-			alt: info.find( 'input[name="edit-image-alt"]' ).val(),
-			des: info.find( 'textarea[name="edit-image-des"]' ).val(),
-			tags: info.find( 'input[name="edit-image-tags"]' ).val()
-		}
-		$.ajax({
-			url: 'imagemanage/updateimg',
-			data: {
-				data: $.toJSON( data )
-			},
-			success: function( result ){
-				if( result ){
-					var img_info = "<div class='images-info' rel='"+data.id+"'> \
-							<input type='hidden' class='image-id' class='input-xlarge' value='"+data.id+"'> \
-							<label>alt:</label> \
-							<input type='text' name='edit-image-alt' class='input-xlarge' value='"+data.alt+"' /> \
-							<label>描述：</label> \
-							<textarea style='width:490px;' name='edit-image-des' class='input-xlarge' value='"+data.des+"'>"+data.des+"</textarea> \
-							<label>标签：</label> \
-							<input type='text' name='edit-image-tags' value='"+data.tags+"'> \
-							</div>" ;
-					
-					$( '.images-info[rel="'+data.id+'"]' ).html( img_info );
-					$( '.close' ).trigger( 'click' ); 
-				}else{
-					alert( '修改失败' );
-				}
-			},
-			error: function(){
-				alert( '修改失败' );
-			}
-		})
-	});
-	
-	//移除图片并不在服务器上删除
-	$( '#del-image' ).unbind( 'click' );
-	$( '#del-image' ).click(function(){
-		var id = info.find( '.image-id' ).val();
-		$( '.close' ).trigger( 'click' );
-		$( '.thumbnail[rel="'+id+'"]' ).parent().remove();
-		/*
-		$.ajax({
-			url: 'imagemanage/delimg',
-			data: {
-				id: id
-			},
-			success: function( result ){
-				if( result ){
-					$( '.close' ).trigger( 'click' );
-					$( '.thumbnail[rel="'+id+'"]' ).parent().remove();
-				}else{
-					alert( '删除失败' );
-				}
-			}
-		});
-		*/
-	});
-	
-	$( '.thumbnail' ).not( '.tour-thumbnail' ).each(function(){
-		$( this ).on('click', function(){
-			if( $(this).next().length > 0 ){
-				$( '#edit-image-info' ).html( $(this).next().html() );
-			}else{
-				var id = $( this ).attr( 'rel' );
-				$.ajax({
-					url: 'imagemanage/getimginfo',
-					data: {
-						id: id
-					},
-					success: function( result ){
-						var img_info = "<div class='images-info' rel='"+result[0].Id+"'> \
-								<input type='hidden' class='image-id' class='input-xlarge' value='"+result[0].Id+"'> \
-								<label>alt:</label> \
-								<input type='text' name='edit-image-alt' class='input-xlarge' value='"+result[0].alt+"' /> \
-								<label>描述：</label> \
-								<textarea style='width:490px;' name='edit-image-des' class='input-xlarge' value='"+result[0].des+"'>"+result[0].des+"</textarea> \
-								<label>标签：</label> \
-								<input type='text' name='edit-image-tags' value='"+result[0].tags+"'> \
-								</div>" ;
-						$( this ).next().html( img_info );
-						$( '#edit-image-info' ).html( img_info );
-					}
-				});
-			}
-			
-			$( '#images_edit_panel' ).modal();
-		}).css('cursor','pointer');
-	});
 }
 
 //提交线路
@@ -401,16 +334,11 @@ var submittour = function(){
 }
 
 $(function(){
-	
-	//修改线路页面直接绑定修改图片方法
-	if( location.href.indexOf( 'newtour' ) == -1 ){
-		editimage();
-	}
 
 	//判断是否小包团
 	$( 'input[name="is-private"]').change(function(){
 		if( $(this)[0].checked ){
-			$( window.frames[1].document ).find( '.ke-content' ).html( uto_var.tpl_table +'</br>'+ uto_var.tpl_table );
+			$( window.frames[1].document ).find( '.ke-content' ).html( uto_var.tpl_table +'<br />'+ uto_var.tpl_table );
 		}else{
 			$( window.frames[1].document ).find( '.ke-content' ).html( '' );
 		}
@@ -448,88 +376,10 @@ $(function(){
 			return true;
 		}
 	}); 
-	
-	//缩略图上传modal
-	$('#thumbnail-upload').click(function( e ) {
-		e.preventDefault();
-		$( '#fileupload' ).attr('action', 'upload/upload_img');
-		$( '#fileupload' ).removeClass( 'gallery-form' );
-		$( '#images_panel' ).modal();
-	});
-	//图片集上传modal
-	$( '#gallery-upload' ).click(function( e ){
-		e.preventDefault();
-		$( '#fileupload' ).attr('action', 'upload/upload_img');
-		$( '#fileupload' ).addClass( 'gallery-form' );
-		$( '#images_panel' ).modal();
-	});
-
-	//提交图片
-	$( '#submit-images' ).click(function( e ){
-		e.preventDefault();
-		var imges_list = $( '.images_list' );
-		var im = '';
-		var imges_info = [];
-		$( '.img-info' ).each(function(){
-			var data = {
-				id: $( this ).attr( 'rel' ),
-				alt: $( this ).find( 'input[name="alt"]' ).val(),
-				des: $( this ).find( 'textarea[name="des"]' ).val(),
-				tags: $( this ).find( 'input[name="tags"]' ).val()
-			}
-			imges_info.push( data );
-		});
-		if( imges_list.length == 0 ){
-			$( '.close' ).click();
-			return;
-		}
-		if( $('#fileupload').attr('class')==='gallery-form' ){
-			for( var i = 0; i<imges_list.length; i++ ){
-				im += "<li class='span2'><span class='thumbnail' rel="+imges_list[i].name+"><img class=' ' src="+imges_list[i].src+" /></span></li>";
-			}
-			$( '#gallery-preview' ).append( im );
-
-			var gallery_list = [];
-			for( var i = 0; i < imges_info.length; i++ ){
-				gallery_list.push( imges_info[i].id )
-			}
-
-			//放入gallery ID 其实放不放无所谓的
-			if( gallery_list.length > 0 ){
-				var gallery_val = $( 'input[name="gallery"]' ).val();
-				if( gallery_val.length > 0 ){
-					var g = gallery_val +","+ gallery_list.join(",");
-					$( 'input[name="gallery"]' ).val(g); 
-				}else{
-					$( 'input[name="gallery"]' ).val( gallery_list );	
-				}
-			}		
-
-		}else{
-			for( var i = 0; i < imges_list.length; i++ ){
-				im += "<span class='span2'><span class='thumbnail' rel='"+imges_list[i].name+"'><img class='tour-thumbnail' src="+imges_list[i].src+" /></span></span>";
-			}
-			$( '#thubmnail-preview' ).html( im );
-			$( 'input[name="thumbnail"]' ).val( $('.tour-thumbnail').attr('src') );
-		}
-		
-		$.ajax({
-			url: 'imagemanage/addimginfo',
-			data: {
-				data: $.toJSON( imges_info )
-			},
-			success: function( result ){
-				if( result ){
-					editimage();
-					$( '.close' ).click();
-					$( '.files' ).empty();			
-				}
-			}
-		});
-	});
 
 	//每天行程
 	route.selectroute();
+	
 	$( '#new-route-list li a' ).each(function( index ){
 		$( this ).text( index+ 1 );
 	});
@@ -546,36 +396,7 @@ $(function(){
 		$( '#route_panel' ).modal();
 	});
 
-	$( '#create-route' ).click(function( e ){
-		e.preventDefault();
-		var days = $( 'input[name="days"]' ).val() * 1;
-		var exist_route = $( '#new-route-list li' ).length;
-		var route_list = '';
-		if( days > exist_route ){
-			for( var i = exist_route+1; i <= days; i++ ){
-				route_list += "<li class='btn'><a href=#route_panel rel="+i+">"+i+"</a></li>";
-			}
-			$( '#new-route-list' ).append( route_list );
-			$( '#new-route-list li a' ).each(function(){
-				if( $(this).attr('rel')*1 > 0 ){
-					$( this ).click(function( e ){
-						e.preventDefault();
-						if( $( this ).attr( 'id' ) > 0 ){ 
-							route.getroute( $(this).attr('id') );
-							route.delroute( $(this).attr('id') );
-						}else{
-							route.addroute();
-						}
-						$( '.route-title' ).text( '第'+$(this).text()+'天的行程' );
-						$( '#route-day' ).val( $(this).text() );
-						$( '#route_panel' ).modal();
-					});
-				}
-			});
-		}else{
-			alert( '请手动删除行程' );
-		}
-	});
+	route.createroute();
 	
 	//tags选择
 	tagschoose();

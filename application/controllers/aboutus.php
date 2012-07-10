@@ -34,36 +34,10 @@ class Aboutus extends CI_Controller {
 
 	public function review()
 	{
-		$step='5';
 		$this->load->model('travel');
-		$num=$this->travel->notecount();
-		$count=ceil($num/$step);
-		$page=$this->uri->segment(3);
-		if($page=='')
-		{
-			$page=1;
-		}
-		$data['page']['first']='aboutus/review/1';
-		$data['page']['end']='aboutus/review/'.$count;
-		if(isset($page) && $page>1)
-		{
-			$pagepre=$page-1;
-		}
-		else
-		{
-			$pagepre=1;
-		}
-		if(isset($page) && $page<$count)
-		{
-			$pagenext=$page+1;
-		}
-		else
-		{
-			$pagenext=$count;
-		}
-		$data['page']['pre']='aboutus/review/'.$pagepre;
-		$data['page']['next']='aboutus/review/'.$pagenext;
-		$data['note']=$this->travel->notelist($page,$step);
+		$data['company']=$this->travel->notelist('公司出游');
+		$data['theme']=$this->travel->notelist('主题旅行');
+		$data['customize']=$this->travel->notelist('定制旅行');
 		$this->load->view('aboutus/review',$data);
 	}
 	public function note()

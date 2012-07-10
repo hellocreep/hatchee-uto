@@ -289,7 +289,34 @@ $(function(){
 	})
 
 	//联系我们
+	$( '#contact-form' ).validate({
+		submitHandler: function(){
+			var way = [];
+			$( 'input[name="contact-way"]:checked' ).each(function(){
+				way.push( $(this).val() );
+			})
+				
+			var data = {
+				name: $( 'input[name="name"]' ),
+				phone: $( 'input[name="phone"]' ),
+				email: $( 'input[name="email"]' ),
+				qq: $( 'input[name="qq"]' ),
+				way: way.toString(),
+				city: $( 'input[name="city"]' ),
+				theme: $( 'option[name="theme"]:checked' ).val(),
+				more: $( 'textarea[name="more"]' ).val()
+			}
+			$.ajax({
+				url:' ',
+				data: {
+					data: $.toJSON(data)
+				},
+				success:function( result ){
 
+				}
+			});
+		}
+	});
 
 })
 })(jQuery);

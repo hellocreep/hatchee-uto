@@ -111,12 +111,12 @@ class Aboutus extends CI_Controller {
 		if(!$this->email->send())
 		{
 			$res['status']=false;
-			$res['msg']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
+			$res['msg']="<font color='red'>邮件发送失败，请稍后再试！</font>";
 		}
 		else
 		{
 			$res['status']=true;
-			$res['msg']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
+			$res['msg']="<font color='red'>我们已将您的信息发送到我们公司的邮箱，我们将尽快与您联系！</font>";
 		}
 		echo json_encode($res);
 	} 

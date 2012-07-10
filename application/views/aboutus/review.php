@@ -33,6 +33,8 @@
 								<a href="aboutus/note?id=<?php echo $c['Id'];?>"><img src="<?php echo $c['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $c['Id'];?>"><?php echo $c['title'];?></a></h5>
 								<?php echo mb_substr($c['content'],0,50,'utf-8').'......';?>
+								<p>时间：<?php echo $c['tour_time'];?></br>
+								地点：<?php echo $c['tour_time'];?></p>
 								<a class="detail" href="aboutus/note?id=<?php echo $c['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>
@@ -47,6 +49,8 @@
 								<a href="aboutus/note?id=<?php echo $t['Id'];?>"><img src="<?php echo $t['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $t['Id'];?>"><?php echo $t['title'];?></a></h5>
 								<?php echo mb_substr($t['content'],0,50,'utf-8').'......';?>
+								<p>时间：<?php echo $t['tour_time'];?></br>
+								地点：<?php echo $t['tour_time'];?></p>
 								<a class="detail" href="aboutus/note?id=<?php echo $t['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>
@@ -60,6 +64,8 @@
 								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>
 								<?php echo mb_substr($cus['content'],0,50,'utf-8').'......';?>
+								<p>时间：<?php echo $cus['tour_time'];?></br>
+								地点：<?php echo $cus['tour_time'];?></p>
 								<a class="detail" href="aboutus/note?id=<?php echo $cus['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>

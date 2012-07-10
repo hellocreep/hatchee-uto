@@ -40,10 +40,10 @@
 								<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" alt="#"><?php echo $tour[$i]['thumbnail']?><img src="assets/images/img.jpg" alt="" /></a></dt>
 									<dd>
-										<span>旅行主题：</span><div><?php echo $tour[$i]['theme'];?></div>
+										<span>旅行主题：</span><div><?php echo substr($tour[$i]['theme'],0,-1);?></div>
 									</dd>
 									<dd>
-										<span>旅行地区：</span><div><?php echo $tour[$i]['destination']?></div>
+										<span>旅行地区：</span><div><?php echo substr($tour[$i]['destination'],0,-1);?></div>
 									</dd>
 									<dd>
 									<span>最佳季节：</span><div><?php echo $tour[$i]['tags'];?></div>

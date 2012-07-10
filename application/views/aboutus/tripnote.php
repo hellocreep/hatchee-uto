@@ -34,6 +34,7 @@
 						<?php endif;?>
 					</p>
 					<div class="note-content">
+						
 						<!-- <img src="assets/images/img.jpg" alt="" width="720" height="300">
 						<p>
 							【活动时间】2012年6月21-25日<br>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50148
 File Encoding         : 65001
 
-Date: 2012-07-09 17:24:56
+Date: 2012-07-10 09:37:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -264,7 +264,6 @@ CREATE TABLE `travel_note` (
   `content` text COMMENT '游记正文',
   `editor` varchar(50) DEFAULT NULL COMMENT '小编',
   `edit_time` date DEFAULT NULL COMMENT '更新日期',
-  `who_edit` varchar(50) DEFAULT NULL COMMENT '正在编辑',
   `tour_time` varchar(255) DEFAULT NULL COMMENT '活动的开始截至时间',
   `thumb` varchar(255) DEFAULT NULL COMMENT '游记缩略图',
   PRIMARY KEY (`Id`)

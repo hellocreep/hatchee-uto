@@ -28,7 +28,7 @@ class Travelnote extends CI_Controller
 			$page=1;
 		}
 		$step = 15;
-		$note=$this->travel->notelist($page,$step);
+		$note=$this->travel->gettravel($page,$step);
 		echo json_encode( $note );
 	}
 
@@ -74,8 +74,7 @@ class Travelnote extends CI_Controller
 		$data['note']=$this->travel->getnote($id);
 		$this->load->model('tour');
 		$data['tour']=$this->tour->getalltour();
-		//print_r($data['note']);
-		//$this->load->view('admin/update_travelnote.php',$data);
+		$this->load->view('admin/update_travelnote.php',$data);
 	}
 	public function updatetravel()
 	{	

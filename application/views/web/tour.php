@@ -32,17 +32,19 @@
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
 					<div class="des-p">
+						<?php if(isset($tour[0]->thumbnail)): ?>
+						<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
+					<?php endif;?>
 						<?php if(isset($tour[0]->intro)):
 						?>
 						<?php echo $tour[0] -> intro;?>
 						<?php endif;?>
 					</div>
-					<?php if(isset($tour[0]->thumbnail)): ?>
-						<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
-					<?php endif;?>
+					
+					<h3>快速报名：</h3>
 					<div class="join">
 						<div class="j-left">
-							<h3>快速报名：</h3>
+							
 							<p>
 								选择期数：
 								<select size="3" multiple="multiple">
@@ -66,7 +68,7 @@
 						</div>
 						<div class="j-right">
 								<p>
-								24小时旅游预订电话
+								24小时旅游预订电话：
 								<br>	
 								<span class="tel">400-670-6300</span>
 								<a class="qonline" target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">

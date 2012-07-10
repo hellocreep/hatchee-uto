@@ -33,12 +33,13 @@ h1,h2,h3,h4,h5{
 	/*color:#DB555C;*/
 	/*color:#60A6A2;*/
 	color:#990033;
+	
+	font-family:'Microsoft YaHei','SimSun';
 }
 
 h1{
 	font-size:24px;
 	margin:0 0 10px;
-	/*font-family:'Microsoft YaHei','SimSun';*/
 }
 h2{
 	font-size:20px;
@@ -253,9 +254,6 @@ img, div {
 .article p{
 	margin:0 0 12px;
 }
-/*.article img{
-	margin:10px 0;
-}*/
 .footer{
 	height:200px;
 	background:#60a6a2;
@@ -263,13 +261,12 @@ img, div {
 }
 .des-p{
 	float:left;
-	width:400px;
-	margin:0;
+	margin:0 0 5px 0;
 	line-height: 22px;
 }
 .article .des-img{
 	float:right;
-	margin:3px 0 0;
+	margin:0 0 0 10px;
 }
 .join{
 	float:left;
@@ -278,8 +275,7 @@ img, div {
 	border:1px solid #e1e1e1;
 	border-radius:3px;
 	min-height:100px;
-	padding: 10px;
-	margin:20px 0;
+	padding: 10px 10px 0;
 	width: 700px;
 }
 .j-left{
@@ -291,8 +287,8 @@ img, div {
 	min-width:200px;
 }
 .j-right{
-	margin: 65px 0 0 0;
-	width:300px;
+	margin: 40px 0 0 0;
+	width:250px;
 	float:right;
 }
 .join p.apply{

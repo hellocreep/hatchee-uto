@@ -25,8 +25,10 @@
 					<p class="note">
 						<?php echo $note['edit_time'];?> | <?php echo $note['editor'];?>
 					</p>	
+					<a class="prev" href="#">上一篇</a> |
+					<a class="next" href="#">下一篇：日志名称</a>
 					<div class="note-content">
-						<img src="assets/images/img.jpg" alt="" width="720" height="300">
+						<!-- <img src="assets/images/img.jpg" alt="" width="720" height="300">
 						<p>
 							【活动时间】2012年6月21-25日<br>
 							【活动线路】成都-水磨镇-映秀-日隆镇-四姑娘山（长坪沟-海子沟二峰）--成都<br>
@@ -39,7 +41,7 @@
 										第三天：日隆镇—二峰大本营（海子沟）<br>
 										第四天：二峰大本营—二峰峰顶—二峰大本营—日隆镇<br>
 										第五天：日隆镇—成都
-						</p>
+						</p> -->
 						<?php echo $note['content'];?>
 
 					</div>

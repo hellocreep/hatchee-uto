@@ -93,5 +93,9 @@ class Order extends CI_Model
 		$this->db->update('custom_inquiry',$conment);
 		return $this->db->affected_rows();
 	}
+	public function handleinquiry()
+	{
+			
+	}
 }
 ?>

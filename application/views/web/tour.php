@@ -105,16 +105,14 @@
 						</p>
 						<h3> 线路简介 </h3>
 						<p>
-							<?php if(isset($tour[0]->intro)):
-							?>
+							<?php if(isset($tour[0]->intro)):?>
 							<?php echo $tour[0] -> intro;?>
 							<?php endif;?>
 						</p>
 						<h3> 活动主题 </h3>
 						<p>
-							<?php if(isset($tour[0]->theme)):
-							?>
-							<?php echo $tour[0] -> theme;?>
+							<?php if(isset($tour[0]->theme)):?>
+							<?php echo substr($tour[0]->theme,0,-1);?>
 							<?php endif;?>
 						</p>
 						<h3>行程亮点及体验</h3>

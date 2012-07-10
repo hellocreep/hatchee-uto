@@ -104,7 +104,7 @@
 						<p>
 							<?php if(isset($tour[0]->theme)):
 							?>
-							<?php echo $tour[0] -> theme;?>
+							<?php echo substr($tour[0] -> theme,0,-1);?>
 							<?php endif;?>
 						</p>
 						<h3>行程亮点及体验</h3>

@@ -26,10 +26,15 @@
 						<?php echo $note['edit_time'];?> | <?php echo $note['editor'];?>
 					</p>
 					<p>	
-						<a class="prev" href="#">上一篇</a> |
-						<a class="next" href="#">下一篇：日志名称</a>
+						<?php if($upnote!=''):?>
+						<a class="prev" href="aboutus/note?id=<?php echo $upnote['Id'];?>">上一篇</a> |
+						<?php endif?>
+						<?php if($nextnote!=''):?>
+						<a class="next" href="aboutus/note?id=<?php echo $nextnote['Id'];?>">下一篇：<?php echo $nextnote['title'];?></a>
+						<?php endif;?>
 					</p>
 					<div class="note-content">
+						
 						<!-- <img src="assets/images/img.jpg" alt="" width="720" height="300">
 						<p>
 							【活动时间】2012年6月21-25日<br>

@@ -111,3 +111,26 @@ table.data th{
 	font-size: 16px;
 	font-weight: bold;
 }
+.event {
+	border-bottom: 1px solid #ddd;
+	padding: 0 0 10px 0;
+}
+.event li{
+	width:224px;
+	margin: 0 7px;
+	overflow: hidden;
+	font-size:12px;
+	float: left;
+}
+.event li img{
+	width: 220px;
+	height: 110px;
+	border:1px solid #ccc;
+	padding: 1px;
+}
+.event li h5{
+	text-align: center;
+}
+.event li .detail{
+	float: right;
+}

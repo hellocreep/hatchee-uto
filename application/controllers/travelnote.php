@@ -28,7 +28,7 @@ class Travelnote extends CI_Controller
 			$page=1;
 		}
 		$step = 15;
-		$note=$this->travel->notelist($page,$step);
+		$note=$this->travel->gettravel($page,$step);
 		echo json_encode( $note );
 	}
 
@@ -48,7 +48,6 @@ class Travelnote extends CI_Controller
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
 		$img=$match[1][0];
-		//echo $img;
 		$travel=array(
 			"tour"=>$data->tour,
 			"type"=>$data->type,
@@ -74,8 +73,7 @@ class Travelnote extends CI_Controller
 		$data['note']=$this->travel->getnote($id);
 		$this->load->model('tour');
 		$data['tour']=$this->tour->getalltour();
-		//print_r($data['note']);
-		//$this->load->view('admin/update_travelnote.php',$data);
+		$this->load->view('admin/update_travelnote.php',$data);
 	}
 	public function updatetravel()
 	{	
@@ -85,6 +83,9 @@ class Travelnote extends CI_Controller
 		$data=json_decode($_POST['data']);
 		$content = $_POST['content'];
 		$id=$data->id;
+		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
+		preg_match_all($pattern,$content,$match);
+		$img=$match[1][0];
 		$travel=array(
 			"tour"=>$data->tour,
 			"type"=>$data->type,
@@ -94,7 +95,8 @@ class Travelnote extends CI_Controller
 			"content"=>$content,
 			"editor"=>$data->editor,
 			"tour_time"=>$data->tour_time,
-			"edit_time"=>date('Y-m-d H:i:s',time())
+			"edit_time"=>date('Y-m-d H:i:s',time()),
+			"thumb"=>substr($img,5)
 		);
 		echo $this->travel->update($id,$travel);
 	}

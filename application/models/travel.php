@@ -23,10 +23,11 @@ class Travel extends CI_Model
 		return $data;
 	}
 
-	public function gettravel()
+	public function gettravel($page,$step)
 	{
-		$this->db->from('travel_note');
-		$query=$this->db->get();
+		$start=($page-1)*$step;
+		$sql="select * from travel_note limit ".$start.",".$step;
+		$query=$this->db->query($sql);
 		return $query->result_array();
 	}
 

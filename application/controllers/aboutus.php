@@ -90,6 +90,10 @@ class Aboutus extends CI_Controller {
 	{
 		$this->load->view('aboutus/tripnote');
 	}
+	public function contactus()
+	{
+		$data=json_decode($data);
+	}
 }
 
 /* End of file welcome.php */

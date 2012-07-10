@@ -66,13 +66,11 @@ var btn_mask = function( target ){
 }
 
 
-
 $(function(){
 
 	if( !$( '#a-index').length > 0 ){
 		$( window ).scrollTop( $('.nav').offset().top  );
 	}
-	
 
 	// 线路内页选项卡切换
 	$('.sub-nav > li').each(function(index){
@@ -95,50 +93,6 @@ $(function(){
 	}); 
 
 
-
-	//订单(固定排期)
-	/*
-	$( '#inquiry' ).fancybox({
-		content: inquiry_form,
-		onComplete: function(){
-			var peo_num = $('.people').val();
-			$('.r_people').val(peo_num);
-			$( 'r_name' ).text( $('#tour_title').val() );
-			btn_mask( '#inquiry-submit ');
-			$( '.inquiry-form' ).validate({
-				submitHandler: function(form) {
-					var data = {
-						tid: $( '#tour_id' ).val(),
-						name: $( 'input[name="u_name"]' ).val(),
-						tel: $( 'input[name="u_phone"]' ).val(),
-						email: $( 'input[name="u_email"]' ).val(),
-						qq: $('input[name="u_qq"]').val(),
-						term: '',
-						people: $( 'input[name="people"]' ).val(),
-						comment: $( 'textarea[name="u_other"]' ).val()
-					}
-					if( $( '.term').length > 0 ){
-						data.term = $( '.term:selected').val()||'';
-					}
-					$.ajax({
-						url: 'ordermanage/addorder',
-						data: {
-							data: $.toJSON(data)
-						},
-						success: function( result ){
-							$( '.btn-mask' ).remove();
-							$( '#inquiry-submit' ).attr('value','确认提交').removeClass('btn-updating').after( result );
-						},
-						error: function( result ){
-							$( '.btn-mask' ).remove();
-							$( '#inquiry-submit' ).attr('value','确认提交').removeClass('btn-updating').after( result );
-						}
-					});
-				}
-			});
-		}
-	});
-	*/
 	//小包团显示不同表单	
 	if( $('#is_private').val() ==1 ){
 		inquiry_form = inquiry_form2;
@@ -247,9 +201,11 @@ $(function(){
 				},
 				success: function( result ){
 					if( result ){
+						$( '.btn-mask' ).remove();
 						$( '#custom-submit' ).attr( 'value','确认提交' ).removeClass( 'btn-updating' )
 						.after( '<span class="red">提交订单成功</span>');
-					}else{ 
+					}else{ 	
+						$( '.btn-mask' ).remove();
 						$( '#custom-submit' ).attr( 'value','确认提交' ).removeClass( 'btn-updating' )
 						.after( '<span class="red">提交订单失败</span>');
 					}
@@ -292,8 +248,10 @@ $(function(){
 				success: function( result ){
 					if( result.status ){
 						$('#next').click();
+						$( '.btn-mask' ).remove();
 						$('.marqueen .unit:eq(3)').html('<h2>定制完成</h2><p>您的订单号为'+result.uuid+'，我们将在3个工作日内处理好您的订单！请注意查收邮件！</p>');
-					}else{ 
+					}else{ 	
+						$( '.btn-mask' ).remove();
 						$( '#customize-submit' ).attr( 'value','确认提交' ).removeClass( 'btn-updating' )
 						.after( '<span class="red">请核对您提供的信息是否完整。</span>');
 					}
@@ -329,6 +287,36 @@ $(function(){
 	$('.formtab tr').each(function(){
 		$(this).children('td').eq(0).css({"text-align":"right","width":"200px"});
 	})
+
+	//联系我们
+	$( '#contact-form' ).validate({
+		submitHandler: function(){
+			var way = [];
+			$( 'input[name="contact-way"]:checked' ).each(function(){
+				way.push( $(this).val() );
+			})
+				
+			var data = {
+				name: $( 'input[name="name"]' ),
+				phone: $( 'input[name="phone"]' ),
+				email: $( 'input[name="email"]' ),
+				qq: $( 'input[name="qq"]' ),
+				way: way.toString(),
+				city: $( 'input[name="city"]' ),
+				theme: $( 'option[name="theme"]:checked' ).val(),
+				more: $( 'textarea[name="more"]' ).val()
+			}
+			$.ajax({
+				url:' ',
+				data: {
+					data: $.toJSON(data)
+				},
+				success:function( result ){
+
+				}
+			});
+		}
+	});
 
 })
 })(jQuery);

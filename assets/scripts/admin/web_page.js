@@ -27,7 +27,7 @@ $(function(){
 		$.ajax({
 			url: 'pagemanage/updatepage',
 			data: {
-				data: $.toJSON(data)，
+				data: $.toJSON(data),
 				content: data.content // 插入图片不显示，不能用json
 			},
 			success: function( result ){

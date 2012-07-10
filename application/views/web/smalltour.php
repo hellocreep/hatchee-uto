@@ -34,14 +34,15 @@
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
 					<div class="des-p">
+						<?php if(isset($tour[0]->thumbnail)): ?>
+							<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
+						<?php endif;?>
 						<?php if(isset($tour[0]->intro)):
 						?>
 						<?php echo $tour[0] -> intro;?>
 						<?php endif;?>
 					</div>
-					<?php if(isset($tour[0]->thumbnail)): ?>
-						<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
-					<?php endif;?>
+					
 					<div class="join">
 
 						<h3>小包团</h3>

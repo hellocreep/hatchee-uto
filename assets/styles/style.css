@@ -46,15 +46,15 @@ h2{
 	margin:9px 0 9px;
 }
 h3{
-	font-size:18px;
+	font-size:16px;
 	margin:8px 0;
 }
 h4{
-	font-size:16px;
+	font-size:14px;
 	margin:4px 0;
 }
 h5{
-	font-size:14px;
+	font-size:12px;
 	margin:0;
 }
 p{
@@ -115,14 +115,14 @@ body{
 }
 
 .fancyimg {
-	padding: 1px;
-	border: 1px solid #ddd;
+	/*padding: 1px;
+	border: 1px solid #ddd;*/
 }
 
 .fancyimg:hover{
-	opacity: 0.8;
+	/*opacity: 0.8;
 	-moz-opacity: 0.8;
-	filter:alpha(opacity=8);
+	filter:alpha(opacity=8);*/
 }
 
 .fright {
@@ -260,12 +260,14 @@ img, div {
 }
 .des-p{
 	float:left;
-	margin:0 0 5px 0;
+	margin:0 0 20px 0;
 	line-height: 22px;
 }
 .article .des-img{
+	border: 1px solid #ddd;
+	padding: 1px;
 	float:right;
-	margin:0 0 0 10px;
+	margin:0 0 0 30px;
 }
 .join{
 	float:left;
@@ -358,13 +360,9 @@ span.tel{
 	display:block;
 	float:left;
 	margin:5px;
-	width:210px;
-	height:150px;
 	background:#fff;
 }
 .imglist a img{
-	width:210px;
-	height:150px;
 	margin:0;
 }
 .route dl{

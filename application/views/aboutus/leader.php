@@ -15,7 +15,7 @@
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">
 				<div class="breadcrumb">
-					您的位置：<a href="#">首页</a> > 友途互动
+					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>aboutus">关于友途</a> > 友途领队
 				</div>
 				<div class="aside">
 					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->

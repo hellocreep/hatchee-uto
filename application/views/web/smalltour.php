@@ -114,7 +114,6 @@
 							<p>
 								<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
 							</p>
-							
 						</div>
 					</div> <!-- end of .unit -->
 

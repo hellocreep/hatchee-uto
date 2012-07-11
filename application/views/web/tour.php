@@ -109,6 +109,8 @@
 								<?php if(isset($tour[0]->content)):
 								?>
 								<?php echo $tour[0] -> content;?>
+								<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>"><img width="170" height="100" class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>"></a>
+								<?php endforeach;?>
 								<?php endif;?>
 								<p>
 									<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >

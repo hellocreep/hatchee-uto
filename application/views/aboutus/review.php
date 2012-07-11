@@ -26,7 +26,7 @@
 						精彩瞬间 - 记录我们的精彩回忆。(游记)
 					</p>
 					<div class="event">
-						<h3>公司出游</h3>
+						<h4>公司出游</h4>
 						<ul class="clearfix">
 							<?php foreach($company as $c):?>
 								<li>
@@ -44,7 +44,7 @@
 					</div>
 					<div class="separator"></div>
 					<div class="event">
-						<h3>主题旅行</h3>
+						<h4>主题旅行</h4>
 						<ul class="clearfix">
 							<?php foreach($theme as $t):?>
 								<li>
@@ -59,7 +59,7 @@
 						</ul>
 					</div>
 					<div class="event">
-						<h3>定制旅行</h3>
+						<h4>定制旅行</h4>
 						<ul class="clearfix">
 							<?php foreach($customize as $cus):?>
 								<li>

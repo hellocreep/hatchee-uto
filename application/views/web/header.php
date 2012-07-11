@@ -1,6 +1,6 @@
 <div class="header">
 	<div class="wrap">
-		<a class="logo" href="#">
+		<a class="logo" href="">
 			<img src="assets/images/logo.png"></a>
 		<div class="info">
 			<p>
@@ -19,7 +19,7 @@
 			<a class="a-index" href="">首页</a>
 		</li>
 		<li>
-			<a class="a-trip" href="termtour">友途旅行</a>
+			<a class="a-trip" href="termtour">友途活动</a>
 		</li>
 		<li>
 			<a class="a-theme" href="themetour">主题旅行</a>

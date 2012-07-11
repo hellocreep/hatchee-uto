@@ -85,8 +85,8 @@ class Upload extends CI_Controller {
             $config['source_image'] = $this->getPath_img_upload_folder() .$config['file_name'];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
-            $config['width'] = 230;
-            $config['height'] = 150;
+            $config['width'] = 210;
+            $config['height'] = 120;
             $this->load->library('image_lib', $config);
             $this->image_lib->resize();
 
@@ -96,8 +96,8 @@ class Upload extends CI_Controller {
             $config['source_image'] = $this->getPath_img_upload_folder() .$config['file_name'];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
-            $config['width'] = 230;
-            $config['height'] = 150;
+            $config['width'] = 300;
+            $config['height'] = 180;
 			$this->image_lib->initialize($config);
 			$this->image_lib->resize();
 	

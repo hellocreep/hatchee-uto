@@ -23,8 +23,7 @@
 
 					<div class="sort">
 						排序方式：
-						<a href="#">依天数</a>	&nbsp;&nbsp;|&nbsp;&nbsp;
-						<a href="#">依出发月份</a>	
+						<a href="termtour/index/1/days">依天数</a>	
 						<div class="pagenate">
 							<a href="<?php echo $page['first'];?>">首页</a>
 							<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>

@@ -43,7 +43,8 @@ table.data th{
 	min-width: 80px;
 }
 .note-content{
-	font-size: 14px;
+	width: 720px;
+	overflow-x: auto;
 }
 .note-content p{
 	font-size: 14px;

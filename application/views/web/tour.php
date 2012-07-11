@@ -20,7 +20,7 @@
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">
 				<div class="breadcrumb">
-					您的位置：<a href="#">首页</a> > 友途互动
+					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>termtour">友途活动</a> > <?php echo $tour[0] -> name;?>
 				</div>
 				<div class="aside"></div>
 				<div class="article">

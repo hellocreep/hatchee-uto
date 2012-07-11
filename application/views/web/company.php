@@ -18,7 +18,7 @@
 			
 			<div class="content clearfix">
 				<div class="breadcrumb">
-					您的位置：<a href="#">首页</a> > 公司出游
+					您的位置：<a href="<?php echo base_url();?>">首页</a> > 公司出游
 				</div>
 				<div class="onecol">
 					<h1>主页。。。</h1>

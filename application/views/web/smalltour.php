@@ -42,10 +42,7 @@
 						<?php echo $tour[0] -> intro;?>
 						<?php endif;?>
 					</div>
-					
 					<div class="join">
-
-						<h3>小包团</h3>
 						<div class="schedule_table clearfix">
 							<?php if(isset($tour[0]->term)):?>
 							<?php echo $tour[0]->term;?>

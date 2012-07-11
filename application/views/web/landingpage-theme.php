@@ -49,7 +49,7 @@
 									<span>最佳季节：</span><div><?php echo $tour[$i]['tags'];?></div>
 									</dd>
 									<dd class="last">
-										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="but">线路详情</a>	
+										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 									</dd>
 				
 								</dl>

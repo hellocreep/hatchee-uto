@@ -51,7 +51,7 @@
 										<div><?php echo $tour[$i]['term'];?></div>
 									</dd>
 									<dd class="last">
-										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="but">线路详情</a>	
+										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 									</dd>
 				
 								</dl>

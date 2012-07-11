@@ -47,13 +47,13 @@ class Travelnote extends CI_Controller
 		$content = $_POST['content'];
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
-		if(!empty($match[1]))
+		if(empty($match[1]))
 		{
-			$img=$match[1][0];
+			$img='assets/images/img.jpg';
 		}
 		else
 		{
-			$img='assets/images/img.jpg';
+			$img=$match[1][0];
 		}
 		
 		$travel=array(
@@ -66,7 +66,7 @@ class Travelnote extends CI_Controller
 			"editor"=>$data->editor,
 			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
-			"thumb"=>substr($img,5)
+			"thumb"=>$img
 		);	
 		if($this->travel->add($travel))
 		{
@@ -93,13 +93,13 @@ class Travelnote extends CI_Controller
 		$id=$data->id;
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
-		if(!empty($match[1]))
+		if(empty($match[1]))
 		{
-			$img=$match[1][0];
+			$img='assets/images/img.jpg';
 		}
 		else
 		{
-			$img='assets/images/img.jpg';
+			$img=$match[1][0];
 		}
 		$travel=array(
 			"tour"=>$data->tour,
@@ -111,7 +111,7 @@ class Travelnote extends CI_Controller
 			"editor"=>$data->editor,
 			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
-			"thumb"=>substr($img,5)
+			"thumb"=>$img
 		);
 		echo $this->travel->update($id,$travel);
 	}

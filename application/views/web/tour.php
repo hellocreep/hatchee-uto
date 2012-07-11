@@ -109,12 +109,12 @@
 							<?php echo $tour[0] -> intro;?>
 							<?php endif;?>
 						</p>
-						<h3> 活动主题 </h3>
+						<!-- <h3> 活动主题 </h3>
 						<p>
 							<?php if(isset($tour[0]->theme)):?>
 							<?php echo substr($tour[0]->theme,0,-1);?>
 							<?php endif;?>
-						</p>
+						</p> -->
 						<h3>行程亮点及体验</h3>
 						<div class="experience">
 							<?php if(isset($tour[0]->content)):
@@ -124,13 +124,21 @@
 							<p>
 								<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
 							</p>
-							<h2>往期照片集锦</h2>
+							<h2>往期照片集锦2</h2>
 							<div class="imglist clearfix">
+								<!-- <a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
+								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
+								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
+								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
+								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
+								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a> -->
+								
 								<?php if(isset($img)):
 								?>
 								<?php foreach($img as $imginfo):
 								?>
-								<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>" ><img class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>"></a>
+
+								<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>"><img width="230" height="150" class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>"></a>
 								<?php endforeach;?>
 								<?php endif?>
 							</div>

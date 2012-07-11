@@ -295,24 +295,32 @@ $(function(){
 			$( 'input[name="contact-way"]:checked' ).each(function(){
 				way.push( $(this).val() );
 			})
-				
+			btn_mask( '#contact-submit' );
 			var data = {
-				name: $( 'input[name="name"]' ),
-				phone: $( 'input[name="phone"]' ),
-				email: $( 'input[name="email"]' ),
-				qq: $( 'input[name="qq"]' ),
+				name: $( 'input[name="name"]' ).val(),
+				phone: $( 'input[name="phone"]' ).val(),
+				email: $( 'input[name="email"]' ).val(),
+				qq: $( 'input[name="qq"]' ).val(),
 				way: way.toString(),
-				city: $( 'input[name="city"]' ),
+				city: $( 'input[name="city"]' ).val(),
 				theme: $( 'option[name="theme"]:checked' ).val(),
 				more: $( 'textarea[name="more"]' ).val()
 			}
 			$.ajax({
-				url:' ',
+				url: 'aboutus/sendmail',
 				data: {
 					data: $.toJSON(data)
 				},
 				success:function( result ){
-
+				
+						$( '#contact-submit' ).after( "<em>"+result.msg+"</em>" );
+					
+					$( '.btn-mask' ).remove();
+					$( '#contact-submit' ).removeClass( 'btn-updating' ).val( '提 交' );
+				},
+				error: function(){
+					$( '.btn-mask' ).remove();
+					$( '#contact-submit' ).val( '提 交' ).removeClass( 'btn-updating' ).after( "<em>发送失败，请重新提交</em>" );
 				}
 			});
 		}

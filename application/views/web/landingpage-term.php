@@ -23,8 +23,7 @@
 
 					<div class="sort">
 						排序方式：
-						<a href="#">依天数</a>	&nbsp;&nbsp;|&nbsp;&nbsp;
-						<a href="#">依出发月份</a>	
+						<a href="termtour/index/1/days">依天数</a>	
 						<div class="pagenate">
 							<a href="<?php echo $page['first'];?>">首页</a>
 							<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>
@@ -39,7 +38,7 @@
 								<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 								<p><?php echo mb_substr($tour[$i]['intro'],0,90,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 								<dl class="route-detail">
-									<dt><a href="#" alt="#"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" /></a></dt>
+									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" alt="<?php echo $tour[$i]['name'];?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140" /></a></dt>
 									<dd>
 										<span>旅行主题：</span><div><?php echo substr($tour[$i]['theme'],0,-1);?></div>
 									</dd>

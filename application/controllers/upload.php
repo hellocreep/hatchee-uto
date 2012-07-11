@@ -85,8 +85,8 @@ class Upload extends CI_Controller {
             $config['source_image'] = $this->getPath_img_upload_folder() .$config['file_name'];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
-            $config['width'] = 230;
-            $config['height'] = 150;
+            $config['width'] = 210;
+            $config['height'] = 120;
             $this->load->library('image_lib', $config);
             $this->image_lib->resize();
 
@@ -96,8 +96,8 @@ class Upload extends CI_Controller {
             $config['source_image'] = $this->getPath_img_upload_folder() .$config['file_name'];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
-            $config['width'] = 230;
-            $config['height'] = 150;
+            $config['width'] = 300;
+            $config['height'] = 180;
 			$this->image_lib->initialize($config);
 			$this->image_lib->resize();
 	
@@ -108,16 +108,16 @@ class Upload extends CI_Controller {
             $info->size = $data['file_size'];
             $info->type = $data['file_type'];
             $info->url = $this->getPath_img_upload_folder() . $config['file_name'];
-			$info->thumbnail_url = $this->getPath_img_thumb_upload_folder() . $config['file_name'];
-			$info->middelbnail_url=$this->getPath_img_middel_upload_folder() . $config['file_name'];
+			$info->thumbnail = $this->getPath_img_thumb_upload_folder() . $config['file_name'];
+			$info->middle=$this->getPath_img_middel_upload_folder() . $config['file_name'];
             $info->delete_url = $this->getDelete_img_url() . $config['file_name'];
             $info->delete_type = 'DELETE';
 			$data=array(
 				'path'=>$info->url,
 				'size'=>$info->size,
 				'type'=>$info->type,
-				'middle'=>$info->middelbnail_url,
-				'small'=>$info->thumbnail_url
+				'middle'=>$info->middle,
+				'small'=>$info->thumbnail
 			);
 			$this->load->model('image');
 			$img=new Image();

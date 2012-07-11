@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title><?php echo $tour[0] -> title;?>|固定排期 友途旅行网</title>
+		<title><?php echo $tour[0] -> title;?>| 友途旅行网</title>
 		<?php if(isset($tour[0]->description)):
 		?>
 		<meta name="description" content="<?php echo $tour[0] -> description;?>">
@@ -20,7 +20,7 @@
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">
 				<div class="breadcrumb">
-					您的位置：<a href="#">首页</a> > 友途互动
+					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>termtour">友途活动</a> > <?php echo $tour[0] -> name;?>
 				</div>
 				<div class="aside"></div>
 				<div class="article">
@@ -41,7 +41,7 @@
 						<?php endif;?>
 					</div>
 					
-					<h3>快速报名：</h3>
+					<h4>快速报名：</h4>
 					<div class="join">
 						<div class="j-left">
 							
@@ -70,7 +70,7 @@
 								<p>
 								24小时旅游预订电话：
 								<br>	
-								<span class="tel">400-670-6300</span>
+								<span class="tel">4000-520-161</span>
 								<a class="qonline" target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
 									<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
 								</a>
@@ -96,26 +96,20 @@
 						
 					</ul>
 					<div class="unit"><!-- 线路简介 -->
-						<h3>行程简报：</h3>
+						<h4>行程简报：</h4>
 						<p>
 							<?php if(isset($tour[0]->route_intro)):
 							?>
 							<?php echo $tour[0] -> route_intro;?>
 							<?php endif;?>
 						</p>
-						<h3> 线路简介 </h3>
+						<h4> 线路简介 </h4>
 						<p>
 							<?php if(isset($tour[0]->intro)):?>
 							<?php echo $tour[0] -> intro;?>
 							<?php endif;?>
 						</p>
-						<!-- <h3> 活动主题 </h3>
-						<p>
-							<?php if(isset($tour[0]->theme)):?>
-							<?php echo substr($tour[0]->theme,0,-1);?>
-							<?php endif;?>
-						</p> -->
-						<h3>行程亮点及体验</h3>
+						<h4>行程亮点及体验</h4>
 						<div class="experience">
 							<?php if(isset($tour[0]->content)):
 							?>
@@ -124,23 +118,15 @@
 							<p>
 								<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
 							</p>
-							<h2>往期照片集锦2</h2>
+							<h3>往期照片集锦</h3>
 							<div class="imglist clearfix">
-								<!-- <a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
-								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
-								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
-								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
-								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a>
-								<a href=""><img width="210" height="120" class="fancyimg" src="assets/images/img.jpg"></a> -->
-								
 								<?php if(isset($img)):
 								?>
 								<?php foreach($img as $imginfo):
 								?>
-
 								<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>"><img width="230" height="150" class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>"></a>
 								<?php endforeach;?>
-								<?php endif?>
+								<?php endif;?>
 							</div>
 						</div>
 					</div>

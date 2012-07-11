@@ -109,8 +109,6 @@
 								<?php if(isset($tour[0]->content)):
 								?>
 								<?php echo $tour[0] -> content;?>
-								<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>"><img width="170" height="100" class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>"></a>
-								<?php endforeach;?>
 								<?php endif;?>
 								<p>
 									<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
@@ -167,6 +165,7 @@
 							<?php endif;?>
 						</div>
 					</div>
+					<div class="separator"></div>
 					<h3>往期照片集锦</h3>
 					<div class="imglist clearfix">
 						<?php if(isset($img)):

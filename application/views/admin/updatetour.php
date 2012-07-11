@@ -156,7 +156,7 @@
 				<div class="control-group">
 					<label class="control-label" for="content">行程亮点：</label>
 					<div class="controls">
-						<textarea id="tour_content" name="content" class="input-xlarge" rows="10"><?php echo $tour[0] -> content; ?></textarea>
+						<textarea style="height: 400px" id="tour_content" name="content" class="input-xlarge" rows="10"><?php echo $tour[0] -> content; ?></textarea>
 					</div>
 				</div>
 				
@@ -196,7 +196,7 @@
 				<div class="control-group">
 					<label class="control-label" for="notice">注意事项：</label>
 					<div class="controls">
-						<textarea id="tour_notice" name="notice" class="input-xlarge" rows="10"><?php echo $tour[0] -> notice; ?></textarea>
+						<textarea style="height: 400px" id="tour_notice" name="notice" class="input-xlarge" rows="10"><?php echo $tour[0] -> notice; ?></textarea>
 					</div>
 				</div>
 				

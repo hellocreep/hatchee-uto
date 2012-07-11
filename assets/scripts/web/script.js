@@ -312,9 +312,7 @@ $(function(){
 					data: $.toJSON(data)
 				},
 				success:function( result ){
-				
-						$( '#contact-submit' ).after( "<em>"+result.msg+"</em>" );
-					
+					$( '#contact-submit' ).after( "<em>"+result.msg+"</em>" );
 					$( '.btn-mask' ).remove();
 					$( '#contact-submit' ).removeClass( 'btn-updating' ).val( '提 交' );
 				},

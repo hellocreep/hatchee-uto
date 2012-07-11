@@ -111,8 +111,7 @@
 						</p>
 						<h4>行程亮点及体验</h4>
 						<div class="experience">
-							<?php if(isset($tour[0]->content)):
-							?>
+							<?php if(isset($tour[0]->content)):?>
 							<?php echo $tour[0] -> content;?>
 							<?php endif;?>
 							<p>

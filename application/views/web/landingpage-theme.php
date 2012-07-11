@@ -38,7 +38,7 @@
 								<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 								<p><?php echo mb_substr($tour[$i]['intro'],0,90,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 								<dl class="route-detail">
-									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" /></a></dt>
+									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140"/></a></dt>
 									<dd>
 										<span>旅行主题：</span><div><?php echo substr($tour[$i]['theme'],0,-1);?></div>
 									</dd>
@@ -46,7 +46,7 @@
 										<span>旅行地区：</span><div><?php echo substr($tour[$i]['destination'],0,-1);?></div>
 									</dd>
 									<dd>
-									<span>最佳季节：</span><div><?php echo $tour[$i]['tags'];?></div>
+									<span>最佳季节：</span><div><?php echo substr($tour[$i]['tags'],0,-1);?></div>
 									</dd>
 									<dd class="last">
 										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="but">线路详情</a>	

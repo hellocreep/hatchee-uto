@@ -1,5 +1,11 @@
 ;(function(){
 
+/*	
+	required: 
+	views/admin/tour_common_header.php
+	views/admin/tour_common_footer.php
+*/
+
 	var uto_img = {
 		addimg: function(){
 			$( '#submit-images' ).click(function( e ){
@@ -43,7 +49,6 @@
 					}		
 
 				}else{	
-					alert(123);
 					for( var i = 0; i < imges_list.length; i++ ){
 						im += "<span class='span2'><a class='thumbnail' rel='"+imges_list[i].name+"'><img class='tour-thumbnail' src="+imges_list[i].src+" /></a></span>";
 					}

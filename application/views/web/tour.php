@@ -87,11 +87,9 @@
 							注意事项 <span></span>
 						</li>
 					</ul>
-
 					<div class="sub-wrap clearfix">
 						<div class="unit">
 							<!-- 线路简介 -->
-
 							<p>
 								<b class="h4inline">行程简报：</b>
 								<?php if(isset($tour[0]->route_intro)):
@@ -99,23 +97,26 @@
 								<?php echo $tour[0] -> route_intro;?>
 								<?php endif;?>
 							</p>
-							<h4> 线路简介： </h4>
+							<h4> 线路简介：</h4>
 							<p>
 								<?php if(isset($tour[0]->intro)):
 								?>
 								<?php echo $tour[0] -> intro;?>
 								<?php endif;?>
 							</p>
-							<h4>行程亮点及体验</h4>
+							<h4>行程亮点及体验：</h4>
 							<div class="experience">
-								<?php if(isset($tour[0]->content)):?>
+								<?php if(isset($tour[0]->content)):
+								?>
 								<?php echo $tour[0] -> content;?>
 								<?php endif;?>
 							</div>
 							<h4>线路地图</h4>
-								<p>
-									<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
-								</p>
+								<div>
+									<?php if(isset($tour[0]->tour_map)): ?>
+										<img src="<?php echo $tour[0]->tour_map; ?>" alt="map" width="670px" height="580px" >
+									<?php endif;?>
+								</div>
 						</div>
 						<div class="unit route">
 							<!-- 具体行程 -->

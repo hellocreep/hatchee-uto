@@ -288,6 +288,13 @@ $(function(){
 		$(this).children('td').eq(0).css({"text-align":"right","width":"200px"});
 	})
 
+	// 小包团线路内页价格说明
+	$('.s-wrap').each(function(){
+		$(this).hover(function(){
+			$(this).children('.inbox').show();
+		},function(){$(this).children('.inbox').hide()})
+	})
+
 	//联系我们
 	$( '#contact-form' ).validate({
 		submitHandler: function(){

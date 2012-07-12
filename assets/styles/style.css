@@ -212,8 +212,9 @@ img, div {
 	padding: 0 15px;
 }
 .nav li a:hover{
-	/*color:#8b6620;*/
-	color:#990033;
+	color:#FDB94D;
+	/*color:#990033;*/
+	/*color: #888888;*/
 }
 .nav li a.active{
 	background:url("../images/nav-a-bg.png") repeat-x;
@@ -275,6 +276,50 @@ img, div {
 .des-p{
 	margin:0 0 20px 0;
 	line-height: 22px;
+}
+.des-l{
+	width: 370px;
+	float: left;
+	min-height: 200px;
+}
+.des-l li{
+	height: 30px;
+	line-height: 30px;
+}
+.des-l .price{
+	color: #EB6100;
+	position: relative;
+}
+.des-l .price b{
+	font-size: 17px;
+}
+.des-l span.s-wrap{
+	position: relative;
+	margin: 0 0 0 35px;
+	display: inline-block;
+}
+.des-l span b{
+	color: #EB6100;
+}
+.des-l .inbox{
+	display: none;
+	width: 300px;
+	border: 1px dotted #ddd;
+	border-radius: 5px;
+	height: auto;
+	padding: 5px;
+	position: absolute;
+	left: 0px;
+	top: 25px;
+	background: #F8EFDA;
+	font-size: 12px;
+	line-height: 1.3;
+}
+.des-l .explain{
+	font-size: 12px;
+	border-top: 1px dashed #ddd;	
+	margin: 10px 0 0 0;
+	padding: 10px 0 0 0;
 }
 .article .des-img{
 	border: 1px solid #ddd;
@@ -386,6 +431,11 @@ span.tel{
 .imglist a img{
 	margin:0;
 }
+
+.tourmap img{
+	border: 1px solid #ddd;
+	padding: 1px;
+}
 .route dl{
 	float:left;
 	width:100%;
@@ -448,6 +498,7 @@ select{
 }
 .inquiry-form td{
 	padding:3px 0;
+	width: 300px;
 }
 .inquiry-form label.error {
 	float: none;

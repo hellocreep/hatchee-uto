@@ -353,6 +353,9 @@ img, div {
 .j-right p{
 	margin: 10px 0;
 }
+.vehicle{
+	/*width: 80%;*/
+}
 .join p.apply{
 	margin: 20px 0 20px 10px;
 	float: left;

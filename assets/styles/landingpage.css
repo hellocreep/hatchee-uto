@@ -68,6 +68,10 @@
 	margin: 0 0 0 20px;
 	border-bottom: #9D9D9D 1px dotted;
 }
+.route-detail b.price{
+	color: #EB6100;
+	font-size: 17px;
+}
 .routelist dd.last{
 	border-bottom: none;
 }
@@ -93,4 +97,25 @@
 	overflow-y: scroll;
 	border:1px solid #ddd;
 	min-width: 250px;
+}
+
+
+.event {
+	padding: 0 0 10px 0;
+}
+.event li{
+	width:224px;
+	margin: 0 7px;
+	overflow: hidden;
+	font-size:12px;
+	float: left;
+}
+.event li img{
+	width: 220px;
+	height: 110px;
+	border:1px solid #ccc;
+	padding: 1px;
+}
+.event li .detail{
+	float: right;
 }

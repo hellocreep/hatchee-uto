@@ -48,6 +48,11 @@
 									<dd>
 									<span>最佳季节：</span><div><?php echo substr($tour[$i]['tags'],0,-1);?></div>
 									</dd>
+									<dd>
+									<span>价格：</span><div><b class="price"><?php if(isset($tour[$i]['price'])): ?>
+										<?php echo $tour[$i]['price'];?>
+										<?php endif;?></b>元起</div>
+									</dd>
 									<dd class="last">
 										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 									</dd>
@@ -56,30 +61,6 @@
 								</li>
 							<?php endfor;?>
 						<?php endif;?>
-						
-						<!--<li>
-							<span class="days">7</span><h2><a href="#">川西环线——探访四姑娘山和她脚下的美人谷</a></h2>
-							<p>探访四姑娘山和她脚下的美人谷探访四姑娘山和她脚下的美人谷探访美人谷探访四姑娘山和她脚下的美人谷探访美人谷探访四姑娘山和她脚下的美人谷探访四姑娘山和她脚下的美人谷探访四姑娘山和她脚下的美人谷...<a href="#">更多</a></p>
-							<dl class="route-detail">
-								<dt><a href="#" alt="#"><img src="assets/images/img.jpg" alt="" /></a></dt>
-								<dd>
-									<span>旅行主题：</span><div>休闲度假,摄影旅行,徒步旅行,心灵之旅</div>
-								</dd>
-								<dd>
-									<span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</span><div><span>RMB 55,000</span>&nbsp;起</div>
-								</dd>
-								<dd>
-									<span>旅行地区：</span><div>世界遗产-节日庆典-世界遗产-节日庆典-世界遗产-节日庆典-世界遗产-节日庆典</div>
-								</dd>
-								<dd>
-									<span>最佳季节：</span><div>暑假、端午</div>
-								</dd>
-								<dd class="last">
-									<a href="#" class="but">线路详情</a>	
-								</dd>
-			
-							</dl>
-						</li>-->
 					</ul>
 					<div class="sort">
 						<div class="pagenate">

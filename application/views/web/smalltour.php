@@ -88,7 +88,7 @@
 							<?php echo $tour[0] -> intro;?>
 						<?php endif;?> -->
 					</div>
-					<div class="join clearfix">
+					<div class="vehicle join clearfix">
 						<div class="schedule_table clearfix">
 							<?php if(isset($tour[0]->term)):?>
 							<?php echo $tour[0]->term;?>

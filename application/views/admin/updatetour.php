@@ -167,21 +167,9 @@
 						<input type="hidden" name="map" >
 						<p class="help-block">
 							<ul class="thumbnails" id="map-preview">
-
-							</ul>
-						</p>
-					</div>
-				</div>
-				<div class="control-group">
-					<label class="control-label" for="thumbnail">线路地图（670*580）：</label>
-					<div class="controls">
-						<input name="map" class="input-xlarge" type="hidden" value="<?php echo $tour[0] -> tour_map; ?>">
-						<a href="tourmanage/newtour/#images_panel" class="btn btn-primary" id="thumbnail-upload">上传图片</a>
-						<p class="help-block">
-							<ul class="thumbnails" id="thubmnail-preview">
-									<li class="span2">
+								<li class="span2">
 										<a class="thumbnail tour-thumbnail">
-										<img class="tour-thumbnail" src="<?php echo $tour[0] -> tour_map; ?>" />
+										<img class="tour-thumbnail" src="<?php echo str_replace('images','thumbnails',$tour[0] -> tour_map); ?>" />
 										</a>
 									</li>
 							</ul>

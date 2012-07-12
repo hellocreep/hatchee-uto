@@ -391,7 +391,7 @@ var travel_note = {
 			note_list += "<tr><td class='n_id'>"+result[i].Id+"</td> \
 			<td class='n_title'>" +result[i].title+ "</td> \
 			<td>"+result[i].edit_time+"</td> \
-			<td><i class='icon-share'></i><a target='_blank' href='="+result[i].Id+"'>预览</a> \
+			<td><i class='icon-share'></i><a target='_blank' href='aboutus/note?id="+result[i].Id+"'>预览</a> \
 			<i class='icon-pencil'></i><a href='travelnote/noteupdate/"+result[i].Id+"' class='edit-note'>修改</a> \
 			<i class='icon-trash'></i><a class='del-note' href='javascript:;'>删除</a></td></tr>";
 		}

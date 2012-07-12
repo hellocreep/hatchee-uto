@@ -261,13 +261,12 @@ var submittour = function(){
 		for(var i=0; i<r.length; i++) {
 			route.push(r[i].id)
 		}
-		//从kindeditor iframe中把数据同步到 textarea
-		private_editor.sync(); 
+		//ckeditor数据同步到textarea	
+		for ( instance in CKEDITOR.instances ){
+			CKEDITOR.instances[instance].updateElement();
+		}
 		//判断是否为小包团
 		var term = $( '#tour-term-private' ).val();
-		price_editor.sync();
-		content_editor.sync();
-		notice_editor.sync();
 		var data = {
 			is_private: $('input:checkbox[name="is-private"]')[0].checked,
 			title: $('input[name="title"]').val(),
@@ -335,13 +334,30 @@ var submittour = function(){
 }
 
 $(function(){
+	//frames[0]
+	CKEDITOR.replace( 'route-detail',{
+		toolbar : 'MyToolbar'
+	});
+	//frames[1]
+	CKEDITOR.replace( 'tour-term-private', {
+		height: 500
+	});
+	//frames[2]
+	// CKEDITOR.replace( 'price_detail',{
+	// 	enterMode: CKEDITOR.ENTER_BR,
+	// 	height: 500
+	// });
+	//frames[3]
+	CKEDITOR.replace( 'tour_content',{
+		height: 500
+	});
 
 	//判断是否小包团
 	$( 'input[name="is-private"]').change(function(){
 		if( $(this)[0].checked ){
-			$( window.frames[1].document ).find( '.ke-content' ).html( uto_var.tpl_table +'<br />'+ uto_var.tpl_table );
+			$( window.frames[1].document ).find( '.cke_show_borders' ).html( uto_var.tpl_table +'<br />'+ uto_var.tpl_table );
 		}else{
-			$( window.frames[1].document ).find( '.ke-content' ).html( '' );
+			$( window.frames[1].document ).find( '.cke_show_borders' ).html( '' );
 		}
 	});
 

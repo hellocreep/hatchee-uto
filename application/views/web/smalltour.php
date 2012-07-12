@@ -227,6 +227,7 @@
 						</form>
 					</div>
 				</div>
+				<div class="separator"></div>
 				<h3>往期照片集锦</h3>
 				<div class="imglist clearfix">
 					<?php if(isset($img)):

@@ -70,7 +70,7 @@ class Travelnote extends CI_Controller
 		);	
 		if($this->travel->add($travel))
 		{
-			echo "<script>location.href='../manage#travelnote-manage-list';</script>";
+			echo "<script>window.location.href='../manage#travelnote-manage-list';</script>";
 		}
 
 	}

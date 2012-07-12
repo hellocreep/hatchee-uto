@@ -40,6 +40,7 @@ h1,h2,h3,h4,h5{
 h1{
 	font-size:20px;
 	margin:0 0 10px;
+	line-height: 28px;
 }
 h2{
 	font-size:18px;
@@ -58,12 +59,20 @@ h5{
 	margin:0;
 }
 p{
-	/*margin:8px 0 14px;*/
 	margin: 0 0 10px;
 	line-height:20px;
 }
+b{
+	font-family: "微软雅黑";
+}
 b.red{
 	color:#DB555C;
+}
+.h4inline{
+	font-size:14px;	
+	color:#990033;
+	font-family: 'Microsoft YaHei','SimSun';
+	font-weight: bold;
 }
 table em,
 em.red{
@@ -113,17 +122,14 @@ body{
 	color:#555555;
 	-webkit-text-size-adjust:none; /*chorme最小字体解决*/
 	background:url("../images/body-bg.jpg") repeat;
-}
-
-.fancyimg {
-	/*padding: 1px;
-	border: 1px solid #ddd;*/
+	line-height: 20px;
 }
 
 .fancyimg:hover{
-	/*opacity: 0.8;
+/*	opacity: 0.8;
 	-moz-opacity: 0.8;
 	filter:alpha(opacity=8);*/
+	cursor: url('../images/zoom-in.cur'), pointer !important;
 }
 
 .fright {
@@ -167,7 +173,7 @@ img, div {
 	float:right;
 	color:#fff;
 	font-size:15px;
-	margin:10px 0 0 0;
+	margin:29px 0 0 0;
 }
 .content{
 	width:1000px;
@@ -205,10 +211,14 @@ img, div {
 	font-weight:bold;
 	padding: 0 15px;
 }
-.nav li a:hover,
+.nav li a:hover{
+	/*color:#8b6620;*/
+	color:#990033;
+}
 .nav li a.active{
 	background:url("../images/nav-a-bg.png") repeat-x;
-	color:#8b6620;
+	color:#990033;
+	/*color:#8b6620;*/
 	border-radius:5px 5px 0 0;
 }
 #n-index .a-index,
@@ -219,7 +229,8 @@ img, div {
 #n-about .a-about
 {
 	background:url("../images/nav-a-bg.png") repeat-x;
-	color:#8b6620;
+	color:#990033;
+	/*color:#8b6620;*/
 	border-radius:5px 5px 0 0;
 }
 .n-ab .a-aboutus,
@@ -335,7 +346,7 @@ span.tel{
 }
 .sub-nav li span{
 	position:absolute;
-	top:24px;
+	top:27px;
 	left:42px;
 	width:7px;
 	height:4px;

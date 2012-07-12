@@ -91,13 +91,13 @@
 						<div class="unit">
 							<!-- 线路简介 -->
 							<p>
-								<h4 class="inline">行程简报：</h4>
+								<b class="h4inline">行程简报：</b>
 								<?php if(isset($tour[0]->route_intro)):
 								?>
 								<?php echo $tour[0] -> route_intro;?>
 								<?php endif;?>
 							</p>
-							<h4> 线路简介 </h4>
+							<h4> 线路简介： </h4>
 							<p>
 								<?php if(isset($tour[0]->intro)):
 								?>
@@ -110,10 +110,11 @@
 								?>
 								<?php echo $tour[0] -> content;?>
 								<?php endif;?>
+							</div>
+							<h4>线路地图</h4>
 								<p>
 									<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
 								</p>
-							</div>
 						</div>
 						<div class="unit route">
 							<!-- 具体行程 -->

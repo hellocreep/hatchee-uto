@@ -159,8 +159,9 @@ table.data th{
 	border:1px solid #ccc;
 	padding: 1px;
 }
-.event li h5{
-	text-align: center;
+.event li h5 a{
+	color: #333;
+	font-weight: normal;
 }
 .event li .detail{
 	float: right;

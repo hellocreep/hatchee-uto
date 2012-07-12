@@ -33,7 +33,7 @@
 					?>
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
-					<div class="des-p">
+					<div class="des-p clearfix">
 						<?php if(isset($tour[0]->thumbnail)): ?>
 							<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
 						<?php endif;?>
@@ -42,7 +42,7 @@
 						<?php echo $tour[0] -> intro;?>
 						<?php endif;?>
 					</div>
-					<div class="join">
+					<div class="join clearfix">
 						<div class="schedule_table clearfix">
 							<?php if(isset($tour[0]->term)):?>
 							<?php echo $tour[0]->term;?>
@@ -65,7 +65,7 @@
 
 
 					</div>
-					<ul class="sub-nav">
+					<ul class="sub-nav clearfix">
 						<li class="current">
 							线路简介 <span></span>
 						</li>
@@ -82,6 +82,7 @@
 							量身定制 <span></span>
 						</li>
 					</ul>
+					<div class="sub-wrap clearfix">
 					<div class="unit"><!-- 线路简介 -->
 						<h4>行程简报：</h4>
 						<p>
@@ -113,16 +114,6 @@
 							<p>
 								<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
 							</p>
-							<h3>往期照片集锦</h3>
-							<div class="imglist clearfix">
-								<?php if(isset($img)):
-								?>
-								<?php foreach($img as $imginfo):
-								?>
-								<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>" ><img class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>" width="170" height="100" /></a>
-								<?php endforeach;?>
-								<?php endif?>
-							</div>
 						</div>
 					</div> <!-- end of .unit -->
 
@@ -236,7 +227,18 @@
 						</form>
 					</div>
 				</div>
-			</div>
+				<h3>往期照片集锦</h3>
+				<div class="imglist clearfix">
+					<?php if(isset($img)):
+					?>
+					<?php foreach($img as $imginfo):
+					?>
+					<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>" ><img class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>" width="170" height="100" /></a>
+					<?php endforeach;?>
+					<?php endif?>
+				</div>
+				</div>
+			</div><!-- end of .article -->
 			<div class="footer"></div>
 		</div><!-- 	end of .wrapper	 -->
 	</body>

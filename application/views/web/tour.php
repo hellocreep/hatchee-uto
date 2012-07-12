@@ -24,27 +24,25 @@
 				</div>
 				<div class="aside"></div>
 				<div class="article">
-					<input type="hidden" value="<?php echo $tour[0]->Id;?>" id="tour_id">
-					<input type="hidden" value="<?php echo $tour[0]->days;?>" id="tour_day">
-					<input type="hidden" value="<?php echo $tour[0]->is_private;?>" id="is_private">
+					<input type="hidden" value="<?php echo $tour[0] -> Id;?>" id="tour_id">
+					<input type="hidden" value="<?php echo $tour[0] -> days;?>" id="tour_day">
+					<input type="hidden" value="<?php echo $tour[0] -> is_private;?>" id="is_private">
 					<?php if(isset($tour[0]->name)):
 					?>
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
-					<div class="des-p">
-						<?php if(isset($tour[0]->thumbnail)): ?>
-						<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
-					<?php endif;?>
+					<div class="des-p clearfix">
+						<?php if(isset($tour[0]->thumbnail)):
+						?><img class="des-img" width="300" height="180" src="<?php echo $tour[0] -> thumbnail;?>" title="<?php echo $tour[0] -> name;?>" alt="<?php echo $tour[0] -> name;?>">
+						<?php endif;?>
 						<?php if(isset($tour[0]->intro)):
 						?>
 						<?php echo $tour[0] -> intro;?>
 						<?php endif;?>
 					</div>
-					
 					<h4>快速报名：</h4>
-					<div class="join">
+					<div class="join clearfix">
 						<div class="j-left">
-							
 							<p>
 								选择期数：
 								<select size="3" multiple="multiple">
@@ -67,20 +65,15 @@
 							</p>
 						</div>
 						<div class="j-right">
-								<p>
+							<p>
 								24小时旅游预订电话：
-								<br>	
+								<br>
 								<span class="tel">4000-520-161</span>
-								<a class="qonline" target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
-									<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
-								</a>
-								
-							</p>	
-							
+								<a class="qonline" target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c"> <img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息"> </a>
+							</p>
 						</div>
-						
 					</div>
-					<ul class="sub-nav">
+					<ul class="sub-nav clearfix">
 						<li class="current">
 							线路简介 <span></span>
 						</li>
@@ -93,46 +86,43 @@
 						<li>
 							注意事项 <span></span>
 						</li>
-						
 					</ul>
-					<div class="unit"><!-- 线路简介 -->
-						<h4>行程简报：</h4>
-						<p>
-							<?php if(isset($tour[0]->route_intro)):
-							?>
-							<?php echo $tour[0] -> route_intro;?>
-							<?php endif;?>
-						</p>
-						<h4> 线路简介 </h4>
-						<p>
-							<?php if(isset($tour[0]->intro)):?>
-							<?php echo $tour[0] -> intro;?>
-							<?php endif;?>
-						</p>
-						<h4>行程亮点及体验</h4>
-						<div class="experience">
-							<?php if(isset($tour[0]->content)):?>
-							<?php echo $tour[0] -> content;?>
-							<?php endif;?>
+
+					<div class="sub-wrap clearfix">
+						<div class="unit">
+							<!-- 线路简介 -->
+
 							<p>
-								<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
-							</p>
-							<h3>往期照片集锦</h3>
-							<div class="imglist clearfix">
-								<?php if(isset($img)):
+								<h4 class="inline">行程简报：</h4>
+								<?php if(isset($tour[0]->route_intro)):
 								?>
-								<?php foreach($img as $imginfo):
-								?>
-								<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>"><img width="170" height="100" class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>"></a>
-								<?php endforeach;?>
+								<?php echo $tour[0] -> route_intro;?>
 								<?php endif;?>
+							</p>
+							<h4> 线路简介 </h4>
+							<p>
+								<?php if(isset($tour[0]->intro)):
+								?>
+								<?php echo $tour[0] -> intro;?>
+								<?php endif;?>
+							</p>
+							<h4>行程亮点及体验</h4>
+							<div class="experience">
+								<?php if(isset($tour[0]->content)):?>
+								<?php echo $tour[0] -> content;?>
+								<?php endif;?>
+								<p>
+									<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
+								</p>
 							</div>
 						</div>
-					</div>
-					<div class="unit route"> <!-- 具体行程 -->
-						<?php if(isset($route)):?>
-						<?php for($i=0;$i<count($route);$i++):?>
-							<?php if(($i+1)%2==0):?>
+						<div class="unit route">
+							<!-- 具体行程 -->
+							<?php if(isset($route)):
+							?>
+							<?php for($i=0;$i<count($route);$i++):?>
+<?php if(($i+1)%2==0):
+							?>
 							<dl class="odd">
 								<dt>
 									<h4> Day <?php echo $i + 1;?></h4>
@@ -145,7 +135,7 @@
 								</dd>
 							</dl>
 							<?php else:?>
-								<dl>
+							<dl>
 								<dt>
 									<h4>Day <?php echo $i + 1;?></h4>
 								</dt>
@@ -158,24 +148,38 @@
 							</dl>
 							<?php endif;?>
 
-						<?php endfor;?>
-						<?php endif;?>
+							<?php endfor;?>
+							<?php endif;?>
+						</div>
+						<div class="unit fee">
+							<!-- 费用说明 -->
+							<?php if(isset($tour[0]->price_detail)):
+							?>
+							<?php echo $tour[0] -> price_detail;?>
+							<?php endif;?>
+						</div>
+						<div class="unit">
+							<!--  注意事项 -->
+							<?php if(isset($tour[0]->notice)):
+							?>
+							<?php echo $tour[0] -> notice;?>
+							<?php endif;?>
+						</div>
 					</div>
-					<div class="unit fee"> <!-- 费用说明 -->
-						<?php if(isset($tour[0]->price_detail)):
+					<h3>往期照片集锦</h3>
+					<div class="imglist clearfix">
+						<?php if(isset($img)):
 						?>
-						<?php echo $tour[0] -> price_detail;?>
-						<?php endif;?>
-					</div>
-					<div class="unit"> <!--  注意事项 -->
-						<?php if(isset($tour[0]->notice)):
+						<?php foreach($img as $imginfo):
 						?>
-						<?php echo $tour[0] -> notice;?>
+						<a rel="fancyimg" href="<?php echo $imginfo['path'];?>" title="<?php echo $imginfo['des'];?>"><img width="170" height="100" class="fancyimg" alt="<?php echo $imginfo['alt'];?>" src="<?php echo $imginfo['small'];?>"></a>
+						<?php endforeach;?>
 						<?php endif;?>
 					</div>
-				</div>
-			</div>
-			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->
-		</div><!-- 	end of .wrapper	 -->
+					</div>
+					
+				</div><!-- end of .article -->
+				<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->
+			</div><!-- 	end of .wrapper	 -->
 	</body>
 </html>

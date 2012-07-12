@@ -129,7 +129,7 @@
 					<ul class="guidefoot clearfix" >
 						<li class="note">预订有问题？请拨打24小时咨询电话：<span class="tel">4000-520-161</span></li>
 						<li id="next" class="current btn">下一步></li>	
-						<li id="prev" class="btn"><上一步</li>	
+						<li id="prev" class="btn">  <上一步 </li>	
 					</ul>
 				</div>
 			</div>

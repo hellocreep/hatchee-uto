@@ -6,11 +6,16 @@
 $(function(){
 
 	var note_editor;
+	//FIEME 须定义绝对url才能批量上传图片
+	//var basePath = '/utoadmin/';
+	var basePath = '/uto/';
 	KindEditor.ready(function(K) {
 		note_editor = K.create('#note_editor', {
 			resizeType : 1,
-			uploadJson : 'editor/upload',
-			fileManagerJson : 'editor/manage',
+
+			uploadJson : basePath+'editor/upload',
+			fileManagerJson : basePath+'editor/manage',
+
 			allowFileManager : true,
 			allowPreviewEmoticons : true,
 			allowImageUpload : true,

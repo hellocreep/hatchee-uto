@@ -156,19 +156,20 @@
 				<div class="control-group">
 					<label class="control-label" for="content">行程亮点：</label>
 					<div class="controls">
-						<textarea id="tour_content" name="content" class="input-xlarge" rows="10"><?php echo $tour[0] -> content; ?></textarea>
+						<textarea style="height: 400px" id="tour_content" name="content" class="input-xlarge" rows="10"><?php echo $tour[0] -> content; ?></textarea>
 					</div>
 				</div>
+				
 				<div class="control-group">
-					<label class="control-label" for="thumbnail">线路地图（670*580）：</label>
+					<label class="control-label" for="content">地图：</label>
 					<div class="controls">
-						<input name="map" class="input-xlarge" type="hidden" value="<?php echo $tour[0] -> tour_map; ?>">
-						<a href="tourmanage/newtour/#images_panel" class="btn btn-primary" id="thumbnail-upload">上传图片</a>
+						<a href="#" class="btn btn-primary" id="map-upload">上传地图</a>
+						<input type="hidden" name="map" value="<?php echo $tour[0] -> tour_map;?>">
 						<p class="help-block">
-							<ul class="thumbnails" id="thubmnail-preview">
-									<li class="span2">
+							<ul class="thumbnails" id="map-preview">
+								<li class="span2">
 										<a class="thumbnail tour-thumbnail">
-										<img class="tour-thumbnail" src="<?php echo $tour[0] -> tour_map; ?>" />
+										<img class="tour-thumbnail" src="<?php echo str_replace('images','thumbnails',$tour[0] -> tour_map); ?>" />
 										</a>
 									</li>
 							</ul>
@@ -211,7 +212,7 @@
 				<div class="control-group">
 					<label class="control-label" for="notice">注意事项：</label>
 					<div class="controls">
-						<textarea id="tour_notice" name="notice" class="input-xlarge" rows="10"><?php echo $tour[0] -> notice; ?></textarea>
+						<textarea style="height: 400px" id="tour_notice" name="notice" class="input-xlarge" rows="10"><?php echo $tour[0] -> notice; ?></textarea>
 					</div>
 				</div>
 				

@@ -282,6 +282,7 @@ var submittour = function(){
 			route_intro:  $('textarea[name="route_intro"]').val(),
 			intro : $('textarea[name="intro"]').val(),
 			content : $('textarea[name="content"]').val(),
+			map: $( 'input[name="map"]').val()||'',
 			gallery : gallery.toString(),//$('input[name="gallery"]').val(),
 			notice : $('textarea[name="notice"]').val(),
 			term : term,

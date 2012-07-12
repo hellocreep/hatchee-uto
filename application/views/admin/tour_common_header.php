@@ -79,6 +79,7 @@
 	var notice_editor;
 	 KindEditor.ready(function(K) {
 		notice_editor = K.create('#tour_notice', {
+			newlineTag: 'br',
 			resizeType : 1,
 			uploadJson : 'editor/upload',
 			fileManagerJson : 'editor/manage',

@@ -142,7 +142,20 @@
 					<div class="control-group">
 						<label class="control-label" for="content">行程亮点：</label>
 						<div class="controls">
-							<textarea id="tour_content" name="content" class="input-xlarge" rows="10"></textarea>
+							<textarea id="tour_content" name="content" class="input-xlarge" rows="10" style="height: 400px"></textarea>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="content">地图：</label>
+						<div class="controls">
+							<a href="#" class="btn btn-primary" id="map-upload">上传地图</a>
+							<input type="hidden" name="map" >
+							<p class="help-block">
+								<ul class="thumbnails" id="map-preview">
+
+								</ul>
+							</p>
 						</div>
 					</div>
 
@@ -163,7 +176,7 @@
 					<div class="control-group">
 						<label class="control-label" for="notice">注意事项：</label>
 						<div class="controls">
-							<textarea id="tour_notice" name="notice" class="input-xlarge" rows="10"></textarea>
+							<textarea id="tour_notice" name="notice" class="input-xlarge" rows="10" style="height: 400px"></textarea>
 						</div>
 					</div>
 

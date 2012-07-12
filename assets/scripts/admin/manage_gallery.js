@@ -62,7 +62,7 @@
 						im += "<span class='span2'><a class='thumbnail' rel='"+imges_list[i].name+"'><img class='tour-thumbnail' src="+imges_list[i].src+" /></a></span>";
 					}
 					$( '#thubmnail-preview' ).html( im );
-					$( 'input[name="thumbnail"]' ).val(  imges_list.eq(0).data( 'thumbnail' ) );
+					$( 'input[name="thumbnail"]' ).val(  imges_list.eq(0).data( 'middle' ) );
 				}
 				
 				$.ajax({

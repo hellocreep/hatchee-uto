@@ -12,8 +12,10 @@ $(function(){
 	KindEditor.ready(function(K) {
 		note_editor = K.create('#note_editor', {
 			resizeType : 1,
+
 			uploadJson : basePath+'editor/upload',
 			fileManagerJson : basePath+'editor/manage',
+
 			allowFileManager : true,
 			allowPreviewEmoticons : true,
 			allowImageUpload : true,

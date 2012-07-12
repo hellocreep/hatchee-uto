@@ -37,10 +37,56 @@
 						<?php if(isset($tour[0]->thumbnail)): ?>
 							<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
 						<?php endif;?>
-						<?php if(isset($tour[0]->intro)):
-						?>
-						<?php echo $tour[0] -> intro;?>
-						<?php endif;?>
+						<div class="des-l">
+							<ul>
+								<li>
+									价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
+									<span class="price">￥<b>
+										<?php if(isset($tour[0]->price)): ?>
+										<?php echo $tour[0] ->price;?>
+										<?php endif;?>
+									</b>起</span>
+									<span class="s-wrap">
+										<img src="assets/images/why.gif">起价说明
+										<span class="inbox">
+											本起价是人越多，即可享受此价格，比如说起价一般按照14人核算，产品价格会根据您所选择的出发人数，交通以及所选附加服务的不同而有所差别。
+										</span>
+									</span>
+									<span class="s-wrap">
+										投诉与建议
+										<span class="inbox">
+			                                &bull;&nbsp;如需要投诉或建议请发送邮件至666@57go.com<br>
+			                                &bull;&nbsp;电话预订或咨询：4006-1234-98<br>
+			                                &bull;&nbsp;QQ预订咨询：713781<br>
+			                                &bull;&nbsp;呼叫中心位于上海，号码为021-33977331
+										</span>
+									</span>
+								</li>
+								<li>
+									报名时间：<span>请提前<b>10</b>天报名</span>
+								</li>
+								<li>
+									客服电话：<span><b>4000-520-161</b></span>
+								</li>
+								<li>
+									客服QQ：<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
+												<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
+											</a>
+								</li>
+							</ul>
+
+
+							<p class="explain">
+								1、独立包团: 就是几个亲朋好友，按您指定的时间发团，外人不能加入，也不进购物店，无额外消费，自主性很强，特别是一些特殊线路，一般旅行很难发散客团，都要求包团才能出行。
+								<br>
+								2、游客拼团: 由于很多经典线路都仅有小包团，但是游客人数偏少，小包团费用分摊太贵，但是又特别想走，那么可以由您以及我们为您寻找一起结伴的游客，共同出游。
+							</p>
+						</div>
+
+						<!-- <?php if(isset($tour[0]->intro)):
+							?>
+							<?php echo $tour[0] -> intro;?>
+						<?php endif;?> -->
 					</div>
 					<div class="join clearfix">
 						<div class="schedule_table clearfix">
@@ -84,14 +130,14 @@
 					</ul>
 					<div class="sub-wrap clearfix">
 					<div class="unit"><!-- 线路简介 -->
-						<h4>行程简报：</h4>
 						<p>
+						<b class="h4inline">行程简报：</b>
 							<?php if(isset($tour[0]->route_intro)):
 							?>
 							<?php echo $tour[0] -> route_intro;?>
 							<?php endif;?>
 						</p>
-						<h4> 线路简介 </h4>
+						<h4> 线路简介： </h4>
 						<p>
 							<?php if(isset($tour[0]->intro)):
 							?>
@@ -99,21 +145,18 @@
 							<?php endif;?>
 						</p>
 						<p>
-						<h4 class="inline"> 活动主题 </h4>
+						<h4 class="inline"> 活动主题： </h4>
 							<?php if(isset($tour[0]->theme)):
 							?>
 							<?php echo substr($tour[0] -> theme,0,-1);?>
 							<?php endif;?>
 						</p>
-						<h4>行程亮点及体验</h4>
+						<h4>行程亮点及体验：</h4>
 						<div class="experience">
 							<?php if(isset($tour[0]->content)):
 							?>
 							<?php echo $tour[0] -> content;?>
 							<?php endif;?>
-							<p>
-								<img src="assets/images/banner-big.jpg" alt="map" width="670px" height="260px" >
-							</p>
 						</div>
 					</div> <!-- end of .unit -->
 

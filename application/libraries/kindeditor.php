@@ -53,8 +53,8 @@ class Kindeditor {
              if (in_array($file_ext, $this->ext_arr) === false) {
                  $this->alert("上传文件扩展名是不允许的扩展名。");
              }
-             $this->save_path .="routeimg/";
-             $this->save_url .="routeimg/";
+             $this->save_path .="attached/";
+             $this->save_url .="attached/";
              if (!file_exists($this->save_path)) {
              	mkdir($this->save_path);
              }
@@ -83,6 +83,10 @@ class Kindeditor {
      }
  
     public function manage($path) {
+		$path="routeimg/";
+		if (!file_exists($this->save_path)) {
+             	mkdir($this->save_path);
+             }
          //根据path参数，设置各路径和URL
          if (empty($path)) {
              $current_path = realpath($this->save_path) . '/';

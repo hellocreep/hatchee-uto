@@ -26,8 +26,8 @@ class Termtour extends CI_Controller
 
 		if(isset($action) &&$action!='')
 		{
-			$data['page']['first']='themetour/index/1/days';
-			$data['page']['end']='themetour/index/'.$count.'/days';
+			$data['page']['first']='termtour/index/1/days';
+			$data['page']['end']='termtour/index/'.$count.'/days';
 			if($page>1)
 			{
 				$pagepre=$page-1;
@@ -44,13 +44,13 @@ class Termtour extends CI_Controller
 			{
 				$pagenext=$count;
 			}
-			$data['page']['pre']='themetour/index/'.$pagepre.'/days';
-			$data['page']['next']='themetour/index/'.$pagenext.'/days';
+			$data['page']['pre']='termtour/index/'.$pagepre.'/days';
+			$data['page']['next']='termtour/index/'.$pagenext.'/days';
 		}
 		else
 		{
-			$data['page']['first']='themetour/index/1';
-			$data['page']['end']='themetour/index/'.$count;
+			$data['page']['first']='termtour/index/1';
+			$data['page']['end']='termtour/index/'.$count;
 			if($page>1)
 			{
 				$pagepre=$page-1;
@@ -67,8 +67,8 @@ class Termtour extends CI_Controller
 			{
 				$pagenext=$count;
 			}
-			$data['page']['pre']='themetour/index/'.$pagepre;
-			$data['page']['next']='themetour/index/'.$pagenext;
+			$data['page']['pre']='termtour/index/'.$pagepre;
+			$data['page']['next']='termtour/index/'.$pagenext;
 		}
 		$this->load->model('webpage');
 		$this->webpage=new webpage();

@@ -164,7 +164,7 @@
 					<label class="control-label" for="content">地图：</label>
 					<div class="controls">
 						<a href="#" class="btn btn-primary" id="map-upload">上传地图</a>
-						<input type="hidden" name="map" >
+						<input type="hidden" name="map" value="<?php echo $tour[0] -> tour_map;?>">
 						<p class="help-block">
 							<ul class="thumbnails" id="map-preview">
 								<li class="span2">

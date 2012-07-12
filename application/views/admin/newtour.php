@@ -147,6 +147,19 @@
 					</div>
 
 					<div class="control-group">
+						<label class="control-label" for="content">地图：</label>
+						<div class="controls">
+							<a href="#" class="btn btn-primary" id="map-upload">上传地图</a>
+							<input type="hidden" name="map" >
+							<p class="help-block">
+								<ul class="thumbnails" id="map-preview">
+
+								</ul>
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group">
 						<label class="control-label" for="content">图片集：</label>
 						<div class="controls">
 							<a id="gallery-upload" href="#" class="btn btn-primary">从本地添加图片</a>

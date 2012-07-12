@@ -48,12 +48,21 @@
 						}
 					}		
 
-				}else{	
+				}
+				if( $('#fileupload').attr('class')==='map-form' ){
+					for( var i = 0; i < imges_list.length; i++ ){
+						im += "<span class='span2'><a class='thumbnail' rel='"+imges_list[i].name+"'><img class='tour-thumbnail' src="+imges_list[i].src+" /></a></span>";
+					}
+
+					$( '#map-preview' ).html( im );
+					$( 'input[name="map"]' ).val( imges_list.eq(0).data( 'url' ) );
+				}
+				if( $('#fileupload').attr('class')==='thumbnail-form' ){	
 					for( var i = 0; i < imges_list.length; i++ ){
 						im += "<span class='span2'><a class='thumbnail' rel='"+imges_list[i].name+"'><img class='tour-thumbnail' src="+imges_list[i].src+" /></a></span>";
 					}
 					$( '#thubmnail-preview' ).html( im );
-					$( 'input[name="thumbnail"]' ).val( $('.tour-thumbnail').attr('src') );
+					$( 'input[name="thumbnail"]' ).val(  imges_list.eq(0).data( 'thumbnail' ) );
 				}
 				
 				$.ajax({
@@ -184,15 +193,20 @@ $(function(){
 	//缩略图上传modal
 	$('#thumbnail-upload').click(function( e ) {
 		e.preventDefault();
-		$( '#fileupload' ).attr('action', 'upload/upload_img');
-		$( '#fileupload' ).removeClass( 'gallery-form' );
+		$( '#fileupload' ).attr('class', 'thumbnail-form');
 		$( '#images_panel' ).modal();
 	});
 	//图片集上传modal
 	$( '#gallery-upload' ).click(function( e ){
 		e.preventDefault();
-		$( '#fileupload' ).attr('action', 'upload/upload_img');
-		$( '#fileupload' ).addClass( 'gallery-form' );
+		$( '#fileupload' ).attr('class', 'gallery-form');
+		$( '#images_panel' ).modal();
+	});
+
+	//地图上传modal
+	$( '#map-upload' ).click(function( e ){
+		e.preventDefault();
+		$( '#fileupload' ).attr('class', 'map-form');
 		$( '#images_panel' ).modal();
 	});
 

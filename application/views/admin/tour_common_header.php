@@ -24,6 +24,7 @@
 	var editor;
 	KindEditor.ready(function(K) {
 		editor = K.create('#route-detail', {
+			newlineTag: 'br',
 			resizeType : 1,
 			uploadJson : 'editor/upload',
 			fileManagerJson : 'editor/manage',
@@ -44,7 +45,7 @@
 			allowFileManager : true,
 			allowPreviewEmoticons : false,
 			allowImageUpload : true,
-			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'link']
+			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'link']
 		});
 	});
 	 //frames[2] 费用说明
@@ -57,7 +58,7 @@
 			allowFileManager : true,
 			allowPreviewEmoticons : false,
 			allowImageUpload : true,
-			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'link']
+			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|','justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist',  'link']
 		});
 	});
 
@@ -71,7 +72,7 @@
 			allowFileManager : true,
 			allowPreviewEmoticons : false,
 			allowImageUpload : true,
-			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'link']
+			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|','justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist',  'link']
 		});
 	});
 
@@ -86,7 +87,7 @@
 			allowFileManager : true,
 			allowPreviewEmoticons : false,
 			allowImageUpload : true,
-			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'link']
+			items : ['source', '|','table', '|','fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', 'link']
 		});
 	});
 

@@ -52,18 +52,19 @@ h3{
 }
 h4{
 	font-size:14px;
-	margin:4px 0;
+	margin:4px 0 0;
 }
 h5{
-	font-size:13px;
+	font-size:12px;
 	margin:0;
 }
 p{
 	margin: 0 0 10px;
 	line-height:20px;
 }
-b{
+strong,b{
 	font-family: "微软雅黑";
+	color: #434343;
 }
 b.red{
 	color:#DB555C;
@@ -118,8 +119,8 @@ input[type='text'] {
 
 body{
 	font-family:Arial,Helvetica,sans-serif,"宋体";
-	font-size:13px;
-	color:#555555;
+	font-size:12px;
+	color:#333333;
 	-webkit-text-size-adjust:none; /*chorme最小字体解决*/
 	background:url("../images/body-bg.jpg") repeat;
 	line-height: 20px;
@@ -131,7 +132,6 @@ body{
 	filter:alpha(opacity=8);*/
 	cursor: url('../images/zoom-in.cur'), pointer !important;
 }
-
 .fright {
 	float: right;
 }
@@ -143,7 +143,6 @@ body{
 img, div {
 	behavior: url(iepngfix.htc);;
 }
-
 .inline{
 	display:inline;
 }
@@ -175,6 +174,9 @@ img, div {
 	font-size:15px;
 	margin:29px 0 0 0;
 }
+.header .info b{
+	color: #FDB94D;
+}
 .content{
 	width:1000px;
 	min-height:350px;
@@ -189,7 +191,6 @@ img, div {
 	width:1000px;
 	margin:-78px auto 0;
 	font-family: "微软雅黑";
-
 }
 .nav ul{
 	height:37px;
@@ -265,97 +266,12 @@ img, div {
 	border-radius:15px 0 0 15px;
 	background:#fff;
 }
-/*.article p{
-	margin:0 0 12px;
-}*/
 .footer{
 	height:200px;
 	background:#60a6a2;
 	margin-top:-40px;
 }
-.des-p{
-	margin:0 0 20px 0;
-	line-height: 22px;
-}
-.des-l{
-	width: 370px;
-	float: left;
-	min-height: 200px;
-}
-.des-l li{
-	height: 30px;
-	line-height: 30px;
-}
-.des-l .price{
-	color: #EB6100;
-	position: relative;
-}
-.des-l .price b{
-	font-size: 17px;
-}
-.des-l span.s-wrap{
-	position: relative;
-	margin: 0 0 0 35px;
-	display: inline-block;
-}
-.des-l span b{
-	color: #EB6100;
-}
-.des-l .inbox{
-	display: none;
-	width: 300px;
-	border: 1px dotted #ddd;
-	border-radius: 5px;
-	height: auto;
-	padding: 5px;
-	position: absolute;
-	left: 0px;
-	top: 25px;
-	background: #F8EFDA;
-	font-size: 12px;
-	line-height: 1.3;
-}
-.des-l .explain{
-	font-size: 12px;
-	border-top: 1px dashed #ddd;	
-	margin: 10px 0 0 0;
-	padding: 10px 0 0 0;
-}
-.article .des-img{
-	border: 1px solid #ddd;
-	padding: 1px;
-	float:right;
-	margin:0 0 0 30px;
-}
-.join{
-	background:#f4f4f4;
-	border:1px solid #e1e1e1;
-	border-radius:3px;
-	min-height:100px;
-	padding: 10px 10px 0;
-	width: 700px;
-}
-.j-left{
-	width:400px;
-	float:left;
-}
-.j-left select{
-	vertical-align: text-top;
-	min-width:200px;
-}
-.j-right{
-	margin: 25px 0 0 0;
-	width:250px;
-	border-left: 1px dashed #ccc;
-	padding-left: 40px;
-	float:right;
-}
-.j-right p{
-	margin: 10px 0;
-}
-.vehicle{
-	/*width: 80%;*/
-}
+
 .join p.apply{
 	margin: 20px 0 20px 10px;
 	float: left;
@@ -375,99 +291,8 @@ span.tel{
 	font-weight: bold;
 	font-family: Arial;
 }
-.sub-nav{
-	margin:20px 0 10px;
-}
-.sub-nav li{
-	border:1px solid #e7e7e7;
-	float:left;
-	color:#434343;
-	padding:3px 15px;
-	margin:0 10px 0 0;
-	font-size:14px;
-	position:relative;
-	cursor:pointer;
-}
-.sub-nav li:hover{
-	background:#60a6a2;
-	color:#fff;
-}
-.sub-nav li span{
-	position:absolute;
-	top:27px;
-	left:42px;
-	width:7px;
-	height:4px;
-}
-.sub-nav li.current{
-	border:1px solid #60a6a2;
-	background:#60a6a2;
-	cursor:pointer;
-	color:#fff;
-}
-.sub-nav li.current span{
-	background:url("../images/subnav-arrow.gif") no-repeat;
-}
-.sub-wrap{
-	width: 680px;
-	margin: 30px 10px 10px 20px;
-	min-height: 200px;
-}
-.unit{
-	float:left;
-	clear:both;
-}
-.imglist{
-	margin:10px 0;
-	padding: 4px 4px 34px 4px;
-	background: url("../images/imglist-note.png") no-repeat right bottom #ebebeb;
-}
-.imglist a{
-	display:block;
-	float:left;
-	width: 170px;
-	height: 100px;
-	overflow: hidden;
-	background:#fff;
-	margin: 4px;
-}
-.imglist a img{
-	margin:0;
-}
 
-.tourmap img{
-	border: 1px solid #ddd;
-	padding: 1px;
-}
-.route dl{
-	float:left;
-	width:100%;
-	padding:10px 0 0 0 ;
-	background:#ECEDED;
-}
-.route dl.odd{
-	background:#F3F8F8;
-}
-.route dt{
-	width:15%;
-	float:left;
-	margin-right:5%;
-	text-align:center;
-}
-.route dd{
-	width:80%;
-	float:left;
-}
-.fee dt{
-	margin:10px 0 4px 0;
-	font-weight:bold;
-	font-size:15px;
-}
-.fee hr{
-	border-top:1px dashed #cccccc;
-	border-bottom:none;
-	height:0px;
-}
+
 .zoomLay{
 	display:block;
 	position:absolute;
@@ -478,54 +303,10 @@ span.tel{
 	background:url("../images/zoom.png") right bottom no-repeat;
 	/*opacity:0.2;*/
 }
-select{
-	border:1px solid #E1E1E1;
-	color:#333333;
-}
-.schedule_table table {
-	width: 100%;
-	margin-bottom: 10px;
-}
 
-.schedule_table table td, .schedule_table table th{
-	border: 1px solid #ddd;
-	padding: 5px;
-}
-.inquiry-form {
-	width: 500px;
-	border: 1px solid #ddd;
-	padding:10px;
-}
-.inquiry-form table{
-	margin:10px 0;
-}
-.inquiry-form td{
-	padding:3px 0;
-	width: 300px;
-}
-.inquiry-form label.error {
-	float: none;
-}
-.inquiry-form h3 {
-	background: #60A6A2;
-	color: #fff;
-	padding: 5px;
-}
-
-#submit-inquiry {
-	display: block;
-	margin: 0 0 0 180px;
-	text-align: center;
-	width: 50px;
-}
-.customize h4,
-form h4{
-	margin: 5px 0;
-	border-bottom: 1px dashed #ddd;
-	padding: 3px 0;
-}
 
 /*------------公用组件------------*/
+/*按钮*/
 .btn{
 	background: url(../images/but.png) repeat-x;
 	color: #fff;
@@ -552,13 +333,13 @@ form h4{
 }
 
 div.separator{
-	background: url("../images/sep-line.png") no-repeat center center;
+	background: url("../images/sep-line2.png") no-repeat center center;
 	width: 100%;
 	height: 30px;
 	margin: 20px 0;
 }
 
-/*------------表单公用样式------------*/
+/*表单*/
 table.formtab{
 	width: 95%;
 }
@@ -575,3 +356,4 @@ table.formtab{
 	width: 435px;
 }
 
+/*图片*/

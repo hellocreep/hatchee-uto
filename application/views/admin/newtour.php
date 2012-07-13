@@ -32,9 +32,13 @@
 				<fieldset class="offset1">
 
 					<div class="control-group">
-						<label class="control-label" for="name">是否小包团：</label>
+						<label class="control-label" for="name">线路类型：</label>
 						<div class="controls">
-							<input type="checkbox" name="is-private">
+							<select>
+								<option name="tour_type" value="0" checked="checked">友途活动</option>
+								<option name="tour_type" value="1">定制旅行</option>
+								<option name="tour_type" value="2">公司出游</option>
+							</select>
 							<p class="help-block">
 							</p>
 						</div>

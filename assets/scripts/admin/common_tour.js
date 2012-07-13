@@ -272,6 +272,7 @@ var submittour = function(){
 			is_private: $('input:checkbox[name="is-private"]')[0].checked,
 			title: $('input[name="title"]').val(),
 			name : $('input[name="name"]').val(),
+			sub_name: $('input[name="sub_name"]').val()||'',
 			thumbnail : $('input[name="thumbnail"]').val(),
 			keywords : $('input[name="keywords"]').val(),
 			description : $('input[name="description"]').val(),

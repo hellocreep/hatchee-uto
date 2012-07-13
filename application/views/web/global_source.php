@@ -4,7 +4,7 @@
 <script type="text/javascript" src="assets/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 <script src="assets/scripts/jquery.json-2.3.min.js"></script>
 <script src="assets/scripts/jquery.cookie.js"></script>
-<script src="assets/scripts/web/script.js"></script>
+<!-- <script src="assets/scripts/web/script.js"></script> -->
 <script src="assets/scripts/jquery.validate.js"></script>
 <script src="assets/scripts/messages_cn.js"></script>
 

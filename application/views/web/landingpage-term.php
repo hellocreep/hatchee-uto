@@ -40,18 +40,14 @@
 								<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" alt="<?php echo $tour[$i]['name'];?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140" /></a></dt>
 									<dd>
-										<span>旅行主题：</span><div><?php echo substr($tour[$i]['theme'],0,-1);?></div>
+										<span><b>旅行主题：&nbsp;&nbsp;</b></span><div><?php echo substr($tour[$i]['theme'],0,-1);?></div>
 									</dd>
 									<dd>
-										<span>旅行地区：</span><div><?php echo substr($tour[$i]['destination'],0,-1);?></div>
+										<span><b>旅行地区：&nbsp;&nbsp;</b></span><div><?php echo substr($tour[$i]['destination'],0,-1);?></div>
 									</dd>
-									<!--<dd class="datescroll">
-									 <span>活动时间：</span>
-										<div><?php echo $tour[$i]['term'];?></div>
-									</dd> -->
 									<dd>
 										<p>
-											<b class="price">*</b>友途官方组织的活动线路，保证一个人也发团，价格
+											<em class="red">*&nbsp;&nbsp;</em>友途官方组织的活动线路，保证一个人也发团，价格
 											<b class="price"><?php if(isset($tour[$i]['price'])): ?>
 										<?php echo $tour[$i]['price'];?>
 										<?php endif;?></b>

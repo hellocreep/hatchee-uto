@@ -14,6 +14,7 @@
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<?php $this -> load -> view("web/global_source");?>
+		<link rel="stylesheet" type="text/css" href="assets/styles/tour.css">
 		<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
 		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 	</head>
@@ -33,7 +34,7 @@
 					?>
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
-					<div class="des-p clearfix">
+					<div class="describe clearfix">
 						<?php if(isset($tour[0]->thumbnail)): ?>
 							<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
 						<?php endif;?>
@@ -47,12 +48,12 @@
 										<?php endif;?>
 									</b>起</span>
 									<span class="s-wrap">
-										<img src="assets/images/why.gif">起价说明
+										<img src="assets/images/why.gif">&nbsp;起价说明
 										<span class="inbox">
 											本起价是人越多，即可享受此价格，比如说起价一般按照14人核算，产品价格会根据您所选择的出发人数，交通以及所选附加服务的不同而有所差别。
 										</span>
 									</span>
-									<span class="s-wrap">
+									<span class="s-wrap advice">
 										投诉与建议
 										<span class="inbox">
 			                                &bull;&nbsp;如需要投诉或建议请发送邮件至666@57go.com<br>
@@ -63,13 +64,13 @@
 									</span>
 								</li>
 								<li>
-									报名时间：<span>请提前<b>10</b>天报名</span>
+									报名时间：&nbsp;<span  class="m-time">请提前&nbsp;<b>10</b>&nbsp;天报名</span>
 								</li>
 								<li>
-									客服电话：<span><b>4000-520-161</b></span>
+									客服电话：&nbsp;<span class="price"><b>4000-520-161</b></span>
 								</li>
 								<li>
-									客服QQ：<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
+									客服&nbsp;QQ：&nbsp;<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
 												<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
 											</a>
 								</li>

@@ -32,7 +32,7 @@
 					?>
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
-					<div class="describe clearfix">
+					<div class="des-p clearfix">
 						<?php if(isset($tour[0]->thumbnail)):
 						?><img class="des-img" width="300" height="180" src="<?php echo $tour[0] -> thumbnail;?>" title="<?php echo $tour[0] -> name;?>" alt="<?php echo $tour[0] -> name;?>">
 						<?php endif;?>
@@ -41,11 +41,11 @@
 						<?php echo $tour[0] -> intro;?>
 						<?php endif;?>
 					</div>
+					<h4>快速报名：</h4>
 					<div class="join clearfix">
-						<!-- <h4>快速报名：</h4> -->
 						<div class="j-left">
 							<p>
-								<b>选择期数：</b>
+								选择期数：
 								<select size="3" multiple="multiple">
 									<?php if(isset($tour[0]->term)):
 									?>
@@ -57,17 +57,17 @@
 								</select>
 							</p>
 							<p>
-								<b>参加人数：</b>
+								参加人数：
 								<input class="people" type="text">
 							</p>
-							<p class="pad">
+							<p>
 								<input class="btn" id="inquiry" value="在线报名" type="submit">
+								<span>（成都统一集结，建议提前<em class="red">3</em>天报名.）</span>
 							</p>
-								<span><em class="red">*&nbsp;&nbsp;</em>成都统一集结，建议提前<em class="red big">&nbsp;3&nbsp;</em>天报名.</span>
 						</div>
 						<div class="j-right">
 							<p>
-								<b>24小时旅游预订电话：</b>
+								24小时旅游预订电话：
 								<br>
 								<span class="tel">4000-520-161</span>
 								<a class="qonline" target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c"> <img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息"> </a>

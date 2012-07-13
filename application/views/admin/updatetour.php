@@ -70,6 +70,15 @@
 				</div>
 
 				<div class="control-group">
+					<label class="control-label" for="sub_name">线路副标题：</label>
+					<div class="controls">
+						<input name="sub_name" class="input-xlarge" type="text" value="<?php echo $tour[0] -> sub_name; ?>">
+						<p class="help-block row-fluid">
+						</p>
+					</div>
+				</div>
+
+				<div class="control-group">
 					<label class="control-label" for="thumbnail">线路缩略图（300*180）：</label>
 					<div class="controls">
 						<input name="thumbnail" class="input-xlarge" type="hidden" value="<?php echo $tour[0] -> thumbnail; ?>">

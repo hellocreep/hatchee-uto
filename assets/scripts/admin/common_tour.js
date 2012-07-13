@@ -340,13 +340,16 @@ var submittour = function(){
 }
 
 $(function(){
-	//shift+enter ——> br
 
+	//shift+enter ——> br
+	
+	var finder = new CKFinder();
+	var finder_base = '/uto/assets/ckfinder/';
 	//frames[0]
 	var route_editor = CKEDITOR.replace( 'route-detail',{
 		toolbar : 'MyToolbar'
 	});
-	CKFinder.setupCKEditor( route_editor, '/uto/assets/ckfinder/' );
+	CKFinder.setupCKEditor( route_editor, finder_base );
 
 	//frames[1]
 	CKEDITOR.replace( 'tour-term-private', {
@@ -367,8 +370,6 @@ $(function(){
 
 	$( '#filemanager' ).click(function(e){
 		e.preventDefault();
-		var finder = new CKFinder();
-		finder.basePath = "/uto/assets/ckfinder/";
 		finder.callback = function( api ){
 
 		}
@@ -398,7 +399,7 @@ $(function(){
 			//this.openMsgDialog( '', 'Additional data: ' + data['selectActionData'] );
 			//document.getElementById( data['selectActionData'] ).innerHTML = fileUrl;
 		}
-		finder.popup( 600, 600 );
+		finder.popup( 800,600 );
 	})
 
 	//判断是否小包团

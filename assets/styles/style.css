@@ -32,7 +32,8 @@ table {
 h1,h2,h3,h4,h5{
 	/*color:#DB555C;*/
 	/*color:#60A6A2;*/
-	color:#990033;
+	/*color:#990033;*/
+	color:#df5031;
 	
 	font-family:'Microsoft YaHei','SimSun';
 }
@@ -122,15 +123,8 @@ body{
 	font-size:12px;
 	color:#333333;
 	-webkit-text-size-adjust:none; /*chorme最小字体解决*/
-	background:url("../images/body-bg.jpg") repeat;
+	background:url("../images/body-bg.jpg") no-repeat top center #71c2bd fixed; 
 	line-height: 20px;
-}
-
-.fancyimg:hover{
-/*	opacity: 0.8;
-	-moz-opacity: 0.8;
-	filter:alpha(opacity=8);*/
-	cursor: url('../images/zoom-in.cur'), pointer !important;
 }
 .fright {
 	float: right;
@@ -147,35 +141,27 @@ img, div {
 	display:inline;
 }
 .wrapper{
-	background:url('../images/header-bg.png') repeat-x;
+	width: 1020px;
+	margin: 0 auto 200px;
+	background: #30625e;
+	border-radius: 0 0 10px 10px;
+	padding: 0 0 10px 0
+	/*background:url('../images/header-bg.png') repeat-x;*/
 }
 .header{
-	height:425px;
+	height:330px;
 	background: url('../images/banner-big.jpg') no-repeat center top;
 	behavior: url(iepngfix.htc);
 }
 .header .wrap{
-	width:1000px;
 	margin:0 auto;
 	height:100px;
-	padding: 0 47px;
-	background:url('../images/trans-bg.png') repeat-x;
 }
 .header .logo{
 	display:block;
 	float:left;
-	margin:15px 0 0 0 ;
+	margin:0 0 0 20px ;
 	behavior: url(iepngfix.htc);
-}
-.header .info{
-	width:300px;
-	float:right;
-	color:#fff;
-	font-size:15px;
-	margin:29px 0 0 0;
-}
-.header .info b{
-	color: #FDB94D;
 }
 .content{
 	width:1000px;
@@ -188,16 +174,17 @@ img, div {
 /*导航样式*/
 .nav{
 	height:37px;
-	width:1000px;
-	margin:-78px auto 0;
+	margin: 193px 0 0 0;
+	width:1020px;
 	font-family: "微软雅黑";
+	background:url("../images/nav-ul-bg.png") left bottom repeat-x;
 }
 .nav ul{
 	height:37px;
-	/*width:600px;*/
 	float:left;
-	border-radius:5px 5px 0 0;
+	border-radius:0 5px 0 0;
 	background:url("../images/nav-bg.png") repeat-x;
+	padding: 0 0 0 10px;
 }
 .nav li{
 	float:left;
@@ -208,7 +195,8 @@ img, div {
 	text-decoration:none;
 	color:#fff;
 	font-size:16px;
-	line-height:37px;
+	line-height:34px;
+	margin: 3px 0 0 0;
 	font-weight:bold;
 	padding: 0 15px;
 }
@@ -231,7 +219,8 @@ img, div {
 #n-about .a-about
 {
 	background:url("../images/nav-a-bg.png") repeat-x;
-	color:#990033;
+	/*color:#990033;*/
+	color:#df5031;
 	/*color:#8b6620;*/
 	border-radius:5px 5px 0 0;
 }
@@ -242,7 +231,7 @@ img, div {
 .n-mi .a-mission,
 .n-re .a-review
 {
-	color: #866820;
+	color: #df5031;
 }
 
 .breadcrumb{
@@ -267,6 +256,7 @@ img, div {
 	background:#fff;
 }
 .footer{
+	display: none;
 	height:200px;
 	background:#60a6a2;
 	margin-top:-40px;

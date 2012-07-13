@@ -2,16 +2,16 @@
 	<div class="wrap">
 		<a class="logo" href="">
 			<img src="assets/images/logo.png"></a>
-		<div class="info">
+		<!-- <div class="info">
 			<p>
 				「友途旅行网」-- 专注轻户外体验式旅游
 				<br>
 				<img src="assets/images/tel-icon.png">
 				24小时咨询热线： <b>4000-520-161</b>
 			</p>
-		</div>
+		</div> -->
 	</div>
-</div>
+
 
 <div class="nav">
 	<ul>
@@ -34,4 +34,6 @@
 			<a class="a-about" href="aboutus">关于友途</a>
 		</li>
 	</ul>
+</div>
+
 </div>

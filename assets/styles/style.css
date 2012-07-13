@@ -272,25 +272,6 @@ img, div {
 	margin-top:-40px;
 }
 
-.join p.apply{
-	margin: 20px 0 20px 10px;
-	float: left;
-}
-.join p.apply span{
-	padding-left: 63px;
-}
-.join p.contact{
-	margin: 20px 10px 20px 0;
-	float: right;
-	border-left: 1px dashed #ddd;
-	padding-left: 50px;
-}
-span.tel{
-	color:#EB6100;
-	font-size: 16px;
-	font-weight: bold;
-	font-family: Arial;
-}
 
 
 .zoomLay{

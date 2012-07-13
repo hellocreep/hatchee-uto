@@ -23,26 +23,7 @@
 					<div class="recommend">
 						<h3>推荐的公司活动线路</h3>	
 						<ul class="routelist clearfix">
-							<li>
-								<span class="days">7</span><h2><a href="tourdetail/?tid=24">7 天横断山谷中的梨花源&mdash;金川•丹巴观梨花</a></h2>
-								<p>此线路有两个最大的特点，一是该线路穿越嘉绒藏区的腹地，我们可以深度了解嘉绒藏族的民俗文化和风情，看寨子、看民居、看服饰、看姑娘，绚丽多彩的的民族文化，一定会让我们眼花缭乱。二是该线......<a href="tourdetail/?tid=24">更多</a></p>
-								<dl class="route-detail">
-									<dt><a href="tourdetail/?tid=24"><img width="240" height="140" alt="7 天横断山谷中的梨花源&mdash;金川•丹巴观梨花" src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg"></a></dt>
-									<dd>
-										<span>旅行地区：</span><div>丹巴,米亚罗,金川</div>
-									</dd>
-									<dd>
-										<span>活动内容：</span><div>低碳生活、攀岩、速降、野营、农家乐烧烤等休闲娱乐、道家斋饭；</div>
-									</dd>
-									<dd>
-										<span>适合人数：</span><div>10-100人</div>
-									</dd>
-									
-									<dd class="last">
-										<a class="btn" href="tourdetail/?tid=24">线路详情</a>	
-									</dd>
-								</dl>
-							</li>
+							
 							<li>
 								<span class="days">7</span><h2><a href="tourdetail/?tid=24">7 天横断山谷中的梨花源&mdash;金川•丹巴观梨花</a></h2>
 								<p>此线路有两个最大的特点，一是该线路穿越嘉绒藏区的腹地，我们可以深度了解嘉绒藏族的民俗文化和风情，看寨子、看民居、看服饰、看姑娘，绚丽多彩的的民族文化，一定会让我们眼花缭乱。二是该线......<a href="tourdetail/?tid=24">更多</a></p>

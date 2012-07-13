@@ -26,7 +26,22 @@
 						<b>精彩瞬间 - 记录我们的精彩回忆。(游记)</b>
 					</p>
 					<div class="event">
-						<h5>公司出游</h5>
+						<h4>友途活动案例</h4>
+						<ul class="clearfix">
+							<?php foreach($customize as $cus):?>
+								<li>
+								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
+								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>				
+								<p>时间：<?php echo $cus['tour_time'];?></br>
+								地点：<?php echo $cus['route_intro'];?></p>
+								<!-- <?php echo mb_substr($cus['content'],0,50,'utf-8').'…';?> -->
+								<a class="detail" href="aboutus/note?id=<?php echo $cus['Id'];?>">活动详情</a>
+								</li>
+							<?php endforeach;?>
+						</ul>
+					</div>
+					<div class="event">
+						<h4>公司出游案例</h4>
 						<ul class="clearfix">
 							<?php foreach($company as $c):?>
 								<li>
@@ -40,9 +55,8 @@
 							<?php endforeach;?>
 						</ul>
 					</div>
-					
 					<div class="event">
-						<h5>主题旅行</h5>
+						<h4>主题旅行案例</h4>
 						<ul class="clearfix">
 							<?php foreach($theme as $t):?>
 								<li>
@@ -56,21 +70,7 @@
 							<?php endforeach;?>
 						</ul>
 					</div>
-					<div class="event">
-						<h5>定制旅行</h5>
-						<ul class="clearfix">
-							<?php foreach($customize as $cus):?>
-								<li>
-								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
-								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>				
-								<p>时间：<?php echo $cus['tour_time'];?></br>
-								地点：<?php echo $cus['tour_time'];?></p>
-								<!-- <?php echo mb_substr($cus['content'],0,50,'utf-8').'…';?> -->
-								<a class="detail" href="aboutus/note?id=<?php echo $cus['Id'];?>">活动详情</a>
-								</li>
-							<?php endforeach;?>
-						</ul>
-					</div>
+					
 
 					<div class="separator"></div>
 					<h2>友途的电影狂欢之夜Film Night (视频)</h2>

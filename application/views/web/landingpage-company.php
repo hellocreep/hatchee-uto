@@ -29,13 +29,16 @@
 								<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=24"><img width="240" height="140" alt="7 天横断山谷中的梨花源&mdash;金川•丹巴观梨花" src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg"></a></dt>
 									<dd>
-										<span>旅行地区：</span><div>丹巴,米亚罗,金川</div>
+										<span>价&nbsp;&nbsp;&nbsp;&nbsp;格：</span><div>丹巴,米亚罗,金川</div>
 									</dd>
 									<dd>
-										<span>活动内容：</span><div>低碳生活、攀岩、速降、野营、农家乐烧烤等休闲娱乐、道家斋饭；</div>
+										<span>客服电话：</span><div>3453543</div>
 									</dd>
 									<dd>
-										<span>适合人数：</span><div>10-100人</div>
+										<span>客服&nbsp;QQ：</span><div>10-100人</div>
+									</dd>
+									<dd>
+										<span>行程特点：</span><div>此行程为公司量身打造的基础行程，与常规行程不一样的地方在于，我会再………………</div>
 									</dd>
 									
 									<dd class="last">

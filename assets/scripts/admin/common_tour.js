@@ -274,7 +274,7 @@ var submittour = function(){
 		//判断是否为小包团
 		var term = $( '#tour-term-private' ).val();
 		var data = {
-			is_private: $('input:checkbox[name="is-private"]')[0].checked,
+			tour_type: $( 'option[name="tour_type"]:checked' ).val(),
 			title: $('input[name="title"]').val(),
 			name : $('input[name="name"]').val(),
 			sub_name: $('input[name="sub_name"]').val()||'',
@@ -282,6 +282,8 @@ var submittour = function(){
 			keywords : $('input[name="keywords"]').val(),
 			description : $('input[name="description"]').val(),
 			price : $('input[name="price"]').val(),
+			people: $('input[name="people"]').val()||'',
+			company_intro: $('input[name="company_intro"]').val()||'',
 			price_detail: $('textarea[name="price_detail"]').val(),
 			days : r.length,
 			route : route.toString(),

@@ -33,13 +33,23 @@
 			<fieldset class="offset1">
 
 				<div class="control-group">
-					<label class="control-label" for="name">是否小包团：</label>
+					<label class="control-label" for="name">线路类型：</label>
 					<div class="controls">
-						<?php if(isset($tour[0]->is_private) && $tour[0]->is_private=='1'):?>
-						<input type="checkbox" name="is-private" checked="checked">
-						<?php else: ?>
-						<input type="checkbox" name="is-private">
-						<?php endif; ?>
+						<select>
+						<?php if($tour[0]->tour_type=='0'):?>
+							<option name="tour_type" value="0" checked="checked">友途活动</option>
+							<option name="tour_type" value="1">定制旅行</option>
+							<option name="tour_type" value="2">公司出游</option>
+						<?php elseif($tour[0]->tour_type=='1'):?>
+							<option name="tour_type" value="0">友途活动</option>
+							<option name="tour_type" value="1" checked="checked">定制旅行</option>
+							<option name="tour_type" value="2">公司出游</option>
+						<?php else:?>
+							<option name="tour_type" value="0">友途活动</option>
+							<option name="tour_type" value="1">定制旅行</option>
+							<option name="tour_type" value="2" checked="checked">公司出游</option>
+						<?php endif;?>
+						</select>
 						<p class="help-block">
 						</p>
 					</div>
@@ -122,6 +132,20 @@
 					<label class="control-label" for="price_detail">费用说明：</label>
 					<div class="controls">
 						<textarea id="price_detail" name="price_detail" class="input-xlarge" rows="10" value="<?php echo $tour[0] -> price_detail; ?>"><?php echo $tour[0] -> price_detail; ?></textarea>
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="people">人数（公司出游）：</label>
+					<div class="controls">
+						<input name="people" class="input-xlarge" type="text" value="<?php $tour[0]->people;?>">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="company_intro">活动简介（公司出游）：</label>
+					<div class="controls">
+						<input name="company_intro" class="input-xlarge" type="text" value="<?php $tour[0]->company_intro;?>">
 					</div>
 				</div>
 

@@ -85,7 +85,7 @@ class Tourmanage extends CI_Controller{
 		$notice=$data->notice;
 		$term=$data->term;
 		$gallery=$data->gallery;
-		$is_private=$data->is_private;
+		$tour_type=$data->tour_type;
 		$tour_map=$data->map;
 		$tags='';
 		$theme='';
@@ -136,6 +136,7 @@ class Tourmanage extends CI_Controller{
 				'name'=>$tourname,
 				'sub_name'=>$data->sub_name,
 				'price'=>$price,
+				'people'=>$data->people,
 				'price_detail'=>$price_detail,
 				'days'=>$days,
 				'route'=>$route,
@@ -153,8 +154,9 @@ class Tourmanage extends CI_Controller{
 				'theme'=>$theme,
 				'destination'=>$destination,
 				'groups'=>$group,
-				'is_private'=>$is_private,
-				'tour_map'=>$tour_map
+				'tour_type'=>$tour_type,
+				'tour_map'=>$tour_map,
+				'company_intro'=>$data->company_intro
 				
 			);
 
@@ -271,7 +273,7 @@ class Tourmanage extends CI_Controller{
 		$thumbnail=$data->thumbnail;
 		$gallery=$data->gallery;
 		$term=$data->term;
-		$is_private=$data->is_private;
+		$tour_type=$data->tour_type;
 		$tour_map=$data->map;
 		$tags='';
 		$theme='';
@@ -322,6 +324,7 @@ class Tourmanage extends CI_Controller{
 				'name'=>$tourname,
 				'sub_name'=>$data->sub_name,
 				'price'=>$price,
+				'people'=>$data->people,
 				'price_detail'=>$price_detail,
 				'days'=>$days,
 				'route'=>$route,
@@ -338,8 +341,9 @@ class Tourmanage extends CI_Controller{
 				'theme'=>$theme,
 				'destination'=>$destination,
 				'groups'=>$group,
-				'is_private'=>$is_private,
-				'tour_map'=>$tour_map
+				'tour_type'=>$tour_type,
+				'tour_map'=>$tour_map,
+				'company_intro'=>$data->company_intro
 			);
 		}
 		$this->load->model('tour');

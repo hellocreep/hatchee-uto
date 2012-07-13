@@ -25,7 +25,7 @@ $(function(){
 	// 	});
 	// });
 	
-	var editor = CKEDITOR.replace( 'tour-term-private', {
+	var editor = CKEDITOR.replace( 'note_editor', {
 		toolbar : 'MyToolbar',
 		height: 500
 	});

@@ -129,6 +129,36 @@
 									活动性质：
 								</p>
 							</li>
+							<li>
+								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
+								<h5>真人CS</h5>	
+								<p>
+									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
+								</p>
+								<p>
+									活动性质：
+								</p>
+							</li>
+							<li>
+								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
+								<h5>真人CS</h5>	
+								<p>
+									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
+								</p>
+								<p>
+									活动性质：
+								</p>
+							</li>
+							<li>
+								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
+								<h5>真人CS</h5>	
+								<p>
+									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
+								</p>
+								<p>
+									活动性质：
+								</p>
+							</li>
 						</ul>
 						
 					</div>

@@ -55,7 +55,7 @@ h4{
 	margin:4px 0;
 }
 h5{
-	font-size:13px;
+	font-size:12px;
 	margin:0;
 }
 p{
@@ -118,7 +118,7 @@ input[type='text'] {
 
 body{
 	font-family:Arial,Helvetica,sans-serif,"宋体";
-	font-size:13px;
+	font-size:12px;
 	color:#555555;
 	-webkit-text-size-adjust:none; /*chorme最小字体解决*/
 	background:url("../images/body-bg.jpg") repeat;

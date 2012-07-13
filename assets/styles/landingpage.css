@@ -100,6 +100,8 @@
 }
 
 
+
+/*---------公司活动栏目页面----------*/
 .event {
 	padding: 0 0 10px 0;
 }
@@ -118,4 +120,13 @@
 }
 .event li .detail{
 	float: right;
+}
+
+.activity img{
+	width: 160px;
+	height: 80px;
+	border: 1px solid #ddd;
+	padding: 1px;
+	float: left;
+	margin: 0 10px 0 0;
 }

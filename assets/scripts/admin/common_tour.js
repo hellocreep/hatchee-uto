@@ -343,9 +343,7 @@ var submittour = function(){
 $(function(){
 
 	//shift+enter ——> br
-	
 	var finder = new CKFinder();
-	var finder_base = '/uto/assets/ckfinder/';
 	//frames[0]
 	var route_editor = CKEDITOR.replace( 'route-detail',{
 		toolbar : 'MyToolbar'
@@ -374,6 +372,7 @@ $(function(){
 		finder.callback = function( api ){
 
 		}
+		finder.basePath = finder_base;
 		finder.selectActionFunction = function( fileUrl, data ) {
 			$.ajax({
 				url : 'imagemanage/imgUpload',

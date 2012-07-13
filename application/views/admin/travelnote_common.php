@@ -1,39 +1,18 @@
-<!-- <script charset="utf-8" src="assets/kindeditor/kindeditor-min.js"></script>
-<script charset="utf-8" src="assets/kindeditor/lang/zh_CN.js"></script> -->
 <script charset="utf-8" src="assets/ckeditor/ckeditor.js"></script>
 <script charset="utf-8" src="assets/ckfinder/ckfinder.js"></script>
 
 <script>
 ;(function(){
 $(function(){
-
-	// var note_editor;
-	// //FIEME 须定义绝对url才能批量上传图片
-	// //var basePath = '/utoadmin/';
-	// var basePath = '/uto/';
-	// KindEditor.ready(function(K) {
-	// 	note_editor = K.create('#note_editor', {
-	// 		resizeType : 1,
-
-	// 		uploadJson : basePath+'editor/upload',
-	// 		fileManagerJson : basePath+'editor/manage',
-
-	// 		allowFileManager : true,
-	// 		allowPreviewEmoticons : true,
-	// 		allowImageUpload : true,
-	// 		items : ['source', '|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', '|', 'image', 'multiimage', 'link']
-	// 	});
-	// });
 	
 	var editor = CKEDITOR.replace( 'note_editor', {
 		toolbar : 'MyToolbar',
 		height: 500
 	});
 
-	CKFinder.setupCKEditor( editor, '/uto/assets/ckfinder/' );
+	CKFinder.setupCKEditor( editor, finder_base );
 
 	$( '#submit-note' ).click(function(){
-		//note_editor.sync();
 		//ckeditor数据同步到textarea	
 		for ( instance in CKEDITOR.instances ){
 			CKEDITOR.instances[instance].updateElement();

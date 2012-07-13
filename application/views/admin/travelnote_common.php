@@ -49,6 +49,7 @@ $(function(){
 			editor: $( 'input[name="editor"]' ).val()
 		}
 		var content = $( 'textarea[name="note"]' ).val();
+
 		var url = 'travelnote/addtravel';
 		
 		if( $('#n_id').length > 0 ){

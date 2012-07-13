@@ -48,12 +48,12 @@
 						<label class="control-label" for="type">活动类型：</label>
 						<div class="controls">
 							
-							<input type="radio" name="type" value="公司出游">
-							公司出游
-							<input type="radio" name="type" value="主题旅行">
-							主题旅行
-							<input type="radio" name="type" value="定制旅行">
-							定制旅行
+							<input type="radio" name="type" value="公司出游案列">
+							公司出游案列
+							<input type="radio" name="type" value="主题旅行案列">
+							主题旅行案列
+							<input type="radio" name="type" value="友途活动案例">
+							友途活动案例
 						</div>
 					</div>
 

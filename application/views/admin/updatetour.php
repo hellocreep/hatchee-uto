@@ -126,6 +126,20 @@
 				</div>
 
 				<div class="control-group">
+					<label class="control-label" for="people">人数（公司出游）：</label>
+					<div class="controls">
+						<input name="people" class="input-xlarge" type="text">
+					</div>
+				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="company_intro">活动简介（公司出游）：</label>
+					<div class="controls">
+						<input name="company_intro" class="input-xlarge" type="text">
+					</div>
+				</div>
+
+				<div class="control-group">
 					<label class="control-label" for="route_intro">行程简报：</label>
 					<div class="controls">
 						<textarea name="route_intro" class="input-xlarge" rows="3" value="<?php echo $tour[0] -> route_intro; ?>"><?php echo $tour[0] -> route_intro; ?></textarea>

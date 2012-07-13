@@ -118,6 +118,20 @@
 					</div>
 
 					<div class="control-group">
+						<label class="control-label" for="people">人数（公司出游）：</label>
+						<div class="controls">
+							<input name="people" class="input-xlarge" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="company_intro">活动简介（公司出游）：</label>
+						<div class="controls">
+							<input name="company_intro" class="input-xlarge" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
 						<label class="control-label" for="price_detail">费用说明：</label>
 						<div class="controls">
 							<textarea  id="price_detail" name="price_detail" class="input-xlarge" rows="10"></textarea>

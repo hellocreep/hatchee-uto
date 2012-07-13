@@ -282,6 +282,8 @@ var submittour = function(){
 			keywords : $('input[name="keywords"]').val(),
 			description : $('input[name="description"]').val(),
 			price : $('input[name="price"]').val(),
+			people: $('input[name="people"]').val()||'',
+			company_intro: $('input[name="company_intro"]').val()||'',
 			price_detail: $('textarea[name="price_detail"]').val(),
 			days : r.length,
 			route : route.toString(),

@@ -30,7 +30,7 @@ function CheckAuthentication()
 	// user logs in your system. To be able to use session variables don't
 	// forget to add session_start() at the top of this file.
 
-	return false;
+	return true;
 }
 
 // LicenseKey : Paste your license key here. If left blank, CKFinder will be
@@ -60,7 +60,7 @@ Examples:
 
 ATTENTION: The trailing slash is required.
 */
-$baseUrl = '/uploads/';
+$baseUrl = 'http://127.0.0.1/uto/uploads/';
 
 /*
 $baseDir : the path to the local directory (in the server) which points to the
@@ -93,7 +93,7 @@ $config['Thumbnails'] = Array(
 		'url' => $baseUrl . 'thumbnails',
 		'directory' => $baseDir . 'thumbnails',
 		'enabled' => true,
-		'directAccess' => false,
+		'directAccess' => true,
 		'maxWidth' => 100,
 		'maxHeight' => 100,
 		'bmpSupported' => false,

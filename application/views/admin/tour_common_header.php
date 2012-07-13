@@ -21,6 +21,7 @@
 <script charset="utf-8" src="assets/kindeditor/lang/zh_CN.js"></script> -->
 
 <script charset="utf-8" src="assets/ckeditor/ckeditor.js"></script>
+<script charset="utf-8" src="assets/ckfinder/ckfinder.js"></script>
 
 <script>	
 

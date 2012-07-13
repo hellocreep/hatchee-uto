@@ -339,9 +339,13 @@ $(function(){
 		toolbar : 'MyToolbar'
 	});
 	//frames[1]
-	CKEDITOR.replace( 'tour-term-private', {
+	var editor = CKEDITOR.replace( 'tour-term-private', {
+		toolbar : 'MyToolbar',
 		height: 500
 	});
+
+	CKFinder.setupCKEditor( editor, '/uto/assets/ckfinder/' );
+
 	//frames[2]
 	// CKEDITOR.replace( 'price_detail',{
 	// 	enterMode: CKEDITOR.ENTER_BR,

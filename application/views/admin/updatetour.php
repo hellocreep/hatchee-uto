@@ -37,17 +37,17 @@
 					<div class="controls">
 						<select>
 						<?php if($tour[0]->tour_type=='0'):?>
-							<option name="tour_type" value="0" checked="checked">友途活动</option>
+							<option name="tour_type" value="0" selected="selected">友途活动</option>
 							<option name="tour_type" value="1">定制旅行</option>
 							<option name="tour_type" value="2">公司出游</option>
 						<?php elseif($tour[0]->tour_type=='1'):?>
 							<option name="tour_type" value="0">友途活动</option>
-							<option name="tour_type" value="1" checked="checked">定制旅行</option>
+							<option name="tour_type" value="1" selected="selected">定制旅行</option>
 							<option name="tour_type" value="2">公司出游</option>
 						<?php else:?>
 							<option name="tour_type" value="0">友途活动</option>
 							<option name="tour_type" value="1">定制旅行</option>
-							<option name="tour_type" value="2" checked="checked">公司出游</option>
+							<option name="tour_type" value="2" selected="selected">公司出游</option>
 						<?php endif;?>
 						</select>
 						<p class="help-block">
@@ -143,7 +143,7 @@
 				</div>
 
 				<div class="control-group">
-					<label class="control-label" for="company_intro">活动简介（公司出游）：</label>
+					<label class="control-label" for="company_intro">活动内容（公司出游）：</label>
 					<div class="controls">
 						<input name="company_intro" class="input-xlarge" type="text" value="<?php $tour[0]->company_intro;?>">
 					</div>

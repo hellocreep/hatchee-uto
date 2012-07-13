@@ -27,7 +27,7 @@
 				<div class="article">
 					<input type="hidden" value="<?php echo $tour[0] -> Id;?>" id="tour_id">
 					<input type="hidden" value="<?php echo $tour[0] -> days;?>" id="tour_day">
-					<input type="hidden" value="<?php echo $tour[0] -> is_private;?>" id="is_private">
+					<input type="hidden" value="<?php echo $tour[0] -> tour_type;?>" id="is_private">
 					<?php if(isset($tour[0]->name)):
 					?>
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>

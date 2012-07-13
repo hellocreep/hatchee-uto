@@ -108,7 +108,18 @@
 							</p>
 						</div>
 					</div>
-
+					<div class="control-group">
+						<label class="control-label" for="editor">公司名称(公司出游案例)：</label>
+						<div class="controls">
+							<input name="company" class="input-xlarge" type="text" value="<?php echo $note['company'];?>">
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="editor">出游人数(公司出游案例)：</label>
+						<div class="controls">
+							<input name="people" class="input-xlarge" type="text" value="<?php echo $note['people'];?>">
+						</div>
+					</div>
 					<div class="control-group">
 						<h2 class="" style="text-align: center;">游记正文：</h2>
 						<div>

@@ -30,6 +30,8 @@ $.ajaxSetup({
 	}
 });
 
+window.finder_base = "/uto/assets/ckfinder/";
+
 //翻页
 //TODO 上一页下一页 
 $.fn.uto_pag = function( opts ){

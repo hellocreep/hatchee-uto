@@ -31,10 +31,10 @@
 			CKEDITOR.replace( 'editor',{
 				height: 500
 			});
+			var finder = new CKFinder();
 			$( '#filemanager' ).click(function(e){
 				e.preventDefault();
-				var finder = new CKFinder();
-				finder.basePath = "/uto/assets/ckfinder/";
+				finder.basePath = finder_base;
 				finder.callback = function( api ){
 
 				}
@@ -64,64 +64,10 @@
 					//this.openMsgDialog( '', 'Additional data: ' + data['selectActionData'] );
 					//document.getElementById( data['selectActionData'] ).innerHTML = fileUrl;
 				}
-				finder.popup( 600, 600 );
+				finder.popup( 800, 800 );
 			})
 
-			// var des_editor;
-			// KindEditor.ready(function(K) {
-			// 	des_editor = K.create('#editor', {
-			// 		resizeType : 1,
-			// 		uploadJson : 'editor/upload',
-			// 		fileManagerJson : 'editor/manage',
-			// 		allowFileManager : true,
-			// 		allowPreviewEmoticons : true,
-			// 		allowImageUpload : true,
-			// 		items : ['source', '|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', '|', 'image', 'multiimage', 'link']
-			// 	});
-			// });
-
-			// KindEditor.ready(function(K) {
-			// 	var fm = K.editor({
-			// 		fileManagerJson : 'editor/manage'
-			// 	});
-			// 	K('#filemanager').click(function(e) {
-			// 		e.preventDefault();
-			// 		fm.loadPlugin('filemanager', function() {
-			// 			fm.plugin.filemanagerDialog({
-			// 				viewType : 'VIEW',
-			// 				dirName : 'image',
-			// 				clickFn : function(url, title) {
-			// 					K('#userfile').val(url);
-			// 					$.ajax({
-			// 						url : 'imagemanage/imgUpload',
-			// 						data : {
-			// 							userfile : url
-			// 						},
-			// 						success : function(result) {
-			// 							var gallery_val = $('input[name="gallery"]').val();
-			// 							if (gallery_val.length > 0) {
-			// 								var g = gallery_val + "," + result[0].Id;
-			// 								$('input[name="gallery"]').val(g);
-			// 							} else {
-			// 								$('input[name="gallery"]').val(result[0].Id);
-			// 							}
-			// 							if( result[0].small !== null ){
-			// 								$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img src=" + result[0].small + " /></a></li>");
-			// 							}else{
-			// 								$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img width='130px' height='80px' src=" + result[0].path + " /></a></li>");
-			// 							}
-										
-			// 						}
-			// 					});
-			// 					fm.hideDialog();
-			// 				}
-			// 			});
-			// 		});
-			// 	});
-			// }); 
-
 			$( '#submit-des' ).click(function(){
-				//des_editor.sync();
 				//ckeditor数据同步到textarea	
 				for ( instance in CKEDITOR.instances ){
 					CKEDITOR.instances[instance].updateElement();

@@ -356,6 +356,42 @@ $(function(){
 		height: 500
 	});
 
+	$( '#filemanager' ).click(function(e){
+		e.preventDefault();
+		var finder = new CKFinder();
+		finder.basePath = "/uto/assets/ckfinder/";
+		finder.callback = function( api ){
+
+		}
+		finder.selectActionFunction = function( fileUrl, data ) {
+			$.ajax({
+				url : 'imagemanage/imgUpload',
+				data : {
+					userfile : fileUrl
+				},
+				success : function(result) {
+					var gallery_val = $('input[name="gallery"]').val();
+					if (gallery_val.length > 0) {
+						var g = gallery_val + "," + result[0].Id;
+						$('input[name="gallery"]').val(g);
+					} else {
+						$('input[name="gallery"]').val(result[0].Id);
+					}
+					if( result[0].small !== null ){
+						$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img src=" + result[0].small + " /></a></li>");
+					}else{
+						$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img width='130px' height='80px' src=" + result[0].path + " /></a></li>");
+					}
+					
+				}
+			});
+			// Using CKFinderAPI to show simple dialog.
+			//this.openMsgDialog( '', 'Additional data: ' + data['selectActionData'] );
+			//document.getElementById( data['selectActionData'] ).innerHTML = fileUrl;
+		}
+		finder.popup( 600, 600 );
+	})
+
 	//判断是否小包团
 	$( 'input[name="is-private"]').change(function(){
 		if( $(this)[0].checked ){

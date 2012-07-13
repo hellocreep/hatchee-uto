@@ -43,7 +43,7 @@
 								<li>
 									价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
 									<span class="price">￥<b>
-										<?php if(isset($tour[0]->price)): ?>
+										<?php if(isset($tour[0]-s>price)): ?>
 										<?php echo $tour[0] ->price;?>
 										<?php endif;?>
 									</b>起</span>

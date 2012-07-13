@@ -138,14 +138,14 @@
 				<div class="control-group">
 					<label class="control-label" for="people">人数（公司出游）：</label>
 					<div class="controls">
-						<input name="people" class="input-xlarge" type="text">
+						<input name="people" class="input-xlarge" type="text" value="<?php $tour[0]->people;?>">
 					</div>
 				</div>
 
 				<div class="control-group">
 					<label class="control-label" for="company_intro">活动简介（公司出游）：</label>
 					<div class="controls">
-						<input name="company_intro" class="input-xlarge" type="text">
+						<input name="company_intro" class="input-xlarge" type="text" value="<?php $tour[0]->company_intro;?>">
 					</div>
 				</div>
 

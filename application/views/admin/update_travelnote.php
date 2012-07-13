@@ -51,28 +51,28 @@
 					<div class="control-group">
 						<label class="control-label" for="type">活动类型：</label>
 						<div class="controls">
-							<?php if($note['type']=="公司出游"):?>
+							<?php if($note['type']=="公司出游案例"):?>
 							
-							<input type="radio" name="type" value="公司出游" checked="checked">
-							公司出游
-							<input type="radio" name="type" value="主题旅行">
-							主题旅行
-							<input type="radio" name="type" value="定制旅行">
-							定制旅行
-							<?php elseif($note['type']=="主题旅行"):?>
-							<input type="radio" name="type" value="主题旅行" checked="checked">
-							主题旅行
-							<input type="radio" name="type" value="公司出游">
-							公司出游
-							<input type="radio" name="type" value="定制旅行">
-							定制旅行
+							<input type="radio" name="type" value="公司出游案例" checked="checked">
+							公司出游案例
+							<input type="radio" name="type" value="主题旅行案例">
+							主题旅行案例
+							<input type="radio" name="type" value="友途活动案例">
+							友途活动案例
+							<?php elseif($note['type']=="主题旅行案例"):?>
+							<input type="radio" name="type" value="主题旅行案例" checked="checked">
+							主题旅行案例
+							<input type="radio" name="type" value="公司出游案例">
+							公司出游案例
+							<input type="radio" name="type" value="友途活动案例">
+							友途活动案例
 							<?php else:?>
-							<input type="radio" name="type" value="定制旅行" checked="checked">
-							定制旅行
-							<input type="radio" name="type" value="主题旅行">
-							主题旅行
-							<input type="radio" name="type" value="公司出游">
-							公司出游
+							<input type="radio" name="type" value="友途活动案例" checked="checked">
+							友途活动案例
+							<input type="radio" name="type" value="主题旅行案例">
+							主题旅行案例
+							<input type="radio" name="type" value="公司出游案例">
+							公司出游案例
 							<?php endif;?>
 						</div>
 					</div>

@@ -1,22 +1,29 @@
 ;(function(){
 $(function(){
 
-	var editor;
-	KindEditor.ready(function(K) {
-		editor = K.create('#web_content', {
-			resizeType : 1,
-			uploadJson : 'editor/upload',
-			fileManagerJson : 'editor/manage',
-			allowFileManager : true,
-			allowPreviewEmoticons : true,
-			allowImageUpload : true,
-			items : ['source', '|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', '|', 'image', 'multiimage', 'link']
+	// var editor;
+	// KindEditor.ready(function(K) {
+	// 	editor = K.create('#web_content', {
+	// 		resizeType : 1,
+	// 		uploadJson : 'editor/upload',
+	// 		fileManagerJson : 'editor/manage',
+	// 		allowFileManager : true,
+	// 		allowPreviewEmoticons : true,
+	// 		allowImageUpload : true,
+	// 		items : ['source', '|', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist', 'insertunorderedlist', '|', 'image', 'multiimage', 'link']
+	// 	});
+	// });
+	
+	CKEDITOR.replace('web_content',{
 		});
-	});
 
 	$( '#submit' ).click(function( e ){
 		e.preventDefault();
-		editor.sync();
+		//editor.sync();
+		//ckeditor数据同步到textarea	
+		for ( instance in CKEDITOR.instances ){
+			CKEDITOR.instances[instance].updateElement();
+		}
 		var data = {
 			type: $('input[name="type"]').val(),
 			title: $('input[name="title"]').val(),

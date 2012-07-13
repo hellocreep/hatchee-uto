@@ -97,7 +97,7 @@ var empty_route_input = function(){
 	$( '.modal-body .input-xlarge' ).each(function(){
 		$( this ).val('');
 	});
-	$( window.frames[0].document ).find( '.ke-content' ).empty();
+	$( window.frames[0].document ).find( '.cke_show_borders' ).empty();
 }
 
 //行程
@@ -139,7 +139,10 @@ var route = {
 		$( '#submit-route' ).unbind( 'click' ); //取消上次绑定方法
 		$( '#submit-route' ).click(function( e ){
 			e.preventDefault();
-			editor.sync(); //从kindeditor iframe中把数据同步到 textarea
+			//editor.sync(); //从kindeditor iframe中把数据同步到 textarea
+			for ( instance in CKEDITOR.instances ){
+				CKEDITOR.instances[instance].updateElement();
+			}
 			var day = $( '#route-day' ).val();
 			var data = {
 				course: $( 'input[name="course"]' ).val(),
@@ -173,12 +176,15 @@ var route = {
 			},
 			success: function( result ){
 				$( 'input[name="course"]' ).val( result.course );
-				$( window.frames[0].document ).find( '.ke-content' ).html( result.content );
+				$( window.frames[0].document ).find( '.cke_show_borders' ).html( result.content );
 				$( 'textarea[name="route-tips"]' ).val( result.tips );
 				$( '#submit-route' ).unbind( 'click' );
 				$( '#submit-route' ).click(function( e ){
 					e.preventDefault();
-					editor.sync(); //从kindediter iframe中把数据同步到 textarea
+					//editor.sync(); //从kindediter iframe中把数据同步到 textarea
+					for ( instance in CKEDITOR.instances ){
+						CKEDITOR.instances[instance].updateElement();
+					}
 					var data = {
 						id: result.Id,
 						course: $( 'input[name="course"]' ).val(),
@@ -271,6 +277,7 @@ var submittour = function(){
 			is_private: $('input:checkbox[name="is-private"]')[0].checked,
 			title: $('input[name="title"]').val(),
 			name : $('input[name="name"]').val(),
+			sub_name: $('input[name="sub_name"]').val()||'',
 			thumbnail : $('input[name="thumbnail"]').val(),
 			keywords : $('input[name="keywords"]').val(),
 			description : $('input[name="description"]').val(),
@@ -334,23 +341,67 @@ var submittour = function(){
 }
 
 $(function(){
+
+	//shift+enter ——> br
+	
+	var finder = new CKFinder();
+	var finder_base = '/uto/assets/ckfinder/';
 	//frames[0]
-	CKEDITOR.replace( 'route-detail',{
+	var route_editor = CKEDITOR.replace( 'route-detail',{
 		toolbar : 'MyToolbar'
 	});
+	CKFinder.setupCKEditor( route_editor, finder_base );
+
 	//frames[1]
 	CKEDITOR.replace( 'tour-term-private', {
 		height: 500
 	});
+
 	//frames[2]
-	// CKEDITOR.replace( 'price_detail',{
-	// 	enterMode: CKEDITOR.ENTER_BR,
-	// 	height: 500
-	// });
+	CKEDITOR.replace( 'price_detail',{
+		height: 500
+	});
 	//frames[3]
 	CKEDITOR.replace( 'tour_content',{
 		height: 500
 	});
+	//frames[4]
+	CKEDITOR.replace('tour_notice',{
+	})
+
+	$( '#filemanager' ).click(function(e){
+		e.preventDefault();
+		finder.callback = function( api ){
+
+		}
+		finder.selectActionFunction = function( fileUrl, data ) {
+			$.ajax({
+				url : 'imagemanage/imgUpload',
+				data : {
+					userfile : fileUrl
+				},
+				success : function(result) {
+					var gallery_val = $('input[name="gallery"]').val();
+					if (gallery_val.length > 0) {
+						var g = gallery_val + "," + result[0].Id;
+						$('input[name="gallery"]').val(g);
+					} else {
+						$('input[name="gallery"]').val(result[0].Id);
+					}
+					if( result[0].small !== null ){
+						$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img src=" + result[0].small + " /></a></li>");
+					}else{
+						$('#gallery-preview').append("<li class='span2'><a class='thumbnail' rel='"+result[0].Id+"'><img width='130px' height='80px' src=" + result[0].path + " /></a></li>");
+					}
+					
+				}
+			});
+			// Using CKFinderAPI to show simple dialog.
+			//this.openMsgDialog( '', 'Additional data: ' + data['selectActionData'] );
+			//document.getElementById( data['selectActionData'] ).innerHTML = fileUrl;
+		}
+		finder.popup( 800,600 );
+	})
 
 	//判断是否小包团
 	$( 'input[name="is-private"]').change(function(){

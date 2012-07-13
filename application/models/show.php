@@ -10,11 +10,11 @@ class Show extends CI_Model
 	{
 		if($term!='')
 		{
-			$this->db->where('is_private','0');
+			$this->db->where('tour_type','0');
 		}
 		else
 		{
-			$this->db->where('is_private','1');
+			$this->db->where('tour_type','1');
 		}
 		$this->db->from('tour');
 		$query=$this->db->get();
@@ -23,7 +23,7 @@ class Show extends CI_Model
 	public function showthemetour($offset,$num,$action)
 	{
 		
-		$this->db->where('is_private','1');
+		$this->db->where('tour_type','1');
 		$this->db->limit($num,$offset);
 		$this->db->from('tour');
 		if($action!='')
@@ -37,7 +37,7 @@ class Show extends CI_Model
 	public function showtermtour($offset,$num,$action)
 	{
 		
-		$this->db->where('is_private','0');
+		$this->db->where('tour_type','0');
 		$this->db->limit($num,$offset);
 		$this->db->from('tour');
 		if($action!='')

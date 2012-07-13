@@ -97,7 +97,7 @@ var empty_route_input = function(){
 	$( '.modal-body .input-xlarge' ).each(function(){
 		$( this ).val('');
 	});
-	$( window.frames[0].document ).find( '.ke-content' ).empty();
+	$( window.frames[0].document ).find( '.cke_show_borders' ).empty();
 }
 
 //行程
@@ -139,7 +139,10 @@ var route = {
 		$( '#submit-route' ).unbind( 'click' ); //取消上次绑定方法
 		$( '#submit-route' ).click(function( e ){
 			e.preventDefault();
-			editor.sync(); //从kindeditor iframe中把数据同步到 textarea
+			//editor.sync(); //从kindeditor iframe中把数据同步到 textarea
+			for ( instance in CKEDITOR.instances ){
+				CKEDITOR.instances[instance].updateElement();
+			}
 			var day = $( '#route-day' ).val();
 			var data = {
 				course: $( 'input[name="course"]' ).val(),
@@ -173,12 +176,15 @@ var route = {
 			},
 			success: function( result ){
 				$( 'input[name="course"]' ).val( result.course );
-				$( window.frames[0].document ).find( '.ke-content' ).html( result.content );
+				$( window.frames[0].document ).find( '.cke_show_borders' ).html( result.content );
 				$( 'textarea[name="route-tips"]' ).val( result.tips );
 				$( '#submit-route' ).unbind( 'click' );
 				$( '#submit-route' ).click(function( e ){
 					e.preventDefault();
-					editor.sync(); //从kindediter iframe中把数据同步到 textarea
+					//editor.sync(); //从kindediter iframe中把数据同步到 textarea
+					for ( instance in CKEDITOR.instances ){
+						CKEDITOR.instances[instance].updateElement();
+					}
 					var data = {
 						id: result.Id,
 						course: $( 'input[name="course"]' ).val(),
@@ -334,27 +340,30 @@ var submittour = function(){
 }
 
 $(function(){
+	//shift+enter ——> br
+
 	//frames[0]
-	CKEDITOR.replace( 'route-detail',{
+	var route_editor = CKEDITOR.replace( 'route-detail',{
 		toolbar : 'MyToolbar'
 	});
+	CKFinder.setupCKEditor( route_editor, '/uto/assets/ckfinder/' );
+
 	//frames[1]
-	var editor = CKEDITOR.replace( 'tour-term-private', {
-		toolbar : 'MyToolbar',
+	CKEDITOR.replace( 'tour-term-private', {
 		height: 500
 	});
 
-	CKFinder.setupCKEditor( editor, '/uto/assets/ckfinder/' );
-
 	//frames[2]
-	// CKEDITOR.replace( 'price_detail',{
-	// 	enterMode: CKEDITOR.ENTER_BR,
-	// 	height: 500
-	// });
+	CKEDITOR.replace( 'price_detail',{
+		height: 500
+	});
 	//frames[3]
 	CKEDITOR.replace( 'tour_content',{
 		height: 500
 	});
+	//frames[4]
+	CKEDITOR.replace('tour_notice',{
+	})
 
 	$( '#filemanager' ).click(function(e){
 		e.preventDefault();

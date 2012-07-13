@@ -6,8 +6,8 @@
 		<base href="<?php echo base_url(); ?>"/>
 		<base src="<?php echo base_url(); ?>"/>
 		<?php $this -> load -> view("admin/global_source"); ?>
-		<script charset="utf-8" src="assets/kindeditor/kindeditor-min.js"></script>
-		<script charset="utf-8" src="assets/kindeditor/lang/zh_CN.js"></script>
+		<script charset="utf-8" src="assets/ckeditor/ckeditor.js"></script>
+		<script charset="utf-8" src="assets/ckfinder/ckfinder.js"></script>	
 		<script src="assets/scripts/admin/web_page.js"></script>
 	</head>
 	<body>

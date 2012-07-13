@@ -3,14 +3,14 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title><?php echo $webinfo[0] -> title;?> | 友途旅行网</title>
-		<meta name="description" content="<?php echo $webinfo[0] -> description;?>">
-		<meta name="keywords" content="<?php echo $webinfo[0] -> keywords;?>">
+		<!-- <meta name="description" content="<?php echo $webinfo[0] -> description;?>">
+		<meta name="keywords" content="<?php echo $webinfo[0] -> keywords;?>"> -->
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<link rel="stylesheet" type="text/css" href="assets/styles/landingpage.css">
 		<?php $this -> load -> view("web/global_source");?>
 	</head>
-	<body id="n-trip">
+	<body id="n-company">
 		<div class="wrapper">
 			<?php $this->load->view('web/header'); ?>
 			
@@ -118,7 +118,19 @@
 					</div>
 					<div class="activity">
 						<h3>拓展活动内容</h3>
-						<h3>活动性质</h3>
+						<ul>
+							<li>
+								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
+								<h5>真人CS</h5>	
+								<p>
+									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
+								</p>
+								<p>
+									活动性质：
+								</p>
+							</li>
+						</ul>
+						
 					</div>
 				</div> <!-- end of .article -->
 					

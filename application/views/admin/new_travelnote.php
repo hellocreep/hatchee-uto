@@ -28,13 +28,13 @@
 				</div>
 			</div>
 
-			<form class="well form-horizontal" action="" method="post">
+			<form id="travel_note" class="well form-horizontal" action="travelnote/addtravel" method="post">
 				<fieldset>
 
 					<div class="control-group">
-						<label class="control-label" for="t_id">活动：</label>
+						<label class="control-label" for="tid">活动：</label>
 						<div class="controls">
-							<select class="input-xlarge">
+							<select class="input-xlarge" name="tid">
 								<?php foreach($tour as $tour):?>
 								<option name="t_id" value="<?php echo $tour->Id;?>"><?php echo $tour->name;?></option>
 								<?php endforeach;?>
@@ -95,7 +95,7 @@
 						</div>
 					</div>
 					<div class="control-group">
-						<label class="control-label" for="editor">出游人数(公司出游案例)：</label>
+						<label class="control-label" for="people">出游人数(公司出游案例)：</label>
 						<div class="controls">
 							<input name="people" class="input-xlarge" type="text" value="">
 						</div>

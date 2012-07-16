@@ -20,8 +20,17 @@
 				</div>
 				<div class="aside"></div>
 				<div class="article com">
+					<div class="pageintro">
+						<p><img src="assets/images/gscy.gif"></p>
+						<p>
+							累积多年公司出游服务经验，或公司拓展、或奖励旅行，友途可谓打造了一流的服务。每条由友途专家精心设计安排的行程，都兼顾了趣味性和团队性。旅途中的各项运动项目，既有考验团队合作精神的集体项目，也有充分展示个人风采的个人项目，既有需要较高技巧的项目，也有非常消耗体力的剧烈运动。把大家从日常繁重的工作中解脱出来，彻底抛弃工作中的压力，快乐不再压抑，信心从此增强，让您的员工们拥有了团队，毅力与信心，把力量悄悄凝聚，迎接翘首以盼的胜利。 
+						</p>
+						<p>
+							友途提供给您的公司出游服务，在乎的并不仅仅是每团员的体验，而是您整个团队的改变。 无论小团体还是大团队，友途都将根据您企业的实际需求，为您提供专业的解决方案，使您从容达成目标。　
+						</p>
+					</div>
+
 					<div class="recommend">
-						<h3>推荐的公司活动线路</h3>	
 						<ul class="routelist clearfix">
 							<?php foreach($tour as $company):?>
 								<li>
@@ -125,7 +134,7 @@
 				</div> <!-- end of .article -->
 					
 			</div>
-			<div class="footer"></div>
+			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->
 		</div><!-- 	end of .wrapper	 -->
 	</body>
 </html>

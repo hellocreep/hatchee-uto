@@ -36,9 +36,8 @@
 						<?php if(isset($tour[0]->thumbnail)):
 						?><img class="des-img" width="300" height="180" src="<?php echo $tour[0] -> thumbnail;?>" title="<?php echo $tour[0] -> name;?>" alt="<?php echo $tour[0] -> name;?>">
 						<?php endif;?>
-						<?php if(isset($tour[0]->intro)):
-						?>
-						<?php echo $tour[0] -> intro;?>
+						<?php if(isset($tour[0]->intro)):?>
+						<?php echo $this->cimarkdown->markit($tour[0] -> intro);?>
 						<?php endif;?>
 					</div>
 					<div class="join clearfix">
@@ -102,7 +101,7 @@
 							<div class="experience">
 								<?php if(isset($tour[0]->content)):
 								?>
-								<?php echo $tour[0] -> content;?>
+								<?php echo $this->cimarkdown->markit($tour[0] -> content);?>
 								<?php endif;?>
 							</div>
 							<h4>线路地图</h4>
@@ -151,14 +150,14 @@
 							<!-- 费用说明 -->
 							<?php if(isset($tour[0]->price_detail)):
 							?>
-							<?php echo $tour[0] -> price_detail;?>
+							<?php echo $this->cimarkdown->markit($tour[0] -> price_detail);?>
 							<?php endif;?>
 						</div>
 						<div class="unit">
 							<!--  注意事项 -->
 							<?php if(isset($tour[0]->notice)):
 							?>
-							<?php echo $tour[0] -> notice;?>
+							<?php echo $this->cimarkdown->markit($tour[0] -> notice);?>
 							<?php endif;?>
 						</div>
 					</div>

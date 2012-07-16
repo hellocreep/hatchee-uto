@@ -29,16 +29,16 @@
 						</p>
 					</div>
 					<!-- 当前线路不多，因此暂时隐藏排序功能，勿删 -->
-					<!-- <div class="sort">
+					<div class="sort">
 						排序方式：
-						<a href="termtour/index/1/days">依天数</a>	
+						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>
 						<div class="pagenate">
 							<a href="<?php echo $page['first'];?>">首页</a>
 							<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>
 							<a href="<?php echo $page['next'];?>" class="nextPage">下一页</a>
 							<a href="<?php echo $page['end'];?>">尾页</a>
 						</div>
-					</div> -->
+					</div>
 					<ul class="routelist clearfix">
 						<?php if(isset($tour)):?>
 							<?php for($i=0;$i<count($tour);$i++):?>

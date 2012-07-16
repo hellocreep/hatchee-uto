@@ -20,7 +20,7 @@ class Show extends CI_Model
 		$query=$this->db->get();
 		return $query->num_rows();
 	}
-	public function showthemetour($offset,$num,$action)
+	public function showthemetour($offset,$num,$action,$sort)
 	{
 		
 		$this->db->where('tour_type','1');
@@ -28,13 +28,23 @@ class Show extends CI_Model
 		$this->db->from('tour');
 		if($action!='')
 		{
-			$this->db->order_by("days","desc");
+			if($action=='price')
+			{
+				$this->db->order_by("price",$sort);
+				$this->db->order_by("days",$sort);
+
+			}
+			else
+			{
+				$this->db->order_by("days",$sort);
+				$this->db->order_by("price",$sort);
+			}
 		}
 
 		$query=$this->db->get();
 		return $query->result_array();
 	}
-	public function showtermtour($offset,$num,$action)
+	public function showtermtour($offset,$num,$action,$sort)
 	{
 		
 		$this->db->where('tour_type','0');
@@ -42,7 +52,17 @@ class Show extends CI_Model
 		$this->db->from('tour');
 		if($action!='')
 		{
-			$this->db->order_by("days","desc");
+			if($action=='price')
+			{
+				$this->db->order_by("price",$sort);
+				$this->db->order_by("days",$sort);
+
+			}
+			else
+			{
+				$this->db->order_by("days",$sort);
+				$this->db->order_by("price",$sort);
+			}
 		}
 
 		$query=$this->db->get();

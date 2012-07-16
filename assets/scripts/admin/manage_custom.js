@@ -30,6 +30,7 @@ $.ajaxSetup({
 	}
 });
 
+//ckfinder根目录
 window.finder_base = "/utoadmin/assets/ckfinder/";
 
 //翻页
@@ -286,13 +287,23 @@ var tour = {
 	list_tour: function( result ){
 		var tour_list = ' ';
 		var who_edit =' ';
+		var tour_type = '';
 		for( var i = 0; i<result.length; i++ ){
 			if( result[i].who_edit.length>0 ){
 				who_edit = "<span class='label label-warning' title='正在编辑'>"+result[i].who_edit+"</span>";
 			}else{
 				who_edit = '';
 			}
-			tour_list += "<tr><td class='t_id'>"+result[i].Id+"</td> \
+			if( result[i].tour_type == 0 ){
+				tour_type = "<span class='badge badge-tour-type badge-0'>定期</span>";
+			}
+			if( result[i].tour_type == 1 ){
+				tour_type = "<span class='badge badge-tour-type badge-1'>主题</span>";
+			}
+			if( result[i].tour_type == 2 ){
+				tour_type = "<span class='badge badge-tour-type badge-2'>公司</span>";
+			}
+			tour_list += "<tr><td class='t_id'>"+result[i].Id+tour_type+"</td> \
 			<td class='t_name'>" +result[i].name+ "</td> \
 			<td class='t_price' rel='"+result[i].price+"'>"+result[i].price+"</td> \
 			<td>"+result[i].edit_time+"</td> \

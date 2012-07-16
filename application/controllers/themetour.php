@@ -74,7 +74,7 @@ class Themetour extends CI_Controller
 			$data['page']['pre']='themetour/index/'.$pagepre;
 			$data['page']['next']='themetour/index/'.$pagenext;
 		}
-
+		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();
 		$type="theme_tour";

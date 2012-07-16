@@ -70,6 +70,7 @@ class Termtour extends CI_Controller
 			$data['page']['pre']='termtour/index/'.$pagepre;
 			$data['page']['next']='termtour/index/'.$pagenext;
 		}
+		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();
 		$type="regular_tour";

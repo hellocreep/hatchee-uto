@@ -44,7 +44,7 @@
 									<b>活动主题：</b>
 									<span>
 										<?php if(isset($tour[0]->theme)): ?>
-										<?php echo substr($tour[0] -> theme,0,-1);?>
+										<?php echo str_replace(',','、',substr($tour[0] -> theme,0,-1));?>
 										<?php endif;?>
 									</span>
 								</li>
@@ -100,7 +100,7 @@
 					<div class="vehicle join clearfix">
 						<div class="schedule_table clearfix">
 							<?php if(isset($tour[0]->term)):?>
-							<?php echo $tour[0]->term;?>
+							<?php echo $this->cimarkdown->markit($tour[0]->term);?>
 							<?php endif;?>
 						</div>			
 						<p class="apply">
@@ -150,7 +150,7 @@
 						<p>
 							<?php if(isset($tour[0]->intro)):
 							?>
-							<?php echo $tour[0] -> intro;?>
+							<?php echo $this->cimarkdown->markit($tour[0] -> intro);?>
 							<?php endif;?>
 						</p>
 						
@@ -158,7 +158,7 @@
 						<div class="experience">
 							<?php if(isset($tour[0]->content)):
 							?>
-							<?php echo $tour[0] -> content;?>
+							<?php echo $this->cimarkdown->markit($tour[0] -> content);?>
 							<?php endif;?>
 						</div>
 					</div> <!-- end of .unit -->
@@ -198,13 +198,13 @@
 					<div class="unit fee"> <!-- 费用说明 -->
 						<?php if(isset($tour[0]->price_detail)):
 						?>
-						<?php echo $tour[0] -> price_detail;?>
+						<?php echo $this->cimarkdown->markit($tour[0] -> price_detail);?>
 						<?php endif;?>
 					</div>
 					<div class="unit"> <!--  注意事项 -->
 						<?php if(isset($tour[0]->notice)):
 						?>
-						<?php echo $tour[0] -> notice;?>
+						<?php echo $this->cimarkdown->markit($tour[0] -> notice);?>
 						<?php endif;?>
 					</div>
 					<div class="unit customize">

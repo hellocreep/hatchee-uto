@@ -133,7 +133,7 @@
 					</ul>
 				</div>
 			</div>
-			<div class="footer"></div>
+			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->
 		</div><!-- 	end of .wrapper	 -->
 	</body>
 </html>

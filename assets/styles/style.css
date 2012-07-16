@@ -262,18 +262,22 @@ img, div {
 	background:#fff;
 }
 .footer{
-	width: 1020px;
 	margin: 10px auto 30px;
+	padding: 0 50px;
+	width: 920px;
 }
 .footnav a{
 	margin: 0 10px;
 }
-.footer p{
-	margin-left: 10px;
+.footer span{
+	margin: 0 30px 0 10px;
 }
-.footer p.footnav{
-	margin-left: 0;
+
+.footnav span{
+	float: right;
+	margin: 0;
 }
+
 .zoomLay{
 	display:block;
 	position:absolute;

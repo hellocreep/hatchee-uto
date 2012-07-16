@@ -124,13 +124,14 @@ table.data th{
 	margin: 20px 0 30px;
 }
 .method dt{
-	padding: 3px 0;
-	margin: 3px 0;
+	margin: 0 0 3px;
 }
-.method dl{
-	float: left;
-	color: #60A6A2;
-	margin: 0 50px;
+.method dl {
+  border: 2px solid #60A6A2;
+  color: #60A6A2;
+  float: left;
+  margin: 0 90px 0 0;
+  padding: 5px;
 }
 .method dd span{
 	font-size: 16px;

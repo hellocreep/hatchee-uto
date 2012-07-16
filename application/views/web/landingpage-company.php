@@ -31,7 +31,6 @@
 					</div>
 
 					<div class="recommend">
-						<h3>推荐的公司活动线路</h3>	
 						<ul class="routelist clearfix">
 							<?php foreach($tour as $company):?>
 								<li>
@@ -135,7 +134,7 @@
 				</div> <!-- end of .article -->
 					
 			</div>
-			<div class="footer"></div>
+			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->
 		</div><!-- 	end of .wrapper	 -->
 	</body>
 </html>

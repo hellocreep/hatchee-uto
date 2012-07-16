@@ -63,26 +63,23 @@
 										</span>
 									</span>
 								</li>
-								<li>
-<<<<<<< HEAD
-									<b>报名时间：&nbsp;</b><span  class="m-time">请提前&nbsp;<b>10</b>&nbsp;天报名</span>
+								<li> <b>报名时间：&nbsp;</b>
+									<span  class="m-time">
+										请提前&nbsp; <b>10</b>
+										&nbsp;天报名
+									</span>
 								</li>
 								<li>
-									<b>客服电话：&nbsp;</b><span class="price"><b>4000-520-161</b></span>
+									<b>客服电话：&nbsp;</b>
+									<span class="price">
+										<b>4000-520-161</b>
+									</span>
 								</li>
 								<li>
-									<b>客服&nbsp;QQ：&nbsp;</b><a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
-=======
-									报名时间：&nbsp;<span  class="m-time">请提前&nbsp;<b>10</b>&nbsp;天报名</span>
-								</li>
-								<li>
-									客服电话：&nbsp;<span class="price"><b>4000-520-161</b></span>
-								</li>
-								<li>
-									客服&nbsp;QQ：&nbsp;<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
->>>>>>> 95f6bb91a40ca92a09439bf8934d44932fb59cc0
-												<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
-											</a>
+									<b>客服&nbsp;QQ：&nbsp;</b>
+									<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
+										<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
+									</a>
 								</li>
 							</ul>
 
@@ -292,7 +289,7 @@
 				</div>
 				</div>
 			</div><!-- end of .article -->
-			<div class="footer"></div>
+			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->
 		</div><!-- 	end of .wrapper	 -->
 	</body>
 </html>

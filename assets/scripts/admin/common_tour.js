@@ -1,7 +1,7 @@
 ;(function(){
 
 window.uto_var = {
-	tpl_table: "<table cellspacing='0' cellpadding='2' bordercolor='#DDD' border='1' style='width:100%;'> \
+	tpl_table: "<table> \
 	<tbody> \
 		<tr> \
 			<th>时间</th> \

@@ -8,7 +8,7 @@
 		public function managetour( $page ) {
 			$step = 15;
 			$begin = ($page-1) * $step;
-			$sql = "select Id,name,edit_time,who_edit,price from tour limit ".$begin.",".$step;
+			$sql = "select Id,name,edit_time,who_edit,price,tour_type from tour limit ".$begin.",".$step;
 			$query=$this->db->query($sql);
 			$data=$query->result();
 			return $data;	

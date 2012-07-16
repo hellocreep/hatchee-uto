@@ -36,8 +36,7 @@
 						<?php if(isset($tour[0]->thumbnail)):
 						?><img class="des-img" width="300" height="180" src="<?php echo $tour[0] -> thumbnail;?>" title="<?php echo $tour[0] -> name;?>" alt="<?php echo $tour[0] -> name;?>">
 						<?php endif;?>
-						<?php if(isset($tour[0]->intro)):
-						?>
+						<?php if(isset($tour[0]->intro)):?>
 						<?php echo $tour[0] -> intro;?>
 						<?php endif;?>
 					</div>

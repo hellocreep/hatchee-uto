@@ -219,3 +219,22 @@ input.input-xlarge {
     -moz-opacity: 0.5;
     filter:alpha(opacity=5);
 }
+
+.badge-tour-type {
+    background-color: none;
+    font-weight: normal;
+    font-size: 10px;
+    padding: 1px 2px;
+}
+
+.badge-0 {
+    background-color:#B75459;
+}
+
+.badge-1 {
+    background-color: #B5D420;
+}
+
+.badge-2 {
+    background-color: #607A94;
+}

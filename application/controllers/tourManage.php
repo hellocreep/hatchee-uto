@@ -69,6 +69,7 @@ class Tourmanage extends CI_Controller{
 		echo $res;
 	}
 	function addtour(){
+		$this->load->library('cimarkdown');
 		$data=json_decode($_POST['data']);
 		$title=$data->title;
 		$thumbnail=$data->thumbnail;
@@ -76,14 +77,14 @@ class Tourmanage extends CI_Controller{
 		$key=$data->keywords;
 		$description=$data->description;
 		$price=$data->price;
-		$price_detail=$data->price_detail;
+		$price_detail=$this->cimarkdown->markit($data->price_detail);
 		$days=$data->days;
 		$route=$data->route;
 		$route_intro=$data->route_intro;
-		$intro=$data->intro;//线路简介
-		$content=$data->content;
-		$notice=$data->notice;
-		$term=$data->term;
+		$intro=$this->cimarkdown->markit($data->intro);//线路简介
+		$content=$this->cimarkdown->markit($data->content);
+		$notice=$this->cimarkdown->markit($data->notice);
+		$term=$this->cimarkdown->markit($data->term);
 		$gallery=$data->gallery;
 		$tour_type=$data->tour_type;
 		$tour_map=$data->map;
@@ -256,6 +257,7 @@ class Tourmanage extends CI_Controller{
 	}
 	function updatetour()
 	{
+		$this->load->library('cimarkdown');
 		$data=json_decode($_POST['data']);
 		$tid=$data->upid;
 		$title=$data->title;
@@ -263,16 +265,16 @@ class Tourmanage extends CI_Controller{
 		$key=$data->keywords;
 		$description=$data->description;
 		$price=$data->price;
-		$price_detail=$data->price_detail;
+		$price_detail=$this->cimarkdown->markit($data->price_detail);
 		$days=$data->days;
 		$route=$data->route;
 		$route_intro=$data->route_intro;
-		$intro=$data->intro;//线路简介
-		$content=$data->content;
-		$notice=$data->notice;
+		$intro=$this->cimarkdown->markit($data->intro);//线路简介
+		$content=$this->cimarkdown->markit($data->content);
+		$notice=$this->cimarkdown->markit($data->notice);
 		$thumbnail=$data->thumbnail;
 		$gallery=$data->gallery;
-		$term=$data->term;
+		$term=$this->cimarkdown->markit($data->term);
 		$tour_type=$data->tour_type;
 		$tour_map=$data->map;
 		$tags='';

@@ -118,9 +118,23 @@
 					</div>
 
 					<div class="control-group">
+						<label class="control-label" for="price_detail">费用说明：</label>
+						<div class="controls">
+							<textarea  id="price_detail" name="price_detail" class="input-xlarge" rows="10"></textarea>
+						</div>
+					</div>
+					
+					<div class="control-group">
+						<label class="control-label" for="best_season">最佳季节：</label>
+						<div class="controls">
+							<input name="best_season" class="input-xlarge" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
 						<label class="control-label" for="people">人数（公司出游）：</label>
 						<div class="controls">
-							<input name="people" class="input-xlarge" type="text">
+							<input name="people" class="input-small" type="text">
 						</div>
 					</div>
 
@@ -128,13 +142,6 @@
 						<label class="control-label" for="company_intro">活动内容（公司出游）：</label>
 						<div class="controls">
 							<input name="company_intro" class="input-xlarge" type="text">
-						</div>
-					</div>
-
-					<div class="control-group">
-						<label class="control-label" for="price_detail">费用说明：</label>
-						<div class="controls">
-							<textarea  id="price_detail" name="price_detail" class="input-xlarge" rows="10"></textarea>
 						</div>
 					</div>
 

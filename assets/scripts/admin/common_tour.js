@@ -404,9 +404,9 @@ $(function(){
 		finder.popup( 800,600 );
 	})
 
-	//判断是否小包团
-	$( 'input[name="is-private"]').change(function(){
-		if( $(this)[0].checked ){
+	//线路类型
+	$( 'select[name="type_select"]').change(function(){
+		if( $(this).children( 'option:selected' ).val() == 1 ){
 			$( window.frames[1].document ).find( '.cke_show_borders' ).html( uto_var.tpl_table +'<br />'+ uto_var.tpl_table );
 		}else{
 			$( window.frames[1].document ).find( '.cke_show_borders' ).html( '' );

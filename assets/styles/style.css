@@ -186,7 +186,7 @@ img, div {
 	float:left;
 	border-radius:0 5px 0 0;
 	background:url("../images/nav-bg.png") repeat-x;
-	padding: 0 4px 0 10px;
+	padding: 0 2px 0 10px;
 }
 .nav li{
 	float:left;
@@ -197,9 +197,9 @@ img, div {
     float: left;
     font-size: 16px;
     font-weight: bold;
-    height: 33px;
-    line-height: 30px;
-    margin: 4px 0 0;
+    height: 35px;
+    line-height: 35px;
+    margin: 2px 0 0;
     padding: 0 15px;
     text-decoration: none;
     font-family: "宋体";
@@ -266,13 +266,16 @@ img, div {
 	margin: 50px auto;
 }
 .footwrap{
-	width: 1000px;
+	width: 840px;
 	float: left;
 	padding: 10px;
 	margin: 0 80px 50px;
 }
 .footnav{
-	margin: 50px 80px;
+	margin: 50px 80px 25px;
+	padding: 0 0 32px;
+	border-bottom: 1px solid #98B954;
+
 }
 .footnav li a{
 	display: block;

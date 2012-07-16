@@ -362,12 +362,12 @@ $(function(){
 	// 	height: 500
 	// });
 	//frames[3]
-	CKEDITOR.replace( 'tour_content',{
-		height: 500
-	});
+	// CKEDITOR.replace( 'tour_content',{
+	// 	height: 500
+	// });
 	//frames[4]
-	CKEDITOR.replace('tour_notice',{
-	})
+	// CKEDITOR.replace('tour_notice',{
+	// })
 
 	$( '#filemanager' ).click(function(e){
 		e.preventDefault();

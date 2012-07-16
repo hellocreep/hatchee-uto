@@ -74,9 +74,6 @@
 					
 					<ul class="sub-nav clearfix">
 						<li class="current">
-							线路简介 <span></span>
-						</li>
-						<li>
 							具体行程 <span></span>
 						</li>
 						<li>
@@ -90,31 +87,6 @@
 						</li>
 					</ul>
 					<div class="sub-wrap clearfix">
-					<div class="unit"><!-- 线路简介 -->
-						<p>
-						<b class="h4inline">行程简报：</b>
-							<?php if(isset($tour[0]->route_intro)):
-							?>
-							<?php echo $tour[0] -> route_intro;?>
-							<?php endif;?>
-						</p>
-						<h4> 线路简介： </h4>
-						<p>
-							<?php if(isset($tour[0]->intro)):
-							?>
-							<?php echo $tour[0] -> intro;?>
-							<?php endif;?>
-						</p>
-						
-						<h4>行程亮点及体验：</h4>
-						<div class="experience">
-							<?php if(isset($tour[0]->content)):
-							?>
-							<?php echo $tour[0] -> content;?>
-							<?php endif;?>
-						</div>
-					</div> <!-- end of .unit -->
-
 					<div class="unit route"> <!-- 具体行程 -->
 						<?php if(isset($route)):?>
 						<?php for($i=0;$i<count($route);$i++):?>

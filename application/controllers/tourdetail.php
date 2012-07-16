@@ -7,7 +7,6 @@ class Tourdetail extends CI_Controller{
 
 	function index(){
 		$tid = $_GET['tid'];
-		//$tid=$this->uri->segment(4)
 		$this->load->model('tour');
 		$this->load->library('cimarkdown');
 		$tourinfo = $this->tour->showTour($tid);

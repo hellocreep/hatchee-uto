@@ -1,7 +1,12 @@
 /*栏目主页样式*/
 .pageintro{
-	background: url(../images/background_pageintro.jpg) repeat-x;
-	padding: 0;
+	background: url("../images/background_pageintro.jpg") repeat-x scroll 0 bottom transparent;
+	border-radius: 10px 0 0 0;
+	margin-left: -20px;
+	margin-top: -20px;
+	margin-bottom: 10px;
+	padding: 20px 20px 10px;
+	width: 720px;
 }
 .sort{
 	background: #F4F4F4;	
@@ -33,6 +38,7 @@
 	line-height: 29px;
 }
 .routelist h2 a{
+	font-size: 16px;
 	color:inherit;
 	text-decoration: none;
 }

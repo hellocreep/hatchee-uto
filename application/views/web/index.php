@@ -25,7 +25,7 @@
 				</div>
 					
 			</div>
-			<div class="footer"></div>
+			<?php $this->load->view('web/footer'); ?>
 		</div><!-- 	end of .wrapper	 -->
 	</body>
 </html>

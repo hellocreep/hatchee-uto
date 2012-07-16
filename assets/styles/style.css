@@ -167,7 +167,7 @@ img, div {
 	margin:0 auto;
 	background:#f8efda;
 	border-radius:0 0 10px 10px;
-	border-top: 2px solid #30625E;
+	border-top: none;
 	border-right: 10px solid #30625E;
 	border-bottom: 10px solid #30625E;
 	border-left: 10px solid #30625E;
@@ -261,13 +261,29 @@ img, div {
 	background:#fff;
 }
 .footer{
-	height:200px;
 	background:#339966;
 	width: 1020px;
-	margin: 0 auto;
+	margin: 50px auto;
 }
-
-
+.footwrap{
+	width: 1000px;
+	float: left;
+	padding: 10px;
+	margin: 0 80px 50px;
+}
+.footnav{
+	margin: 50px 80px;
+}
+.footnav li a{
+	display: block;
+	float: left;
+	color: #fff;
+	font-size: 16px;
+	margin: 0 40px 0 0;
+}
+.footnav p{
+	color: #000;
+}
 
 .zoomLay{
 	display:block;

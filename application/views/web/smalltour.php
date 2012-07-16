@@ -148,9 +148,8 @@
 						</p>
 						<h4> 线路简介： </h4>
 						<p>
-							<?php if(isset($tour[0]->intro)):
-							?>
-							<?php echo $this->cimarkdown->markit($tour[0] -> intro);?>
+							<?php if(isset($tour[0]->intro)):?>
+							<?php echo $tour[0] -> intro;?>
 							<?php endif;?>
 						</p>
 						
@@ -158,7 +157,7 @@
 						<div class="experience">
 							<?php if(isset($tour[0]->content)):
 							?>
-							<?php echo $this->cimarkdown->markit($tour[0] -> content);?>
+							<?php echo $tour[0] -> content;?>
 							<?php endif;?>
 						</div>
 					</div> <!-- end of .unit -->
@@ -198,13 +197,13 @@
 					<div class="unit fee"> <!-- 费用说明 -->
 						<?php if(isset($tour[0]->price_detail)):
 						?>
-						<?php echo $this->cimarkdown->markit($tour[0] -> price_detail);?>
+						<?php echo $tour[0] -> price_detail;?>
 						<?php endif;?>
 					</div>
 					<div class="unit"> <!--  注意事项 -->
 						<?php if(isset($tour[0]->notice)):
 						?>
-						<?php echo $this->cimarkdown->markit($tour[0] -> notice);?>
+						<?php echo $tour[0] -> notice;?>
 						<?php endif;?>
 					</div>
 					<div class="unit customize">

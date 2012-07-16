@@ -36,7 +36,7 @@
 							<?php for($i=0;$i<count($tour);$i++):?>
 								<li>
 								<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
-								<p><?php echo $this->cimarkdown->markit(str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8'))).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
+								<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 								<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140"/></a></dt>
 									<dd>
@@ -46,7 +46,7 @@
 										<span>旅行地区：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['destination'],0,-1));?></div>
 									</dd>
 									<dd>
-									<span>最佳季节：&nbsp;</span><div><?php echo substr($tour[$i]['tags'],0,-1);?></div>
+									<span>最佳季节：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['tags'],0,-1));?></div>
 									</dd>
 									<dd>
 									<span>价&nbsp;&nbsp;&nbsp;&nbsp;格：&nbsp;</span><div><b class="price"><?php if(isset($tour[$i]['price'])): ?>

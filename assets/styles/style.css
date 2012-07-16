@@ -261,7 +261,6 @@ img, div {
 	background:#fff;
 }
 .footer{
-	background:#339966;
 	width: 1020px;
 	margin: 50px auto;
 }
@@ -272,7 +271,7 @@ img, div {
 	margin: 0 80px 50px;
 }
 .footnav{
-	margin: 50px 80px 25px;
+	margin: 0 80px 25px;
 	padding: 0 0 32px;
 	border-bottom: 1px solid #98B954;
 
@@ -280,7 +279,6 @@ img, div {
 .footnav li a{
 	display: block;
 	float: left;
-	color: #fff;
 	font-size: 16px;
 	margin: 0 40px 0 0;
 }

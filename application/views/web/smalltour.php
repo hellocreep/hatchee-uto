@@ -41,15 +41,7 @@
 						<div class="des-l">
 							<ul>
 								<li>
-									<b>活动主题：</b>
-									<span>
-										<?php if(isset($tour[0]->theme)): ?>
-										<?php echo str_replace(',','、',substr($tour[0] -> theme,0,-1));?>
-										<?php endif;?>
-									</span>
-								</li>
-								<li>
-									<b>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</b>
+									价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
 									<span class="price">￥<b>
 										<?php if(isset($tour[0]->price)): ?>
 										<?php echo $tour[0]->price;?>
@@ -72,6 +64,7 @@
 									</span>
 								</li>
 								<li>
+<<<<<<< HEAD
 									<b>报名时间：&nbsp;</b><span  class="m-time">请提前&nbsp;<b>10</b>&nbsp;天报名</span>
 								</li>
 								<li>
@@ -79,6 +72,15 @@
 								</li>
 								<li>
 									<b>客服&nbsp;QQ：&nbsp;</b><a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
+=======
+									报名时间：&nbsp;<span  class="m-time">请提前&nbsp;<b>10</b>&nbsp;天报名</span>
+								</li>
+								<li>
+									客服电话：&nbsp;<span class="price"><b>4000-520-161</b></span>
+								</li>
+								<li>
+									客服&nbsp;QQ：&nbsp;<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
+>>>>>>> 95f6bb91a40ca92a09439bf8934d44932fb59cc0
 												<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
 											</a>
 								</li>
@@ -100,7 +102,7 @@
 					<div class="vehicle join clearfix">
 						<div class="schedule_table clearfix">
 							<?php if(isset($tour[0]->term)):?>
-							<?php echo $this->cimarkdown->markit($tour[0]->term);?>
+							<?php echo $tour[0]->term;?>
 							<?php endif;?>
 						</div>			
 						<p class="apply">
@@ -152,7 +154,12 @@
 							<?php echo $tour[0] -> intro;?>
 							<?php endif;?>
 						</p>
-						
+						<p>
+						<h4 class="inline"> 活动主题： </h4>
+							<?php if(isset($tour[0]->theme)):?>
+							<?php echo substr($tour[0] -> theme,0,-1);?>
+							<?php endif;?>
+						</p>
 						<h4>行程亮点及体验：</h4>
 						<div class="experience">
 							<?php if(isset($tour[0]->content)):

@@ -136,16 +136,23 @@
 				</div>
 
 				<div class="control-group">
+					<label class="control-label" for="best_season">最佳季节：</label>
+					<div class="controls">
+						<input name="best_season" class="input-xlarge" type="text" value="<?php echo $tour[0]->best_season;?>">
+					</div>
+				</div>
+
+				<div class="control-group">
 					<label class="control-label" for="people">人数（公司出游）：</label>
 					<div class="controls">
-						<input name="people" class="input-xlarge" type="text" value="<?php $tour[0]->people;?>">
+						<input name="people" class="input-xlarge" type="text" value="<?php echo $tour[0]->people;?>">
 					</div>
 				</div>
 
 				<div class="control-group">
 					<label class="control-label" for="company_intro">活动内容（公司出游）：</label>
 					<div class="controls">
-						<input name="company_intro" class="input-xlarge" type="text" value="<?php $tour[0]->company_intro;?>">
+						<input name="company_intro" class="input-xlarge" type="text" value="<?php echo $tour[0]->company_intro;?>">
 					</div>
 				</div>
 

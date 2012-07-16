@@ -1,4 +1,8 @@
 /*栏目主页样式*/
+.pageintro{
+	background: url(../images/background_pageintro.jpg) repeat-x;
+	padding: 0;
+}
 .sort{
 	background: #F4F4F4;	
 	height: 30px;
@@ -22,7 +26,6 @@
 	float: left;
 	width: 720px;
 	border-bottom: 1px solid #dddddd;
-	/*background: #ddd;*/
 	margin: 0 0 5px;
 	padding:0 0 10px;
 }

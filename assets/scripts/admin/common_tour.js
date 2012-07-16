@@ -324,7 +324,7 @@ var submittour = function(){
 						changeFlag = false;
 						setTimeout(function() {
 							window.location = 'manage/#tour-manage'
-						}, 1000)
+						}, 600)
 					} else {
 						loadings.show('保存失败');
 						$( '.modal-backdrop' ).hide();

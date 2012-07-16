@@ -39,7 +39,7 @@ h1,h2,h3,h4,h5{
 }
 
 h1{
-	font-size:20px;
+	font-size:19px;
 	margin:0 0 10px;
 	line-height: 28px;
 }
@@ -123,7 +123,8 @@ body{
 	font-size:12px;
 	color:#333333;
 	-webkit-text-size-adjust:none; /*chorme最小字体解决*/
-	background:url("../images/body-bg.jpg") no-repeat top center #71c2bd fixed; 
+	background:url("../images/long-bg.png") repeat-x left top #C9E1DB; 
+	
 	line-height: 20px;
 }
 .fright {
@@ -141,14 +142,11 @@ img, div {
 	display:inline;
 }
 .wrapper{
-	width: 1020px;
-	margin: 0 auto 200px;
-	background: #30625e;
-	border-radius: 0 0 10px 10px;
-	padding: 0 0 10px 0
-	/*background:url('../images/header-bg.png') repeat-x;*/
+	background:url("../images/body-bg.jpg") no-repeat top center; 
 }
 .header{
+	width: 1020px;
+	margin: 0 auto;
 	height:330px;
 	background: url('../images/banner-big.jpg') no-repeat center top;
 	behavior: url(iepngfix.htc);
@@ -168,7 +166,11 @@ img, div {
 	min-height:350px;
 	margin:0 auto;
 	background:#f8efda;
-	border-radius:0 10px 10px 10px;
+	border-radius:0 0 10px 10px;
+	border-top: 2px solid #30625E;
+	border-right: 10px solid #30625E;
+	border-bottom: 10px solid #30625E;
+	border-left: 10px solid #30625E;
 	position:relative;
 }
 /*导航样式*/
@@ -259,10 +261,10 @@ img, div {
 	background:#fff;
 }
 .footer{
-	display: none;
 	height:200px;
-	background:#60a6a2;
-	margin-top:-40px;
+	background:#339966;
+	width: 1020px;
+	margin: 0 auto;
 }
 
 

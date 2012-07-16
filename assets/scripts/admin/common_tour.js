@@ -356,9 +356,9 @@ $(function(){
 	});
 
 	//frames[2]
-	CKEDITOR.replace( 'price_detail',{
-		height: 500
-	});
+	// CKEDITOR.replace( 'price_detail',{
+	// 	height: 500
+	// });
 	//frames[3]
 	CKEDITOR.replace( 'tour_content',{
 		height: 500

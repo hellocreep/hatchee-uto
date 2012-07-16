@@ -9,7 +9,9 @@ class Tourdetail extends CI_Controller{
 		$tid = $_GET['tid'];
 		//$tid=$this->uri->segment(4)
 		$this->load->model('tour');
+		$this->load->library('cimarkdown');
 		$tourinfo = $this->tour->showTour($tid);
+		$tourinfo->price_detail = $this->cimarkdown->markit($tourinfo->price_detail);
 		$this->load->model('image');
 		$image=new Image();
 		if($tourinfo[0]->gallery!='')

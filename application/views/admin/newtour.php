@@ -34,7 +34,7 @@
 					<div class="control-group">
 						<label class="control-label" for="name">线路类型：</label>
 						<div class="controls">
-							<select>
+							<select name="type_select">
 								<option name="tour_type" value="0" selected="selected">友途活动</option>
 								<option name="tour_type" value="1">定制旅行</option>
 								<option name="tour_type" value="2">公司出游</option>

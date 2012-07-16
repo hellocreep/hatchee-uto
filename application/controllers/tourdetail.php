@@ -31,11 +31,11 @@ class Tourdetail extends CI_Controller{
 			}
 		}
 		$data['tour']=$tourinfo;
-		if($tourinfo[0]->is_private==0)
+		if($tourinfo[0]->tour_type==0)
 		{
 			$this->load->view('web/tour',$data);
 		}
-		else
+		elseif($tourinfo[0]->tour_type==1)
 		{
 			$destination=$this->tour->destinations();
 			$arr=explode(",",$tourinfo[0]->destination);
@@ -48,6 +48,19 @@ class Tourdetail extends CI_Controller{
 			}
 
 			$this->load->view('web/smalltour',$data);
+		}
+		else
+		{
+			$destination=$this->tour->destinations();
+			$arr=explode(",",$tourinfo[0]->destination);
+			for($i=0;$i<count($destination);$i++)
+			{
+				if(!in_array($destination[$i]['name'],$arr))
+				{
+					$data['des'][]=$destination[$i]['name'];
+				}
+			}
+			$this->load->view('web/companytour',$data);
 		}
 	} 
 

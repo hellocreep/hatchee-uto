@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title><?php echo $tour[0] -> title;?>| 友途旅行网</title>
+		<title><?php echo $tour['title'];?>| 友途旅行网</title>
 		<?php if(isset($tour[0]->description)):
 		?>
 		<meta name="description" content="<?php echo $tour[0] -> description;?>">
@@ -27,7 +27,7 @@
 				<div class="article">
 					<input type="hidden" value="<?php echo $tour[0]->Id;?>" id="tour_id">
 					<input type="hidden" value="<?php echo $tour[0]->days;?>" id="tour_day">
-					<input type="hidden" value="<?php echo $tour[0]->is_private;?>" id="is_private">
+					<input type="hidden" value="<?php echo $tour[0]->tour_type;?>" id="is_private">
 					<?php if(isset($tour[0]->name)):
 					?>
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>

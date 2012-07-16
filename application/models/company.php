@@ -13,9 +13,9 @@ class Company extends CI_Model
 		$query=$this->db->get();
 		return $query->result_array();
 	}
-	function getextour()
+	function getcompanynote()
 	{
-		$this->db->where('type','公司出游案例');
+		$this->db->where('type','鍏徃鍑烘父妗堜緥');
 		$this->db->from('travel_note');
 		$query=$this->db->get();
 		return $query->result_array();

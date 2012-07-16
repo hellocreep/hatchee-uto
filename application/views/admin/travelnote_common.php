@@ -25,7 +25,9 @@ $(function(){
 			description: $( 'input[name="des"]' ).val(),
 			keywords: $( 'input[name="keywords"]' ).val(),
 			tour_time: $( 'input[name="tour_time"]' ).val(),
-			editor: $( 'input[name="editor"]' ).val()
+			editor: $( 'input[name="editor"]' ).val(),
+			company: $('input[name="company"]').val(),
+			people: $('input[name="people"]').val()
 		}
 		var content = $( 'textarea[name="note"]' ).val();
 		var url = 'travelnote/addtravel';

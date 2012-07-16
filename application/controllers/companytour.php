@@ -10,8 +10,11 @@ class Companytour extends CI_Controller
 	function index()
 	{
 		$this->load->model('company');
-		$data['company']=$this->company->getcompanytour();
-		$data['note']=$this->company->getextour();
+		$this->load->model('webpage');
+		$type="company_tour";
+		$data['webinfo'] = $this->webpage->getpage($type);
+		$data['tour']=$this->company->getcompanytour();
+		$data['note']=$this->company->getcompanynote();
 		$this->load->view('web/landingpage-company',$data);	
 	}
 	

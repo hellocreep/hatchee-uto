@@ -35,7 +35,7 @@
 						<label class="control-label" for="name">线路类型：</label>
 						<div class="controls">
 							<select>
-								<option name="tour_type" value="0" checked="checked">友途活动</option>
+								<option name="tour_type" value="0" selected="selected">友途活动</option>
 								<option name="tour_type" value="1">定制旅行</option>
 								<option name="tour_type" value="2">公司出游</option>
 							</select>
@@ -125,7 +125,7 @@
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="company_intro">活动简介（公司出游）：</label>
+						<label class="control-label" for="company_intro">活动内容（公司出游）：</label>
 						<div class="controls">
 							<input name="company_intro" class="input-xlarge" type="text">
 						</div>

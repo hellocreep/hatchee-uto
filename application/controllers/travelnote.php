@@ -66,7 +66,9 @@ class Travelnote extends CI_Controller
 			"editor"=>$data->editor,
 			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
-			"thumb"=>$img
+			"thumb"=>$img,
+			"company"=>$data->company,
+			"people"=>$data->people
 		);	
 		if($this->travel->add($travel))
 		{
@@ -111,7 +113,9 @@ class Travelnote extends CI_Controller
 			"editor"=>$data->editor,
 			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
-			"thumb"=>$img
+			"thumb"=>$img,
+			"company"=>$data->company,
+			"people"=>$data->people
 		);
 		echo $this->travel->update($id,$travel);
 	}

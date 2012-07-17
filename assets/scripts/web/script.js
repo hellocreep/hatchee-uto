@@ -171,7 +171,7 @@ $(function(){
 
 	});
 
-	//定制旅行表单
+	//主题旅行量身定制表单
 	$( '#custom_inquiry' ).validate({
 		submitHandler: function(){
 			var des = [];
@@ -207,6 +207,53 @@ $(function(){
 					}else{ 	
 						$( '.btn-mask' ).remove();
 						$( '#custom-submit' ).attr( 'value','确认提交' ).removeClass( 'btn-updating' )
+						.after( '<span class="red">提交订单失败</span>');
+					}
+				}
+			});
+		}
+	});
+
+
+	// 公司活动量身定制表单
+	$( '#company_inquiry' ).validate({
+		submitHandler: function(){
+			var ex = [];
+			$( 'input[name="expand"]:checked' ).each(function(){
+			    ex.push( $(this).val() )
+			});
+			var tr = [];
+			$( 'input[name="train"]:checked' ).each(function(){
+			    tr.push( $(this).val() )
+			});
+			btn_mask( '#custom-submit' );
+			var data = {
+				tid: $('#tid').val(),
+				name: $('input[name="name"]').val(),
+				tel: $('input[name="tel"]').val(),
+				email: $('input[name="email"]').val(),
+				qq: $('input[name="qq"]').val(),
+				company: $('input[name="company"]').val(),
+				tour_time: $('input[name="tour_time"]').val(),
+				people: $('input[name="people"]').val(),
+				expand: ex.toString(),
+				train: tr.toString(),
+				aim: $('textarea[name="aim"]').val(),
+				other: $('textarea[name="other"]').val()
+			}
+			$.ajax({
+				url: 'companytour/postinquiry',
+				data: {
+					data: $.toJSON(data)
+				},
+				success: function( result ){
+					if( result ){
+						$( '.btn-mask' ).remove();
+						$( '#company-submit' ).attr( 'value','确认提交' ).removeClass( 'btn-updating' )
+						.after( '<span class="red">提交订单成功</span>');
+					}else{ 	
+						$( '.btn-mask' ).remove();
+						$( '#company-submit' ).attr( 'value','确认提交' ).removeClass( 'btn-updating' )
 						.after( '<span class="red">提交订单失败</span>');
 					}
 				}

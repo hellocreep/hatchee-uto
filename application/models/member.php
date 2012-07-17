@@ -17,9 +17,18 @@ class Member extends CI_Model
 	}
 
 	public function addmember($data){
-		$query=$this->db->insert('users',$data);
-		$query =  $this->db->query("select * from users where email='".$data['email']."'");
-		return $query->result();
+		$query = $this->db->query("select * from users where email='".$data['email']."'");
+		if($query->result())
+		{
+			return $query->result();
+		}
+		else
+		{
+			$this->db->insert('users',$data);
+			$id=$this->db->insert_id();
+			$query = $this->db->query("select * from users where Id='".$id."'");
+			return $query->result();
+		}
 	}
 
 	public function membercount(){

@@ -22,7 +22,6 @@ if (!defined('IN_CKFINDER')) exit;
  * Include base XML command handler
  */
 require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
-
 /**
  * Handle DeleteFile command
  *
@@ -87,7 +86,7 @@ class CKFinder_Connector_CommandHandler_DeleteFile extends CKFinder_Connector_Co
 
         if ($bDeleted) {
             $thumbPath = CKFinder_Connector_Utils_FileSystem::combinePaths($this->_currentFolder->getThumbsServerPath(), $fileName);
-
+          
             @unlink($thumbPath);
 
             $oDeleteFileNode = new Ckfinder_Connector_Utils_XmlNode("DeletedFile");

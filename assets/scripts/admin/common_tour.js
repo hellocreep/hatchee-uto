@@ -1,12 +1,9 @@
 ;(function(){
 
 window.uto_var = {
-	tpl_table: "<table cellspacing='0' cellpadding='2' bordercolor='#DDD' border='1' style='width:100%;'> \
-	<tbody> \
-		<tr> \
-			<th>时间</th> \
-			<th colspan='8'></th> \
-		</tr> \
+	tpl_table: '<table cellspacing="0" cellpadding="2" bordercolor="#DDD" border="1" style="width:100%;"> \
+		<caption>fdsfds</capiton> \
+		<tbody> \
 		<tr> \
 			<td>车型/人数</td> \
 			<td>2人</td> \
@@ -19,7 +16,7 @@ window.uto_var = {
 			<td>13-14人</td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>丰田4500</td> \
+			<td class="car-type">丰田4500</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -30,7 +27,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>三菱越野</td> \
+			<td class="car-type">三菱越野</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -41,7 +38,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>9座商务车</td> \
+			<td class="car-type">9座商务车</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -52,7 +49,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>17座全顺</td> \
+			<td class="car-type">17座全顺</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -63,7 +60,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>19-23座考斯特</td> \
+			<td class="car-type">19-23座考斯特</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -73,8 +70,7 @@ window.uto_var = {
 			<td></td> \
 			<td></td> \
 		</tr> \
-	</tbody> \
-</table>",
+</tbody></table>',
 }
 
 //标签选择

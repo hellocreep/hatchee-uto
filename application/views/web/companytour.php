@@ -162,7 +162,7 @@
 								</tr>
 								<tr>
 									<td>单位名称：</td>
-									<td><input type="text" name"company"></td>
+									<td><input type="text" name="company"></td>
 								</tr>
 								<tr>
 									<td colspan="2">

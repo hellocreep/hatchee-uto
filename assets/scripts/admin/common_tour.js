@@ -5,7 +5,7 @@ window.uto_var = {
 	<tbody> \
 		<tr> \
 			<th>时间</th> \
-			<th colspan='8'></th> \
+			<th colspan="8"></th> \
 		</tr> \
 		<tr> \
 			<td>车型/人数</td> \
@@ -310,7 +310,7 @@ var submittour = function(){
 		}
 		
 		if( data.name!==''||data.title!=='' ){
-			loadings.show();
+			loadings.show( '正在保存' );
 			$( 'body' ).append( '<div class="modal-backdrop fade in"></div>' );
 			$( '#submit-tour' ).addClass( 'disabled' ).text( '正在保存...' );
 			$.ajax({

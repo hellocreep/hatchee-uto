@@ -179,26 +179,26 @@
 								<tr>
 									<td>公司拓展活动：</td>
 									<td>
-										<label><input name="" type="checkbox" value="武林大会">武林大会</label>
-										<label><input name="" type="checkbox" value="寻找魔兽">寻找魔兽</label>
-										<label><input name="" type="checkbox" value="这是我的船">这是我的船</label>
-										<label><input name="" type="checkbox" value="CS野战">CS野战</label>
-										<label><input name="" type="checkbox" value="趣味运动会">趣味运动会</label>
+										<label><input name="expand" type="checkbox" value="武林大会">武林大会</label>
+										<label><input name="expand" type="checkbox" value="寻找魔兽">寻找魔兽</label>
+										<label><input name="expand" type="checkbox" value="这是我的船">这是我的船</label>
+										<label><input name="expand" type="checkbox" value="CS野战">CS野战</label>
+										<label><input name="expand" type="checkbox" value="趣味运动会">趣味运动会</label>
 									</td>
 								</tr>
 								<tr>
 									<td>企业内训课程：</td>
 									<td class="maxwidth">
-										<label><input name="" type="checkbox" value="1天《让顾客回头》">1天《让顾客回头》</label>
-										<label><input name="" type="checkbox" value="1天《绝对执行力》">1天《绝对执行力》</label>
-										<label><input name="" type="checkbox" value="1天《卓越团队共同理念》">1天《卓越团队共同理念》</label><br>
-										<label><input name="" type="checkbox" value="1天《同理心》">1天《同理心》</label>
-										<label><input name="" type="checkbox" value="1天《像狼那样战斗》">1天《像狼那样战斗》</label>
+										<label><input name="train" type="checkbox" value="1天《让顾客回头》">1天《让顾客回头》</label>
+										<label><input name="train" type="checkbox" value="1天《绝对执行力》">1天《绝对执行力》</label>
+										<label><input name="train" type="checkbox" value="1天《卓越团队共同理念》">1天《卓越团队共同理念》</label><br>
+										<label><input name="train" type="checkbox" value="1天《同理心》">1天《同理心》</label>
+										<label><input name="train" type="checkbox" value="1天《像狼那样战斗》">1天《像狼那样战斗》</label>
 									</td>
 								</tr>
 								<tr>
 									<td>这趟出游要达到的目的：</td>
-									<td><textarea name="special_day"></textarea></td>
+									<td><textarea name="aim"></textarea></td>
 								</tr>
 								<tr>
 									<td>其他要求：</td>

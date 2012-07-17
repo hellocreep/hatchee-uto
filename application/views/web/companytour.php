@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title><?php echo $tour['title'];?>| 友途旅行网</title>
+		<title><?php echo $tour[0]->title;?>| 友途旅行网</title>
 		<?php if(isset($tour[0]->description)):
 		?>
 		<meta name="description" content="<?php echo $tour[0] -> description;?>">
@@ -16,7 +16,7 @@
 		<?php $this -> load -> view("web/global_source");?>
 		<link rel="stylesheet" type="text/css" href="assets/styles/tour.css">
 	</head>
-	<body id="n-trip">
+	<body id="n-company">
 		<div class="wrapper">
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">

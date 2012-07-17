@@ -10,7 +10,7 @@
 			<span>电子邮箱：bm@utotrip.com</span>
 		</p>
 		<p>
-			<span>版权所有: 成都雅竹国际旅行有限公司与www.utotrip.com (C)2011-2015 All rights reserved 蜀ICP备12012391号 </span>										
+			<span>版权所有：成都雅竹国际旅行有限公司与www.utotrip.com (C)2011-2015 All rights reserved 蜀ICP备12012391号 </span>										
 		</p>
 		<p>
 			<span>法律声明：本站所有图片、文字、网页格式、栏目风格等，未经许可，不得转载或镜像，违者将追究其法律责任。</span>										

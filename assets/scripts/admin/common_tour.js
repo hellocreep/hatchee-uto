@@ -1,11 +1,11 @@
 ;(function(){
 
 window.uto_var = {
-	tpl_table: "<table> \
+	tpl_table: '<table> \
 	<tbody> \
 		<tr> \
 			<th>时间</th> \
-			<th colspan='8'></th> \
+			<th colspan="8"></th> \
 		</tr> \
 		<tr> \
 			<td>车型/人数</td> \
@@ -19,7 +19,7 @@ window.uto_var = {
 			<td>13-14人</td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>丰田4500</td> \
+			<td class="car-type">丰田4500</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -30,7 +30,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>三菱越野</td> \
+			<td class="car-type">三菱越野</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -41,7 +41,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>9座商务车</td> \
+			<td class="car-type">9座商务车</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -52,7 +52,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>17座全顺</td> \
+			<td class="car-type">17座全顺</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -63,7 +63,7 @@ window.uto_var = {
 			<td></td> \
 		</tr> \
 		<tr> \
-			<td class='car-type'>19-23座考斯特</td> \
+			<td class="car-type">19-23座考斯特</td> \
 			<td></td> \
 			<td></td> \
 			<td></td> \
@@ -73,8 +73,7 @@ window.uto_var = {
 			<td></td> \
 			<td></td> \
 		</tr> \
-	</tbody> \
-</table>",
+</tbody></table>',
 }
 
 //标签选择
@@ -311,7 +310,7 @@ var submittour = function(){
 		}
 		
 		if( data.name!==''||data.title!=='' ){
-			loadings.show();
+			loadings.show( '正在保存' );
 			$( 'body' ).append( '<div class="modal-backdrop fade in"></div>' );
 			$( '#submit-tour' ).addClass( 'disabled' ).text( '正在保存...' );
 			$.ajax({

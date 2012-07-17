@@ -35,10 +35,10 @@
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
 					<div class="describe clearfix">
-						<?php if(isset($tour[0]->thumbnail)): ?>
-							<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
-						<?php endif;?>
 						<div class="des-l">
+							<?php if(isset($tour[0]->thumbnail)): ?>
+								<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
+							<?php endif;?>
 							<ul>
 								<li>
 									<b>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</b>
@@ -83,12 +83,14 @@
 								</li>
 							</ul>
 
-							<p class="explain">
-								<h5>该线路可独立包团、或拼团 </h5>
+							
+							<h5>该线路可独立包团、或拼团 </h5>
+							<p>
 								1、独立包团: 就是几个亲朋好友，按您指定的时间发团，外人不能加入，也不进购物店，无额外消费，自主性很强，特别是一些特殊线路，一般旅行很难发散客团，都要求包团才能出行。
 								<br>
 								2、游客拼团: 由于很多经典线路都仅有小包团，但是游客人数偏少，小包团费用分摊太贵，但是又特别想走，那么可以由您以及我们为您寻找一起结伴的游客，共同出游。
 							</p>
+							
 						</div>
 
 						<!-- <?php if(isset($tour[0]->intro)):
@@ -112,9 +114,7 @@
 						<p class="contact"> 
 							24小时旅游预订电话：
 							<span class="tel">4000-520-161</span><br>
-							<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
-								<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
-							</a>
+							<?php $this -> load -> view("web/qqonline");?> <!-- 在线联系QQ -->
 						</p>
 
 

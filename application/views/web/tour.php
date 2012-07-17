@@ -69,7 +69,8 @@
 								<b>24小时旅游预订电话：</b>
 								<br>
 								<span class="tel">4000-520-161</span>
-								<a class="qonline" target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c"> <img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息"> </a>
+
+								<?php $this -> load -> view("web/qqonline");?> <!-- 在线联系QQ -->
 							</p>
 						</div>
 					</div>

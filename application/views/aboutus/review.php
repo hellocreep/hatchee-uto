@@ -26,13 +26,13 @@
 						<b>精彩瞬间 - 记录我们的精彩回忆。(游记)</b>
 					</p>
 					<div class="event">
-						<h4>友途活动案例</h4>
+						<h3>友途活动案例</h3>
 						<ul class="clearfix">
 							<?php foreach($customize as $cus):?>
 								<li>
 								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>				
-								<p>时间：<?php echo $cus['tour_time'];?></br>
+								<p>时间：<?php echo $cus['tour_time'];?><br>
 								地点：<?php echo $cus['route_intro'];?></p>
 								<!-- <?php echo mb_substr($cus['content'],0,50,'utf-8').'…';?> -->
 								<a class="detail" href="aboutus/note?id=<?php echo $cus['Id'];?>">活动详情</a>
@@ -41,13 +41,13 @@
 						</ul>
 					</div>
 					<div class="event">
-						<h4>公司出游案例</h4>
+						<h3>公司出游案例</h3>
 						<ul class="clearfix">
 							<?php foreach($company as $c):?>
 								<li>
 								<a href="aboutus/note?id=<?php echo $c['Id'];?>"><img src="<?php echo $c['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $c['Id'];?>"><?php echo $c['title'];?></a></h5>								
-								<p>时间：<?php echo $c['tour_time'];?></br>
+								<p>时间：<?php echo $c['tour_time'];?><br>
 								地点：<?php echo $c['route_intro'];?></p>
 								<!-- <?php echo mb_substr($c['content'],0,50,'utf-8').'…';?> -->
 								<a class="detail" href="aboutus/note?id=<?php echo $c['Id'];?>">活动详情</a>
@@ -55,28 +55,28 @@
 							<?php endforeach;?>
 						</ul>
 					</div>
-					<div class="event">
-						<h4>主题旅行案例</h4>
+					<!-- <div class="event">
+						<h3>主题旅行案例</h3>
 						<ul class="clearfix">
 							<?php foreach($theme as $t):?>
 								<li>
 								<a href="aboutus/note?id=<?php echo $t['Id'];?>"><img src="<?php echo $t['thumb'];?>" alt=""></a>
 								<h5><a href="aboutus/note?id=<?php echo $t['Id'];?>"><?php echo $t['title'];?></a></h5>		
-								<p>时间：<?php echo $t['tour_time'];?></br>
+								<p>时间：<?php echo $t['tour_time'];?><br>
 								地点：<?php echo $t['route_intro'];?></p>
 								<!-- <?php echo mb_substr($t['content'],0,50,'utf-8').'…';?> -->
 								<a class="detail" href="aboutus/note?id=<?php echo $t['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>
 						</ul>
-					</div>
+					</div> -->
 					
 
-					<div class="separator"></div>
+					<!-- <div class="separator"></div>
 					<h2>友途的电影狂欢之夜Film Night (视频)</h2>
 					<div class="video">
 						<embed src="http://player.youku.com/player.php/Type/Folder/Fid/17829831/Ob/1/sid/XNDI1MzM2OTQ4/v.swf" quality="high" width="240" height="200" align="middle" allowScriptAccess="always" allowFullScreen="true" mode="transparent" type="application/x-shockwave-flash"></embed>
-					</div>
+					</div> -->
 				</div> <!-- end of div.article -->
 			</div>
 			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->

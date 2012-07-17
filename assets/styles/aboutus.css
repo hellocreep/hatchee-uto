@@ -20,7 +20,10 @@
 	cursor: pointer;
 }
 /*-------- Page mission ---------*/
-
+h2 img.miss{
+	margin-right: 10px;
+	vertical-align: bottom; /*让图片底部和文字底部对齐*/
+}
 
 
 
@@ -145,6 +148,9 @@ table.data th{
 /*----------- Page review -----------*/
 .event {
 	padding: 0 0 10px 0;
+}
+.event ul{
+	margin-left: -10px;
 }
 .event li{
 	width:224px;

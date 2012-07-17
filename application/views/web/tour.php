@@ -60,7 +60,7 @@
 								<input class="people" type="text">
 							</p>
 							<p class="pad">
-								<input class="btn" id="inquiry" value="在线报名" type="submit">
+								<input class="btn" id="inquiry" value="在线报名" type="submit"><span class="promotion"><img src="assets/images/promotion100.png"></span>
 							</p>
 								<span><em class="red">*&nbsp;&nbsp;</em>成都统一集结，建议提前<em class="red big">&nbsp;3&nbsp;</em>天报名.</span>
 						</div>

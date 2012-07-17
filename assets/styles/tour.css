@@ -133,7 +133,14 @@
 	min-width:200px;
 }
 .j-left .pad{
+
 	padding: 0 0 0 120px;
+}
+.j-left .pad .promotion img{
+	display: block;
+	float: right;
+	margin-right: 26px;
+	margin-top: 20px;
 }
 .j-right{
 	margin: 50px 0 0 0;

@@ -20,6 +20,15 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > 定制旅行
 				</div>
+				<div class="guideword">
+					<p><img src="assets/images/dzlx.gif"></p>
+					<p>
+						友途的定制旅行旨在打造您的专属旅程、专注于帮助您实现心中最原始的旅行梦想，寻觅那抹最让你动心的风景，感受这个承载着原始与纯净土地上的不可思议、原汁原味、自然奇迹和民俗文化，也只能这样的地方，才能担当得起友途如此厚重的神情。 
+					</p>
+					<p>
+						请您一定要记得，友途定制旅行卖的不是昂贵的奢华，而是根据您的预算，依您口味，随您选择，为您量身定做最有性价比的旅行解决方案。
+					</p>	
+				</div>
 				<div class="onecol">
 					<ul class="guidenav clearfix" >
 						<li class="current">01.选择您的旅游地</li>	

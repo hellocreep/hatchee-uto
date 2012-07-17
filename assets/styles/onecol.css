@@ -6,8 +6,15 @@
 	margin: 0 auto 20px;
 	border-radius: 10px;
 }
-.guidenav{
+.guideword{
+	width: 920px;
+	padding: 20px 20px 10px;
+	margin: 0 20px;
+	background: url("../images/background_pageintro.jpg") repeat-x scroll 0 bottom transparent;
 	border-radius: 10px 10px 0 0;
+}
+.guidenav{
+	/*border-radius: 10px 10px 0 0;*/
 	background: #F4F4F4;
 }
 .guidefoot{

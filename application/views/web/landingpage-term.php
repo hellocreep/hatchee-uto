@@ -63,6 +63,9 @@
 											元起;
 										</p>
 									</dd>
+									<dd>
+										<span class="promotion"><img src="assets/images/promotion100.png"></span>
+									</dd>
 									<dd class="last">
 										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 									</dd>

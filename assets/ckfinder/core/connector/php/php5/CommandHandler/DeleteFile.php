@@ -72,7 +72,7 @@ class CKFinder_Connector_CommandHandler_DeleteFile extends CKFinder_Connector_Co
 
         $filePath = CKFinder_Connector_Utils_FileSystem::combinePaths($this->_currentFolder->getServerPath(), $fileName);
 			$con=mysql_connect('127.0.0.1','root','');
-			$db=mysql_select_db('',$con);
+			$db=mysql_select_db('test',$con);
 			$sql="delete from images where path like '%".$fileName."'";
 			$query=mysql_query($sql);
         $bDeleted = false;

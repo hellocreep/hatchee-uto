@@ -44,6 +44,7 @@ class Companytour extends CI_Controller
 			"purpose"=>$inquiry->train,//企业内训课程
 			"train"=>$inquiry->aim,//达到的目地
 			"other"=>$inquiry->other,
+			"create_date"=>date('Y-m-d H:i:s',time()),
 			"inquiry_type"=>'1'//订单类型 默认0  小包团  1 公司出游
 		);
 		$this->load->model('order');

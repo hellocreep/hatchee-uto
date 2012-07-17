@@ -83,7 +83,7 @@ class Order extends CI_Model
 	}
 	public function getcustomize($id)
 	{
-		$sql="select c.Id,c.uuid,c.car,c.people,c.tour_time,c.tour_theme,c.add_des,c.special_day,c.create_date,c.other as comment,c.is_worked,u.name,t.name as tourname from users as u left join custom_inquiry as c on u.Id=c.user left join tour as t on c.tour=t.Id where c.Id=".$id;
+		$sql="select c.Id,c.uuid,c.car,c.people,c.tour_time,c.tour_theme,c.add_des,c.special_day,c.create_date,c.other as comment,c.is_worked,c.company,c.activity,c.purpose,c.train,c.inquiry_type,u.name,t.name as tourname from users as u left join custom_inquiry as c on u.Id=c.user left join tour as t on c.tour=t.Id where c.Id=".$id;
 		$query=$this->db->query($sql);
 		return $query->row_array();
 	}

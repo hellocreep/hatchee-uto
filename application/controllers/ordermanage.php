@@ -106,7 +106,14 @@ class Ordermanage extends CI_Controller
 			$this->load->model('order');
 			$order=new Order();
 			$data['order']=$order->getcustomize($id);
-			$this->load->view('admin/update_custom',$data);
+			if($data['order']['inquiry_type']=='1')
+			{
+				$this->load->view('admin/update_company',$data);
+			}
+			else
+			{
+				$this->load->view('admin/update_custom',$data);
+			}
 		}
 	}
 	public function updateorder()

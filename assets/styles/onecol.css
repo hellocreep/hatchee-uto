@@ -3,8 +3,8 @@
 	background: #fff;
 	width: 960px;
 	min-height: 400px;
-	margin: 0 auto;
-	border-radius: 10px 10px 0 0;
+	margin: 0 auto 20px;
+	border-radius: 10px;
 }
 .guidenav{
 	border-radius: 10px 10px 0 0;
@@ -26,13 +26,13 @@
 }
 .guidefoot li.btn{
 	padding: 3px 30px;
-	/*font-size: 14px;*/
+	margin: 11px 10px 0 0;
 }
 .guidefoot li{
 	float: right;
-	margin: 10px 10px 10px 10px;
 }
 .guidefoot li.note{
+	line-height: 50px;
 	float:left;
 }
 

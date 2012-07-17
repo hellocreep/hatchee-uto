@@ -90,7 +90,8 @@ a{
 	text-decoration: none;
 }
 a:hover{
-	color: #8b6620;
+	/*color: #8b6620;*/
+	color: #DF5031;
 }
 /*NO IE 6*/
 input[type='text'] {
@@ -147,7 +148,7 @@ img, div {
 .header{
 	width: 1020px;
 	margin: 0 auto;
-	height:330px;
+	height:280px;
 	background: url('../images/banner-big.jpg') no-repeat center top;
 	behavior: url(iepngfix.htc);
 }
@@ -176,7 +177,7 @@ img, div {
 /*导航样式*/
 .nav{
 	height:37px;
-	margin: 193px 0 0 0;
+	margin: 143px 0 0 0;
 	width:1020px;
 	font-family: "微软雅黑";
 	background:url("../images/nav-ul-bg.png") left bottom repeat-x;
@@ -261,29 +262,20 @@ img, div {
 	background:#fff;
 }
 .footer{
-	width: 1020px;
-	margin: 50px auto;
+	margin: 10px auto 30px;
+	padding: 0 50px;
+	width: 920px;
 }
-.footwrap{
-	width: 840px;
-	float: left;
-	padding: 10px;
-	margin: 0 80px 50px;
+.footnav a{
+	margin: 0 10px;
 }
-.footnav{
-	margin: 0 80px 25px;
-	padding: 0 0 32px;
-	border-bottom: 1px solid #98B954;
+.footer span{
+	margin: 0 30px 0 10px;
+}
 
-}
-.footnav li a{
-	display: block;
-	float: left;
-	font-size: 16px;
-	margin: 0 40px 0 0;
-}
-.footnav p{
-	color: #000;
+.footnav span{
+	float: right;
+	margin: 0;
 }
 
 .zoomLay{

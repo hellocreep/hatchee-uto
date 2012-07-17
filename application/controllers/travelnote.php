@@ -43,8 +43,9 @@ class Travelnote extends CI_Controller
 	{
 		$this->load->model('travel');
 		$this->travel=new Travel();
-		$data=json_decode($_POST['data']);
-		$content = $_POST['content'];
+		// $data=json_decode($_POST['data']);
+		// $content = $_POST['content'];
+		$content = $_POST['note'];
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
 		if(empty($match[1]))
@@ -57,18 +58,18 @@ class Travelnote extends CI_Controller
 		}
 		
 		$travel=array(
-			"tour"=>$data->tour,
-			"type"=>$data->type,
-			"title"=>$data->title,
-			"description"=>$data->description,
-			"keywords"=>$data->keywords,
-			"content"=>$content,
-			"editor"=>$data->editor,
-			"tour_time"=>$data->tour_time,
+			"tour"=>$_POST['tid'],//$data->tour,
+			"type"=>$_POST['type'],//$data->type,
+			"title"=>$_POST['title'],//$data->title,
+			"description"=>$_POST['des'],//$data->description,
+			"keywords"=>$_POST['keywords'],//$data->keywords,
+			"content"=>$_POST['note'],//$content,
+			"editor"=>$_POST['editor'],//$data->editor,
+			"tour_time"=>$_POST['tour_time'],//$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
 			"thumb"=>$img,
-			"company"=>$data->company,
-			"people"=>$data->people
+			"company"=>$_POST['company'],//$data->company,
+			"people"=>$_POST['people'],//$data->people
 		);	
 		if($this->travel->add($travel))
 		{
@@ -89,10 +90,11 @@ class Travelnote extends CI_Controller
 	{	
 		$this->load->model('travel');
 		$this->travel=new Travel();
-
-		$data=json_decode($_POST['data']);
-		$content = $_POST['content'];
-		$id=$data->id;
+		//$data=json_decode($_POST['data']);
+		//$content = $_POST['content'];
+		//$id=$data->id;
+		$content = $_POST['note'];
+		$id = $_POST['nid'];
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
 		if(empty($match[1]))
@@ -104,20 +106,21 @@ class Travelnote extends CI_Controller
 			$img=$match[1][0];
 		}
 		$travel=array(
-			"tour"=>$data->tour,
-			"type"=>$data->type,
-			"title"=>$data->title,
-			"description"=>$data->description,
-			"keywords"=>$data->keywords,
-			"content"=>$content,
-			"editor"=>$data->editor,
-			"tour_time"=>$data->tour_time,
+			"tour"=>$_POST['tid'],//$data->tour,
+			"type"=>$_POST['type'],//$data->type,
+			"title"=>$_POST['title'],//$data->title,
+			"description"=>$_POST['des'],//$data->description,
+			"keywords"=>$_POST['keywords'],//$data->keywords,
+			"content"=>$_POST['note'],//$content,
+			"editor"=>$_POST['editor'],//$data->editor,
+			"tour_time"=>$_POST['tour_time'],//$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
 			"thumb"=>$img,
-			"company"=>$data->company,
-			"people"=>$data->people
+			"company"=>$_POST['company'],//$data->company,
+			"people"=>$_POST['people'],//$data->people
 		);
-		echo $this->travel->update($id,$travel);
+		$this->travel->update($id,$travel);
+		echo "<script>window.location.href='../manage#travelnote-manage-list';</script>";
 	}
 	public function deltravel()
 	{

@@ -28,13 +28,13 @@
 				</div>
 			</div>
 
-			<form class="well form-horizontal" action="" method="post">
+			<form id="travel_note" class="well form-horizontal" action="travelnote/updatetravel" method="post">
 				<fieldset>
-					<input id="n_id" type="hidden" value="<?php echo $note['Id'];?>">
+					<input id="n_id" type="hidden" value="<?php echo $note['Id'];?>" name="nid">
 					<div class="control-group">
 						<label class="control-label" for="t_id">活动：</label>
 						<div class="controls">
-							<select class="input-xlarge">
+							<select class="input-xlarge" name="tid">
 								<?php foreach($tour as $tour):?>
 								<?php if($note['tour']==$tour->Id):?>
 								<option name="t_id" value="<?php echo $tour->Id;?>" checked="checked"><?php echo $tour->name;?></option>

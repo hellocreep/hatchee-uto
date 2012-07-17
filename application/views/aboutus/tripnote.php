@@ -23,9 +23,9 @@
 				<div class="article">
 					<h1>【<?php echo $note['type'];?>】<?php echo $note['title'];?></h1>				
 					<p class="note">
-						<?php echo $note['edit_time'];?> | <?php echo $note['editor'];?>
+						时间：<?php echo $note['edit_time'];?> &nbsp;&nbsp;&nbsp;&nbsp;小编：<?php echo $note['editor'];?>
 					</p>
-					<p>	
+					<p class="pagenating">	
 						<?php if($upnote!=''):?>
 						<a class="prev" href="aboutus/note?id=<?php echo $upnote['Id'];?>">上一篇</a> |
 						<?php endif?>
@@ -34,21 +34,6 @@
 						<?php endif;?>
 					</p>
 					<div class="note-content">
-						
-						<!-- <img src="assets/images/img.jpg" alt="" width="720" height="300">
-						<p>
-							【活动时间】2012年6月21-25日<br>
-							【活动线路】成都-水磨镇-映秀-日隆镇-四姑娘山（长坪沟-海子沟二峰）--成都<br>
-							【活动主办】成都友途旅行网<br>
-							【活动领队】木灯<br>
-							【回顾图文】友途小编<br>
-							【活动简介】端午特别策划四姑娘山二峰攀登的经典完美线路组合，特别定制的旅行计划，行程安排合理，适合身体 健康体能充沛的普通旅游爱好者以及初级入门的户外爱好者，充分感受深度纯净高原旅游的乐趣，圆自 己的攀登雪山的梦想<br>
-							【行程安排】第一天：成都—水墨镇—映秀地震遗址—日隆镇<br>
-										第二天：日隆镇—双桥沟—日隆镇<br>
-										第三天：日隆镇—二峰大本营（海子沟）<br>
-										第四天：二峰大本营—二峰峰顶—二峰大本营—日隆镇<br>
-										第五天：日隆镇—成都
-						</p> -->
 						<?php echo $note['content'];?>
 
 					</div>

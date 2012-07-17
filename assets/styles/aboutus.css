@@ -124,13 +124,14 @@ table.data th{
 	margin: 20px 0 30px;
 }
 .method dt{
-	padding: 3px 0;
-	margin: 3px 0;
+	margin: 0 0 3px;
 }
-.method dl{
-	float: left;
-	color: #60A6A2;
-	margin: 0 50px;
+.method dl {
+  border: 2px solid #60A6A2;
+  color: #60A6A2;
+  float: left;
+  margin: 0 90px 0 0;
+  padding: 5px;
 }
 .method dd span{
 	font-size: 16px;
@@ -147,14 +148,17 @@ table.data th{
 }
 .event li{
 	width:224px;
-	margin: 0 7px;
+	padding: 7px;
 	overflow: hidden;
 	font-size:12px;
 	float: left;
 }
+.event li:hover{
+	background: #eee;
+}
 .event li img{
 	width: 220px;
-	height: 110px;
+	height: 140px;
 	border:1px solid #ccc;
 	padding: 1px;
 }
@@ -162,7 +166,12 @@ table.data th{
 	float: right;
 }
 
-
+p.note{
+	text-indent: 10px;
+}
+p.pagenating{
+	text-align: right;
+}
 
 
 

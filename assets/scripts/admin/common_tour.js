@@ -1,9 +1,12 @@
 ;(function(){
 
 window.uto_var = {
-	tpl_table: '<table cellspacing="0" cellpadding="2" bordercolor="#DDD" border="1" style="width:100%;"> \
-		<caption>fdsfds</capiton> \
-		<tbody> \
+	tpl_table: '<table> \
+	<tbody> \
+		<tr> \
+			<th>时间</th> \
+			<th colspan='8'></th> \
+		</tr> \
 		<tr> \
 			<td>车型/人数</td> \
 			<td>2人</td> \

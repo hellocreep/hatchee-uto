@@ -19,6 +19,7 @@ class Themetour extends CI_Controller
 			$page=1;
 		}
 		$action=$this->uri->segment(4);
+		$sort=$this->uri->segment(5);
 		if(isset($page) && $page!='')
 		{
 			$start=($page*$per_page)-$per_page;
@@ -27,11 +28,11 @@ class Themetour extends CI_Controller
 		{
 			$start=0;
 		}
-
+		
 		if(isset($action) &&$action!='')
 		{
-			$data['page']['first']='themetour/index/1/days';
-			$data['page']['end']='themetour/index/'.$count.'/days';
+			$data['page']['first']='themetour/index/1/'.$action.'/'.$sort;
+			$data['page']['end']='themetour/index/'.$count.'/'.$action.'/'.$sort;
 			if($page>1)
 			{
 				$pagepre=$page-1;
@@ -48,8 +49,8 @@ class Themetour extends CI_Controller
 			{
 				$pagenext=$count;
 			}
-			$data['page']['pre']='themetour/index/'.$pagepre.'/days';
-			$data['page']['next']='themetour/index/'.$pagenext.'/days';
+			$data['page']['pre']='themetour/index/'.$pagepre.'/'.$action.'/'.$sort;
+			$data['page']['next']='themetour/index/'.$pagenext.'/'.$action.'/'.$sort;
 		}
 		else
 		{
@@ -74,12 +75,31 @@ class Themetour extends CI_Controller
 			$data['page']['pre']='themetour/index/'.$pagepre;
 			$data['page']['next']='themetour/index/'.$pagenext;
 		}
+		if(isset($sort) && $sort!='')
+		{
+			if($sort=='desc')
+			{
+				$data['sortday']='themetour/index/1/days/asc';
+				$data['sortprice']='themetour/index/1/price/asc';
+			}
+			else
+			{
+				$data['sortday']='themetour/index/1/days/desc';
+				$data['sortprice']='themetour/index/1/price/desc';
+			}
+		}
+		else
+		{
+			$data['sortday']='themetour/index/1/days/asc';
+			$data['sortprice']='themetour/index/1/price/asc';
+			$sort='asc';
+		}
 		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();
 		$type="theme_tour";
 		$data['webinfo'] = $this->webpage->getpage($type);
-		$data['tour']=$this->show->showthemetour($start,$per_page,$action);
+		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort);
 		$this->load->view('web/landingpage-theme',$data);		
 	}
 }

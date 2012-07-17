@@ -21,6 +21,7 @@
 				<div class="aside"></div>
 				<div class="article">
 					<div class="pageintro">
+						<p><img src="assets/images/ythd.gif"></p>
 						<p>
 							友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色，蓝天、白云、雪山、草原、藏民、牦牛、青青的草地，悠悠的民歌，美丽的少女，我们精心策划的趣味活动给让你的旅行更加梦幻，如三五人选一样颜色的马儿，在皑皑的雪山下、在美丽的山谷中、在清澈的溪流边并肩骑马，享受极度的浪漫与惬意。
 						</p>
@@ -29,16 +30,16 @@
 						</p>
 					</div>
 					<!-- 当前线路不多，因此暂时隐藏排序功能，勿删 -->
-					<!-- <div class="sort">
+					<div class="sort">
 						排序方式：
-						<a href="termtour/index/1/days">依天数</a>	
+						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>
 						<div class="pagenate">
 							<a href="<?php echo $page['first'];?>">首页</a>
 							<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>
 							<a href="<?php echo $page['next'];?>" class="nextPage">下一页</a>
 							<a href="<?php echo $page['end'];?>">尾页</a>
 						</div>
-					</div> -->
+					</div>
 					<ul class="routelist clearfix">
 						<?php if(isset($tour)):?>
 							<?php for($i=0;$i<count($tour);$i++):?>
@@ -83,7 +84,7 @@
 				</div> <!-- end of .article -->
 					
 			</div>
-			<div class="footer"></div>
+			<?php $this -> load -> view("web/footer");?> <!-- 底部chunk -->
 		</div><!-- 	end of .wrapper	 -->
 	</body>
 </html>

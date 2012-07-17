@@ -44,6 +44,7 @@
 						</dl>	
 					</div>
 					<p><b>友途地址：</b> 成都市武侯区武阳大道1段288号中央花园城市别墅1栋23号</p>
+					<div class="separator"></div>
 					<h2>在线咨询</h2>
 					<form id="contact-form">
 					<h4>您的联系方式：</h4>

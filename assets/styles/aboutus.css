@@ -121,16 +121,18 @@ table.data th{
 
 
 
-
 /*---------- Page contactus -----------*/
 .method{
 	margin: 20px 0 30px;
 }
 .method dt{
-	margin: 0 0 3px;
+	margin: 0 0 5px;
+	font-weight: bold;
+	font-family: "微软雅黑";
+	font-size: 16px;
 }
 .method dl {
-  border: 2px solid #60A6A2;
+  
   color: #60A6A2;
   float: left;
   margin: 0 90px 0 0;
@@ -183,6 +185,15 @@ p.pagenating{
 
 
 /*------------ Page jion --------------*/
+.hire{
+	margin: 20px 0 0 0;
+}
+.hire dl{
+	margin:0 0 30px;
+}
+.hire h4{
+	text-indent: -7px;
+}
 .hire dt{
 	font-weight: bold;
 	padding: 3px 0;
@@ -190,3 +201,6 @@ p.pagenating{
 .hire dd{
 	padding: 2px 0;
 }
+
+
+

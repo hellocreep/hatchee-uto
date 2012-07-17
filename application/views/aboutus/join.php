@@ -30,6 +30,7 @@
 						加入友途旅行吧，<br>
 						我们的使命是让让游客感受真正的旅行！
 					</p>					
+					<div class="separator"></div>
 					<div class="hire">
 					<h4>【招聘职位】平面设计师</h4>
 		 			<dl>

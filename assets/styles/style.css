@@ -28,7 +28,9 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
+input{
+	vertical-align: middle;
+}
 h1,h2,h3,h4,h5{
 	/*color:#DB555C;*/
 	/*color:#60A6A2;*/
@@ -85,7 +87,8 @@ label.error {
 	color: red;
 }
 a{
-	color: #60a6a2;
+	/*color: #60a6a2;*/
+	color: #30625E;
 	text-decoration: none;
 }
 a:hover{
@@ -102,6 +105,7 @@ input[type='text'] {
 	padding: 3px;
 	width: 193px;
 }
+
 
 /* COMMON STYLE */
 .clearfix:after {
@@ -261,12 +265,16 @@ img, div {
 	background:#fff;
 }
 .footer{
-	margin: 10px auto 30px;
+	margin: 10px auto 15px;
 	padding: 0 50px;
 	width: 920px;
 }
+.footer p{
+	margin: 0 0 2px 0;
+}
 .footnav a{
 	margin: 0 10px;
+	/*color: #DF5031;*/
 }
 .footer span{
 	margin: 0 30px 0 10px;
@@ -340,4 +348,6 @@ table.formtab{
 	width: 435px;
 }
 
-/*图片*/
+a.online img{
+	vertical-align: middle;
+}

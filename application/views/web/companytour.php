@@ -49,9 +49,8 @@
 									客服电话：&nbsp;<span class="price"><b>4000-520-161</b></span>
 								</li>
 								<li>
-									客服&nbsp;QQ：&nbsp;<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
-												<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
-											</a>
+									客服&nbsp;QQ：&nbsp;
+									<?php $this -> load -> view("web/qqonline");?> <!-- 在线联系QQ -->
 								</li>
 								<li>
 									行程特点：
@@ -132,14 +131,21 @@
 						<?php endif;?>
 					</div>
 					<div class="unit customize">
-						<p>这条线路，是我们包装出来的基本线路，如果您在这条线路上需要进行修改，必须增加天数、景点等，可以填写下面的表单，我们按照您的要求来进行定制。</p>
-						<h4>联系人信息</h4>
+						<p>
+							我们提供的是四川内经典的单位团队旅游线路，该线路上适合开展相关的拓展活动和公司内训课程。请在下面表单中勾选相关的团队活动。我们会按照您的要求来为您公司量身打造相关的拓展旅游、内训旅游、会议旅游和考察旅游。
+						</p>
 						<form id="custom_inquiry">
 							<table class="formtab">
+								<tr>
+									<td colspan="2">
+										<h4>联系人信息</h4>
+									</td>
+								</tr>
 								<tr>
 									<td><em>*</em>姓名：</td>
 									<td ><input type="text" name="name" class="required"></td>
 								</tr>	
+
 								<tr>
 									<td><em>*</em>手机：</td>
 									<td><input type="text" name="tel" class="required num"></td>
@@ -148,45 +154,51 @@
 									<td><em>*</em>邮箱：</td>
 									<td><input type="text" name="email" class="required email"></td>
 								</tr>
+								
 								<tr>
 									<td>QQ：</td>
 									<td><input type="text" name="qq"></td>
 								</tr>
 								<tr>
-									<td>来自哪个城市：</td>
-									<td><input type="text" name="city"></td>
+									<td>单位名称：</td>
+									<td><input type="text" name"company"></td>
 								</tr>
-							</table>
-
-							<h4>定制化信息</h4>
-							<table class="formtab">
+								<tr>
+									<td colspan="2">
+										<h4>定制化信息</h4>
+									</td>
+								</tr>
 								<tr>
 									<td>出发时间：</td>
 									<td><input type="text" name="tour_time" class="date"></td>
-								</tr>
-								<tr>
-									<td>选用车型：</td>
-									<td><input type="text" name="car"></td>
 								</tr>
 								<tr>
 									<td>参加人数：</td>
 									<td><input type="text" name="people"></td>
 								</tr>
 								<tr>
-									<td>增加的旅行天数：</td>
-									<td><input type="text" name="add_day"></td>
-								</tr>
-								<tr>
-									<td>想增加的旅行目的地：</td>
-									<td class="maxwidth">
-										<?php foreach($des as $d):?>
-											<label><input name="add_day" type="checkbox" value="<?php echo $d;?>"><?php echo $d;?></label>
-										<?php endforeach;?>
+									<td>公司拓展活动：</td>
+									<td>
+										<label><input name="expand" type="checkbox" value="武林大会">武林大会</label>
+										<label><input name="expand" type="checkbox" value="寻找魔兽">寻找魔兽</label>
+										<label><input name="expand" type="checkbox" value="这是我的船">这是我的船</label>
+										<label><input name="expand" type="checkbox" value="CS野战">CS野战</label>
+										<label><input name="expand" type="checkbox" value="趣味运动会">趣味运动会</label>
 									</td>
 								</tr>
 								<tr>
-									<td> 这趟旅行有特殊纪念意义<br>或庆祝特别的日子吗？</td>
-									<td><textarea name="special_day"></textarea></td>
+									<td>企业内训课程：</td>
+									<td class="maxwidth">
+										<label><input name="train" type="checkbox" value="1天《让顾客回头》">1天《让顾客回头》</label>
+										<label><input name="train" type="checkbox" value="1天《绝对执行力》">1天《绝对执行力》</label>
+										<label><input name="train" type="checkbox" value="1天《卓越团队共同理念》">1天《卓越团队共同理念》</label><br>
+										<label><input name="train" type="checkbox" value="1天《同理心》">1天《同理心》</label>
+										<label><input name="train" type="checkbox" value="1天《像狼那样战斗》">1天《像狼那样战斗》</label>
+									</td>
+								</tr>
+								<tr>
+									<td>这趟出游要达到的目的：</td>
+									<td><textarea name="aim"></textarea></td>
 								</tr>
 								<tr>
 									<td>其他要求：</td>

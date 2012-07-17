@@ -60,6 +60,7 @@ Examples:
 
 ATTENTION: The trailing slash is required.
 */
+
 //$baseUrl =$_SERVER ['HTTP_HOST'].$_SERVER['PHP_SELF'].'/uploads/images/';
  $baseUrl ='/uto/uploads/';//'http://'.$_SERVER ['HTTP_HOST'].'/uto/uploads/';
  

@@ -33,10 +33,11 @@
 					<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
 					<?php endif;?>
 					<div class="describe clearfix">
-						<?php if(isset($tour[0]->thumbnail)): ?>
+						
+						<div class="des-l">
+							<?php if(isset($tour[0]->thumbnail)): ?>
 							<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
 						<?php endif;?>
-						<div class="des-l">
 							<ul>
 								<li>
 									价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
@@ -134,7 +135,7 @@
 						<p>
 							我们提供的是四川内经典的单位团队旅游线路，该线路上适合开展相关的拓展活动和公司内训课程。请在下面表单中勾选相关的团队活动。我们会按照您的要求来为您公司量身打造相关的拓展旅游、内训旅游、会议旅游和考察旅游。
 						</p>
-						<form id="custom_inquiry">
+						<form id="company_inquiry">
 							<table class="formtab">
 								<tr>
 									<td colspan="2">
@@ -204,7 +205,7 @@
 									<td>其他要求：</td>
 									<td><textarea name="other"></textarea></td>
 								</tr>
-								<tr><td></td><td><input id="custom-submit" type="submit" class="btn" value="确认提交"></td></tr>
+								<tr><td></td><td><input id="company-submit" type="submit" class="btn" value="确认提交"></td></tr>
 							</table>
 						</form>
 					</div>

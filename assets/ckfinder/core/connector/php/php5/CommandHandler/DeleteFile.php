@@ -22,7 +22,6 @@ if (!defined('IN_CKFINDER')) exit;
  * Include base XML command handler
  */
 require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/XmlCommandHandlerBase.php";
-
 /**
  * Handle DeleteFile command
  *
@@ -73,7 +72,7 @@ class CKFinder_Connector_CommandHandler_DeleteFile extends CKFinder_Connector_Co
 
         $filePath = CKFinder_Connector_Utils_FileSystem::combinePaths($this->_currentFolder->getServerPath(), $fileName);
 			$con=mysql_connect('127.0.0.1','root','');
-			$db=mysql_select_db('uto',$con);
+			$db=mysql_select_db('',$con);
 			$sql="delete from images where path like '%".$fileName."'";
 			$query=mysql_query($sql);
         $bDeleted = false;
@@ -89,7 +88,7 @@ class CKFinder_Connector_CommandHandler_DeleteFile extends CKFinder_Connector_Co
         }
         if ($bDeleted) {
             $thumbPath = CKFinder_Connector_Utils_FileSystem::combinePaths($this->_currentFolder->getThumbsServerPath(), $fileName);
-
+          
             @unlink($thumbPath);
             $oDeleteFileNode = new Ckfinder_Connector_Utils_XmlNode("DeletedFile");
             $this->_connectorNode->addChild($oDeleteFileNode);

@@ -49,10 +49,10 @@
 									<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140"/></a></dt>
 									<dd>
-										<span>旅行主题：&nbsp;</span><div><?php echo substr($tour[$i]['theme'],0,-1);?></div>
+										<span>旅行主题：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['theme'],0,-1));?></div>
 									</dd>
 									<dd>
-										<span>旅行地区：&nbsp;</span><div><?php echo substr($tour[$i]['destination'],0,-1);?></div>
+										<span>旅行地区：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['destination'],0,-1));?></div>
 									</dd>
 									<dd>
 									<span>最佳季节：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['tags'],0,-1));?></div>

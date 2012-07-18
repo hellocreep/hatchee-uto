@@ -85,7 +85,7 @@
 									<b>活动主题：</b>
 									<span>
 										<?php if(isset($tour[0]->theme)):?>
-										<?php echo substr($tour[0] -> theme,0,-1);?>
+										<?php echo str_replace(',','、',substr($tour[0] -> theme,0,-1));?>
 										<?php endif;?>
 									</span>
 								</li>

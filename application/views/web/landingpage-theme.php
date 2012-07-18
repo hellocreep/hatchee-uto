@@ -59,7 +59,7 @@
 										<span>旅行地区：</span><div><?php echo str_replace(',','、',substr($tour[$i]['destination'],0,-1));?></div>
 									</dd>
 									<dd>
-									<span>最佳季节：</span><div><?php echo str_replace(',','、',substr($tour[$i]['tags'],0,-1));?></div>
+									<span>最佳季节：</span><div><?php echo $tour[$i]['best_season']?></div>
 								</dd>
 									<dd>
 									<span>价&#12288;&#12288;格：</span>

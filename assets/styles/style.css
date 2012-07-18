@@ -254,14 +254,13 @@ img, div {
 	min-height:300px;
 	float:left;
 	margin:0 0 0 20px;
-	background: #F0FCFB;
-	border-bottom: 2px solid #30625E;
 }
 .aside dl{
+	background: #F0FCFB;
 	padding: 0 0 5px 0;
 }
 .aside dt{
-	background: #81D9D0;
+	background: #6ABFBA;
 	color: #fff;
 	border-radius: 0 0 36px 0;
 	padding: 8px 0;
@@ -281,6 +280,37 @@ img, div {
 	color: #866820;
 	cursor: pointer;
 }
+
+.sidetop{
+	background: #6ABFBA;
+	padding: 10px 0 0 0;
+	position: relative;
+	border-radius: 5px;
+}
+.sidetop p{
+	color: #fff;
+	padding: 0 10px 8px;
+	margin: 0;
+}
+.sidetop .arrow-bt{
+	position: absolute;
+	left: 12px;
+	bottom: -6px;
+}
+.other li{
+	background: #fff;
+	border-radius: 5px;
+	margin: 10px 0;
+	padding: 0 0 5px 0;
+}
+.other li h4{
+	text-indent: 10px;
+	padding: 3px 0;
+}
+.other li img{
+	width: 200px;
+}
+
 .article{
 	width:720px;
 	min-height:300px;

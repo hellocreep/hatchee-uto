@@ -18,7 +18,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > 友途活动
 				</div>
-				<div class="aside"></div>
+				<?php $this -> load -> view("web/include/aside-tour");?> <!-- 侧边栏chunk -->
 				<div class="article">
 					<div class="pageintro">
 						<p><img src="assets/images/ythd.gif"></p>

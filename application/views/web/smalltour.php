@@ -25,39 +25,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>themetour">主题旅行</a> > <?php echo $tour[0] -> name;?>
 				</div>
-				<div class="aside side-thme">
-					<dl>
-						<dt>目的地</dt>
-						<dd>四姑娘山</dd>
-						<dd>四姑娘山</dd>
-						<dd>贡嘎山</dd>
-						<dd>丹巴</dd>
-						<dd>九寨</dd>
-						<dd>青城山</dd>
-						<dd>峨嵋乐山</dd>
-						<dd>稻城亚丁</dd>
-						<dd>西昌</dd>
-						<dd>新都桥</dd>		
-					</dl>
-					<dl>
-						<dt>旅行主题</dt>
-						<dd>休闲度假</dd>
-						<dd>摄影旅行</dd>
-						<dd>美食之旅</dd>
-						<dd>徒步之旅</dd>
-						<dd>心灵之旅</dd>
-						<dd>公益之旅</dd>
-					</dl>
-					<dl>
-						<dt>节假日出行</dt>
-						<dd>暑假</dd>
-						<dd>中秋</dd>
-						<dd>国庆</dd>
-						<dd>元旦</dd>
-						<dd>寒假</dd>
-						<dd>春节</dd>
-					</dl>
-				</div>
+				<?php $this -> load -> view("web/include/aside-theme");?> <!-- 侧边栏chunk -->
 				<div class="article">
 					<input type="hidden" value="<?php echo $tour[0]->Id;?>" id="tour_id">
 					<input type="hidden" value="<?php echo $tour[0]->days;?>" id="tour_day">
@@ -84,7 +52,7 @@
 									<span class="s-wrap">
 										<img src="assets/images/why.gif">&nbsp;起价说明
 										<span class="inbox">
-											本起价是人越多，即可享受此价格，比如说起价一般按照14人核算，产品价格会根据您所选择的出发人数，交通以及所选附加服务的不同而有所差别。
+											本起价是按照已经核算好价格的日期当中，按照双人出行，共住一间房的最低价格．产品的价格会根据您的出发日期，出行人数，选择的车辆类型以及所选附加服务的不同而有所差别。
 										</span>
 									</span>
 									<span class="s-wrap discount">
@@ -92,7 +60,7 @@
 										<span class="inbox">
 			                                &bull;&nbsp;提前<em>20</em>天（含）以上完成签约和付清全款，每位成人优惠<em>50</em>元。<br>
 			                                &bull;&nbsp;<em>5</em>位（含）以上成人预订，每位成人立减<em>50</em>元；<br>
-			                                &bull;&nbsp;形成不做修改，立即付款的，每位成人立减<em>80</em>元；<br>
+			                                &bull;&nbsp;行程不做修改，立即付款的，每位成人立减<em>80</em>元；<br>
 			                                &bull;&nbsp;以上促销不能叠加使用。
 										</span>
 									</span>								
@@ -144,7 +112,19 @@
 						</div>			
 						<p class="apply">
 							报名人数：
-							<input class="people" type="text">
+							<select id="peo">
+									<option class="people">1</option>
+									<option class="people" selected>2</option>
+									<option class="people">3</option>
+									<option class="people">4</option>
+									<option class="people">5</option>
+									<option class="people">6</option>
+									<option class="people">7</option>
+									<option class="people">8</option>
+									<option class="people">9</option>
+									<option class="people">10</option>
+									<option class="people" value="more">更多</option>
+								</select>
 						
 						<input class="btn" id="inquiry" value="在线报名" type="submit">						
 

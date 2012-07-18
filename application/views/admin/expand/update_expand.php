@@ -6,7 +6,7 @@
 		<base href="<?php echo base_url(); ?>"/>
 		<base src="<?php echo base_url(); ?>"/>
 		<?php $this -> load -> view("admin/global_source"); ?>
-		<?php $this -> load -> view("admin/expand/global_source"); ?>
+		<?php $this -> load -> view("admin/expand/expand_common"); ?>
 	</head>
 	<body>
 		<?php $this -> load -> view('admin/header'); ?>
@@ -34,7 +34,7 @@
 					<div class="control-group">
 						<label class="control-label" for="title">标题：</label>
 						<div class="controls">
-							<input name="title" class="input-xlarge" type="text">
+							<input name="title" class="input-xlarge" type="text" value="<?php echo $expand['title'];?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>
@@ -46,7 +46,7 @@
 					<div class="control-group">
 						<label class="control-label" for="intro">简介：</label>
 						<div class="controls">
-							<input name="intro" class="input-xlarge" type="text">
+							<input name="intro" class="input-xlarge" type="text" value="<?php echo $expand['intro'];?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>
@@ -58,7 +58,7 @@
 					<div class="control-group">
 						<label class="control-label" for="des">Description：</label>
 						<div class="controls">
-							<input name="des" class="input-xlarge" type="text">
+							<input name="des" class="input-xlarge" type="text" value="<?php echo $expand['des'];?>">
 							<p class="help-block">
 								SEO
 							</p>
@@ -68,7 +68,7 @@
 					<div class="control-group">
 						<label class="control-label" for="keywords">Keywords：</label>
 						<div class="controls">
-							<input name="keywords" class="input-xlarge" type="text">
+							<input name="keywords" class="input-xlarge" type="text" value="<?php echo $expand['keywords'];?>">
 							<p class="help-block">
 								SEO
 							</p>
@@ -78,14 +78,14 @@
 					<div class="control-group">
 						<label class="control-label" for="people">参加人数：</label>
 						<div class="controls">
-							<input name="people" class="input-xlarge" type="text" value="">
+							<input name="people" class="input-xlarge" type="text" value="<?php echo $expand['people'];?>">
 						</div>
 					</div>
 					
 					<div class="control-group">
 						<h2 class="" style="text-align: center;">正文：</h2>
 						<div>
-							<textarea name="content" class="input-xlarge" rows="10" id="expand_editor" style="height: 530px; width: 100%; margin-left: 0"></textarea>
+							<textarea name="content" class="input-xlarge" rows="10" id="expand_editor" style="height: 530px; width: 100%; margin-left: 0"><?php echo $expand['content'];?></textarea>
 						</div>
 					</div>
 

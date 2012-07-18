@@ -68,9 +68,7 @@ class Expandtour extends CI_Controller
 	{
 		$id=$this->uri->segment(3);
 		$this->load->model('expand');
-		$data['note']=$this->expand->getnote($id);
-		$this->load->model('tour');
-		$data['tour']=$this->tour->getalltour();
+		$data['expand']=$this->expand->getexpand($id);
 		$this->load->view('admin/expand/update_expand',$data);
 	}
 	public function updateexpand()

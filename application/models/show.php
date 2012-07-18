@@ -68,5 +68,32 @@ class Show extends CI_Model
 		$query=$this->db->get();
 		return $query->result_array();
 	}
+	public function counttour($field,$key)
+	{
+		$sql="select id from tour where tour_type='1' and ".$field." LIKE '%".$key."%'";
+		$query=$this->db->query($sql);
+		return $query->num_rows();
+	}
+	public function tourtypelist($field,$key,$start,$per_page,$action,$sort)
+	{
+		if($action!='')
+		{
+			if($action=='price')
+			{
+				$orderby=" order by price ".$sort.', days '.$sort;
+			}
+			else
+			{
+				$orderby=" order by days ".$sort.', price '.$sort;
+			}
+		}
+		else
+		{
+			$orderby='';
+		}
+		$sql="select * from tour where tour_type='1' and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$query=$this->db->query($sql);
+		return $query->result_array();
+	}
 }
 ?>

@@ -83,7 +83,7 @@ class Expandtour extends CI_Controller
 			"des"=>$data->description,
 			"keywords"=>$data->keywords,
 			"intro"=>$data->intro,
-			"people"=>$data->people,
+			"days"=>$data->day,
 			"thumbnail"=>$img,
 			"content"=>$content,
 			"edit_time"=>date('Y-m-d H:i:s',time())

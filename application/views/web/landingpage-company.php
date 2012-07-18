@@ -88,46 +88,18 @@
 					<div class="activity">
 						<h3>拓展活动内容</h3>
 						<ul>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
+							<?php foreach($expand as $list):?>
+								<li>
+								<img src="<?php echo $list['thumbnail'];?>" alt="<?php echo $list['title'];?>">
+								<h5><?php echo $list['title'];?></h5>	
 								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
+									<?php echo $list['intro'];?>
 								</p>
 								<p>
-									活动性质：
-								</p>
-							</li>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
-								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
-								</p>
-								<p>
-									活动性质：
+									活动天数：<?php echo $list['days'];?>
 								</p>
 							</li>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
-								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
-								</p>
-								<p>
-									活动性质：
-								</p>
-							</li>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
-								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
-								</p>
-								<p>
-									活动性质：
-								</p>
-							</li>
+							<?php endforeach;?>
 						</ul>
 						
 					</div>

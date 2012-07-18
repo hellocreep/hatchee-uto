@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<title><?php echo$webinfo[0] -> title;?>| 友途旅行网</title>
 		<meta name="description" content="<?php echo $webinfo[0] -> description;?>">
 		<meta name="keywords" content="<?php echo $webinfo[0] -> keywords;?>">
@@ -16,7 +16,11 @@
 			
 			<div class="content clearfix">
 				<div class="breadcrumb">
-					您的位置：<a href="<?php echo base_url();?>">首页</a> > 主题旅行
+					<?php if(isset($bread) && $bread!=''):?>
+						您的位置：<a href="<?php echo base_url();?>">首页</a> > <?php echo $bread;?>
+					<?php else:?>
+						您的位置：<a href="<?php echo base_url();?>">首页</a> > 主题旅行
+					<?php endif;?>
 				</div>
 				<?php $this -> load -> view("web/include/aside-theme");?> <!-- 侧边栏chunk -->
 				<div class="article">

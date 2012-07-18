@@ -30,7 +30,7 @@ class Webinquiry extends CI_Controller
 			"people"=>$info->people,
 			"add_day"=>$info->add_day,
 			"add_des"=>$info->add_des,
-			"tour_theme"=>'',
+			"tour_theme"=>'0',
 			"other"=>$info->other,
 			"special_day"=>$info->special_day
 		);

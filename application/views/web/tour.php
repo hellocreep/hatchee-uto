@@ -46,10 +46,8 @@
 							<p>
 								<b>选择期数：</b>
 								<select size="3" multiple="multiple">
-									<?php if(isset($tour[0]->term)):
-									?>
-									<?php foreach(explode("<br />",$tour[0]->term) as $term):
-									?>
+									<?php if(isset($tour[0]->term)): ?>
+									<?php foreach(explode("<br />",$tour[0]->term) as $term): ?>
 									<option class="term" value="<?php echo $term;?>"><?php echo $term;?></option>
 									<?php endforeach;?>
 									<?php endif;?>
@@ -59,7 +57,7 @@
 								<b>参加人数：</b>
 								<select id="peo">
 									<option class="people">1</option>
-									<option class="people">2</option>
+									<option class="people" selected>2</option>
 									<option class="people">3</option>
 									<option class="people">4</option>
 									<option class="people">5</option>
@@ -70,15 +68,7 @@
 									<option class="people">10</option>
 									<option class="people" value="more">更多</option>
 								</select>
-								<script type="text/javascript">
-									$(function(){
-										var result =$(".peo .people:last").val();
-									      if(result =="more") 
-									      alert( "此选择 为 自定义");// 主要 用 接收 的value 值来判断； 
-									})
-									
-
-								</script>
+								
 								<input class="btn" id="inquiry" value="在线报名" type="submit"><span class="promotion"><img src="assets/images/promotion100.png"></span>
 								<!-- <input class="people" type="text"> -->
 							</p>

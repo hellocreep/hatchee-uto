@@ -75,7 +75,7 @@ class Expand extends CI_Model
 
 		}
 	}
-	public function getnexexpand($id)
+	public function getnextexpand($id)
 	{
 		$this->db->select('max(Id) as id');
 		$this->db->from('expand');

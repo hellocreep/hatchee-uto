@@ -7,6 +7,33 @@ class Expandtour extends CI_Controller
 		$this->load->helper('url');
 		session_start();
 	}
+
+	public function expand(){
+		$id=addslashes($_GET['id']);
+		$this->load->model('expand');
+		$data['expand'] = $this->expand->getexpand($id);
+		if(!$this->expand->getupexpand($id))
+		{
+			$data['upexpand']='';
+		}
+		else
+		{
+			$data['upexpand']=$this->expand->getupexpand($id);
+			
+		}
+		if(!$this->expand->getnextexpand($id))
+		{
+			
+			$data['nextexpand']='';
+		}
+		else
+		{
+			$data['nextexpand']=$this->expand->getnextexpand($id);
+		}
+
+		$this->load->view("web/expand",$data);
+	}
+
 	public function newexpand(){
 
 		$this->load->view('admin/expand/new_expand');

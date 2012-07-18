@@ -127,7 +127,10 @@
 					<div class="control-group">
 						<label class="control-label" for="discount">折扣信息：</label>
 						<div class="controls">
-							<textarea name="discount" class="input-xlarge" rows="5"></textarea>
+							<textarea name="discount" class="input-xlarge" rows="5">&bull;&nbsp;提前<em>20</em>天（含）以上完成签约和付清全款，每位成人优惠<em>50</em>元。<br>
+&bull;&nbsp;<em>5</em>位（含）以上成人预订，每位成人立减<em>50</em>元；<br>&bull;&nbsp;形成不做修改，立即付款的，每位成人立减<em>80</em>元；<br>
+&bull;&nbsp;以上促销不能叠加使用。
+							</textarea>
 						</div>
 					</div>
 

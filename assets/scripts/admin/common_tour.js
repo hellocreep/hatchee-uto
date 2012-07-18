@@ -359,21 +359,10 @@ $(function(){
 	CKFinder.setupCKEditor( route_editor, finder_base );
 
 	//frames[1]
-	CKEDITOR.replace( 'tour-term-private', {
-		height: 500
+	var term_editor = CKEDITOR.replace( 'tour-term-private', {
+		height: 500,
 	});
-
-	//frames[2]
-	// CKEDITOR.replace( 'price_detail',{
-	// 	height: 500
-	// });
-	//frames[3]
-	// CKEDITOR.replace( 'tour_content',{
-	// 	height: 500
-	// });
-	//frames[4]
-	// CKEDITOR.replace('tour_notice',{
-	// })
+	term_editor.config.enterMode = CKEDITOR.ENTER_BR;
 
 	$( '#filemanager' ).click(function(e){
 		e.preventDefault();
@@ -383,7 +372,7 @@ $(function(){
 		finder.basePath = finder_base;
 		finder.selectActionFunction = function( fileUrl, data ) {
 			$.ajax({
-				url : 'imagemanage/imgUpload',
+				url : 'imagemanage/imgupload',
 				data : {
 					userfile : fileUrl
 				},

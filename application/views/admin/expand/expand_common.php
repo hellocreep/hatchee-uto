@@ -28,8 +28,8 @@ $(function(){
 		var url = 'expandtour/addexpand';
 		
 		if( $('#e_id').length > 0 ){
-			data.id = $( '#n_id' ).val();
-			url = 'expandtour/expandupdate'; 
+			data.id = $( '#e_id' ).val();
+			url = 'expandtour/updateexpand'; 
 		}
 
 		if( data.title!=='' ){

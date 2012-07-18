@@ -12,7 +12,7 @@ class Travelnote extends CI_Controller
 		$this->load->model('tour');
 		$this->tour = new Tour();
 		$data['tour'] = $this->tour->getalltour();
-		$this->load->view('admin/new_travelnote',$data);
+		$this->load->view('admin/travelnote/new_travelnote',$data);
 	}
 
 	public function notelist()
@@ -80,7 +80,7 @@ class Travelnote extends CI_Controller
 		$data['note']=$this->travel->getnote($id);
 		$this->load->model('tour');
 		$data['tour']=$this->tour->getalltour();
-		$this->load->view('admin/update_travelnote.php',$data);
+		$this->load->view('admin/travelnote/update_travelnote',$data);
 	}
 	public function updatetravel()
 	{	

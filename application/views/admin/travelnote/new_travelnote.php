@@ -6,7 +6,7 @@
 		<base href="<?php echo base_url(); ?>"/>
 		<base src="<?php echo base_url(); ?>"/>
 		<?php $this -> load -> view("admin/global_source"); ?>
-		<?php $this -> load -> view("admin/travelnote_common"); ?>
+		<?php $this -> load -> view("admin/travelnote/travelnote_common"); ?>
 	</head>
 	<body>
 		<?php $this -> load -> view('admin/header'); ?>

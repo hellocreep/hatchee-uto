@@ -32,6 +32,22 @@ class Travelnote extends CI_Controller
 		echo json_encode( $note );
 	}
 
+	public function managenote(){
+		$this->load->model('travel');
+		$this->travel=new Travel();
+		if(isset($_POST['page']) &&$_POST['page']!='')
+		{
+			$page = $_POST['page'];
+		}
+		else
+		{
+			$page=1;
+		}
+		$step = 15;
+		$note=$this->travel->getnotelist($page,$step);
+		echo json_encode( $note );
+	}
+
 	public function notecount(){
 		$this->load->model('travel');
 		$this->travel=new Travel();

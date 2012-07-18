@@ -5,7 +5,7 @@
 ;(function(){
 $(function(){
 	
-	var editor = CKEDITOR.replace( 'note_editor', {
+	var editor = CKEDITOR.replace( 'expand_editor', {
 		toolbar : 'MyToolbar',
 		height: 500
 	});

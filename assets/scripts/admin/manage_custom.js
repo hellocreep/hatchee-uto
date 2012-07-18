@@ -457,11 +457,11 @@ var expand = {
 	list_expand: function( result ){
 		var expand_list = ' ';
 		for( var i = 0; i<result.length; i++ ){
-			note_list += "<tr><td class='e_id'>"+result[i].Id+"</td> \
+			expand_list += "<tr><td class='e_id'>"+result[i].Id+"</td> \
 			<td class='e_title'>" +result[i].title+ "</td> \
 			<td>"+result[i].edit_time+"</td> \
 			<td><i class='icon-share'></i><a target='_blank' href='?id="+result[i].Id+"'>预览</a> \
-			<i class='icon-pencil'></i><a href='expandupdate/"+result[i].Id+"' class='edit-expand'>修改</a> \
+			<i class='icon-pencil'></i><a href='expandtour/expandupdate/"+result[i].Id+"' class='edit-expand'>修改</a> \
 			<i class='icon-trash'></i><a class='del-note' href='javascript:;'>删除</a></td></tr>";
 		}
 		$( '#list-head' ).html( note_list_tpl );

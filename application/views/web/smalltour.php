@@ -273,7 +273,7 @@
 									<td>想增加的旅行目的地：</td>
 									<td class="maxwidth">
 										<?php foreach($des as $d):?>
-											<label><input name="add_day" type="checkbox" value="<?php echo $d;?>"><?php echo $d;?></label>
+											<label><input name="add_des" type="checkbox" value="<?php echo $d;?>"><?php echo $d;?></label>
 										<?php endforeach;?>
 									</td>
 								</tr>

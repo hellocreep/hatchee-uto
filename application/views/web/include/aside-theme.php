@@ -2,7 +2,6 @@
 	<dl>
 		<dt>目的地</dt>
 		<dd><a href="#" title="">四姑娘山</a></dd>
-		<dd><a href="#" title="">四姑娘山</a></dd>
 		<dd><a href="#" title="">贡嘎山</a></dd>
 		<dd><a href="#" title="">丹巴</a></dd>
 		<dd><a href="#" title="">九寨</a></dd>

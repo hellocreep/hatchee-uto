@@ -57,16 +57,34 @@
 							</p>
 							<p>
 								<b>参加人数：</b>
-								<select>
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
+								<select id="peo">
+									<option class="people">1</option>
+									<option class="people">2</option>
+									<option class="people">3</option>
+									<option class="people">4</option>
+									<option class="people">5</option>
+									<option class="people">6</option>
+									<option class="people">7</option>
+									<option class="people">8</option>
+									<option class="people">9</option>
+									<option class="people">10</option>
+									<option class="people" value="more">更多</option>
 								</select>
-								<input class="people" type="text">
-							</p>
-							<p class="pad">
+								<script type="text/javascript">
+									$(function(){
+										var result =$(".peo .people:last").val();
+									      if(result =="more") 
+									      alert( "此选择 为 自定义");// 主要 用 接收 的value 值来判断； 
+									})
+									
+
+								</script>
 								<input class="btn" id="inquiry" value="在线报名" type="submit"><span class="promotion"><img src="assets/images/promotion100.png"></span>
+								<!-- <input class="people" type="text"> -->
 							</p>
+							<!-- <p class="pad">
+								<input class="btn" id="inquiry" value="在线报名" type="submit"><span class="promotion"><img src="assets/images/promotion100.png"></span>
+							</p> -->
 								<span><em class="red">*&nbsp;&nbsp;</em>成都统一集结，建议提前<em class="red big">&nbsp;3&nbsp;</em>天报名.</span>
 						</div>
 						<div class="j-right">

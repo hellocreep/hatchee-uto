@@ -422,7 +422,7 @@ var travel_note = {
 	count_note: function(){
 		page_count({
 			url1: 'travelnote/notecount',
-			url2:  'travelnote/notelist',
+			url2:  'travelnote/managenote',
 			type: 'travel_note'
 		});
 	},
@@ -905,7 +905,7 @@ $(function(){
 		$( '#list-title' ).text( '游记管理' );
 		$( '#tool-bar' ).html( '<a href="travelnote/newnote" class="btn btn-primary" id=""><i class="icon-plus icon-white"></i>写游记</a>' );
 		$.ajax({
-			url: 'travelnote/notelist',
+			url: 'travelnote/managenote',
 			data: {
 				page: 1
 			},

@@ -25,7 +25,7 @@ class Expand extends CI_Model
 	public function getexpandlist($page,$step)
 	{
 		$start=($page-1)*$step;
-		$sql="select * from expand limit ".$start.",".$step;
+		$sql="select Id,title,edit_time from expand limit ".$start.",".$step;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}

@@ -81,9 +81,15 @@
 										<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
 									</a>
 								</li>
-							</ul>
-
-							
+								<li>
+									<b>活动主题：</b>
+									<span>
+										<?php if(isset($tour[0]->theme)):?>
+										<?php echo str_replace(',','、',substr($tour[0] -> theme,0,-1));?>
+										<?php endif;?>
+									</span>
+								</li>
+							</ul>						
 							<h5>该线路可独立包团、或拼团 </h5>
 							<p>
 								1、独立包团: 就是几个亲朋好友，按您指定的时间发团，外人不能加入，也不进购物店，无额外消费，自主性很强，特别是一些特殊线路，一般旅行很难发散客团，都要求包团才能出行。
@@ -152,11 +158,7 @@
 							<?php endif;?>
 						</p>
 						<p>
-						<h4 class="inline"> 活动主题： </h4>
-							<?php if(isset($tour[0]->theme)):?>
-							<?php echo substr($tour[0] -> theme,0,-1);?>
-							<?php endif;?>
-						</p>
+						
 						<h4>行程亮点及体验：</h4>
 						<div class="experience">
 							<?php if(isset($tour[0]->content)):

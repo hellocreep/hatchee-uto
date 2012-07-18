@@ -49,18 +49,23 @@
 									<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140"/></a></dt>
 									<dd>
-										<span>旅行主题：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['theme'],0,-1));?></div>
+										<span>旅行主题：</span><div><?php echo str_replace(',','、',substr($tour[$i]['theme'],0,-1));?></div>
 									</dd>
 									<dd>
-										<span>旅行地区：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['destination'],0,-1));?></div>
+										<span>旅行地区：</span><div><?php echo str_replace(',','、',substr($tour[$i]['destination'],0,-1));?></div>
 									</dd>
 									<dd>
-									<span>最佳季节：&nbsp;</span><div><?php echo str_replace(',','、',substr($tour[$i]['tags'],0,-1));?></div>
+									<span>最佳季节：</span><div><?php echo str_replace(',','、',substr($tour[$i]['tags'],0,-1));?></div>
 								</dd>
 									<dd>
-									<span>价&nbsp;&nbsp;&nbsp;&nbsp;格：&nbsp;</span><div><b class="price"><?php if(isset($tour[$i]['price'])): ?>
-										<?php echo $tour[$i]['price'];?>
-										<?php endif;?></b>元起</div>
+									<span>价&#12288;&#12288;格：</span>
+									<div>
+										<?php if(isset($tour[$i]['price']) && $tour[$i]['price'] != 0): ?>
+										<?php echo '<b class="price">'.$tour[$i]['price']."</b>元起";?>
+										<?php else:?>
+										<?php echo "一团一议";?>
+										<?php endif;?>
+									</div>
 									</dd>
 									<dd class="last">
 										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	

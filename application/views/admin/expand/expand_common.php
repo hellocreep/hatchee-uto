@@ -16,7 +16,7 @@ $(function(){
 		var data = {
 			title: $( 'input[name="title"]' ).val(),
 			intro: $( 'input[name="intro"]' ).val(),
-			des: $( 'input[name="des"]' ).val(),
+			description: $( 'input[name="des"]' ).val(),
 			keywords: $( 'input[name="keywords"]' ).val(),
 			people: $('input[name="people"]').val()
 		}
@@ -25,11 +25,11 @@ $(function(){
 		for ( instance in CKEDITOR.instances ){
 			CKEDITOR.instances[instance].updateElement();
 		}
-		var url = '';
+		var url = 'expandtour/addexpand';
 		
 		if( $('#e_id').length > 0 ){
 			data.id = $( '#n_id' ).val();
-			url = ''; 
+			url = 'expandtour/expandupdate'; 
 		}
 
 		if( data.title!=='' ){

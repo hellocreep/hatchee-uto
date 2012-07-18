@@ -461,7 +461,7 @@ var expand = {
 			<td class='e_title'>" +result[i].title+ "</td> \
 			<td>"+result[i].edit_time+"</td> \
 			<td><i class='icon-share'></i><a target='_blank' href='?id="+result[i].Id+"'>预览</a> \
-			<i class='icon-pencil'></i><a href='/"+result[i].Id+"' class='edit-expand'>修改</a> \
+			<i class='icon-pencil'></i><a href='expandupdate/"+result[i].Id+"' class='edit-expand'>修改</a> \
 			<i class='icon-trash'></i><a class='del-note' href='javascript:;'>删除</a></td></tr>";
 		}
 		$( '#list-head' ).html( note_list_tpl );
@@ -474,8 +474,8 @@ var expand = {
 
 	count_expand: function(){
 		page_count({
-			url1: '',
-			url2:  '',
+			url1: 'expandtour/expandcount',
+			url2:  'expandtour/expendlist',
 			type: 'expand'
 		});
 	},
@@ -487,7 +487,7 @@ var expand = {
 			if( r ){
 				var tid = $( this ).parent().siblings( '.e_id' ).text(); 
 				$.ajax({
-					url: '/',
+					url: 'expandtour/delexpand',
 					data: {
 						id: tid
 					},
@@ -919,9 +919,9 @@ $(function(){
 	$( '#expand-manage' ).click(function( e ){
 		left_menu_post_list( e );
 		$( '#list-title' ).text( '扩展活动管理' );
-		$( '#tool-bar' ).html( '<a href="" class="btn btn-primary" id=""><i class="icon-plus icon-white"></i>写扩展活动</a>' );
+		$( '#tool-bar' ).html( '<a href="expandtour/newexpand" class="btn btn-primary" id=""><i class="icon-plus icon-white"></i>写扩展活动</a>' );
 		$.ajax({
-			url: '',
+			url: 'expandtour/expendlist',
 			data: {
 				page: 1
 			},

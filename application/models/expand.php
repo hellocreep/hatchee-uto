@@ -22,7 +22,7 @@ class Expand extends CI_Model
 		return $data;
 	}
 
-	public function getexpand($page,$step)
+	public function getexpandlist($page,$step)
 	{
 		$start=($page-1)*$step;
 		$sql="select * from expand limit ".$start.",".$step;

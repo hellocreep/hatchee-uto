@@ -8,10 +8,8 @@ class Expandtour extends CI_Controller
 		session_start();
 	}
 	public function newexpand(){
-		$this->load->model('tour');
-		$this->tour = new Tour();
-		$data['tour'] = $this->tour->getalltour();
-		$this->load->view('admin/expand/new_expand',$data);
+
+		$this->load->view('admin/expand/new_expand');
 	}
 	function expendlist()
 	{
@@ -25,7 +23,7 @@ class Expandtour extends CI_Controller
 			$page=1;
 		}
 		$step = 15;
-		$note=$this->expand->getexpand($page,$step);
+		$note=$this->expand->getexpandlist($page,$step);
 		echo json_encode( $note );
 	}
 	public function expandcount(){

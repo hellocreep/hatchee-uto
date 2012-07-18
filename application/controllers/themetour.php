@@ -102,5 +102,18 @@ class Themetour extends CI_Controller
 		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort);
 		$this->load->view('web/landingpage-theme',$data);		
 	}
+	function searchtour()
+	{
+		$action=$this->uri->segment(3);
+		$key=$this->uri->segment(4);
+		switch($action)
+		{
+			case 'destination': $field='destination';break;
+			case 'theme': $field='theme';break;
+			case 'holidays': $field='tags';break;
+		}
+		$this->load->model('webpage');
+		$data['webinfo'] = $this->webpage->getpage('theme_tour');
+	}
 }
 ?>

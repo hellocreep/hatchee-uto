@@ -98,11 +98,26 @@ $(function(){
 		inquiry_form = inquiry_form2;
 	}
 
+
+	// 友途活动内页参加人数选择
+	$('#peo .people').click(function() {
+		if($("#peo .people:selected").val() == "more"){
+		    $('#peo').replaceWith('<input type="text" class="people">')
+		}
+	});
+
 	//订单
 	$( '#inquiry' ).fancybox({
 		content: inquiry_form,
 		onComplete: function(){
-			$( '.r_people' ).val( $('.people').val() );
+
+			if($('input.people').val()== undefined){
+				$( '.r_people' ).val( $('.people:selected').val());
+			}
+			else{
+				$( '.r_people' ).val( $('input.people').val());
+			}
+
 			$( '.r_name' ).text( $('#tour_title').text() );
 			$( '.r_day' ).text( $('#tour_day').val()+'天' );
 			$( '.r_term' ).text( $( '.term:selected' ).val() );

@@ -38,17 +38,17 @@ class Image extends CI_Model
 		$this->db->update("images",$data);
 		return $this->db->affected_rows();
 	}
-	public function upload($url)
+	public function upload($data)
 	{
-		$sql="select * from images where path='".$url."' or small='".$url."'";
-		$query=$this->db->query("select * from images where path='".$url."' or small='".$url."'");
+		$sql="select * from images where path='".$data['path']."' or middle='".$data['path']."' or small='".$data['path']."'";
+		$query=$this->db->query($sql);
 		if($query->result())
 		{
 			return $query->result();
 		}
 		else
 		{
-			$query=$this->db->query("insert into images (path) values ('".$url."')");
+			$query=$this->db->insert('images',$data);
 			$id=$this->db->insert_id();
 			$query=$this->db->query("select * from images where Id='".$id."'");
 			return $query->result();

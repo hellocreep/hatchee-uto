@@ -254,6 +254,27 @@ img, div {
 	min-height:300px;
 	float:left;
 	margin:0 0 0 20px;
+	background: #F0FCFB;
+}
+.aside dl{
+	text-indent: 12px;
+}
+.aside dt{
+	background: #81D9D0;
+	color: #fff;
+	border-radius: 0 0 10px 0;
+	padding: 5px 0;
+	font-weight: bold;
+	font-size: 14px;
+}
+.aside dd a{
+	display: block;
+	height: 30px;
+	line-height: 30px;
+}
+.aside dd:hover{
+	color: #866820;
+	cursor: pointer;
 }
 .article{
 	width:720px;

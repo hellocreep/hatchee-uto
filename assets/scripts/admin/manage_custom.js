@@ -61,6 +61,9 @@ $.fn.uto_pag = function( opts ){
 				if( opts.type=='custom_order' ){
 					custom_order.list_order( result );
 				}
+				if( opts.type=='expand' ){
+					expand.list_expand( result );
+				}
 			}
 		});
 		return this;
@@ -432,6 +435,59 @@ var travel_note = {
 				var tid = $( this ).parent().siblings( '.n_id' ).text(); 
 				$.ajax({
 					url: 'travelnote/deltravel',
+					data: {
+						id: tid
+					},
+					success: function( result ){
+						if( result ){
+							target.remove();
+						}else{
+							loadings.show( result.msg );
+						}
+					}
+				});
+			}
+		});
+	}
+}
+
+//扩展活动
+var expand = {
+
+	list_expand: function( result ){
+		var expand_list = ' ';
+		for( var i = 0; i<result.length; i++ ){
+			note_list += "<tr><td class='e_id'>"+result[i].Id+"</td> \
+			<td class='e_title'>" +result[i].title+ "</td> \
+			<td>"+result[i].edit_time+"</td> \
+			<td><i class='icon-share'></i><a target='_blank' href='?id="+result[i].Id+"'>预览</a> \
+			<i class='icon-pencil'></i><a href='/"+result[i].Id+"' class='edit-expand'>修改</a> \
+			<i class='icon-trash'></i><a class='del-note' href='javascript:;'>删除</a></td></tr>";
+		}
+		$( '#list-head' ).html( note_list_tpl );
+		list_panel.html( expand_list );
+		loadings.hide();
+		expand.count_expand();
+		expand.del_expand();
+		$( '.pagination' ).show();	
+	},
+
+	count_expand: function(){
+		page_count({
+			url1: '',
+			url2:  '',
+			type: 'expand'
+		});
+	},
+
+	del_expand: function(){
+		$( '.del-expand' ).on('click',function(){
+			var r = confirm( '确定删除这篇扩展活动？' );
+			var target = $( this ).parent().parent();
+			if( r ){
+				var tid = $( this ).parent().siblings( '.e_id' ).text(); 
+				$.ajax({
+					url: '/',
 					data: {
 						id: tid
 					},
@@ -855,6 +911,22 @@ $(function(){
 			},
 			success: function( result ){
 				travel_note.list_note( result );
+			}
+		});
+	});
+
+	//扩展活动列表
+	$( '#expand-manage' ).click(function( e ){
+		left_menu_post_list( e );
+		$( '#list-title' ).text( '扩展活动管理' );
+		$( '#tool-bar' ).html( '<a href="" class="btn btn-primary" id=""><i class="icon-plus icon-white"></i>写扩展活动</a>' );
+		$.ajax({
+			url: '',
+			data: {
+				page: 1
+			},
+			success: function( result ){
+				expand.list_expand( result );
 			}
 		});
 	});

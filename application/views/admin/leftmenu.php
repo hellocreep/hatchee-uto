@@ -11,7 +11,8 @@
 
 		<li class="nav-header">活动管理（开发中）</li>
 		<li><a href="tourmanage" id="tour-manage">线路管理</a></li>
-		<li><a href="" id="travelnote-manage">游记管理</a></li>
+		<li><a href="javascript:;" id="travelnote-manage">游记管理</a></li>
+		<li><a href="javascript:;" id="expand-manage">扩展活动管理</a></li>
 		<li class="divider"></li>
 		
 		<li class="nav-header">活动标签管理</li>

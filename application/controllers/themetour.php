@@ -101,8 +101,8 @@ class Themetour extends CI_Controller
 		switch($type)
 		{
 			case 'destination': $field='destination';$bread='<a href="themetour">主题旅行</a> > 目的地 > '.$key;break;
-			case 'theme': $field='theme';$bread='<a href="themetour">旅行主题</a> > 目的地 > '.$key;break;
-			case 'holidays': $field='tags';$bread='<a href="themetour">节假日出行</a> > 目的地 > '.$key;break;
+			case 'theme': $field='theme';$bread='<a href="themetour">主题旅行</a> > 旅行主题 > '.$key;break;
+			case 'holidays': $field='tags';$bread='<a href="themetour">主题旅行</a> > 节假日出行 > '.$key;break;
 		}
 		$this->load->model('webpage');
 		$data['webinfo'] = $this->webpage->getpage('theme_tour');

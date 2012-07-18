@@ -41,27 +41,29 @@
 							<?php endif;?>
 							<ul>
 								<li>
-									<b>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：</b>
-									<span class="price">￥<b>
-										<?php if(isset($tour[0]->price)): ?>
-										<?php echo $tour[0]->price;?>
+									<b>价&#12288;&#12288;格：</b>
+									<span class="price">
+										<?php if(isset($tour[0]->price) && $tour[0]->price != 0): ?>
+										<?php echo '￥<b>'.$tour[0]->price."</b>起";?>
+										<?php else:?>
+										<?php echo "一团一议";?>
 										<?php endif;?>
-									</b>起</span>
+									</span>
 									<span class="s-wrap">
 										<img src="assets/images/why.gif">&nbsp;起价说明
 										<span class="inbox">
 											本起价是人越多，即可享受此价格，比如说起价一般按照14人核算，产品价格会根据您所选择的出发人数，交通以及所选附加服务的不同而有所差别。
 										</span>
 									</span>
-									<span class="s-wrap advice">
-										投诉与建议
+									<span class="s-wrap discount">
+										<i>早多优惠</i>
 										<span class="inbox">
-			                                &bull;&nbsp;如需要投诉或建议请发送邮件至666@57go.com<br>
-			                                &bull;&nbsp;电话预订或咨询：4006-1234-98<br>
-			                                &bull;&nbsp;QQ预订咨询：713781<br>
-			                                &bull;&nbsp;呼叫中心位于上海，号码为021-33977331
+			                                &bull;&nbsp;提前<em>20</em>天（含）以上完成签约和付清全款，每位成人优惠<em>50</em>元。<br>
+			                                &bull;&nbsp;<em>5</em>位（含）以上成人预订，每位成人立减<em>50</em>元；<br>
+			                                &bull;&nbsp;形成不做修改，立即付款的，每位成人立减<em>80</em>元；<br>
+			                                &bull;&nbsp;以上促销不能叠加使用。
 										</span>
-									</span>
+									</span>								
 								</li>
 								<li> <b>报名时间：&nbsp;</b>
 									<span  class="m-time">
@@ -77,9 +79,7 @@
 								</li>
 								<li>
 									<b>客服&nbsp;QQ：&nbsp;</b>
-									<a target="_blank" href="http://sighttp.qq.com/authd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c">
-										<img src="http://wpa.qq.com/imgd?IDKEY=fd67b19c8f7cb596955cf0d3e879b31202f3ba7b4181ed2c&pic=41" alt="点击这里给我发消息" title="点击这里给我发消息">
-									</a>
+									<?php $this -> load -> view("web/qqonline");?> <!-- 在线联系QQ -->
 								</li>
 								<li>
 									<b>活动主题：</b>

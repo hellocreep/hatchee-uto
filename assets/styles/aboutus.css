@@ -98,8 +98,6 @@ table.data th{
 .person img{
 	margin: 0 0 0 10px;
 	float: right;
-	width: 200px;
-	height: 300px;
 	border:1px solid #ddd;
 	padding:1px;
 }

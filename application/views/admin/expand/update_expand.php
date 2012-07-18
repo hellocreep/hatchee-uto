@@ -28,9 +28,9 @@
 				</div>
 			</div>
 
-			<form id="travel_note" class="well form-horizontal" action="travelnote/addtravel" method="post">
+			<form id="travel_note" class="well form-horizontal" action="expandtour/updateexpand" method="post">
 				<fieldset>
-					<input type="hidden" value="" id="e_id">
+					<input type="hidden" value="" id="e_id" value="<?php echo $expand['Id'];?>">
 					<div class="control-group">
 						<label class="control-label" for="title">标题：</label>
 						<div class="controls">

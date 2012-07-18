@@ -1,24 +1,5 @@
 /*关于我们侧边栏样式*/
-.aside dl{
-	border:2px solid #5EA4A0;
-	border-radius: 5px;
-	text-indent: 12px;
-}
-.aside dt{
-	background: #5EA4A0;
-	color: #fff;
-	padding: 5px 0;
-	font-weight: bold;
-	font-size: 14px;
-}
-.aside dd{
-	font-size: 14px;
-	padding: 10px 0 5px;
-}
-.aside dd:hover{
-	color: #866820;
-	cursor: pointer;
-}
+
 /*-------- Page mission ---------*/
 h2 img.miss{
 	margin-right: 10px;

@@ -1,33 +1,31 @@
 <div class="aside side-thme">
-	<dl>
-		<dt>目的地</dt>
-		<dd>四姑娘山</dd>
-		<dd>四姑娘山</dd>
-		<dd>贡嘎山</dd>
-		<dd>丹巴</dd>
-		<dd>九寨</dd>
-		<dd>青城山</dd>
-		<dd>峨嵋乐山</dd>
-		<dd>稻城亚丁</dd>
-		<dd>西昌</dd>
-		<dd>新都桥</dd>
-	</dl>
-	<dl>
-		<dt>旅行主题</dt>
-		<dd>休闲度假</dd>
-		<dd>摄影旅行</dd>
-		<dd>美食之旅</dd>
-		<dd>徒步之旅</dd>
-		<dd>心灵之旅</dd>
-		<dd>公益之旅</dd>
-	</dl>
-	<dl>
-		<dt>节假日出行</dt>
-		<dd>暑假</dd>
-		<dd>中秋</dd>
-		<dd>国庆</dd>
-		<dd>元旦</dd>
-		<dd>寒假</dd>
-		<dd>春节</dd>
-	</dl>
+	<div class="sidetop">
+		<img src="assets/images/side-top.jpg">
+		<p>
+			友途旅行网活动，精心包装的旅游线路产品。在景点、住宿、餐饮安排上注重顾客的体验。在旅行过程中加入很多体验和互动元素，让您去感受和探索当地的风土人情，去感受真正的旅行。
+		</p>	
+		<img class="arrow-bt" src="assets/images/arrow_bt.gif">
+	</div>
+
+	<ul class="other">
+		<li>
+			<h4>玩转景点</h4>
+			<img src="assets/images/route.jpg">
+		</li>
+		<li>
+			<h4>住宿</h4>
+			<img src="assets/images/zhusu.jpg">
+		</li>
+		<li>
+			<h4>餐，美食</h4>
+			<img src="assets/images/food.jpg">
+		</li>
+
+		<li>
+			<h4>领队和小编</h4>
+
+		</li>
+	</ul>
+
+		
 </div>

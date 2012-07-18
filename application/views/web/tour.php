@@ -57,6 +57,9 @@
 							</p>
 							<p>
 								<b>参加人数：</b>
+								<select>
+									<option></option>
+								</select>
 								<input class="people" type="text">
 							</p>
 							<p class="pad">

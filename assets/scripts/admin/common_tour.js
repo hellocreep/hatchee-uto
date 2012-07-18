@@ -73,7 +73,12 @@ window.uto_var = {
 			<td></td> \
 			<td></td> \
 		</tr> \
-</tbody></table>',
+	</tbody></table>',
+
+	discount_tpl: '&bull;&nbsp;提前<em>20</em>天（含）以上完成签约和付清全款，每位成人优惠<em>50</em>元。<br> \
+	&bull;&nbsp;<em>5</em>位（含）以上成人预订，每位成人立减<em>50</em>元；<br> \
+	&bull;&nbsp;形成不做修改，立即付款的，每位成人立减<em>80</em>元；<br> \
+	&bull;&nbsp;以上促销不能叠加使用。'
 }
 
 //标签选择
@@ -281,6 +286,7 @@ var submittour = function(){
 			keywords : $('input[name="keywords"]').val(),
 			description : $('input[name="description"]').val(),
 			price : $('input[name="price"]').val(),
+			discount: $( 'textarea[name="discount"]').val(),
 			best_season: $('input[name="best_season"]').val(),
 			people: $('input[name="people"]').val()||'',
 			company_intro: $('input[name="company_intro"]').val()||'',
@@ -408,8 +414,10 @@ $(function(){
 	$( 'select[name="type_select"]').change(function(){
 		if( $(this).children( 'option:selected' ).val() == 1 ){
 			$( window.frames[1].document ).find( '.cke_show_borders' ).html( uto_var.tpl_table +'<br />'+ uto_var.tpl_table );
+			$( 'textarea[name="discount"]').html( uto_var.discount_tpl );
 		}else{
 			$( window.frames[1].document ).find( '.cke_show_borders' ).html( '' );
+			$( 'textarea[name="discount"]').empty();
 		}
 	});
 

@@ -57,6 +57,26 @@
 					</div>
 
 					<div class="control-group">
+						<label class="control-label" for="keywords">关键词（keywords）：</label>
+						<div class="controls">
+							<input name="keywords" class="input-xlarge" type="text">
+							<p class="help-block">
+								页面关键词,便于搜索引擎检索
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="description">描述（description）：</label>
+						<div class="controls">
+							<input name="description" class="input-xlarge" type="text">
+							<p class="help-block">
+								SEO
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group">
 						<label class="control-label" for="name">线路名称：</label>
 						<div class="controls">
 							<input name="name" class="input-xlarge" type="text">
@@ -78,6 +98,13 @@
 					</div>
 
 					<div class="control-group">
+						<label class="control-label" for="intro">线路简介：</label>
+						<div class="controls">
+							<textarea name="intro" class="input-xlarge" rows="8"></textarea>
+						</div>
+					</div>
+
+					<div class="control-group">
 						<label class="control-label" for="thumbnail">线路缩略图（300*180）：</label>
 						<div class="controls">
 							<input name="thumbnail" class="input-xlarge" type="hidden">
@@ -91,29 +118,16 @@
 					</div>
 
 					<div class="control-group">
-						<label class="control-label" for="keywords">关键词（keywords）：</label>
-						<div class="controls">
-							<input name="keywords" class="input-xlarge" type="text">
-							<p class="help-block">
-								页面关键词,便于搜索引擎检索
-							</p>
-						</div>
-					</div>
-
-					<div class="control-group">
-						<label class="control-label" for="description">描述（description）：</label>
-						<div class="controls">
-							<input name="description" class="input-xlarge" type="text">
-							<p class="help-block">
-								SEO
-							</p>
-						</div>
-					</div>
-
-					<div class="control-group">
 						<label class="control-label" for="price">价格：</label>
 						<div class="controls">
 							<input name="price" class="input-small" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="discount">折扣信息：</label>
+						<div class="controls">
+							<textarea name="discount" class="input-xlarge" rows="5"></textarea>
 						</div>
 					</div>
 
@@ -164,13 +178,6 @@
 						</div>
 
 						<!-- <input name="route"  type="hidden">	-->	
-					</div>
-
-					<div class="control-group">
-						<label class="control-label" for="intro">线路简介：</label>
-						<div class="controls">
-							<textarea name="intro" class="input-xlarge" rows="8"></textarea>
-						</div>
 					</div>
 
 					<div class="control-group">

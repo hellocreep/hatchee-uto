@@ -32,7 +32,7 @@ class Order extends CI_Model
 	}
 	public function getorder($id){
 		
-		$sql="select u.name,t.name as tourname,o.Id,o.uuid,o.people,o.tour_term,o.tour_time,o.create_date,o.comment,o.is_worked,t.is_private from users as u left join inquiry as o on u.id=o.user left join tour as t on o.tour=t.id where o.Id=".$id;
+		$sql="select u.name,t.name as tourname,o.Id,o.uuid,o.people,o.tour_term,o.tour_time,o.create_date,o.comment,o.is_worked,t.tour_type from users as u left join inquiry as o on u.id=o.user left join tour as t on o.tour=t.id where o.Id=".$id;
 		$query=$this->db->query($sql);
 		$data=$query->row_array();
 		return $data;

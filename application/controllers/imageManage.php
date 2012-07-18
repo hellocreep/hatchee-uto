@@ -51,7 +51,36 @@ class Imagemanage extends CI_Controller
 
 		$this->load->model('image');
 		$img=new Image();
-		$info=$img->upload($imgurl);
+		$arrimg=explode('/',$imgurl);
+		$imgname=$arrimg[2];
+		$config['new_image'] = 'uploads/thumbnails/'.$imgname;
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $imgurl;
+        $config['create_thumb'] = FALSE;
+        $config['maintain_ratio'] = TRUE;
+        $config['width'] = '170';
+        $config['height'] = '100';
+        $this->load->library('image_lib', $config);
+        $this->image_lib->resize();
+		$imgthumb=$config['new_image'];
+
+		$this->image_lib->clear();
+		$config['new_image'] = 'uploads/middels/'.$imgname;
+        $config['image_library'] = 'gd2';
+        $config['source_image'] = $imgurl;
+        $config['create_thumb'] = FALSE;
+        $config['maintain_ratio'] = TRUE;
+        $config['width'] = '300';
+        $config['height'] = '180';
+		$this->image_lib->initialize($config);
+		$this->image_lib->resize();
+		$imgmiddel=$config['new_image'];
+		$data=array(
+			'path'=>$imgurl,
+			'middle'=>$imgmiddel,
+			'small'=>$imgthumb
+		);
+		$info=$img->upload($data);
 		echo json_encode($info);
 		
 	}

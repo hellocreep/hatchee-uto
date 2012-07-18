@@ -58,7 +58,9 @@
 							<p>
 								<b>参加人数：</b>
 								<select>
-									<option></option>
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
 								</select>
 								<input class="people" type="text">
 							</p>

@@ -149,6 +149,7 @@ $(function(){
 						email: $( 'input[name="u_email"]' ).val(),
 						qq: $('input[name="u_qq"]').val(),
 						city: $('input[name="u_city"]').val(),
+						day: $( '.r_day').text(),
 						term: '',
 						car: '',
 						tour_time: '',

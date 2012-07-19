@@ -11,7 +11,6 @@
 		<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
 		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 		<?php $this -> load -> view("web/global_source");?>
-		
 		<script type="text/javascript" src="assets/scripts/web/bootstrap-carousel.js"></script>
 	</head>
 	<body id="n-index">
@@ -21,9 +20,12 @@
 			<script type="text/javascript">
 				(function(){
 					$(function(){
-						$('.carousel').carousel({
-							interval: 2000
-						});
+						$('.carousel').carousel();
+						$( '.slide-num li' ).each(function(e){
+							$(this).mouseover(function(){
+								$('.carousel').carousel(e);
+							})
+						})
 					})
 				})(jQuery)
 			</script>
@@ -39,7 +41,7 @@
 								</div>
 							</div>
 							<div class="item">
-								<img src="assets/images/banner-big.jpg">
+								<img src="assets/images/img.jpg">
 								<div class="carousel-caption">
 									<h4>test1</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>

@@ -21,7 +21,14 @@
 !function ($) {
 
   "use strict"; // jshint ;_;
-
+var ua = navigator.userAgent;
+if( ua.indexOf( 'Gecko' )==-1 && ua.indexOf( 'WebKit' )==-1 && ua.indexOf( 'MSIE 9.0' )==-1 ){
+    
+}else{
+      $.support.transition = {
+      end: "transitionend"
+    }
+}
 
  /* CAROUSEL CLASS DEFINITION
   * ========================= */
@@ -146,7 +153,7 @@
   }
 
   $.fn.carousel.defaults = {
-    interval: 5000
+    interval: 2000
   , pause: 'hover'
   }
 

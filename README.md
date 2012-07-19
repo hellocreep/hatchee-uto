@@ -16,6 +16,11 @@ UTO NOT UFO
 
 ##使用
 
-* ckeditor和ckfinder上传路径配置
-	> * assets/ckfinder/config.php $baseUrl = '文件上传的绝对路径';
-	    * assets/scripts/admin/manage_custome.js   window.finder_base = "ckfinder根目录";
+####CI配置
+---------------------------------------------------
+* applicatin/config/config.php  $config['base_url']	= '网站根目录';
+
+####ckeditor和ckfinder上传路径配置
+---------------------------------------------------
+* assets/ckfinder/config.php $baseUrl = '文件上传的路径';
+* assets/scripts/admin/manage_custome.js   window.finder_base = "ckfinder根目录";

@@ -162,6 +162,15 @@ var page_count = function( opts ){
 				url: opts.url2,
 				type: opts.type
 			});
+			//按1 2 3...翻页 JUST FOR FUN
+			for( var i =1; i<=result; i++ )
+			{	
+				(function(e){
+					Mousetrap.bind( String(e), function() {
+						$( '.page-num' ).eq(e-1).click();
+					});
+				})(i)
+			}
 		}
 	});
 }

@@ -11,7 +11,7 @@ class Tourdetail extends CI_Controller{
 		$this->load->library('cimarkdown');
 		$tourinfo = $this->tour->showTour($tid);
 		$tourinfo[0]->price_detail = $this->cimarkdown->markit($tourinfo[0]->price_detail);
-		$tourinfo[0]->content = $this->cimarkdown->markit($tourinfo[0]->content);
+		//$tourinfo[0]->content = $this->cimarkdown->markit($tourinfo[0]->content);
 		$tourinfo[0]->notice = $this->cimarkdown->markit($tourinfo[0]->notice);
 		$tourinfo[0]->intro = $this->cimarkdown->markit($tourinfo[0]->intro);
 		$this->load->model('image');

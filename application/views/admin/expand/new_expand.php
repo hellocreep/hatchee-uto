@@ -76,12 +76,19 @@
 					</div>
 					
 					<div class="control-group">
-						<label class="control-label" for="day">参加人数：</label>
+						<label class="control-label" for="day">活动天数：</label>
 						<div class="controls">
-							<input name="day" class="input-xlarge" type="text" value="">
+							<input name="day" class="input-xlarge" type="text">
 						</div>
 					</div>
 					
+					<div class="control-group">
+						<label class="control-label" for="people">参加人数：</label>
+						<div class="controls">
+							<input name="people" class="input-xlarge" type="text">
+						</div>
+					</div>
+
 					<div class="control-group">
 						<h2 class="" style="text-align: center;">正文：</h2>
 						<div>

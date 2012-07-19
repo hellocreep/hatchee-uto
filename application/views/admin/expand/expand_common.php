@@ -18,7 +18,8 @@ $(function(){
 			intro: $( 'input[name="intro"]' ).val(),
 			description: $( 'input[name="des"]' ).val(),
 			keywords: $( 'input[name="keywords"]' ).val(),
-			day: $('input[name="day"]').val()
+			day: $('input[name="day"]').val(),
+			people: $('input[name="people"]').val()
 		}
 
 		//var content =editor.document.getBody().getHtml();//获取ckeditor内容

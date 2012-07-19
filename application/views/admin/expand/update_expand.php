@@ -78,7 +78,14 @@
 					<div class="control-group">
 						<label class="control-label" for="day">活动天数：</label>
 						<div class="controls">
-							<input name="day" class="input-xlarge" type="text" value="<?php echo $expand['people'];?>">
+							<input name="day" class="input-xlarge" type="text" value="<?php echo $expand['day'];?>">
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="people">参加人数：</label>
+						<div class="controls">
+							<input name="people" class="input-xlarge" type="text" value="<?php echo $expand['people'];?>">
 						</div>
 					</div>
 					

@@ -364,6 +364,11 @@ $(function(){
 	});
 	term_editor.config.enterMode = CKEDITOR.ENTER_BR;
 
+	var content_editor = CKEDITOR.replace('tour_content', {
+		toolbar : 'MyToolbar',
+		height: 700,
+	})
+
 	$( '#filemanager' ).click(function(e){
 		e.preventDefault();
 		finder.callback = function( api ){
@@ -445,10 +450,16 @@ $(function(){
 
 	//每天行程
 	route.selectroute();
-	
-	$( '#new-route-list li a' ).each(function( index ){
-		$( this ).text( index+ 1 );
-	});
+	if( $('#new-route-list a').length >= 1 ){
+		$( '#new-route-list li a' ).each(function( index ){
+			$( this ).text( index+ 1 );
+		});
+	}else{
+		 $('#new-route-list a').parent().remove();
+	}
+	// $( '#new-route-list li a' ).each(function( index ){
+	// 	$( this ).text( index+ 1 );
+	// });
 	$( '#new-route-list li a' ).on('click', function( e ){
 		e.preventDefault();
 		if( $( this ).attr( 'id' ) > 0 ){ //修改行程

@@ -128,15 +128,14 @@
 						<?php endif;?>
 					</ul>
 
-					<!-- 当前线路不多，因此暂时隐藏排序功能，勿删 -->
-					<!-- <div class="sort">
+					<div class="sort">
 						<div class="pagenate">
 							<a href="<?php echo $page['first'];?>">首页</a>
 							<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>
 							<a href="<?php echo $page['next'];?>" class="nextPage">下一页</a>
 							<a href="<?php echo $page['end'];?>">尾页</a>
 						</div>
-					</div> -->
+					</div>
 				</div> <!-- end of .article -->
 					
 			</div>

@@ -77,11 +77,13 @@
 							</li>						
 							<li>
 								<a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a>
-								<div><a href="">
+								<div>
+									<a href="">
 									<h4>2活动是友途旅行网官方品牌活</h4>
 									<p>
 										友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色。
-									</p></a>
+									</p>
+									</a>
 								</div>
 							</li>						
 							<li><a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a></li>						
@@ -99,11 +101,10 @@
 					<script type="text/javascript">
 						$('.col-theme li').each(function(index){
 							$(this).hover(function(){
-								
-								$(this).children('div').show().animate({
+								$(this).children('div').setTimeout(.show().animate({
 									"opacity":1,
 								},900);
-							},function(){
+							},300),function(){
 								$(this).children('div').animate({
 									"opacity":0,
 								},900);

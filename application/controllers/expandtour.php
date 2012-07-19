@@ -12,6 +12,12 @@ class Expandtour extends CI_Controller
 		$id=addslashes($_GET['id']);
 		$this->load->model('expand');
 		$data['expand'] = $this->expand->getexpand($id);
+		$customerip=$this->input->ip_address();
+		if(!isset($_COOKIE[$id]))
+		{
+			setcookie($id,$customerip,time()+3600*24*36500);
+			$this->expand->addhits($id);
+		}
 		if(!$this->expand->getupexpand($id))
 		{
 			$data['upexpand']='';

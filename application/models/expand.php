@@ -96,5 +96,10 @@ class Expand extends CI_Model
 			return $query->row_array();
 		}
 	}
+	public function addhits($id)
+	{
+		$sql="UPDATE expand SET hits = hits+1 where Id='".$id."'";
+		$this->db->query($sql);
+	}
 }
 ?>

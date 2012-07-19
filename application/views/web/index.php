@@ -105,48 +105,46 @@
 						</p>
 						<ul>
 							<li>
-								<a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a>
-								<div><a href="">
+								<a href="#"><img src="assets/images/theme/short01.jpg" width="167" height="120">
+								<div>
 									<h4>活动是友途旅行网官方品牌活</h4>
 									<p>
 										友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色。
-									</p></a>
+									</p>
 								</div>
+								</a>
 							</li>						
 							<li>
-								<a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a>
+								<a href="#"><img src="assets/images/theme/long01.jpg" width="334" height="120">
 								<div>
-									<a href="">
+									
 									<h4>2活动是友途旅行网官方品牌活</h4>
 									<p>
 										友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色。
 									</p>
-									</a>
 								</div>
+								</a>
 							</li>						
-							<li><a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a></li>						
-							<li><a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a></li>						
-							<li><a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a></li>						
-							<li><a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a></li>						
-							<li><a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a></li>						
-							<li><a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a></li>						
+							<li>
+								<a href="#"><img src="assets/images/theme/short01.jpg" width="167" height="120"></a>
+							</li>						
+							<li><a href="#"><img src="assets/images/theme/long01.jpg" width="334" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/theme/long01.jpg" width="334" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/theme/long01.jpg" width="334" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/theme/short01.jpg" width="167" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/theme/short01.jpg" width="167" height="120"></a></li>						
 						</ul>
-
-					
-						
 					</div>
 
 					<script type="text/javascript">
-						$('.col-theme li').each(function(index){
+						$('.col-theme li a').each(function(index){
 							$(this).hover(function(){
-								$(this).children('div').setTimeout(.show().animate({
-									"opacity":1,
-								},900);
-							},300),function(){
+								$(this).children('div').stop(true,true); 
+								$(this).children('div').show().animate({"opacity":1 },500);
+							},function(){
 								$(this).children('div').animate({
 									"opacity":0,
-								},900);
-								
+								},500);
 							});
 
 						})
@@ -188,12 +186,7 @@
 									截然不同的都江堰青城山两日游线路，带您感受别样的青城天下幽。
 								</p>
 							</li>
-							<li>
-								<h4>都江堰-虹口-青城山两日游</h4>
-								<p>
-									截然不同的都江堰青城山两日游线路，带您感受别样的青城天下幽。
-								</p>
-							</li>
+							
 						</ul>	
 
 						<dl>
@@ -207,6 +200,7 @@
 					</div>
 
 					<div  class="col col-review">
+						<h2>友途旅行经典回顾</h2>
 						<ul>
 							<li>
 								<h4>端午特别定制团：徒步双桥沟，勇攀四姑娘山二峰！</h4>
@@ -215,6 +209,10 @@
 									<span> 浏览：123 </span>
 									<span> 评论：12 </span>
 									<span> 时间：2012.2.2</span>
+								</p>
+								<img src="assets/images/img.jpg">
+								<p>
+									截然不同的都江堰青城山两日游线路，带您感受别样的青城天下幽。截然不同的都江堰青城山两日游线路，带您感受别样的青城天下幽。截然不同的都江堰青城山两日游线路，带您感受别样的青城天下幽。
 								</p>
 							</li>
 						</ul>

@@ -168,5 +168,10 @@
 			$data = $query->result();
 			return $data;
 		}
+		public function addhits($id)
+		{
+			$sql="UPDATE tour SET hits = hits+1 where Id='".$id."'";
+			$this->db->query($sql);
+		}
 	}
 ?>

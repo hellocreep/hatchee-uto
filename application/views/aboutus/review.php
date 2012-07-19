@@ -55,7 +55,9 @@
 							<?php endforeach;?>
 						</ul>
 					</div>
-					<div class="event">
+
+				 <div class="event">
+
 						<h3>主题旅行案例</h3>
 						<ul class="clearfix">
 							<?php foreach($theme as $t):?>
@@ -69,7 +71,9 @@
 								</li>
 							<?php endforeach;?>
 						</ul>
-					</div>
+
+					</div> 
+
 					
 
 					<!-- <div class="separator"></div>

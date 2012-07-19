@@ -152,6 +152,7 @@ img, div {
 	width: 1020px;
 	margin: 0 auto;
 	height:280px;
+	position: relative;
 	background: url('../images/banner-big.jpg') no-repeat center top;
 	behavior: url(iepngfix.htc);
 }
@@ -180,7 +181,8 @@ img, div {
 /*导航样式*/
 .nav{
 	height:37px;
-	margin: 143px 0 0 0;
+	position: absolute;
+	bottom: 0;
 	width:1020px;
 	font-family: "微软雅黑";
 	background:url("../images/nav-ul-bg.png") left bottom repeat-x;
@@ -220,6 +222,29 @@ img, div {
 	/*color:#8b6620;*/
 	border-radius:5px 5px 0 0;
 }
+
+#n-index .header{
+	background: url('../images/banner-big.jpg') no-repeat center top;
+}
+#n-trip .header{
+	background: url('../images/banner-trip.jpg') no-repeat center top;
+}
+#n-theme .header{
+	background: url('../images/banner-theme.jpg') no-repeat center top;
+}
+#n-customize .header{
+	background: url('../images/banner-customize.jpg') no-repeat center top;
+}
+#n-company .header{
+	background: url('../images/banner-company.jpg') no-repeat center top;
+}
+#n-about .header{
+	background: url('../images/banner-about.jpg') no-repeat center top;
+}
+
+
+
+
 #n-index .a-index,
 #n-trip .a-trip,
 #n-theme .a-theme,
@@ -250,17 +275,17 @@ img, div {
 	font-size: 12px;
 }
 .aside{
-	width:200px;
+	width:220px;
 	min-height:300px;
 	float:left;
-	margin:0 0 0 20px;
+	margin:0 0 0 10px;
 }
 .aside dl{
 	background: #F0FCFB;
 	padding: 0 0 5px 0;
 }
 .aside dt{
-	background: #6ABFBA;
+	background: url("../images/nav-bg.png") repeat-x scroll 0 0 transparent;
 	color: #fff;
 	border-radius: 0 0 36px 0;
 	padding: 8px 0;
@@ -280,7 +305,9 @@ img, div {
 	color: #866820;
 	cursor: pointer;
 }
-
+.aside img{
+	margin: 0 0 0 10px;
+}
 .sidetop{
 	background: #6ABFBA;
 	padding: 10px 0 0 0;
@@ -316,7 +343,7 @@ img, div {
 	min-height:300px;
 	padding:20px;
 	float:right;
-	margin:0 0 40px 20px;
+	margin:0 0 40px 10px;
 	border-radius:15px 0 0 15px;
 	background:#fff;
 }
@@ -407,3 +434,8 @@ table.formtab{
 a.online img{
 	vertical-align: middle;
 }
+
+
+
+/*uto主页*/
+

@@ -13,7 +13,7 @@ var inquiry_form ="<form class='inquiry-form'> \
 			<tr><td>线路名称：</td><td class='r_name'></td></tr> \
 			<tr><td>发团期数：</td><td class='r_term'></td></tr> \
 			<tr><td>天数：</td><td class='r_day'></td></tr> \
-			<tr><td>参加人数：</td><td><input type='text' class='r_people'></td></tr> \
+			<tr><td>参加人数：</td><td><input type='text' name='people' class='r_people'></td></tr> \
 			</table><table class='formtab'> \
 			<h3>填写联系人信息</h3> \
 			<tr><td><em>*</em>姓名：</td><td><input class='required' name='u_name' type='text'></td></tr> \
@@ -68,9 +68,9 @@ var btn_mask = function( target ){
 
 $(function(){
 
-	if( !$( '#a-index').length > 0 ){
-		$( window ).scrollTop( $('.nav').offset().top  );
-	}
+	// if( !$( '#a-index').length > 0 ){
+	// 	$( window ).scrollTop( $('.nav').offset().top  );
+	// }
 
 	// 线路内页选项卡切换
 	$('.sub-nav > li').each(function(index){

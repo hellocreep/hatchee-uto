@@ -110,7 +110,11 @@ $(function(){
 	$( '#inquiry' ).fancybox({
 		content: inquiry_form,
 		onComplete: function(){
-
+			if(  $( '.term:selected').val().indexOf('结束')>0 ){
+				$( '#fancybox-close' ).click();
+				alert( '您选择的排期活动已结束，请重新选择' );
+				$( '.j-left' ).children('p').eq(0).append('<em class="red">您说选择的排期活动已结束</em>');
+			}
 			if($('input.people').val()== undefined){
 				$( '.r_people' ).val( $('.people:selected').val());
 			}

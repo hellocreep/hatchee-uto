@@ -11,6 +11,12 @@ window.loadings = {
 	},
 	hide: function(){
 		$( '.window-tip' ).fadeOut();
+	},
+	autohide: function( msg ){
+		loadings.show( msg );
+		setTimeout(function(){
+			loadings.hide();
+		},2000);
 	}
 }
 
@@ -39,6 +45,7 @@ $.fn.uto_pag = function( opts ){
 	this.on('click', function(){
 		var t = $( this );
 		var page = t.text();
+		loadings.show();
 		$.ajax({
 			url: opts.url,
 			data: {
@@ -46,6 +53,7 @@ $.fn.uto_pag = function( opts ){
 			},
 			success: function( result ){
 				$( '.pagination' ).attr( 'data-page', page );
+				loadings.hide();
 				if( opts.type=='tour' ){
 				            tour.list_tour( result );
 				}
@@ -277,6 +285,7 @@ var manager = {
 						uid: uid
 					},
 					success: function( result ){
+						loadings.autohide('删除成功');
 						target.remove();
 					}
 				});
@@ -387,6 +396,7 @@ var tour = {
 					success: function( result ){
 						if( result.status ){
 							target.remove();
+							loadings.autohide( result.msg );
 						}else{
 							loadings.show( result.msg );
 						}
@@ -441,6 +451,7 @@ var travel_note = {
 					success: function( result ){
 						if( result ){
 							target.remove();
+							loadings.autohide('删除成功');
 						}else{
 							loadings.show( result.msg );
 						}
@@ -494,6 +505,7 @@ var expand = {
 					success: function( result ){
 						if( result ){
 							target.remove();
+							loadings.autohide('删除成功');
 						}else{
 							loadings.show( result.msg );
 						}
@@ -598,6 +610,7 @@ var member = {
 					success: function( result ){
 						if( result ){
 							target.remove();
+							loadings.autohide('删除成功');
 						}
 					}
 				});
@@ -662,6 +675,7 @@ var order = {
 					},
 					success: function( result ){
 						target.remove();
+						loadings.autohide( '删除成功' );
 					}
 				});
 			}
@@ -719,6 +733,7 @@ var custom_order = {
 					},
 					success: function( result ){
 						target.remove();
+						loadings.autohide( '删除成功' );
 					}
 				});
 			}
@@ -776,10 +791,7 @@ var tag = {
 					}
 				});
 			}else{
-				loadings.show( '所填信息不能为空！' );
-				setTimeout(function(){
-					loadings.hide();
-				},2000);
+				loadings.autohide( '所填信息不能为空！'  );
 			}
 		});
 	},

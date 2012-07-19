@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>游记 | 友途旅行网</title>
+		<title>游2记 | 友途旅行网</title>
 		<meta name="description" content="">
 		<meta name="keywords" content="">
 		<base href="<?php echo base_url();?>"/>

@@ -23,7 +23,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>termtour">友途活动</a> > <?php echo $tour[0] -> name;?>
 				</div>
-				<div class="aside"></div>
+				<?php $this -> load -> view("web/include/aside-tour");?> <!-- 侧边栏chunk -->
 				<div class="article">
 					<input type="hidden" value="<?php echo $tour[0] -> Id;?>" id="tour_id">
 					<input type="hidden" value="<?php echo $tour[0] -> days;?>" id="tour_day">

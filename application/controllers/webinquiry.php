@@ -16,6 +16,7 @@ class Webinquiry extends CI_Controller
 			"password"=>rand(100000,999999),
 			"tel"=>$info->tel,
 			"qq"=>$info->qq,
+			"city"=>$info->city,
 			"avtar"=>'',
 			"registered"=>date('Y-m-d H:i:s',time())
 		);
@@ -24,7 +25,6 @@ class Webinquiry extends CI_Controller
 			"user"=>$user[0]->Id,
 			"uuid"=>'TM-'.time(),
 			"tour"=>'0',
-			"city"=>$info->city,
 			"tour_time"=>$info->tour_time,
 			"car"=>$info->car,
 			"people"=>$info->people,

@@ -588,7 +588,10 @@ a.online img{
 	padding: 15px;
 	float: left;
 	margin: 10px 0;
-	width: 670px;
+	width: 668px;
+	border: 1px solid #DDDDCF;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 1px #C9C8BA;
 }
 .col h2{
 	margin-top: 0;
@@ -644,9 +647,14 @@ a.online img{
 }
 .col-com ul li img{
 	width: 200px;
-	height: 180px;
+	height: 94px;
 }
 .col-com dl{
 	width: 200px;
 	float: right;
+}
+
+.col-review img{
+	float: left;
+	margin: 0 10px 0 0;
 }

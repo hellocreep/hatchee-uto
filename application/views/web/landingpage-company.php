@@ -90,8 +90,8 @@
 						<ul>
 							<?php foreach($expand as $list):?>
 								<li>
-								<img src="<?php echo $list['thumbnail'];?>" alt="<?php echo $list['title'];?>">
-								<h5><?php echo $list['title'];?></h5>	
+								<a href="expandtour/expand?id=<?php echo $list['Id'];?>"><img src="<?php echo $list['thumbnail'];?>" alt="<?php echo $list['title'];?>"></a>
+								<h5><a href="expandtour/expand?id=<?php echo $list['Id'];?>"><?php echo $list['title'];?></a></h5>	
 								<p>
 									<?php echo $list['intro'];?>
 								</p>

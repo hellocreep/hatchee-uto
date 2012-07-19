@@ -21,8 +21,13 @@ class Order extends CI_Model
 	}
 
 	public function addorder($data){
-		$query=$this->db->insert('inquiry',$data);
-		return $this->db->affected_rows();
+		$this->db->insert('inquiry',$data);
+		$id=$this->db->insert_id();
+		$this->db->select('uuid');
+		$this->db->where('Id',$id);
+		$this->db->from('inquiry');
+		$query=$this->db->get();
+		return $query->row_array();
 	}
 
 	public function delorder($id){

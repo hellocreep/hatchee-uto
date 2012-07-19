@@ -36,7 +36,7 @@ class Aboutus extends CI_Controller {
 	{
 		$this->load->model('travel');
 		$this->load->model('tour');
-		$data['company']=$this->travel->notelist('公司出游案列');
+		$data['company']=$this->travel->notelist('公司出游案例');
 		for($i=0;$i<count($data['company']);$i++)
 		{
 			$res=$this->tour->showtour($data['company'][$i]['tour']);
@@ -44,7 +44,7 @@ class Aboutus extends CI_Controller {
 			$data['company'][$i]['intro']=$res[0]->intro;
 		}
 		
-		$data['theme']=$this->travel->notelist('主题旅行案列');
+		$data['theme']=$this->travel->notelist('主题旅行案例');
 		for($i=0;$i<count($data['theme']);$i++)
 		{
 			$res=$this->tour->showtour($data['theme'][$i]['tour']);

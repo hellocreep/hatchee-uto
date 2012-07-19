@@ -1,7 +1,7 @@
 ;(function(){
 
 window.uto_var = {
-	tpl_table: '<table> \
+	tpl_table: '<table border="1"> \
 	<tbody> \
 		<tr> \
 			<th>时间</th> \

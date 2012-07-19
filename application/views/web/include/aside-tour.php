@@ -23,7 +23,7 @@
 
 		<li>
 			<h4>领队和小编</h4>
-
+			<img src="assets/images/leaders.jpg">
 		</li>
 	</ul>
 

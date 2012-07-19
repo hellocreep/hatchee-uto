@@ -44,7 +44,7 @@
 	clear:both;
 }
 .unit ol{
-	list-style: decimal;
+	list-style: inside decimal;
 }
 .unit ul{
 	list-style: none;

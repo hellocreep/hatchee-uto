@@ -48,7 +48,7 @@
 								<select size="3" multiple="multiple">
 									<?php if(isset($tour[0]->term)): ?>
 									<?php foreach(explode("<br />",$tour[0]->term) as $term): ?>
-									<option class="term" value="<?php echo $term;?>"><?php echo $term;?></option>
+										<option class="term" value="<?php echo $term;?>"><?php echo $term;?></option>
 									<?php endforeach;?>
 									<?php endif;?>
 								</select>

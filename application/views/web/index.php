@@ -28,7 +28,7 @@
 						<li></li>
 					</ul>
 
-					<div class="col">
+					<div class="col col-tour">
 						<h2>友途活动</h2>
 						<dl>
 							<dt>
@@ -60,21 +60,70 @@
 							</dd>
 						</dl>
 					</div>
-					<div class="col">
+					<div class="col col-theme">
 						<h2>主题旅行</h2>
-						<dl>
-							<dt>
-								友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色，蓝天、白云、雪山、草原、藏民、牦牛、青青的草地，悠悠的民歌，美丽的少女，我们精心策划的趣味活动给让你的旅行更加梦幻，如三五人选一样颜色的马儿，在皑皑的雪山下、在美丽的山谷中、在清澈的溪流边并肩骑马，享受极度的浪漫与惬意。 
-							</dt>
-							
-						</dl>
+						<p>
+							友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色，蓝天、白云、雪山、草原、藏民、牦牛、青青的草地，悠悠的民歌，美丽的少女，我们精心策划的趣味活动给让你的旅行更加梦幻，如三五人选一样颜色的马儿，在皑皑的雪山下、在美丽的山谷中、在清澈的溪流边并肩骑马，享受极度的浪漫与惬意。 
+						</p>
+						<ul>
+							<li>
+								<a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a>
+								<div><a href="">
+									<h4>活动是友途旅行网官方品牌活</h4>
+									<p>
+										友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色。
+									</p></a>
+								</div>
+							</li>						
+							<li>
+								<a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a>
+								<div><a href="">
+									<h4>2活动是友途旅行网官方品牌活</h4>
+									<p>
+										友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色。
+									</p></a>
+								</div>
+							</li>						
+							<li><a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/img.jpg" width="334" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a></li>						
+							<li><a href="#"><img src="assets/images/img.jpg" width="167" height="120"></a></li>						
+						</ul>
+
+					
+						
 					</div>
 
-					<div class="col com-tour">
+					<script type="text/javascript">
+						$('.col-theme li').each(function(index){
+							$(this).hover(function(){
+								
+								$(this).children('div').show().animate({
+									"opacity":1,
+								},900);
+							},function(){
+								$(this).children('div').animate({
+									"opacity":0,
+								},900);
+								
+							});
+
+						})
+					</script>
+
+					<div class="col col-com">
 						<h2>公司出游</h2>
 						<ul>
 							<li>
 								<img src="assets/images/img.jpg" width="200" height="100">
+							</li>
+							<li>
+								<h4>都江堰-虹口-青城山两日游</h4>
+								<p>
+									截然不同的都江堰青城山两日游线路，带您感受别样的青城天下幽。
+								</p>
 							</li>
 							<li>
 								<h4>都江堰-虹口-青城山两日游</h4>
@@ -118,7 +167,7 @@
 						</dl>
 					</div>
 
-					<div  class="col review-c">
+					<div  class="col col-review">
 						<ul>
 							<li>
 								<h4>端午特别定制团：徒步双桥沟，勇攀四姑娘山二峰！</h4>

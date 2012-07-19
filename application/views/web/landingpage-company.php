@@ -39,10 +39,10 @@
 								<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $company['Id'];?>"><img width="240" height="140" alt="<?php echo $company['name'];?>" src="<?php echo $company['thumbnail'];?>"></a></dt>
 									<dd>
-										<span>旅行地区：</span><div><?php echo substr($company['destination'],0,-1);?></div>
+										<span>旅行地区：</span><div><?php echo str_replace(',','、',substr($company['destination'],0,-1));?></div>
 									</dd>
 									<dd>
-										<span>活动内容：</span><div><?php echo substr($company['company_intro'],0,-1);?></div>
+										<span>活动内容：</span><div><?php echo mb_substr($company['company_intro'],0,50,'utf-8').'……';?></div>
 									</dd>
 									<dd>
 										<span>适合人数：</span><div><?php echo $company['people'];?></div>

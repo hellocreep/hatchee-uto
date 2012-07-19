@@ -460,26 +460,65 @@ a.online img{
 	background: #fff;	
 	padding: 15px;
 	float: left;
+	margin: 10px 0;
 }
-.col img{
+.col h2{
+	margin-top: 0;
+}
+.col h4{
+	margin: 0 0 5px 0;
+}
+.col p{
+	margin: 0 0 5px;
+}
+.col-tour img{
 	width: 100px;
 	height: 80px;
 	float: left;
+	margin: 0 10px 0 0;
+	border: 1px solid #ddd;
+	padding: 1px;
 }
-.com-tour ul{
+
+.col-tour dd{
+	margin: 8px 0 0;
+	border-top: 1px dashed #ddd;
+}
+.col-theme li{
+	float: left;
+	position: relative;
+	display: block;
+}
+.col-theme img{
+	margin: 0;
+	float: left;
+	outline: 1px solid #fff;
+}
+.col-theme li div{
+	position: absolute;
+	/*background: rgb(51,51,45);*/
+	opacity: 0;
+	background: url("../images/gallery-slider-content-bg.png") repeat scroll 0 0 transparent;
+	color: #fff;
+	height: 120px;
+	padding: 5px;
+}
+
+.col-com ul{
 	width: 420px;
 	float: left;
 }
-.com-tour ul li{
+.col-com ul li{
 	width: 200px;
 	float: left;
 	min-height: 100px;
+	margin: 0 10px 0 0;
 }
-.com-tour ul li img{
+.col-com ul li img{
 	width: 200px;
-	height: 300px;
+	height: 180px;
 }
-.com-tour dl{
+.col-com dl{
 	width: 200px;
 	float: right;
 }

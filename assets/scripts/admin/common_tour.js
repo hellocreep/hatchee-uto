@@ -364,6 +364,11 @@ $(function(){
 	});
 	term_editor.config.enterMode = CKEDITOR.ENTER_BR;
 
+	var content_editor = CKEDITOR.replace('tour_content', {
+		toolbar : 'MyToolbar',
+		height: 700,
+	})
+
 	$( '#filemanager' ).click(function(e){
 		e.preventDefault();
 		finder.callback = function( api ){

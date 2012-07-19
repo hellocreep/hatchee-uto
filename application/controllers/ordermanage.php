@@ -47,6 +47,8 @@ class Ordermanage extends CI_Controller
 		$member = new Member();
 		$user = $member->addmember($userinfo);
 		$id_private=$data->is_private;
+		$this->load->model('tour');
+		$tour=$this->tour->gettourname($data->tid);
 		$orderinfo = array(
 			'uuid'=>uniqid(),
 			'user'=>$user[0]->Id,
@@ -64,7 +66,7 @@ class Ordermanage extends CI_Controller
 		$res=$order->addorder($orderinfo);
 		$content='<table class="formtab">
 		<tbody>
-		<tr><td>线路名称：</td><td class="r_name"></td></tr>
+		<tr><td>线路名称：</td><td class="r_name">'.$tour['title'].'</td></tr>
 		<tr><td>发团期数：</td><td class="r_term">'.$data->tour_time.'</td></tr>
 		<tr><td>天数：</td><td class="r_day">'.$data->day.'</td></tr>
 		<tr><td>参加人数：</td><td>'.$data->people.'</td></tr>
@@ -77,12 +79,12 @@ class Ordermanage extends CI_Controller
 		<tr><td>邮箱：</td><td>'.$data->email.'</td></tr>
 		<tr><td>QQ：</td><td>'.$data->qq.'</td></tr>
 		<tr><td>来自那个城市：</td><td>'.$data->city.'</td></tr>
-		<tr><td>其他需求：</td><td>'.$data->.comment'</td></tr>
+		<tr><td>其他需求：</td><td>'.$data->comment.'</td></tr>
 		</tbody>
 		</table>';
 		if($res['uuid'])
 		{
-			$this->sendmailtosystem($content);
+			//$this->sendmailtosystem($content);
 			$this->sendmailtocustomer($data->name,$data->email,$res['uuid']);//将订单信息发送给客人
 		}
 	}

@@ -173,5 +173,13 @@
 			$sql="UPDATE tour SET hits = hits+1 where Id='".$id."'";
 			$this->db->query($sql);
 		}
+		public function gettourname($id)
+		{
+			$this->db->select('title');
+			$this->db->where('Id',$id);
+			$this->db->from('tour');
+			$query=$this->db->get();
+			return $query->row_array();
+		}
 	}
 ?>

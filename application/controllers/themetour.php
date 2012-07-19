@@ -77,16 +77,8 @@ class Themetour extends CI_Controller
 		}
 		if(isset($sort) && $sort!='')
 		{
-			if($sort=='desc')
-			{
-				$data['sortday']='themetour/index/1/days/asc';
-				$data['sortprice']='themetour/index/1/price/asc';
-			}
-			else
-			{
-				$data['sortday']='themetour/index/1/days/desc';
-				$data['sortprice']='themetour/index/1/price/desc';
-			}
+				$data['sortday']='themetour/index/1/days/'.$sort;
+				$data['sortprice']='themetour/index/1/price/'.$sort;
 		}
 		else
 		{
@@ -104,16 +96,121 @@ class Themetour extends CI_Controller
 	}
 	function searchtour()
 	{
-		$action=$this->uri->segment(3);
-		$key=$this->uri->segment(4);
-		switch($action)
+		$type=$_GET['searchtype'];
+		$key=$_GET['key'];
+		switch($type)
 		{
-			case 'destination': $field='destination';break;
-			case 'theme': $field='theme';break;
-			case 'holidays': $field='tags';break;
+			case 'destination': $field='destination';$bread='<a href="themetour">主题旅行</a> > 目的地 > '.$key;break;
+			case 'theme': $field='theme';$bread='<a href="themetour">主题旅行</a> > 旅行主题 > '.$key;break;
+			case 'holidays': $field='tags';$bread='<a href="themetour">主题旅行</a> > 节假日出行 > '.$key;break;
 		}
 		$this->load->model('webpage');
 		$data['webinfo'] = $this->webpage->getpage('theme_tour');
+		$this->load->model('show');
+		$num=$this->show->counttour($field,$key);
+		if(isset($_GET['page']))
+		{
+			$page=$_GET['page'];
+		}
+		else
+		{
+			$page=1;
+		}
+		$per_page=5;
+		if(isset($page) && $page!='')
+		{
+			$start=($page*$per_page)-$per_page;
+		}
+		else
+		{
+			$start=0;
+		}
+		if(isset($_GET['action']))
+		{
+			$action=$_GET['action'];
+		}
+		else
+		{
+			$action='';
+		}
+		if(isset($_GET['sort']))
+		{
+			$sort=$_GET['sort'];
+		}
+		else
+		{
+			$sort='';
+		}
+		
+		if(isset($action) &&$action!='')
+		{
+			$data['page']['first']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action='.$action.'&&sort='.$sort;
+			$data['page']['end']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page='.$num.'&&action='.$action.'&&sort='.$sort;
+			if($page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if($page<$num)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$num;
+			}
+			$data['page']['pre']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page='.$pagepre.'&&action='.$action.'&&sort='.$sort;
+			$data['page']['next']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page='.$pagenext.'&&action='.$action.'&&sort='.$sort;
+		}
+		else
+		{
+			$data['page']['first']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1';
+			$data['page']['end']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page='.$num;
+			if(isset($page) && $page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if(isset($page) && $page<$num)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$num;
+			}
+			$data['page']['pre']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page='.$pagepre;
+			$data['page']['next']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page='.$pagenext;
+		}
+		if(isset($sort) && $sort!='')
+		{
+			if($sort=='asc')
+			{
+				$sortnew='desc';
+			}
+			else
+			{
+				$sortnew='asc';
+			}
+			$data['sortday']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=days&&sort='.$sortnew;
+			$data['sortprice']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=price&&sort='.$sortnew;
+		}
+		else
+		{
+			$sort='asc';
+			$data['sortday']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=days&&sort='.$sort;
+			$data['sortprice']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=price&&sort='.$sort;
+		}
+		$data['tour']=$this->show->tourtypelist($field,$key,$start,$per_page,$action,$sort);
+		$data['bread']=$bread;
+		$this->load->view('web/landingpage-theme',$data);	
 	}
+	
 }
 ?>

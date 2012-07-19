@@ -60,12 +60,11 @@ class Ordermanage extends CI_Controller
 			);
 		$this->load->model('order');
 		$order = new Order();
-		$res=$order->addorder($orderinfo);	
-		if($res)
+		$res=$order->addorder($orderinfo);
+		if($res['uuid'])
 		{
-			$this->sendmail($data->name,$data->email);
+			$this->sendmail($data->name,$data->email,$res['uuid']);
 		}
-		//echo $order->addorder($orderinfo);
 	}
 	public function delorder()
 	{
@@ -164,7 +163,7 @@ class Ordermanage extends CI_Controller
 	{
 		echo $this->order->checkorder($condition);
 	}
-	public function sendmail($name,$email)
+	public function sendmail($name,$email,$content)
 	{
 		$config['protocol']='smtp';
 		$config['smtp_host']='smtp.163.com';
@@ -178,7 +177,7 @@ class Ordermanage extends CI_Controller
 		$this->email->from('remaintears@163.com');
 		$this->email->to($email);
 		$this->email->subject('你好'.$name);
-		$this->email->message('感谢你！');
+		$this->email->message('您的订单号：'.$content);
 		if(!$this->email->send())
 		{
 			$data['status']=false;

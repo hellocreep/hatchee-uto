@@ -151,7 +151,7 @@ img, div {
 .header{
 	width: 1020px;
 	margin: 0 auto;
-	height:280px;
+	height:270px;
 	position: relative;
 	background: url('../images/banner-big.jpg') no-repeat center top;
 	behavior: url(iepngfix.htc);
@@ -438,4 +438,48 @@ a.online img{
 
 
 /*uto主页*/
-
+.homelt{
+	width: 700px;
+	min-height: 400px;
+	/*outline: 1px solid red;*/
+	float: left;
+	margin: 20px 0 20px 20px;
+}
+.homert{
+	width: 240px;
+	min-height: 400px;
+	/*outline: 1px solid red;*/
+	float:right;
+	margin: 20px 20px 20px 0;
+}
+.slide img{
+	width: 700px;
+	height: 300px;
+}
+.homelt .col{
+	background: #fff;	
+	padding: 15px;
+	float: left;
+}
+.col img{
+	width: 100px;
+	height: 80px;
+	float: left;
+}
+.com-tour ul{
+	width: 420px;
+	float: left;
+}
+.com-tour ul li{
+	width: 200px;
+	float: left;
+	min-height: 100px;
+}
+.com-tour ul li img{
+	width: 200px;
+	height: 300px;
+}
+.com-tour dl{
+	width: 200px;
+	float: right;
+}

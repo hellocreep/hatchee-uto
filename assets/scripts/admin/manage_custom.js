@@ -11,6 +11,12 @@ window.loadings = {
 	},
 	hide: function(){
 		$( '.window-tip' ).fadeOut();
+	},
+	autohide: function( msg ){
+		loadings.show( msg );
+		setTimeout(function(){
+			loadings.hide();
+		},2000);
 	}
 }
 
@@ -31,7 +37,7 @@ $.ajaxSetup({
 });
 
 //ckfinder根目录
-window.finder_base = "/uto/assets/ckfinder/";
+window.finder_base = "/utoadmin/assets/ckfinder/";
 
 //翻页
 //TODO 上一页下一页 
@@ -39,6 +45,7 @@ $.fn.uto_pag = function( opts ){
 	this.on('click', function(){
 		var t = $( this );
 		var page = t.text();
+		loadings.show();
 		$.ajax({
 			url: opts.url,
 			data: {
@@ -46,6 +53,7 @@ $.fn.uto_pag = function( opts ){
 			},
 			success: function( result ){
 				$( '.pagination' ).attr( 'data-page', page );
+				loadings.hide();
 				if( opts.type=='tour' ){
 				            tour.list_tour( result );
 				}
@@ -60,6 +68,9 @@ $.fn.uto_pag = function( opts ){
 				}
 				if( opts.type=='custom_order' ){
 					custom_order.list_order( result );
+				}
+				if( opts.type=='expand' ){
+					expand.list_expand( result );
 				}
 			}
 		});
@@ -151,6 +162,15 @@ var page_count = function( opts ){
 				url: opts.url2,
 				type: opts.type
 			});
+			//按1 2 3...翻页 JUST FOR FUN
+			for( var i =1; i<=result; i++ )
+			{	
+				(function(e){
+					Mousetrap.bind( String(e), function() {
+						$( '.page-num' ).eq(e-1).click();
+					});
+				})(i)
+			}
 		}
 	});
 }
@@ -274,6 +294,7 @@ var manager = {
 						uid: uid
 					},
 					success: function( result ){
+						loadings.autohide('删除成功');
 						target.remove();
 					}
 				});
@@ -384,6 +405,7 @@ var tour = {
 					success: function( result ){
 						if( result.status ){
 							target.remove();
+							loadings.autohide( result.msg );
 						}else{
 							loadings.show( result.msg );
 						}
@@ -419,7 +441,7 @@ var travel_note = {
 	count_note: function(){
 		page_count({
 			url1: 'travelnote/notecount',
-			url2:  'travelnote/notelist',
+			url2:  'travelnote/managenote',
 			type: 'travel_note'
 		});
 	},
@@ -438,6 +460,61 @@ var travel_note = {
 					success: function( result ){
 						if( result ){
 							target.remove();
+							loadings.autohide('删除成功');
+						}else{
+							loadings.show( result.msg );
+						}
+					}
+				});
+			}
+		});
+	}
+}
+
+//扩展活动
+var expand = {
+
+	list_expand: function( result ){
+		var expand_list = ' ';
+		for( var i = 0; i<result.length; i++ ){
+			expand_list += "<tr><td class='e_id'>"+result[i].Id+"</td> \
+			<td class='e_title'>" +result[i].title+ "</td> \
+			<td>"+result[i].edit_time+"</td> \
+			<td><i class='icon-share'></i><a target='_blank' href='expandtour/expand?id="+result[i].Id+"'>预览</a> \
+			<i class='icon-pencil'></i><a href='expandtour/expandupdate/"+result[i].Id+"' class='edit-expand'>修改</a> \
+			<i class='icon-trash'></i><a class='del-note' href='javascript:;'>删除</a></td></tr>";
+		}
+		$( '#list-head' ).html( note_list_tpl );
+		list_panel.html( expand_list );
+		loadings.hide();
+		expand.count_expand();
+		expand.del_expand();
+		$( '.pagination' ).show();	
+	},
+
+	count_expand: function(){
+		page_count({
+			url1: 'expandtour/expandcount',
+			url2:  'expandtour/expendlist',
+			type: 'expand'
+		});
+	},
+
+	del_expand: function(){
+		$( '.del-expand' ).on('click',function(){
+			var r = confirm( '确定删除这篇扩展活动？' );
+			var target = $( this ).parent().parent();
+			if( r ){
+				var tid = $( this ).parent().siblings( '.e_id' ).text(); 
+				$.ajax({
+					url: 'expandtour/delexpand',
+					data: {
+						id: tid
+					},
+					success: function( result ){
+						if( result ){
+							target.remove();
+							loadings.autohide('删除成功');
 						}else{
 							loadings.show( result.msg );
 						}
@@ -542,6 +619,7 @@ var member = {
 					success: function( result ){
 						if( result ){
 							target.remove();
+							loadings.autohide('删除成功');
 						}
 					}
 				});
@@ -606,6 +684,7 @@ var order = {
 					},
 					success: function( result ){
 						target.remove();
+						loadings.autohide( '删除成功' );
 					}
 				});
 			}
@@ -663,6 +742,7 @@ var custom_order = {
 					},
 					success: function( result ){
 						target.remove();
+						loadings.autohide( '删除成功' );
 					}
 				});
 			}
@@ -720,10 +800,7 @@ var tag = {
 					}
 				});
 			}else{
-				loadings.show( '所填信息不能为空！' );
-				setTimeout(function(){
-					loadings.hide();
-				},2000);
+				loadings.autohide( '所填信息不能为空！'  );
 			}
 		});
 	},
@@ -849,12 +926,28 @@ $(function(){
 		$( '#list-title' ).text( '游记管理' );
 		$( '#tool-bar' ).html( '<a href="travelnote/newnote" class="btn btn-primary" id=""><i class="icon-plus icon-white"></i>写游记</a>' );
 		$.ajax({
-			url: 'travelnote/notelist',
+			url: 'travelnote/managenote',
 			data: {
 				page: 1
 			},
 			success: function( result ){
 				travel_note.list_note( result );
+			}
+		});
+	});
+
+	//扩展活动列表
+	$( '#expand-manage' ).click(function( e ){
+		left_menu_post_list( e );
+		$( '#list-title' ).text( '扩展活动管理' );
+		$( '#tool-bar' ).html( '<a href="expandtour/newexpand" class="btn btn-primary" id=""><i class="icon-plus icon-white"></i>写扩展活动</a>' );
+		$.ajax({
+			url: 'expandtour/expendlist',
+			data: {
+				page: 1
+			},
+			success: function( result ){
+				expand.list_expand( result );
 			}
 		});
 	});

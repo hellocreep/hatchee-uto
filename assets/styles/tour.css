@@ -43,9 +43,19 @@
 	float:left;
 	clear:both;
 }
+.unit ol{
+	list-style: inside decimal;
+}
+.unit ul{
+	list-style: none;
+}
 
-
-
+.unit th,
+.unit td{
+	vertical-align: middle;
+	text-align: center;
+	border:1px solid #ddd;
+}
 
 
 
@@ -85,8 +95,21 @@
 	margin: 0 0 0 20px;
 	display: inline-block;
 }
-.des-l .advice{
-	float: right;
+.des-l span.s-wrap img{
+	vertical-align: middle;
+}
+.des-l .discount{
+}
+.des-l .discount i{
+	background: #BF2303;
+	padding: 1px;
+	color: #fff;
+	font-style: normal;
+}
+.des-l .discount em{
+	color: red;
+	font-style: normal;
+	padding: 0 2px;
 }
 .des-l span b{
 	color: #EB6100;
@@ -130,7 +153,7 @@
 }
 .j-left select{
 	vertical-align: text-top;
-	min-width:200px;
+	/*min-width:200px;*/
 }
 .j-left .pad{
 

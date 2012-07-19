@@ -47,11 +47,14 @@ class Ordermanage extends CI_Controller
 		$member = new Member();
 		$user = $member->addmember($userinfo);
 		$id_private=$data->is_private;
+		$this->load->model('tour');
+		$tour=$this->tour->gettourname($data->tid);
 		$orderinfo = array(
 			'uuid'=>uniqid(),
 			'user'=>$user[0]->Id,
 			'tour'=>$data->tid,
 			'people'=>$data->people,
+			'day'=>$data->day,
 			'create_date'=>date('Y-m-d H:i:s',time()),
 			'tour_term'=>$data->term,
 			'tour_time'=>$data->tour_time,
@@ -60,12 +63,30 @@ class Ordermanage extends CI_Controller
 			);
 		$this->load->model('order');
 		$order = new Order();
-		$res=$order->addorder($orderinfo);	
-		if($res)
+		$res=$order->addorder($orderinfo);
+		$content='<table class="formtab">
+		<tbody>
+		<tr><td>线路名称：</td><td class="r_name">'.$tour['title'].'</td></tr>
+		<tr><td>发团期数：</td><td class="r_term">'.$data->tour_time.'</td></tr>
+		<tr><td>天数：</td><td class="r_day">'.$data->day.'</td></tr>
+		<tr><td>参加人数：</td><td>'.$data->people.'</td></tr>
+		</tbody>
+		</table>
+		<table class="formtab">
+		<tbody>
+		<tr><td>姓名：</td><td>'.$data->name.'</td></tr>
+		<tr><td>手机：</td><td>'.$data->tel.'</td></tr>
+		<tr><td>邮箱：</td><td>'.$data->email.'</td></tr>
+		<tr><td>QQ：</td><td>'.$data->qq.'</td></tr>
+		<tr><td>来自那个城市：</td><td>'.$data->city.'</td></tr>
+		<tr><td>其他需求：</td><td>'.$data->comment.'</td></tr>
+		</tbody>
+		</table>';
+		if($res['uuid'])
 		{
-			$this->sendmail($data->name,$data->email);
+			//$this->sendmailtosystem($content);
+			$this->sendmailtocustomer($data->name,$data->email,$res['uuid']);//将订单信息发送给客人
 		}
-		//echo $order->addorder($orderinfo);
 	}
 	public function delorder()
 	{
@@ -164,21 +185,39 @@ class Ordermanage extends CI_Controller
 	{
 		echo $this->order->checkorder($condition);
 	}
-	public function sendmail($name,$email)
+	public function sendmailtosystem($content)
 	{
 		$config['protocol']='smtp';
-		$config['smtp_host']='smtp.163.com';
-		$config['smtp_user']='remaintears@163.com';
-		$config['smtp_pass']='cz19871127';
+		$config['smtp_host']='smtp.exmail.qq.com';
+		$config['smtp_user']='no-replay@utotrip.com';
+		$config['smtp_pass']='uto51766';
 		$config['charset']='utf-8';
 		$config['wordwarp']='TRUE';
 		$config['mailtype']='html';
 		$this->load->library('email');
 		$this->email->initialize($config);
-		$this->email->from('remaintears@163.com');
+		$this->email->from('no-replay@utotrip.com');
+		$this->email->to('bm@utotrip.com');
+		$this->email->subject('友途订单邮件');
+		$this->email->message($content);
+		$this->email->send();
+		
+	}
+	public function sendmailtocustomer($name,$email,$content)
+	{
+		$config['protocol']='smtp';
+		$config['smtp_host']='smtp.exmail.qq.com';
+		$config['smtp_user']='no-replay@utotrip.com';
+		$config['smtp_pass']='uto51766';
+		$config['charset']='utf-8';
+		$config['wordwarp']='TRUE';
+		$config['mailtype']='html';
+		$this->load->library('email');
+		$this->email->initialize($config);
+		$this->email->from('no-replay@utotrip.com');
 		$this->email->to($email);
 		$this->email->subject('你好'.$name);
-		$this->email->message('感谢你！');
+		$this->email->message('您的订单号：'.$content);
 		if(!$this->email->send())
 		{
 			$data['status']=false;

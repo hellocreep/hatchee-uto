@@ -67,6 +67,22 @@
 				</div>
 
 				<div class="control-group">
+					<label class="control-label" for="keywords">关键词（keywords）：</label>
+					<div class="controls">
+						<input name="keywords" class="input-xlarge" type="text" value="<?php echo $tour[0] -> keywords; ?>">
+						<p class="help-block">页面关键词,便于搜索引擎检索</p>
+					</div>
+				</div>
+				
+				<div class="control-group">
+					<label class="control-label" for="description">描述（description）：</label>
+					<div class="controls">
+						<input name="description" class="input-xlarge" type="text" value="<?php echo $tour[0] -> description; ?>">
+						<p class="help-block">SEO</p>
+					</div>
+				</div>
+
+				<div class="control-group">
 					<label class="control-label" for="name">线路名称：</label>
 					<div class="controls">
 						<input type="hidden" name="upid" value="<?php echo $tour[0] -> Id; ?>">
@@ -106,18 +122,9 @@
 				</div>
 				
 				<div class="control-group">
-					<label class="control-label" for="keywords">关键词（keywords）：</label>
+					<label class="control-label" for="intro">线路简介：</label>
 					<div class="controls">
-						<input name="keywords" class="input-xlarge" type="text" value="<?php echo $tour[0] -> keywords; ?>">
-						<p class="help-block">页面关键词,便于搜索引擎检索</p>
-					</div>
-				</div>
-				
-				<div class="control-group">
-					<label class="control-label" for="description">描述（description）：</label>
-					<div class="controls">
-						<input name="description" class="input-xlarge" type="text" value="<?php echo $tour[0] -> description; ?>">
-						<p class="help-block">SEO</p>
+						<textarea name="intro" class="input-xlarge" rows="8"><?php echo $tour[0] -> intro; ?></textarea>
 					</div>
 				</div>
 				
@@ -128,6 +135,13 @@
 					</div>
 				</div>
 				
+				<div class="control-group">
+					<label class="control-label" for="discount">折扣信息：</label>
+					<div class="controls">
+						<textarea name="discount" class="input-xlarge" rows="5"><?php echo $tour[0] -> discount; ?></textarea>
+					</div>
+				</div>
+
 				<div class="control-group">
 					<label class="control-label" for="price_detail">费用说明：</label>
 					<div class="controls">
@@ -185,13 +199,6 @@
 				</div>
 				
 				<input name="route" class="input-small" type="hidden">
-				
-				<div class="control-group">
-					<label class="control-label" for="intro">线路简介：</label>
-					<div class="controls">
-						<textarea name="intro" class="input-xlarge" rows="8"><?php echo $tour[0] -> intro; ?></textarea>
-					</div>
-				</div>
 				
 				<div class="control-group">
 					<label class="control-label" for="content">行程亮点：</label>

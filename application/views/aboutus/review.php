@@ -55,7 +55,9 @@
 							<?php endforeach;?>
 						</ul>
 					</div>
-					<!-- <div class="event">
+
+				 <div class="event">
+
 						<h3>主题旅行案例</h3>
 						<ul class="clearfix">
 							<?php foreach($theme as $t):?>
@@ -64,12 +66,14 @@
 								<h5><a href="aboutus/note?id=<?php echo $t['Id'];?>"><?php echo $t['title'];?></a></h5>		
 								<p>时间：<?php echo $t['tour_time'];?><br>
 								地点：<?php echo $t['route_intro'];?></p>
-								<!-- <?php echo mb_substr($t['content'],0,50,'utf-8').'…';?> -->
+								<!--<?php echo mb_substr($t['content'],0,50,'utf-8').'…';?>-->
 								<a class="detail" href="aboutus/note?id=<?php echo $t['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>
 						</ul>
-					</div> -->
+
+					</div> 
+
 					
 
 					<!-- <div class="separator"></div>

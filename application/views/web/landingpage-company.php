@@ -18,7 +18,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > 友途活动
 				</div>
-				<div class="aside"></div>
+				<?php $this -> load -> view("web/include/aside-company");?> <!-- 侧边栏chunk -->
 				<div class="article com">
 					<div class="pageintro">
 						<p><img src="assets/images/gscy.gif"></p>
@@ -39,10 +39,10 @@
 								<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $company['Id'];?>"><img width="240" height="140" alt="<?php echo $company['name'];?>" src="<?php echo $company['thumbnail'];?>"></a></dt>
 									<dd>
-										<span>旅行地区：</span><div><?php echo substr($company['destination'],0,-1);?></div>
+										<span>旅行地区：</span><div><?php echo str_replace(',','、',substr($company['destination'],0,-1));?></div>
 									</dd>
 									<dd>
-										<span>活动内容：</span><div><?php echo substr($company['company_intro'],0,-1);?></div>
+										<span>活动内容：</span><div><?php echo mb_substr($company['company_intro'],0,50,'utf-8').'……';?></div>
 									</dd>
 									<dd>
 										<span>适合人数：</span><div><?php echo $company['people'];?></div>
@@ -88,46 +88,18 @@
 					<div class="activity">
 						<h3>拓展活动内容</h3>
 						<ul>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
+							<?php foreach($expand as $list):?>
+								<li>
+								<a href="expandtour/expand?id=<?php echo $list['Id'];?>"><img src="<?php echo $list['thumbnail'];?>" alt="<?php echo $list['title'];?>"></a>
+								<h5><a href="expandtour/expand?id=<?php echo $list['Id'];?>"><?php echo $list['title'];?></a></h5>	
 								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
+									<?php echo $list['intro'];?>
 								</p>
 								<p>
-									活动性质：
-								</p>
-							</li>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
-								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
-								</p>
-								<p>
-									活动性质：
+									活动天数：<?php echo $list['day'];?>
 								</p>
 							</li>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
-								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
-								</p>
-								<p>
-									活动性质：
-								</p>
-							</li>
-							<li>
-								<img src="http://www.utotrip.com/utoadmin/uploads/middels/1342001376DSC_0716.jpg" alt="">
-								<h5>真人CS</h5>	
-								<p>
-									放假了快点撒发了就斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较斤斤计较经济；
-								</p>
-								<p>
-									活动性质：
-								</p>
-							</li>
+							<?php endforeach;?>
 						</ul>
 						
 					</div>

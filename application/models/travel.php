@@ -16,6 +16,14 @@ class Travel extends CI_Model
 		
 	}
 	
+	public function getnotelist($page,$step)
+	{
+		$start=($page-1)*$step;
+		$sql = "select Id, title, edit_time from travel_note limit ".$start.",".$step;
+		$query=$this->db->query($sql);
+		return $query->result_array();
+	}
+
 	public function notecount(){
 		$sql = "select Id from travel_note";
 		$query = $this->db->query($sql);

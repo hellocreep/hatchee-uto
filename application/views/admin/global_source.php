@@ -5,4 +5,5 @@
 <script src="assets/scripts/jquery.json-2.3.min.js"></script>
 <script src="assets/scripts/jquery.cookie.js"></script>
 <script src="assets/scripts/bootstrap.min.js"></script>
+<script src="assets/scripts/mousetrap.min.js"></script>
 <script src="assets/scripts/admin/manage_custom.js"></script>

@@ -13,7 +13,7 @@ var inquiry_form ="<form class='inquiry-form'> \
 			<tr><td>线路名称：</td><td class='r_name'></td></tr> \
 			<tr><td>发团期数：</td><td class='r_term'></td></tr> \
 			<tr><td>天数：</td><td class='r_day'></td></tr> \
-			<tr><td>参加人数：</td><td><input type='text' class='r_people'></td></tr> \
+			<tr><td>参加人数：</td><td><input type='text' name='people' class='r_people'></td></tr> \
 			</table><table class='formtab'> \
 			<h3>填写联系人信息</h3> \
 			<tr><td><em>*</em>姓名：</td><td><input class='required' name='u_name' type='text'></td></tr> \
@@ -68,9 +68,9 @@ var btn_mask = function( target ){
 
 $(function(){
 
-	if( !$( '#a-index').length > 0 ){
-		$( window ).scrollTop( $('.nav').offset().top  );
-	}
+	// if( !$( '#a-index').length > 0 ){
+	// 	$( window ).scrollTop( $('.nav').offset().top  );
+	// }
 
 	// 线路内页选项卡切换
 	$('.sub-nav > li').each(function(index){
@@ -98,11 +98,30 @@ $(function(){
 		inquiry_form = inquiry_form2;
 	}
 
+
+	// 友途活动内页参加人数选择
+	$('#peo .people').click(function() {
+		if($("#peo .people:selected").val() == "more"){
+		    $('#peo').replaceWith('<input type="text" class="people">')
+		}
+	});
+
 	//订单
 	$( '#inquiry' ).fancybox({
 		content: inquiry_form,
 		onComplete: function(){
-			$( '.r_people' ).val( $('.people').val() );
+			if(  $( '.term:selected').val().indexOf('结束')>0 ){
+				$( '#fancybox-close' ).click();
+				alert( '您选择的排期活动已结束，请重新选择' );
+				$( '.j-left' ).children('p').eq(0).append('<em class="red">您说选择的排期活动已结束</em>');
+			}
+			if($('input.people').val()== undefined){
+				$( '.r_people' ).val( $('.people:selected').val());
+			}
+			else{
+				$( '.r_people' ).val( $('input.people').val());
+			}
+
 			$( '.r_name' ).text( $('#tour_title').text() );
 			$( '.r_day' ).text( $('#tour_day').val()+'天' );
 			$( '.r_term' ).text( $( '.term:selected' ).val() );
@@ -130,6 +149,7 @@ $(function(){
 						email: $( 'input[name="u_email"]' ).val(),
 						qq: $('input[name="u_qq"]').val(),
 						city: $('input[name="u_city"]').val(),
+						day: $( '.r_day').text(),
 						term: '',
 						car: '',
 						tour_time: '',

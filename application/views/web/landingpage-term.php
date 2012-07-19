@@ -18,7 +18,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > 友途活动
 				</div>
-				<div class="aside"></div>
+				<?php $this -> load -> view("web/include/aside-tour");?> <!-- 侧边栏chunk -->
 				<div class="article">
 					<div class="pageintro">
 						<p><img src="assets/images/ythd.gif"></p>
@@ -34,10 +34,21 @@
 						排序方式：
 						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>
 						<div class="pagenate">
-							<a href="<?php echo $page['first'];?>">首页</a>
-							<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>
-							<a href="<?php echo $page['next'];?>" class="nextPage">下一页</a>
-							<a href="<?php echo $page['end'];?>">尾页</a>
+							<?php if($count>1):?>
+								<?php if($pagenow!=1):?>
+								<a href="<?php echo $page['pre'];?>" class="prevPage">上一页</a>
+								<?php endif;?>
+								<?php for($i=1;$i<=count($page['plist']);$i++):?>
+									<?php if($i==$pagenow):?>
+										<a href="<?php echo $page['plist'][$i];?>" style="color:red"><?php echo $i;?></a>
+									<?php else:?>
+										<a href="<?php echo $page['plist'][$i];?>"><?php echo $i;?></a>
+									<?php endif;?>
+								<?php endfor;?>
+								<?php if($pagenow!=$count):?>
+								<a href="<?php echo $page['next'];?>" class="nextPage">下一页</a>
+								<?php endif;?>
+							<?php endif;?>
 						</div>
 					</div>
 					<ul class="routelist clearfix">

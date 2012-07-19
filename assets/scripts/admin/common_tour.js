@@ -1,7 +1,7 @@
 ;(function(){
 
 window.uto_var = {
-	tpl_table: '<table> \
+	tpl_table: '<table border="1"> \
 	<tbody> \
 		<tr> \
 			<th>时间</th> \
@@ -73,7 +73,12 @@ window.uto_var = {
 			<td></td> \
 			<td></td> \
 		</tr> \
-</tbody></table>',
+	</tbody></table>',
+
+	discount_tpl: '&bull;&nbsp;提前<em>20</em>天（含）以上完成签约和付清全款，每位成人优惠<em>50</em>元。<br> \
+	&bull;&nbsp;<em>5</em>位（含）以上成人预订，每位成人立减<em>50</em>元；<br> \
+	&bull;&nbsp;形成不做修改，立即付款的，每位成人立减<em>80</em>元；<br> \
+	&bull;&nbsp;以上促销不能叠加使用。'
 }
 
 //标签选择
@@ -281,6 +286,7 @@ var submittour = function(){
 			keywords : $('input[name="keywords"]').val(),
 			description : $('input[name="description"]').val(),
 			price : $('input[name="price"]').val(),
+			discount: $( 'textarea[name="discount"]').val(),
 			best_season: $('input[name="best_season"]').val(),
 			people: $('input[name="people"]').val()||'',
 			company_intro: $('input[name="company_intro"]').val()||'',
@@ -353,21 +359,15 @@ $(function(){
 	CKFinder.setupCKEditor( route_editor, finder_base );
 
 	//frames[1]
-	CKEDITOR.replace( 'tour-term-private', {
-		height: 500
+	var term_editor = CKEDITOR.replace( 'tour-term-private', {
+		height: 500,
 	});
+	term_editor.config.enterMode = CKEDITOR.ENTER_BR;
 
-	//frames[2]
-	// CKEDITOR.replace( 'price_detail',{
-	// 	height: 500
-	// });
-	//frames[3]
-	// CKEDITOR.replace( 'tour_content',{
-	// 	height: 500
-	// });
-	//frames[4]
-	// CKEDITOR.replace('tour_notice',{
-	// })
+	var content_editor = CKEDITOR.replace('tour_content', {
+		toolbar : 'MyToolbar',
+		height: 700,
+	})
 
 	$( '#filemanager' ).click(function(e){
 		e.preventDefault();
@@ -377,7 +377,7 @@ $(function(){
 		finder.basePath = finder_base;
 		finder.selectActionFunction = function( fileUrl, data ) {
 			$.ajax({
-				url : 'imagemanage/imgUpload',
+				url : 'imagemanage/imgupload',
 				data : {
 					userfile : fileUrl
 				},
@@ -408,8 +408,10 @@ $(function(){
 	$( 'select[name="type_select"]').change(function(){
 		if( $(this).children( 'option:selected' ).val() == 1 ){
 			$( window.frames[1].document ).find( '.cke_show_borders' ).html( uto_var.tpl_table +'<br />'+ uto_var.tpl_table );
+			$( 'textarea[name="discount"]').html( uto_var.discount_tpl );
 		}else{
 			$( window.frames[1].document ).find( '.cke_show_borders' ).html( '' );
+			$( 'textarea[name="discount"]').empty();
 		}
 	});
 
@@ -448,10 +450,16 @@ $(function(){
 
 	//每天行程
 	route.selectroute();
-	
-	$( '#new-route-list li a' ).each(function( index ){
-		$( this ).text( index+ 1 );
-	});
+	if( $('#new-route-list a').length >= 1 ){
+		$( '#new-route-list li a' ).each(function( index ){
+			$( this ).text( index+ 1 );
+		});
+	}else{
+		 $('#new-route-list a').parent().remove();
+	}
+	// $( '#new-route-list li a' ).each(function( index ){
+	// 	$( this ).text( index+ 1 );
+	// });
 	$( '#new-route-list li a' ).on('click', function( e ){
 		e.preventDefault();
 		if( $( this ).attr( 'id' ) > 0 ){ //修改行程

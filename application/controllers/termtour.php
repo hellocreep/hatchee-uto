@@ -10,7 +10,7 @@ class Termtour extends CI_Controller
 	function index()
 	{
 		$this->load->model('show');
-		$num=$this->show->totaltour('');
+		$num=$this->show->totaltour('term');
 		$per_page=5;
 		$count=ceil($num/$per_page);
 		$page=$this->uri->segment(3);
@@ -49,6 +49,10 @@ class Termtour extends CI_Controller
 			{
 				$pagenext=$count;
 			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='termtour/index/'.$i.'/'.$action.'/'.$sort;
+			}
 			$data['page']['pre']='termtour/index/'.$pagepre.'/'.$action.'/'.$sort;
 			$data['page']['next']='termtour/index/'.$pagenext.'/'.$action.'/'.$sort;
 		}
@@ -71,6 +75,10 @@ class Termtour extends CI_Controller
 			else
 			{
 				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='termtour/index/'.$i;
 			}
 			$data['page']['pre']='termtour/index/'.$pagepre;
 			$data['page']['next']='termtour/index/'.$pagenext;
@@ -97,6 +105,8 @@ class Termtour extends CI_Controller
 		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();
+		$data['count']=$count;
+		$data['pagenow']=$page;
 		$type="regular_tour";
 		$data['webinfo'] = $this->webpage->getpage($type);
 		$data['tour']=$this->show->showtermtour($start,$per_page,$action,$sort);

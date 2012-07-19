@@ -15,6 +15,7 @@ class Companytour extends CI_Controller
 		$data['webinfo'] = $this->webpage->getpage($type);
 		$data['tour']=$this->company->getcompanytour();
 		$data['note']=$this->company->getcompanynote();
+		$data['expand']=$this->company->getcompanyexpand();
 		$this->load->view('web/landingpage-company',$data);	
 	}
 	function postinquiry()

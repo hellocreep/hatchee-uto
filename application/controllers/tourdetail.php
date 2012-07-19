@@ -11,7 +11,7 @@ class Tourdetail extends CI_Controller{
 		$this->load->library('cimarkdown');
 		$tourinfo = $this->tour->showTour($tid);
 		$tourinfo[0]->price_detail = $this->cimarkdown->markit($tourinfo[0]->price_detail);
-		$tourinfo[0]->content = $this->cimarkdown->markit($tourinfo[0]->content);
+		//$tourinfo[0]->content = $this->cimarkdown->markit($tourinfo[0]->content);
 		$tourinfo[0]->notice = $this->cimarkdown->markit($tourinfo[0]->notice);
 		$tourinfo[0]->intro = $this->cimarkdown->markit($tourinfo[0]->intro);
 		$this->load->model('image');
@@ -35,6 +35,12 @@ class Tourdetail extends CI_Controller{
 			}
 		}
 		$data['tour']=$tourinfo;
+		$customerip=$this->input->ip_address();
+		if(!isset($_COOKIE[$tid]))
+		{
+			setcookie($tid,$customerip,time()+3600*24*36500);
+			$this->tour->addhits($tid);
+		}
 		if($tourinfo[0]->tour_type==0)
 		{
 			$this->load->view('web/tour',$data);

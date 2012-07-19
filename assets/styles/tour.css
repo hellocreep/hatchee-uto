@@ -50,7 +50,12 @@
 	list-style: none;
 }
 
-
+.unit th,
+.unit td{
+	vertical-align: middle;
+	text-align: center;
+	border:1px solid #ddd;
+}
 
 
 

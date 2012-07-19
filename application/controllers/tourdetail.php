@@ -35,6 +35,7 @@ class Tourdetail extends CI_Controller{
 			}
 		}
 		$data['tour']=$tourinfo;
+		$this->tour->addhits($tid);
 		if($tourinfo[0]->tour_type==0)
 		{
 			$this->load->view('web/tour',$data);

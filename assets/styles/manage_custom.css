@@ -130,6 +130,23 @@
     width: 20px;
 }
 
+#kidding {
+    -webkit-transition: all 2s ease-out;  
+    -moz-transition: all 2s ease-out;  
+    -o-transition: all 2s ease-out;
+    transition: all 2s ease-out;
+}
+
+#kidding:hover{
+    float: left;
+    display: block;
+    -webkit-transform: rotate(360deg);  
+    -moz-transform: rotate(360deg);  
+    -ms-transform: rotate(360deg); 
+    -o-transform: rotate(360deg);  
+    transform: rotate(360deg);
+}
+
 .form-horizontal .input-prepend {
     margin-left: 130px;
 }
@@ -155,6 +172,22 @@
 #synopsis {
     width: 80%;
     height: 220px;
+}
+
+#tool-bar:after{
+    clear:both;
+    content: '';
+    visibility: hidden;
+    display: block;
+    height: 0;
+}
+
+#add-tour {
+    float: left;
+}
+
+.message-list li {
+    margin-top: 15px;
 }
 
 /*重写bootstrap样式*/
@@ -237,4 +270,12 @@ input.input-xlarge {
 
 .badge-2 {
     background-color: #607A94;
+}
+
+input.search-query {
+    margin-bottom: 0;
+}
+
+.brand sup {
+    font-size: 64%;    
 }

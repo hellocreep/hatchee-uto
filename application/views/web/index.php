@@ -117,7 +117,7 @@
 								$(this).children('div').stop().animate({"opacity":1 },500);
 							},function(){
 								$(this).children('div').stop().animate({
-									"opacity":0,
+									"opacity":0
 								},500);
 							});
 
@@ -226,7 +226,7 @@
 
 					<div class="leader clearfix">
 						<h3>友途领队与小编</h3>
-						<ul>
+						<ul class="clearfix">
 							<li>
 								<img src="assets/images/mudeng.png">
 								<b>曾可（木灯）</b>

@@ -418,7 +418,8 @@ div.separator{
 table.formtab{
 	width: 95%;
 }
-.formtab td{
+table.formtab td{
+	border: none;
 	padding:3px 0;
 	line-height: 20px;
 	text-align: left;	
@@ -619,11 +620,15 @@ a.online img{
 
 .col-tour dd{
 	margin: 8px 0 0;
+	padding: 10px 0 5px;
 }
 .col-tour dd:hover{
 	background: #F8EFDA;
 }
-
+.col-theme ul{
+	float: left;
+	overflow: hidden;
+}
 .col-theme li{
 	float: left;
 	position: relative;
@@ -669,10 +674,15 @@ a.online img{
 }
 
 .col-review img{
+	width: 160px;
+	height: 120px;
 	float: left;
 	margin: 0 10px 0 0;
 }
-
+.col-review li{
+	float: left;
+	width: 100%;
+}
 .auth-top-tool {
 	position: fixed;
 	right: 130px;

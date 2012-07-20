@@ -94,23 +94,23 @@
 	position: relative;
 	margin: 0 0 0 20px;
 	display: inline-block;
+	cursor: default;
 }
 .des-l span.s-wrap img{
 	vertical-align: middle;
 }
-.des-l .discount{
-}
-.des-l .discount i{
+.discount i{
 	background: #BF2303;
 	padding: 1px;
 	color: #fff;
 	font-style: normal;
 }
-.des-l .discount em{
+.discount em{
 	color: red;
 	font-style: normal;
 	padding: 0 2px;
 }
+
 .des-l span b{
 	color: #EB6100;
 }
@@ -144,6 +144,12 @@
 	padding: 10px;
 	width: 700px;
 }
+input.people{
+	width: 51px;
+	height: 18px;
+	padding: 0;
+}
+
 .j-left{
 	width:400px;
 	float:left;
@@ -164,6 +170,12 @@
 	float: right;
 	margin-right: 26px;
 	margin-top: 20px;
+}
+.j-left .promotion{
+	margin: 0 0 0 20px;
+}
+span.promotion img{
+	vertical-align: middle;
 }
 .j-right{
 	margin: 50px 0 0 0;

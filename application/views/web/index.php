@@ -139,10 +139,9 @@
 					<script type="text/javascript">
 						$('.col-theme li a').each(function(index){
 							$(this).hover(function(){
-								$(this).children('div').stop(true,true); 
-								$(this).children('div').show().animate({"opacity":1 },500);
+								$(this).children('div').stop().animate({"opacity":1 },500);
 							},function(){
-								$(this).children('div').animate({
+								$(this).children('div').stop().animate({
 									"opacity":0,
 								},500);
 							});

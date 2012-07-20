@@ -41,5 +41,13 @@ class Indexdata extends CI_Model
 		$query=$this->db->get();
 		return $query->result_array();
 	}
+	function gettravel()//获得游记
+	{
+		$this->db->limit('2');
+		$this->db->order_by('Id','desc');
+		$this->db->from('travel_note');
+		$query=$this->db->get();
+		return $query->result_array();
+	}
 }
 ?>

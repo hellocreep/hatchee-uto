@@ -55,7 +55,7 @@ class Systemmanage extends CI_Controller
 	public function adddestination()
 	{
 		$des=json_decode($_POST['data']);
-		$data=array('name'=>$des->name,'synopsis'=>$des->synopsis);
+		$data=array('name'=>$des->name,'synopsis'=>$des->synopsis,);
 		echo $this->attribute->addDes($data);
 		
 	}
@@ -80,7 +80,7 @@ class Systemmanage extends CI_Controller
 		$data = array(
 			'name'=>$des->name,
 			'synopsis'=>$synopsis,
-			'img'=>$des->img
+			'img'=>$des->img,
 			);
 		echo $this->attribute->updatedes($id,$data);
 

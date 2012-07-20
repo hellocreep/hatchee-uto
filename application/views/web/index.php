@@ -12,6 +12,7 @@
 		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 		<?php $this -> load -> view("web/global_source");?>
 		<script type="text/javascript" src="assets/scripts/web/bootstrap-carousel.js"></script>
+		<script type="text/javascript" src="assets/scripts/bootstrap-transition.js"></script>
 	</head>
 	<body id="n-index">
 		<div class="wrapper">
@@ -21,12 +22,10 @@
 				(function(){
 					$(function(){
 						$('.carousel').carousel();
-						$( '.slide-num li' ).each(function(e){
-							$(this).mouseover(function(){
-								$( this ).addClass( 'active' ).siblings().removeClass('active');
-								setTimeout(function(){
-									$('.carousel').carousel(e);
-								},600)
+						$( '.slide-num li' ).each(function( e ){
+							$( this ).mouseover(function(){
+								$( this ).addClass('current').siblings().removeClass('current');
+								$('.carousel').carousel(e);
 							})
 						})
 					})
@@ -62,7 +61,7 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> -->
 
 						<ul class="slide-num clearfix">
-							<li class="active">1</li>
+							<li class="current">1</li>
 							<li>2</li>
 							<li>3</li>
 						</ul>

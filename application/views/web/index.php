@@ -140,7 +140,7 @@
 									<img src="<?php echo $note['thumb'];?>">
 
 								<p>
-								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8');?> 
+								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8').'......';?> 
 								</p>
 							</li>
 							<?php endforeach;?>

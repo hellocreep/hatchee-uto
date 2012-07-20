@@ -8,12 +8,17 @@ class Webindex extends CI_Controller
 	function index()
 	{
 		$this->load->model('indexdata');
-		this->load->model('webpage');
+		$this->load->model('webpage');
 		$data['webinfo']=$this->webpage->getpage('index');
 		$data['term']=$this->indexdata->getterm();
 		$data['theme']=$this->indexdata->gettheme();
 		$data['company']=$this->indexdata->getcompany();
 		$data['expand']=$this->indexdata->getexpand();
+		$data['travel']=$this->indexdata->gettravel();
+		/*for($i=0;$i<count($data['theme']);$i++)
+		{
+			$data['theme'][$i]['thumbnail']=$arrimg[$i];
+		}*/
 		$this->load->view('web/index',$data);
 	}
 }

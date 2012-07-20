@@ -59,7 +59,7 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> -->
 
 						<ul class="slide-num clearfix">
-							<li>1</li>
+							<li class="active">1</li>
 							<li>2</li>
 							<li>3</li>
 						</ul>

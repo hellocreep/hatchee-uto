@@ -561,11 +561,11 @@ a.online img{
 .carousel-caption {
   position: absolute;
   right: 0;
-  bottom: 50px;
+  bottom: 40px;
   left: 0;
   padding: 10px 15px 5px;
   background: #333333;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(114, 61, 19, 0.75);
 }
 
 .carousel-caption h4,
@@ -581,6 +581,17 @@ a.online img{
 
 .slide-num li {
 	float: left;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	background: #333333;
+	color: #fff;
+	border-radius: 3px;
+	margin: 0 5px;
+}
+.slide-num li.active{
+	background: #df5031;
 }
 
 

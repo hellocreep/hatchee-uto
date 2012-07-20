@@ -445,14 +445,7 @@ a.online img{
 	float: left;
 	margin: 20px 0 20px 15px;
 }
-.homert{
-	width: 255px;
-	min-height: 400px;
-	/*outline: 1px solid red;*/
-	float:right;
-	margin: 20px 15px 20px 0;
-	background: #fff;
-}
+
 .slide img{
 	width: 700px;
 	height: 300px;
@@ -605,6 +598,7 @@ a.online img{
 	border-radius: 5px 5px 5px 5px;
 	box-shadow: 0 1px #C9C8BA;
 }
+
 .col h2{
 	margin-top: 0;
 }
@@ -625,8 +619,11 @@ a.online img{
 
 .col-tour dd{
 	margin: 8px 0 0;
-	border-top: 1px dashed #ddd;
 }
+.col-tour dd:hover{
+	background: #F8EFDA;
+}
+
 .col-theme li{
 	float: left;
 	position: relative;
@@ -696,15 +693,43 @@ a.online img{
 	padding: 4px 10px;
 	text-align: center;
 	vertical-align: middle;
+}
+
+
 /*ASIDE*/
+.homert{
+	width: 255px;
+	min-height: 400px;
+	/*outline: 1px solid red;*/
+	float:right;
+	margin: 20px 15px 20px 0;
+}
+.homert .idea,
+.homert .leader,
+.homert .social{
+	background: #f5f5eb;
+	border: 1px solid #DDDDCF;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0 1px #C9C8BA;
+	margin-top: 10px;
+}
+.homert h3{
+	text-indent: 10px;
+}
+.idea li{
+	padding: 0 10px;
+}
 .idea li img{
 	float: left;
 	margin: 5px 5px 0 0;
 }
+.leader{
+	padding-bottom: 10px;
+}
 .leader li{
 	float: left;
 	clear: both;
-	width: 100%;
+	margin: 5px 10px 0;
 }
 .leader li img{
 	float: left;
@@ -719,11 +744,22 @@ a.online img{
 	margin: 0 10px 0 0;
 	float: right;
 }
+
+.social{
+	padding-bottom: 10px; 
+}
 .social a{
 	display: block;
 	float: left;
+	line-height: 14px;
 	width: 80px;
+	font-size: 10px;
+	font-family: "微软雅黑";
+}
+.social a.mt{
+	margin: 0 0 0 10px;
 }
 .social a img{
 	float: left;
+	margin: 0 5px 0 0;
 }

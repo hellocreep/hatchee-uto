@@ -91,7 +91,7 @@ class Show extends CI_Model
 		{
 			$orderby='';
 		}
-		$sql="select * from tour where ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from tour where tour_type !='2' and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}

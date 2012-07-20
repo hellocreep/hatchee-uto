@@ -33,27 +33,15 @@
 			<div class="content clearfix">
 				<div class="homelt">
 					<div class="slide carousel" id="myCarousel">
-						<div class="carousel-inner">
+						<div class="carousel-inner">					
+							<div class="item">
+								<a href=""><img src="assets/images/banner/gonggashan-banner.jpg"></a>
+							</div>
+							<div class="item">
+								<a href=""><img src="assets/images/banner/siguniangshan-banner.jpg"></a>
+							</div>
 							<div class="active item">
-								<img src="assets/images/banner-big.jpg">
-								<div class="carousel-caption">
-									<h4>test0</h4>
-									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-								</div>
-							</div>
-							<div class="item">
-								<img src="assets/images/img.jpg">
-								<div class="carousel-caption">
-									<h4>test1</h4>
-									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-								</div>
-							</div>
-							<div class="item">
-								<img src="assets/images/banner-big.jpg">
-								<div class="carousel-caption">
-									<h4> test2</h4>
-									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-								</div>
+								<a href=""><img src="assets/images/banner/emeishan-banner.jpg"></a>
 							</div>
 						</div>
 						<!-- <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
@@ -71,7 +59,7 @@
 						<h2>友途活动</h2>
 						<dl>
 							<dt>
-								友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色，蓝天、白云、雪山、草原、藏民、牦牛、青青的草地，悠悠的民歌，美丽的少女，我们精心策划的趣味活动给让你的旅行更加梦幻，如三五人选一样颜色的马儿，在皑皑的雪山下、在美丽的山谷中、在清澈的溪流边并肩骑马，享受极度的浪漫与惬意。 
+								友途活动是友途旅行网官方品牌活动 - 独家、趣味、探索、自由。目前以前往“大美川西”贡嘎山和四姑娘为主，固定排期，承诺一人发团，成都集结，全国同一家，无购物，加点，一路随时停车，回归最简单，最快乐的旅行。
 							</dt>
 							<?php foreach($term as $termtour):?>
 							<dd>
@@ -91,7 +79,9 @@
 					<div class="col col-theme">
 						<h2>主题旅行</h2>
 						<p>
-							友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色，蓝天、白云、雪山、草原、藏民、牦牛、青青的草地，悠悠的民歌，美丽的少女，我们精心策划的趣味活动给让你的旅行更加梦幻，如三五人选一样颜色的马儿，在皑皑的雪山下、在美丽的山谷中、在清澈的溪流边并肩骑马，享受极度的浪漫与惬意。 
+							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。
+							<br>
+							多个炫彩主题，数条顶级行程，让您玩转四川。　
 						</p>
 						<ul>
 							<?php foreach($theme as $themetour):?>
@@ -120,13 +110,12 @@
 							</li>
 							<?php foreach($company as $companytour):?>
 								<li>
-								<h4><a href="tourdetail/?tid=<?php echo $companytour['Id']?>"><?php echo $companytour['title'];?></a></h4>
+								<h4><a href="tourdetail/?tid=<?php echo $companytour['Id']?>"><?php echo $companytour['sub_name'];?></a></h4>
 								<p>
 									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,50,'utf-8')).'......';?>
 								</p>
 							</li>
-							<?php endforeach;?>
-							
+							<?php endforeach;?>						
 						</ul>	
 
 						<dl>
@@ -161,9 +150,6 @@
 							
 						</ul>
 					</div>
-
-
-
 				</div>	
 
 
@@ -181,37 +167,42 @@
 							<li>
 								<img src="assets/images/ziyou.png">
 								<p>
-									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地。
 								</p>
 							</li>
 							<li>
 								<img src="assets/images/tiyan.png">
 								<p>
-									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+									与友途，感受最真实的世界，体验最原汁原味的四川。
+
 								</p>
 							</li>
 							<li>
 								<img src="assets/images/fenxiang.png">
 								<p>
-									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+									与五湖四海的朋友一起谈天说地，分享人生，瞬间成长。 
+
 								</p>
 							</li>
 							<li>
 								<img src="assets/images/shengtai.png">
 								<p>
-									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+									友途需要每个人一点点的爱来维护我们生活的这片土地.... 
+
 								</p>
 							</li>
 							<li>
 								<img src="assets/images/jiazhi.png">
 								<p>
-									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+									友途只做让你每每回忆起来感动的旅行，而不是奢华的高费用旅游。 
+
 								</p>
 							</li>
 							<li>
 								<img src="assets/images/fuwu.png">
 								<p>
-									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+									友途的360度管家式服务，全程一对一，让你的出行更简单，更快乐。 　
+
 								</p>
 							</li>
 						</ul>
@@ -247,27 +238,30 @@
 							</li>
 							<li>
 								<img src="assets/images/xiaoqi.png">
-								<b>丌纯静（木灯）</b>
+								<b>亓纯静</b>
 								<span>友途小编</span>
+							</li>
+							<li>
+								<a class="more" href="aboutus/leader">>>详情</a>
 							</li>
 						</ul>
 					</div>
 
 					<div class="social clearfix">
 						<h3>关注友途， 关注不一样的旅行</h3>
-						<a class="mt" href="">
+						<a class="mt" href="http://page.renren.com/601461125/index">
 							<img src="assets/images/renren.png">
 							人人网<br>
 							友途旅行
 						</a>
-						<a href="">
+						<a href="http://weibo.com/utotrip">
 							<img src="assets/images/weibo.png">
-							人人网<br>
+							新浪微博<br>
 							友途旅行
 						</a>
-						<a href="">
+						<a href="http://1758863234.qzone.qq.com">
 							<img src="assets/images/qzone.png">
-							人人网<br>
+							QQ空间<br>
 							友途旅行
 						</a>
 					</div>

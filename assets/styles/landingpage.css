@@ -97,9 +97,11 @@
 /*.route-detail dd div span{
 	color:#DB555C;
 }*/
-.route-detail dd span.discount{
+.route-detail dd span.discount .inbox{
 	/*position: static;*/
 	/*float: right;*/
+	font-weight: normal;
+	font-family: "宋体";
 }
 
 span.s-wrap {

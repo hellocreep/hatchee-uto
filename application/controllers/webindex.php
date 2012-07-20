@@ -21,10 +21,10 @@ class Webindex extends CI_Controller
 			'2' => 'assets/images/theme/danba.jpg', 
 			'3' => 'assets/images/theme/emei.jpg', 
 			'4' => 'assets/images/theme/gonggashan.jpg', 
-			'4' => 'assets/images/theme/luguhu.jpg', 
-			'5' => 'assets/images/theme/siguniangshan.jpg', 
-			'6' => 'assets/images/theme/lianhuahu.jpg', 
-			'7' => 'assets/images/theme/qingchengshan.jpg' 
+			'5' => 'assets/images/theme/luguhu.jpg', 
+			'6' => 'assets/images/theme/siguniangshan.jpg', 
+			'7' => 'assets/images/theme/lianhuahu.jpg', 
+			'8' => 'assets/images/theme/qingchengshan.jpg' 
 		);
 		for($i=0;$i<count($data['theme']);$i++)
 		{

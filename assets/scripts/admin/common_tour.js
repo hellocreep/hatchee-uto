@@ -315,7 +315,7 @@ var submittour = function(){
 			url =  'tourmanage/addtour';
 		}
 		
-		if( data.name!==''||data.title!=='' ){
+		if( data.name!==''&&data.title!=='' ){
 			loadings.show( '正在保存' );
 			$( 'body' ).append( '<div class="modal-backdrop fade in"></div>' );
 			$( '#submit-tour' ).addClass( 'disabled' ).text( '正在保存...' );
@@ -339,11 +339,8 @@ var submittour = function(){
 			});
 		}else{	
 			$( '.modal-backdrop' ).hide();
-			loadings.show( '请将信息填写完整' );
+			loadings.autohide( '请将信息填写完整' );
 			$( '.required-info' ).show();
-			setTimeout(function(){
-				loadings.hide();
-			},2000);
 		}
 	});
 }

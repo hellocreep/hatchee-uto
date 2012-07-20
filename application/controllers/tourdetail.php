@@ -3,6 +3,7 @@ class Tourdetail extends CI_Controller{
 	function __construct()
     	{
 		parent::__construct();
+		session_start();
 	}
 
 	function index(){
@@ -16,6 +17,11 @@ class Tourdetail extends CI_Controller{
 		$tourinfo[0]->intro = $this->cimarkdown->markit($tourinfo[0]->intro);
 		$this->load->model('image');
 		$image=new Image();
+		if( isset($_SESSION['auth']) && $_SESSION['auth'] ){
+			$data['auth'] = true;
+		}else{
+			$data['auth'] = false;
+		}
 		if($tourinfo[0]->gallery!='')
 		{
 			$idarr=explode(',',$tourinfo[0]->gallery);

@@ -661,8 +661,30 @@ a.online img{
 	margin: 0 10px 0 0;
 }
 
-
-
+.auth-top-tool {
+	position: fixed;
+	right: 130px;
+	top: 0;
+	color: #fff;
+	background-color: #7BB33D;
+	background-image: -moz-linear-gradient(center top , #80BB3F, #73A839);
+	background-image: -webkit-linear-gradient(center top , #80BB3F, #73A839);
+	background-image: -ms-linear-gradient(center top , #80BB3F, #73A839);
+	background-image: linear-gradient(center top , #80BB3F, #73A839);
+	background-repeat: repeat-x;
+	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+	border-radius: 4px 4px 4px 4px;
+	border-style: solid;
+	border-width: 1px;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 13px;
+	line-height: 18px;
+	margin-bottom: 0;
+	padding: 4px 10px;
+	text-align: center;
+	vertical-align: middle;
 /*ASIDE*/
 .idea li img{
 	float: left;

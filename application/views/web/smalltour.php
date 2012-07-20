@@ -20,6 +20,7 @@
 	</head>
 	<body id="n-theme">
 		<div class="wrapper">
+			<?php $this -> load -> view("web/include/auth-tool");?>
 			<?php $this -> load -> view("web/header");?> <!-- 头部及导航chunk -->
 			<div class="content clearfix">
 				<div class="breadcrumb">

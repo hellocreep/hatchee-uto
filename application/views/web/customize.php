@@ -9,7 +9,6 @@
 		<base src="<?php echo base_url();?>"/>
 		<link rel="stylesheet" type="text/css" href="assets/styles/onecol.css">
 		<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
-		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 		<?php $this -> load -> view("web/global_source");?>
 	</head>
 	<body id="n-customize">

@@ -32,7 +32,7 @@ var inquiry_form2="<form class='inquiry-form'> \
 			<table class='formtab'> \
 			<tr><td>线路名称：</td><td class='r_name'></td></tr> \
 			<tr><td>天数：</td><td class='r_day'></td></tr> \
-			<tr><td>出发时间：</td><td><input type='text' class='r_date Wdate date' onfocus=''></td></tr> \
+			<tr><td>出发时间：</td><td><input type='text' class='r_date Wdate'></td></tr> \
 			<tr><td>选用车型：</td><td><select class='car-select'></select></td></tr> \
 			<tr><td>参加人数：</td><td><input type='text' class='r_people'></td></tr> \
 			</table> \
@@ -122,20 +122,27 @@ $(function(){
 			$( '.r_term' ).text( $( '.term:selected' ).val() );
 			//判断是否小包团
 			if( $('#is_private').val() == 1 ){
-				$( '.r_date' ).focus(function(){
-					WdatePicker({minDate:'%y-%M-{%d}'});
-				});
+				$( '.r_date' ).datepicker();
 				var car_type = ' ';
 				var car = $( '.car-type' );
-				for( var i = 0; i < car.length/2; i++  ){
+				if( car.parent())
+				for( var i = 0; i < car.length; i++  ){
 					car_type += "<option value='"+car.eq(i).text().replace(/(^\s*)|(\s*$)|(\n)/g,"")+"'>"+car.eq(i).text()+"</option>";
 				}
 				$( '.car-select' ).append( car_type );
 			}else{
-				if(  $( '.term:selected').val().indexOf('结束')>0 ){
+				try{
+					if(  $( '.term:selected').val().indexOf('结束')>0 ){
+						$( '#fancybox-close' ).click();
+						alert( '您选择的活动排期已结束，请重新选择' );
+						$( '.j-left' ).children('p').eq(0).append('<p class="red">您说选择的排期活动已结束</p>');
+					}
+				}catch(e){}
+				
+				if( $( '.term:selected').val() == undefined ){
 					$( '#fancybox-close' ).click();
-					alert( '您选择的排期活动已结束，请重新选择' );
-					$( '.j-left' ).children('p').eq(0).append('<em class="red">您说选择的排期活动已结束</em>');
+					alert( '请选择活动的排期' );
+					$( '.j-left' ).children('p').eq(0).append('<p class="red">请选择活动排期</p>');
 				}
 			}
 			

@@ -12,15 +12,15 @@ class Webindex extends CI_Controller
 		$data['theme']=$this->indexdata->gettheme();
 		$data['company']=$this->indexdata->getcompany();
 		$data['expand']=$this->indexdata->getexpand();
-		echo "<pre>";
-		for($i=0;$i<count($data['theme']);$i++)
-		{
-			echo $data['theme'][$i]['Id']."<br>";
-			echo $data['theme'][$i]['title']."<br>";
-			echo $data['theme'][$i]['days']."<hr>";
-		}
-		echo "</pre>";
-		///$this->load->view('web/index',$data);
+		// echo "<pre>";
+		// for($i=0;$i<count($data['theme']);$i++)
+		// {
+		// 	echo $data['theme'][$i]['Id']."<br>";
+		// 	echo $data['theme'][$i]['title']."<br>";
+		// 	echo $data['theme'][$i]['days']."<hr>";
+		// }
+		// echo "</pre>";
+		$this->load->view('web/index',$data);
 	}
 }
 ?>

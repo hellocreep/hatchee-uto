@@ -660,3 +660,37 @@ a.online img{
 	float: left;
 	margin: 0 10px 0 0;
 }
+
+
+
+/*ASIDE*/
+.idea li img{
+	float: left;
+	margin: 5px 5px 0 0;
+}
+.leader li{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+.leader li img{
+	float: left;
+	margin:0 10px 0 0;
+}
+.leader li b{
+	line-height: 50px;
+	float: left;
+}
+.leader li span{
+	line-height: 50px;
+	margin: 0 10px 0 0;
+	float: right;
+}
+.social a{
+	display: block;
+	float: left;
+	width: 80px;
+}
+.social a img{
+	float: left;
+}

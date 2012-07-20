@@ -226,7 +226,106 @@
 
 
 				<div class="homert">
+					<div class="choose">
+						<img src="assets/images/img.jpg">
+					</div>
 
+					<div class="idea clearfix">
+						<h3>友途始终如一的理念</h3>
+						<ul>
+							<li>
+								<img src="assets/images/ziyou.png">
+								<p>
+									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+								</p>
+							</li>
+							<li>
+								<img src="assets/images/tiyan.png">
+								<p>
+									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+								</p>
+							</li>
+							<li>
+								<img src="assets/images/fenxiang.png">
+								<p>
+									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+								</p>
+							</li>
+							<li>
+								<img src="assets/images/shengtai.png">
+								<p>
+									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+								</p>
+							</li>
+							<li>
+								<img src="assets/images/jiazhi.png">
+								<p>
+									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+								</p>
+							</li>
+							<li>
+								<img src="assets/images/fuwu.png">
+								<p>
+									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地，只要给领队轻语几句
+								</p>
+							</li>
+						</ul>
+					</div>
+
+					<div class="leader clearfix">
+						<h3>友途领队与小编</h3>
+						<ul>
+							<li>
+								<img src="assets/images/mudeng.png">
+								<b>曾可（木灯）</b>
+								<span>友途领队</span>
+							</li>
+							<li>
+								<img src="assets/images/muya.png">
+								<b>张磊（木雅）</b>
+								<span>友途领队</span>
+							</li>
+							<li>
+								<img src="assets/images/damao.png">
+								<b>陈传敏（大猫）</b>
+								<span>友途领队</span>
+							</li>
+							<li>
+								<img src="assets/images/yezhu.png">
+								<b>宋中伟（野猪）</b>
+								<span>友途领队</span>
+							</li>
+							<li>
+								<img src="assets/images/xiaoyuan.png">
+								<b>袁辰凯（圆小胖）</b>
+								<span>友途小编</span>
+							</li>
+							<li>
+								<img src="assets/images/xiaoqi.png">
+								<b>丌纯静（木灯）</b>
+								<span>友途小编</span>
+							</li>
+						</ul>
+					</div>
+
+					<div class="social clearfix">
+						<h3>关注友途， 关注不一样的旅行</h3>
+						<a href="">
+							<img src="assets/images/renren.png">
+							人人网<br>
+							友途旅行
+						</a>
+						<a href="">
+							<img src="assets/images/weibo.png">
+							人人网<br>
+							友途旅行
+						</a>
+						<a href="">
+							<img src="assets/images/qzone.png">
+							人人网<br>
+							友途旅行
+						</a>
+					</div>
 				</div>
 			</div>
 			<?php $this->load->view('web/footer'); ?>

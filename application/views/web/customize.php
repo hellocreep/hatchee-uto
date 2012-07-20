@@ -21,7 +21,7 @@
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > 定制旅行
 				</div>
 				<div class="guideword">
-					<p><img src="assets/images/dzlx.gif"></p>
+					<h1>定制旅行</h1>
 					<p>
 						友途的定制旅行旨在打造您的专属旅程、专注于帮助您实现心中最原始的旅行梦想，寻觅那抹最让你动心的风景，感受这个承载着原始与纯净土地上的不可思议、原汁原味、自然奇迹和民俗文化，也只能这样的地方，才能担当得起友途如此厚重的神情。 
 					</p>
@@ -65,10 +65,10 @@
 								<td>选用车型：</td>
 								<td>
 									<select name="car">
-										<option value="车型1">车型1</option>	
-										<option value="车型2">车型2</option>	
-										<option value="车型3">车型3</option>	
-										<option value="车型4">车型4</option>	
+										<option value="三菱越野">三菱越野</option>	
+										<option value="17座全顺">17座全顺</option>	
+										<option value="19-23座考斯特">19-23座考斯特</option>	
+										<option value="30-39座大巴">30-39座大巴</option>	
 									</select>
 								</td>
 							</tr>

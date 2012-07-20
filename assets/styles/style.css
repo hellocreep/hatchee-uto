@@ -591,7 +591,8 @@ a.online img{
 
 .homelt .col{
 	background: #fff;	
-	padding: 15px;
+	/*padding: 15px;*/
+	padding: 10px;
 	float: left;
 	margin: 10px 0;
 	width: 668px;

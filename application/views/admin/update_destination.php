@@ -81,7 +81,7 @@
 				var data = {
 					id: $( '#d_id' ).val(),
 					name: $( 'input[name="name"]' ).val(),
-					title: $( 'input[name="title]' ).val(),
+					title: $( 'input[name="title"]' ).val(),
 					des: $( 'input[name="des"]' ).val(),
 					keywords: $( 'input[name="key"]' ).val(),
 					img: img.toString()
@@ -154,7 +154,7 @@
 					<div class="control-group">
 						<label class="control-label" for="name">名称：</label>
 						<div class="controls">
-							<input class="input-xlarge" name="name" value="<?php echo $des['name']?>">
+							<input type="text" class="input-xlarge" name="name" value="<?php echo $des['name']?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>
@@ -166,7 +166,7 @@
 					<div class="control-group">
 						<label class="control-label" for="title">Title：</label>
 						<div class="controls">
-							<input class="input-xlarge" name="title" value="<?php echo $des['title']?>">
+							<input type="text" class="input-xlarge" name="title" value="<?php echo $des['title']?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>
@@ -178,7 +178,7 @@
 					<div class="control-group">
 						<label class="control-label" for="des">Description：</label>
 						<div class="controls">
-							<input class="input-xlarge" name="des" value="<?php echo $des['des']?>">
+							<input type="text" class="input-xlarge" name="des" value="<?php echo $des['des']?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>
@@ -190,7 +190,7 @@
 					<div class="control-group">
 						<label class="control-label" for="name">Keywords：</label>
 						<div class="controls">
-							<input class="input-xlarge" name="key" value="<?php echo $des['keywords']?>">
+							<input type="text" class="input-xlarge" name="key" value="<?php echo $des['keywords']?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>

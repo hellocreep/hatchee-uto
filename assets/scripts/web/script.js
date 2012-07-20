@@ -163,7 +163,7 @@ $(function(){
 					}
 					//小包团
 					if( $('.r_date').length > 0 ){
-						data.car = $( '.car-select option:selected' ).val();
+						data.car = $( '.car-select option:selected' ).val()||'';
 						data.tour_time = $( '.r_date' ).val();
 					}
 					$.ajax({
@@ -201,7 +201,7 @@ $(function(){
 			});
 			btn_mask( '#custom-submit' );
 			var data = {
-				tid: $('#tid').val(),
+				tid: $('#tour_id').val(),
 				name: $('input[name="name"]').val(),
 				tel: $('input[name="tel"]').val(),
 				email: $('input[name="email"]').val(),

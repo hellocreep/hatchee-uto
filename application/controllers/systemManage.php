@@ -81,6 +81,9 @@ class Systemmanage extends CI_Controller
 			'name'=>$des->name,
 			'synopsis'=>$synopsis,
 			'img'=>$des->img,
+			'title'=>$des->title,
+			'des'=>$des->des,
+			'keywords'=>$des->keywords
 			);
 		echo $this->attribute->updatedes($id,$data);
 

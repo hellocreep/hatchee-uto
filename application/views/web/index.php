@@ -23,8 +23,10 @@
 						$('.carousel').carousel();
 						$( '.slide-num li' ).each(function(e){
 							$(this).mouseover(function(){
-								$('.slide-num li').eq(e).addClass('active').siblings().removeClass('active');
-								$('.carousel').carousel(e);
+								$( this ).addClass( 'active' ).siblings().removeClass('active');
+								setTimeout(function(){
+									$('.carousel').carousel(e);
+								},600)
 							})
 						})
 					})
@@ -37,21 +39,21 @@
 							<div class="active item">
 								<img src="assets/images/banner-big.jpg">
 								<div class="carousel-caption">
-									<h4>test0</h4>
+									<h4>test1</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
 								<img src="assets/images/img.jpg">
 								<div class="carousel-caption">
-									<h4>test1</h4>
+									<h4>test2</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
 								<img src="assets/images/banner-big.jpg">
 								<div class="carousel-caption">
-									<h4> test2</h4>
+									<h4> test3</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
@@ -178,7 +180,7 @@
 
 				<div class="homert">
 					<div class="choose">
-						<img src="assets/images/img.jpg">
+						<img src="assets/images/head-top.jpg">
 					</div>
 
 					<div class="idea clearfix">

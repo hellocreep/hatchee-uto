@@ -1014,7 +1014,7 @@ $(function(){
 			var tags_list = ' ';
 			if( type == 'destination-manage' ){
 				$( '#list-title' ).text( '目的地管理' );
-				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag"><a href="javascript:;" id="add-tags" class="add-destination btn btn-success"><i class="icon-plus icon-white"></i>添加目的地</a></div>' );
+				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag" type="text"><a href="javascript:;" id="add-tags" class="add-destination btn btn-success"><i class="icon-plus icon-white"></i>添加目的地</a></div>' );
 				$.ajax({
 					url: 'systemmanage/deslist',
 					success: function( result ){
@@ -1036,7 +1036,7 @@ $(function(){
 			
 			if( type == 'theme-manage' ){
 				$( '#list-title' ).text( '主题管理' );
-				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag"><a href="javascript:;" id="add-tags" class="add-theme btn btn-success"><i class="icon-plus icon-white"></i>添加主题</a></div>' );
+				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag" type="text"><a href="javascript:;" id="add-tags" class="add-theme btn btn-success"><i class="icon-plus icon-white"></i>添加主题</a></div>' );
 				$.ajax({
 					url: 'systemmanage/themelist',
 					success: function( result ){
@@ -1055,7 +1055,7 @@ $(function(){
 			
 			if( type == 'traveltime-manage' ){
 				$( '#list-title' ).text( '出行时间管理' );
-				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag"><a href="javascript:;" id="add-tags" class="add-traveltime btn btn-success"><i class="icon-plus icon-white"></i>添加出行时间</a></div>' );
+				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag" type="text"><a href="javascript:;" id="add-tags" class="add-traveltime btn btn-success"><i class="icon-plus icon-white"></i>添加出行时间</a></div>' );
 				$.ajax({
 					url: 'systemmanage/listtraveltime',
 					success: function( result ){
@@ -1074,7 +1074,7 @@ $(function(){
 			
 			if( type == 'group-manage' ){
 				$( '#list-title' ).text( '活动群体管理' );
-				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag"><a href="javascript:;" id="add-tags" class="add-group btn btn-success"><i class="icon-plus icon-white"></i>添加活动群体</a></div>' );
+				$( '#tool-bar' ).html( '<div class="well form-search"><input class="input-medium" name="tag" type="text"><a href="javascript:;" id="add-tags" class="add-group btn btn-success"><i class="icon-plus icon-white"></i>添加活动群体</a></div>' );
 				$.ajax({
 					url: 'systemmanage/grouplist',
 					success: function( result ){

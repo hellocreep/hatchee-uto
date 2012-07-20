@@ -78,7 +78,7 @@
 								<a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><img src="<?php echo $termtour['thumbnail'];?>"></a>
 								<h4><a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>
 								<p>
-									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,50,'utf-8')).'...';?>
+									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,45,'utf-8')).'...';?>
 									<br>
 									<b>旅行地区：</b> <?php echo str_replace(',','、',substr($termtour['destination'],0,-1));?>
 									<br>
@@ -178,7 +178,7 @@
 
 				<div class="homert">
 					<div class="choose">
-						<img src="assets/images/img.jpg">
+						<img src="assets/images/head-top.jpg">
 					</div>
 
 					<div class="idea clearfix">

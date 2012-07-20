@@ -23,7 +23,10 @@
 						$('.carousel').carousel();
 						$( '.slide-num li' ).each(function(e){
 							$(this).mouseover(function(){
-								$('.carousel').carousel(e);
+								setTimeout(function(){
+									$('.carousel').carousel(e);
+								},1000)
+								
 							})
 						})
 					})

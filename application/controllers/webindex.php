@@ -23,7 +23,7 @@ class Webindex extends CI_Controller
 			'4' => 'assets/images/theme/short05.jpg', 
 			'5' => 'assets/images/theme/short06.jpg', 
 			'6' => 'assets/images/theme/long07.jpg', 
-			'7' => 'assets/images/theme/long08.jpg' 
+			'7' => 'assets/images/theme/long08.jpg'
 		);
 		for($i=0;$i<count($data['theme']);$i++)
 		{

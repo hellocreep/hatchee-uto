@@ -106,7 +106,7 @@
 						<h2>公司出游</h2>
 						<ul>
 							<li>
-								<img src="assets/images/company-small.jpg">
+								<img src="assets/images/img.jpg" width="200" height="100">
 							</li>
 							<?php foreach($company as $companytour):?>
 								<li>

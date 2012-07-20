@@ -18,7 +18,7 @@ class Indexdata extends CI_Model
 	function gettheme()//获得小包团线路
 	{
 		$this->db->where('tour_type','1');
-		$this->db->limit('8');
+		$this->db->limit('9');
 		$this->db->order_by('days','desc');
 		$this->db->from('tour');
 		$query=$this->db->get();

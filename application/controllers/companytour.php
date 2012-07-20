@@ -54,7 +54,25 @@ class Companytour extends CI_Controller
 		if($res)
 		{
 			$cusinfo=$this->order->checkcustomize($res);
-			$this->sendmail($inquiry->name,$inquiry->email,$cusinfo['uuid']);
+			$this->load->library('sendmail');
+			$result1=$this->sendmail->send('no-replay@utotrip.com','bm@utotrip.com','来自友途的定制订单',$content,$attachment=null);
+			if($result1)
+			{
+				$result2=$this->sendmail->send('no-replay@utotrip.com',$inquiry->email,$inquiry->name,$cusinfo['uuid'],$attachment=null);//将订单信息发送给客人
+				if($result2)
+				{
+					$result['uuid']=$cusinfo['uuid'];
+					$result['status']=true;
+					$result['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
+				}
+				else
+				{
+					$result['uuid']=$cusinfo['uuid'];
+					$result['status']=false;
+					$result['result']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
+				}
+			}
+			echo json_encode($result);
 		}
 	}
 	public function sendmail($name,$email,$content)

@@ -17,9 +17,9 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>aboutus">关于友途</a> > 精彩回顾
 				</div>
-				<div class="aside">
-					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
-				</div>
+
+				<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
+				
 				<div class="article">
 					<h1>友途旅行精彩回顾</h1>				
 					<p>

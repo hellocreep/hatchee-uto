@@ -17,9 +17,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="aboutus">关于友途</a> > 友途使命
 				</div>
-				<div class="aside">
 					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
-				</div>
 				<div class="article">
 					<h2><img class="miss" src="assets/images/mission01.gif">肩负让游客体验到真正旅行的使命</h2>	
 					<p>选择友途，即选择了换一种方式的旅行，回归到旅行的本质，让您体验到真正的旅行。</p>

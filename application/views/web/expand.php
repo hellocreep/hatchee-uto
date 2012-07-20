@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>游2记 | 友途旅行网</title>
+		<title>拓展活动 | 友途旅行网</title>
 		<meta name="description" content="">
 		<meta name="keywords" content="">
 		<base href="<?php echo base_url();?>"/>
@@ -17,9 +17,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>aboutus">关于友途</a> > <a href="<?php echo base_url();?>aboutus/review">精彩回顾</a> > <?php echo $expand['title'];?>
 				</div>
-				<div class="aside">
-					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
-				</div>
+				<?php $this -> load -> view("web/include/aside-company");?> <!-- 侧边栏chunk -->
 				<div class="article">
 					<h1><?php echo $expand['title'];?></h1>				
 					<p class="note">

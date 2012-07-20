@@ -3,8 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>友途旅行网</title>
-		<meta name="description" content="<?php echo $webinfo[0] -> description;?>">
-		<meta name="keywords" content="<?php echo $webinfo[0] -> keywords;?>">
+		<meta name="description" content="<?php echo $webinfo[0]->description;?>">
+		<meta name="keywords" content="<?php echo $webinfo[0]->keywords;?>">
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<link rel="stylesheet" type="text/css" href="assets/styles/onecol.css">
@@ -12,7 +12,6 @@
 		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 		<?php $this -> load -> view("web/global_source");?>
 		<script type="text/javascript" src="assets/scripts/web/bootstrap-carousel.js"></script>
-		<script type="text/javascript" src="assets/scripts/bootstrap-transition.js"></script>
 	</head>
 	<body id="n-index">
 		<div class="wrapper">
@@ -22,9 +21,9 @@
 				(function(){
 					$(function(){
 						$('.carousel').carousel();
-						$( '.slide-num li' ).each(function( e ){
-							$( this ).mouseover(function(){
-								$( this ).addClass('current').siblings().removeClass('current');
+						$( '.slide-num li' ).each(function(e){
+							$(this).mouseover(function(){
+								$('.slide-num li').eq(e).addClass('active').siblings().removeClass('active');
 								$('.carousel').carousel(e);
 							})
 						})
@@ -38,21 +37,21 @@
 							<div class="active item">
 								<img src="assets/images/banner-big.jpg">
 								<div class="carousel-caption">
-									<h4>test1</h4>
+									<h4>test0</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
 								<img src="assets/images/img.jpg">
 								<div class="carousel-caption">
-									<h4>test2</h4>
+									<h4>test1</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
 								<img src="assets/images/banner-big.jpg">
 								<div class="carousel-caption">
-									<h4> test3</h4>
+									<h4> test2</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
@@ -61,7 +60,7 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> -->
 
 						<ul class="slide-num clearfix">
-							<li class="current">1</li>
+							<li class="active">1</li>
 							<li>2</li>
 							<li>3</li>
 						</ul>
@@ -97,7 +96,7 @@
 						<ul>
 							<?php foreach($theme as $themetour):?>
 								<li>
-								<a href="tourdetail/?tid=<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>" width="167" height="120">
+								<a href="tourdetail/?tid=<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>">
 								<div>
 									<h4><?php echo $themetour['title'];?></h4>
 									<p>
@@ -111,18 +110,7 @@
 						</ul>
 					</div>
 
-					<script type="text/javascript">
-						$('.col-theme li a').each(function(index){
-							$(this).hover(function(){
-								$(this).children('div').stop().animate({"opacity":1 },500);
-							},function(){
-								$(this).children('div').stop().animate({
-									"opacity":0
-								},500);
-							});
-
-						})
-					</script>
+					
 
 					<div class="col col-com">
 						<h2>公司出游</h2>
@@ -226,7 +214,7 @@
 
 					<div class="leader clearfix">
 						<h3>友途领队与小编</h3>
-						<ul class="clearfix">
+						<ul>
 							<li>
 								<img src="assets/images/mudeng.png">
 								<b>曾可（木灯）</b>

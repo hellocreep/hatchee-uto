@@ -73,20 +73,20 @@
 										</span>
 									</span>								
 								</li>
-								<li> <b>报名时间：&nbsp;</b>
+								<li> <b>报名时间：</b>
 									<span  class="m-time">
 										请提前&nbsp; <b>10</b>
 										&nbsp;天报名
 									</span>
 								</li>
 								<li>
-									<b>客服电话：&nbsp;</b>
+									<b>客服电话：</b>
 									<span class="price">
 										<b>4000-520-161</b>
 									</span>
 								</li>
 								<li>
-									<b>客服&nbsp;QQ：&nbsp;</b>
+									<b>客服&nbsp;QQ：</b>
 									<?php $this -> load -> view("web/qqonline");?> <!-- 在线联系QQ -->
 								</li>
 								<li>

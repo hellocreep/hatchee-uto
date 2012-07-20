@@ -41,36 +41,26 @@
 						<?php endif;?>
 							<ul>
 								<li>
-									价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：
+									<b>价&#12288;&#12288;格：</b>
 									<span class="price">一团一议</span>
 								</li>
 								<li>
-									报名时间：&nbsp;<span  class="m-time">请提前&nbsp;<b>10</b>&nbsp;天报名</span>
+									<b>报名时间：</b><span  class="m-time">请提前&nbsp;<b>10</b>&nbsp;天报名</span>
 								</li>
 								<li>
-									客服电话：&nbsp;<span class="price"><b>4000-520-161</b></span>
+									<b>客服电话：</b><span class="price"><b>4000-520-161</b></span>
 								</li>
 								<li>
-									客服&nbsp;QQ：&nbsp;
+									<b>客服&nbsp;QQ：</b>
 									<?php $this -> load -> view("web/qqonline");?> <!-- 在线联系QQ -->
-								</li>
-								<li>
-									行程特点：
 								</li>
 							</ul>
 
-
-							<p class="explain">
-								1、独立包团: 就是几个亲朋好友，按您指定的时间发团，外人不能加入，也不进购物店，无额外消费，自主性很强，特别是一些特殊线路，一般旅行很难发散客团，都要求包团才能出行。
-								<br>
-								2、游客拼团: 由于很多经典线路都仅有小包团，但是游客人数偏少，小包团费用分摊太贵，但是又特别想走，那么可以由您以及我们为您寻找一起结伴的游客，共同出游。
+							<h5>该线路适合公司、企业、学校、单位团队旅行</h5>
+							<p>
+								该行程适合团队出游。景区目的地或者在景区周边，可以找到相应的活动场地进行团队拓展活动。在相应的目的地也可以找到酒店会议场所，适合内训课程和公司会议的开展。将公司的拓展、内训或会议在这些目的地举行，既能达到培训效果又能尽情释放出激情。
 							</p>
 						</div>
-
-						<!-- <?php if(isset($tour[0]->intro)):
-							?>
-							<?php echo $tour[0] -> intro;?>
-						<?php endif;?> -->
 					</div>
 					
 					<ul class="sub-nav clearfix">

@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<?php if(isset($desinfo)&& $desinfo!=''):?>
-		<title><?php echo $desinfo['name'];?>| 友途旅行网</title>
+		<title><?php echo $desinfo['title'];?></title>
 		<meta name="description" content="<?php echo $desinfo['des'];?>">
 		<meta name="keywords" content="<?php echo $desinfo['keywords'];?>">
 		<?php else:?>

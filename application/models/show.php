@@ -97,7 +97,7 @@ class Show extends CI_Model
 	}
 	public function getdecinfo($key)
 	{
-		$this->db->select('des,keywords,name,synopsis');
+		$this->db->select('title,des,keywords,name,synopsis');
 		$this->db->where('name',$key);
 		$this->db->from('destination');
 		$query=$this->db->get();

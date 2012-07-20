@@ -104,13 +104,9 @@
 					<div class="col col-com">
 						<h2>公司出游</h2>
 						<ul>
-<<<<<<< HEAD
-							<li>
-								<img src="assets/images/img.jpg" width="200" height="100">
-=======
+
 							<li class="nobg">
 								<img src="assets/images/company-small.jpg">
->>>>>>> 938e7904fd5709f08d98630005dda365eca914bc
 							</li>
 							<?php foreach($company as $companytour):?>
 								<li>

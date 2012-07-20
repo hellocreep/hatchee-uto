@@ -35,13 +35,13 @@
 					<div class="slide carousel" id="myCarousel">
 						<div class="carousel-inner">					
 							<div class="item">
-								<a href=""><img src="assets/images/banner/gonggashan-banner.jpg"></a>
+								<a href="tourdetail/?tid=30"><img src="assets/images/banner/gonggashan-banner.jpg"></a>
 							</div>
 							<div class="item">
-								<a href=""><img src="assets/images/banner/siguniangshan-banner.jpg"></a>
+								<a href="tourdetail/?tid=29"><img src="assets/images/banner/siguniangshan-banner.jpg"></a>
 							</div>
 							<div class="active item">
-								<a href=""><img src="assets/images/banner/emeishan-banner.jpg"></a>
+								<a href="tourdetail/?tid=33"><img src="assets/images/banner/emeishan-banner.jpg"></a>
 							</div>
 						</div>
 						<!-- <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>

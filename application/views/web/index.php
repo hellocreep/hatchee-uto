@@ -3,8 +3,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<title>友途旅行网</title>
-		<meta name="description" content="<?php echo $webinfo[0] -> description;?>">
-		<meta name="keywords" content="<?php echo $webinfo[0] -> keywords;?>">
+		<meta name="description" content="<?php echo $webinfo[0]->description;?>">
+		<meta name="keywords" content="<?php echo $webinfo[0]->keywords;?>">
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<link rel="stylesheet" type="text/css" href="assets/styles/onecol.css">
@@ -97,7 +97,7 @@
 						<ul>
 							<?php foreach($theme as $themetour):?>
 								<li>
-								<a href="tourdetail/?tid=<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>" width="167" height="120">
+								<a href="tourdetail/?tid=<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>">
 								<div>
 									<h4><?php echo $themetour['title'];?></h4>
 									<p>
@@ -110,19 +110,6 @@
 													
 						</ul>
 					</div>
-
-					<script type="text/javascript">
-						$('.col-theme li a').each(function(index){
-							$(this).hover(function(){
-								$(this).children('div').stop().animate({"opacity":1 },500);
-							},function(){
-								$(this).children('div').stop().animate({
-									"opacity":0
-								},500);
-							});
-
-						})
-					</script>
 
 					<div class="col col-com">
 						<h2>公司出游</h2>

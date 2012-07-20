@@ -683,6 +683,7 @@ a.online img{
 	margin: 0 10px 0 0;
 }
 .col-review li{
+	margin: 10px 0;
 	float: left;
 	width: 100%;
 }

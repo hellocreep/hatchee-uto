@@ -443,14 +443,15 @@ a.online img{
 	min-height: 400px;
 	/*outline: 1px solid red;*/
 	float: left;
-	margin: 20px 0 20px 20px;
+	margin: 20px 0 20px 15px;
 }
 .homert{
-	width: 240px;
+	width: 255px;
 	min-height: 400px;
 	/*outline: 1px solid red;*/
 	float:right;
-	margin: 20px 20px 20px 0;
+	margin: 20px 15px 20px 0;
+	background: #fff;
 }
 .slide img{
 	width: 700px;
@@ -461,7 +462,7 @@ a.online img{
 
 .carousel {
   position: relative;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
   line-height: 1;
 }
 
@@ -636,11 +637,12 @@ a.online img{
 }
 
 .col-com ul{
-	width: 420px;
+	width: 450px;
 	float: left;
+	border-right: 1px dashed #ddd;
 }
 .col-com ul li{
-	width: 200px;
+	width: 215px;
 	float: left;
 	min-height: 100px;
 	margin: 0 10px 0 0;
@@ -683,4 +685,34 @@ a.online img{
 	padding: 4px 10px;
 	text-align: center;
 	vertical-align: middle;
+/*ASIDE*/
+.idea li img{
+	float: left;
+	margin: 5px 5px 0 0;
+}
+.leader li{
+	float: left;
+	clear: both;
+	width: 100%;
+}
+.leader li img{
+	float: left;
+	margin:0 10px 0 0;
+}
+.leader li b{
+	line-height: 50px;
+	float: left;
+}
+.leader li span{
+	line-height: 50px;
+	margin: 0 10px 0 0;
+	float: right;
+}
+.social a{
+	display: block;
+	float: left;
+	width: 80px;
+}
+.social a img{
+	float: left;
 }

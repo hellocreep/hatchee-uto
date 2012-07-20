@@ -31,7 +31,12 @@
 				<?php $this -> load -> view("web/include/aside-theme");?> <!-- 侧边栏chunk -->
 				<div class="article">
 					<div class="pageintro">
-						<p><img src="assets/images/ztlx.gif"></p>
+							<?php if(isset($title)):?>
+								<h1><?php echo $title;?></h1>
+							<?php else:?>
+								<h1>主题旅行</h1>
+							<?php endif;?>
+					
 						<?php if(isset($desinfo) && $desinfo!=''):?>
 							<?php echo $desinfo['synopsis'];?>
 						<?php else:?>

@@ -7,7 +7,6 @@
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=九寨沟" title="">九寨沟</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=青城山" title="">青城山</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=峨眉山" title="">峨眉山</a></dd>
-		<dd><a href="themetour/searchtour?searchtype=destination&&key=乐山" title="">乐山</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=稻城亚丁" title="">稻城亚丁</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=西昌" title="">西昌</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=新都桥" title="">新都桥</a></dd>
@@ -19,7 +18,6 @@
 		<dd><a href="themetour/searchtour?searchtype=theme&&key=美食之旅" title="">美食之旅</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=theme&&key=徒步之旅" title="">徒步之旅</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=theme&&key=心灵之旅" title="">心灵之旅</a></dd>
-		<dd><a href="themetour/searchtour?searchtype=theme&&key=公益之旅" title="">公益之旅</a></dd>
 	</dl>
 	<dl>
 		<dt>节假日出行</dt>

@@ -235,7 +235,6 @@ $(function(){
 		}
 	});
 
-
 	// 公司活动量身定制表单
 	$( '#company_inquiry' ).validate({
 		submitHandler: function(){

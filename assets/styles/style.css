@@ -635,9 +635,13 @@ a.online img{
 	outline: 1px solid #fff;
 }
 .col-theme li div{
+	left: 0;
+	top: 0;
 	position: absolute;
 	/*background: rgb(51,51,45);*/
 	opacity: 0;
+	-moz-opacity: 0;
+	filter:alpha(opacity=0);
 	background: url("../images/gallery-slider-content-bg.png") repeat scroll 0 0 transparent;
 	color: #fff;
 	height: 120px;
@@ -728,9 +732,11 @@ a.online img{
 }
 .leader li{
 	float: left;
-	clear: both;
 	margin: 5px 10px 0;
+	*float: none;
+	*height: 51px;
 }
+
 .leader li img{
 	float: left;
 	margin:0 10px 0 0;
@@ -747,6 +753,7 @@ a.online img{
 
 .social{
 	padding-bottom: 10px; 
+	*height: 70px;
 }
 .social a{
 	display: block;
@@ -759,6 +766,7 @@ a.online img{
 .social a.mt{
 	margin: 0 0 0 10px;
 }
+
 .social a img{
 	float: left;
 	margin: 0 5px 0 0;

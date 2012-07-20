@@ -13,10 +13,12 @@
 		<?php endif;?>
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
-		<?php $this -> load -> view("web/global_source");?>
+		<!--<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>-->
 		<link rel="stylesheet" type="text/css" href="assets/styles/tour.css">
-		<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
-		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
+		<?php $this -> load -> view("web/global_source");?>
+		<script type="text/javascript" src="assets/jquery-ui/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="assets/jquery-ui/jquery.ui.datepicker-zh-CN.js"></script>
+		<link rel="stylesheet" type="text/css" href="assets/jquery-ui/jquery-ui-1.8.21.custom.css">
 	</head>
 	<body id="n-theme">
 		<div class="wrapper">
@@ -25,6 +27,7 @@
 			<div class="content clearfix">
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>themetour">主题旅行</a> > <?php echo $tour[0] -> name;?>
+					<input class="Wdate" type="text" name="tour_time" id="test">
 				</div>
 				<?php $this -> load -> view("web/include/aside-theme");?> <!-- 侧边栏chunk -->
 				<div class="article">

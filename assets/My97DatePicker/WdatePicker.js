@@ -5,12 +5,14 @@
 var $dp,WdatePicker;(function(){var $={
 $langList:[{name:"en",charset:"UTF-8"},{name:"zh-cn",charset:"UTF-8"},{name:"zh-tw",charset:"UTF-8"}],
 $skinList:[
-	{name:"default",charset:"gb2312"},
-	{name:"whyGreen",charset:"gb2312"},
-	{name:"blue",charset:"gb2312"},
-	{name:"green",charset:"gb2312"},
-	{name:"ext",charset:"gb2312"},
-	{name:"blueFresh",charset:"gb2312"}
+{ name: 'default', charset: 'UTF-8' },
+{ name: 'whyGreen', charset: 'UTF-8' },
+{ name: 'blue', charset: 'UTF-8' },
+{ name: 'green', charset: 'UTF-8' },
+{ name: 'simple', charset: 'UTF-8' },
+{ name: 'ext', charset: 'UTF-8' },
+{ name: 'blueFresh', charset: 'UTF-8' },
+{ name: 'YcloudRed', charset: 'UTF-8' }
 ],
 $wdate:true,
 $crossFrame:true,

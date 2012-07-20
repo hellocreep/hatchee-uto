@@ -77,6 +77,11 @@ b.red{
 	font-family: 'Microsoft YaHei','SimSun';
 	font-weight: bold;
 }
+
+.red {
+	color:#DB555C;
+}
+
 table em,
 em.red{
 	color:#DB555C;
@@ -405,6 +410,7 @@ img, div {
 	position: relative;
 	z-index: 3;
 	width:100%;
+	background: #000;
 }
 
 div.separator{

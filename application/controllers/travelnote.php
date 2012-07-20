@@ -69,24 +69,20 @@ class Travelnote extends CI_Controller
 		}
 		else
 		{
-			$img=$match[1][0];
-		}
-		$images='';
-		for($i=0;$i<4;$i++)
-		{
-			$arr=explode('/',$match[1][$i]);
+			$arr=explode('/',$match[1][0]);
 			$config['new_image'] = 'uploads/images/expand/'.$arr[2];
             $config['image_library'] = 'gd2';
-            $config['source_image'] = $match[1][$i];
+            $config['source_image'] = $match[1][0];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
             $config['width'] = 130;
             $config['height'] = 100;
             $this->load->library('image_lib', $config);
             $this->image_lib->resize();
-			$images.=$config['new_image'].",";
-			$this->image_lib->clear();
+			$img=$config['new_image'];
 		}
+		$images='';
+		
 		$travel=array(
 			"tour"=>$data->tour,
 			"type"=>$data->type,
@@ -129,26 +125,20 @@ class Travelnote extends CI_Controller
 		}
 		else
 		{
-			$img=$match[1][0];
-		}
-		$images='';
-		print_r($match[1]);
-		for($i=0;$i<4;$i++)
-		{
-			$arr='';
-			$arr=explode('/',$match[1][$i]);
+			$arr=explode('/',$match[1][0]);
 			$config['new_image'] = 'uploads/images/expand/'.$arr[2];
             $config['image_library'] = 'gd2';
-            $config['source_image'] = 'uploads/images/'.$arr[2];
+            $config['source_image'] = $match[1][0];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
             $config['width'] = 130;
             $config['height'] = 100;
             $this->load->library('image_lib', $config);
             $this->image_lib->resize();
-			$images.=$config['new_image'].",";
-			$this->image_lib->clear();
+			$img=$config['new_image'];
 		}
+		$images='';
+		
 	
 		$travel=array(
 			"tour"=>$data->tour,
@@ -165,7 +155,7 @@ class Travelnote extends CI_Controller
 			"company"=>$data->company,
 			"people"=>$data->people
 		);
-		//echo $this->travel->update($id,$travel);
+		echo $this->travel->update($id,$travel);
 	}
 	public function deltravel()
 	{

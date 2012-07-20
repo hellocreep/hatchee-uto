@@ -67,8 +67,12 @@ class Ordermanage extends CI_Controller
 		$content='<table class="formtab">
 		<tbody>
 		<tr><td>线路名称：</td><td class="r_name">'.$tour['title'].'</td></tr>
-		<tr><td>发团期数：</td><td class="r_term">'.$data->term.'</td></tr>
-		<tr><td>天数：</td><td class="r_day">'.$data->day.'</td></tr>
+		<tr><td>发团期数/出发时间：</td><td class="r_term">'.$data->term.$data->tour_time.'</td></tr>';
+		if($data->car!='')
+		{
+			$content.='<tr><td>所选车型：</td><td>'.$data->car.'</td></tr>';
+		}
+		$content.='<tr><td>天数：</td><td class="r_day">'.$data->day.'</td></tr>
 		<tr><td>参加人数：</td><td>'.$data->people.'</td></tr>
 		</tbody>
 		</table>
@@ -85,20 +89,22 @@ class Ordermanage extends CI_Controller
 		if($res['uuid'])
 		{
 			$this->load->library('sendmail');
-			$result1=$this->sendmail->send('no-replay@utotrip.com','bm@utotrip.com','来自友途的订单',$content,$attachment=null);
-			
-			$result2=$this->sendmail->send('no-replay@utotrip.com',$data->email,$data->name,$res['uuid'],$attachment=null);//将订单信息发送给客人
-			if($result2)
+			$result1=$this->sendmail->send('no-replay@utotrip.com','bm@utotrip.com','来自友途的小包团定制订单',$content,$attachment=null);
+			if($result1)
 			{
-				$data['status']=true;
-				$data['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
+				$result2=$this->sendmail->send('no-replay@utotrip.com',$data->email,$data->name,$res['uuid'],$attachment=null);//将订单信息发送给客人
+				if($result2)
+				{
+					$result['status']=true;
+					$result['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
+				}
+				else
+				{
+					$result['status']=false;
+					$result['result']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
+				}
 			}
-			else
-			{
-				$data['status']=false;
-				$data['result']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
-			}
-			echo json_encode($data['result']);
+			echo json_encode($result);
 		}
 	}
 	public function delorder()

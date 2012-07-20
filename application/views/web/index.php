@@ -23,6 +23,7 @@
 						$('.carousel').carousel();
 						$( '.slide-num li' ).each(function(e){
 							$(this).mouseover(function(){
+								$('.slide-num li').eq(e).addClass('active').siblings().removeClass('active');
 								$('.carousel').carousel(e);
 							})
 						})
@@ -59,7 +60,7 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> -->
 
 						<ul class="slide-num clearfix">
-							<li>1</li>
+							<li class="active">1</li>
 							<li>2</li>
 							<li>3</li>
 						</ul>
@@ -73,13 +74,12 @@
 								友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色，蓝天、白云、雪山、草原、藏民、牦牛、青青的草地，悠悠的民歌，美丽的少女，我们精心策划的趣味活动给让你的旅行更加梦幻，如三五人选一样颜色的马儿，在皑皑的雪山下、在美丽的山谷中、在清澈的溪流边并肩骑马，享受极度的浪漫与惬意。 
 							</dt>
 							<?php foreach($term as $termtour):?>
-								<dd>
+							<dd>
 								<a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><img src="<?php echo $termtour['thumbnail'];?>"></a>
 								<h4><a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>
 								<p>
 									<?php echo mb_substr(str_replace('<br>','',$termtour['intro']),0,40,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $termtour['Id']?>">更多</a>
-								</p>
-								<p>
+									<br>
 									<b>旅行地区：</b> <?php echo str_replace(',','、',substr($termtour['destination'],0,-1));?>
 									<br>
 									<b>全国统一价：</b><?php echo $termtour['price'];?> 元/人
@@ -261,7 +261,7 @@
 
 					<div class="social clearfix">
 						<h3>关注友途， 关注不一样的旅行</h3>
-						<a href="">
+						<a class="mt" href="">
 							<img src="assets/images/renren.png">
 							人人网<br>
 							友途旅行

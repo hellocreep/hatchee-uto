@@ -410,7 +410,6 @@ img, div {
 	position: relative;
 	z-index: 3;
 	width:100%;
-	background: #000;
 }
 
 div.separator{
@@ -658,7 +657,9 @@ a.online img{
 	height: 120px;
 	padding: 5px;
 }
-
+.col-com li.nobg:hover{
+	background: #fff;
+}
 .col-com ul{
 	width: 450px;
 	float: left;
@@ -674,11 +675,11 @@ a.online img{
 	background: #F8EFDA;
 }
 .col-com ul li img{
-	width: 200px;
-	height: 94px;
+	width: 215px;
+	height: 85px;
 }
 .col-com dl{
-	width: 200px;
+	width: 215px;
 	float: right;
 }
 

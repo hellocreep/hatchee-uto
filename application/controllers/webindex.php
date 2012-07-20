@@ -16,14 +16,16 @@ class Webindex extends CI_Controller
 		$data['expand']=$this->indexdata->getexpand();
 		$data['travel']=$this->indexdata->gettravel();
 		$arrimg=array(
-			'0' => 'assets/images/theme/short01.jpg', 
-			'1' => 'assets/images/theme/long02.jpg', 
-			'2' => 'assets/images/theme/short03.jpg', 
-			'3' => 'assets/images/theme/long04.jpg', 
-			'4' => 'assets/images/theme/short05.jpg', 
-			'5' => 'assets/images/theme/short06.jpg', 
-			'6' => 'assets/images/theme/long07.jpg', 
-			'7' => 'assets/images/theme/long08.jpg'
+
+			'0' => 'assets/images/theme/daocheng.jpg', 
+			'1' => 'assets/images/theme/jiuzai.jpg', 
+			'2' => 'assets/images/theme/danba.jpg', 
+			'3' => 'assets/images/theme/emei.jpg', 
+			'4' => 'assets/images/theme/gonggashan.jpg', 
+			'4' => 'assets/images/theme/luguhu.jpg', 
+			'5' => 'assets/images/theme/siguniangshan.jpg', 
+			'6' => 'assets/images/theme/lianhuahu.jpg', 
+			'7' => 'assets/images/theme/qingchengshan.jpg' 
 		);
 		for($i=0;$i<count($data['theme']);$i++)
 		{

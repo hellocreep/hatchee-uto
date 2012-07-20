@@ -8,10 +8,9 @@
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<link rel="stylesheet" type="text/css" href="assets/styles/onecol.css">
-		<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
-		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 		<?php $this -> load -> view("web/global_source");?>
 		<script type="text/javascript" src="assets/scripts/web/bootstrap-carousel.js"></script>
+		<script type="text/javascript" src="assets/scripts/bootstrap-transition.js"></script>
 	</head>
 	<body id="n-index">
 		<div class="wrapper">
@@ -23,7 +22,7 @@
 						$('.carousel').carousel();
 						$( '.slide-num li' ).each(function(e){
 							$(this).mouseover(function(){
-								$('.slide-num li').eq(e).addClass('active').siblings().removeClass('active');
+								$('.slide-num li').eq(e).addClass('current').siblings().removeClass('current');
 								$('.carousel').carousel(e);
 							})
 						})
@@ -34,7 +33,7 @@
 				<div class="homelt">
 					<div class="slide carousel" id="myCarousel">
 						<div class="carousel-inner">					
-							<div class="item">
+							<div class="item active">
 								<a href="tourdetail/?tid=30"><img src="assets/images/banner/gonggashan-banner.jpg"></a>
 							</div>
 							<div class="item">
@@ -48,7 +47,7 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> -->
 
 						<ul class="slide-num clearfix">
-							<li class="active">1</li>
+							<li class="current">1</li>
 							<li>2</li>
 							<li>3</li>
 						</ul>
@@ -105,8 +104,13 @@
 					<div class="col col-com">
 						<h2>公司出游</h2>
 						<ul>
+<<<<<<< HEAD
 							<li>
 								<img src="assets/images/img.jpg" width="200" height="100">
+=======
+							<li class="nobg">
+								<img src="assets/images/company-small.jpg">
+>>>>>>> 938e7904fd5709f08d98630005dda365eca914bc
 							</li>
 							<?php foreach($company as $companytour):?>
 								<li>
@@ -123,6 +127,9 @@
 							<?php foreach($expand as $expandtour):?>
 								<dd><a href="expandtour/expand?id=<?php echo $expandtour['Id'];?>"><?php echo $expandtour['title'];?></a></dd>
 							<?php endforeach;?>
+							<dd>
+								<img src="assets/images/tuozhan-small.jpg">
+							</dd>
 						</dl>
 					</div>
 

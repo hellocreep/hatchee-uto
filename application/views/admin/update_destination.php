@@ -81,7 +81,7 @@
 				var data = {
 					id: $( '#d_id' ).val(),
 					name: $( 'input[name="name"]' ).val(),
-					title: $( 'input[name="title]' ).val(),
+					title: $( 'input[name="title"]' ).val(),
 					des: $( 'input[name="des"]' ).val(),
 					keywords: $( 'input[name="key"]' ).val(),
 					img: img.toString()

@@ -23,10 +23,10 @@
 						$('.carousel').carousel();
 						$( '.slide-num li' ).each(function(e){
 							$(this).mouseover(function(){
+								$( this ).addClass( 'active' ).siblings().removeClass('active');
 								setTimeout(function(){
 									$('.carousel').carousel(e);
-								},1000)
-								
+								},600)
 							})
 						})
 					})
@@ -39,21 +39,21 @@
 							<div class="active item">
 								<img src="assets/images/banner-big.jpg">
 								<div class="carousel-caption">
-									<h4>test0</h4>
+									<h4>test1</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
 								<img src="assets/images/img.jpg">
 								<div class="carousel-caption">
-									<h4>test1</h4>
+									<h4>test2</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
 							<div class="item">
 								<img src="assets/images/banner-big.jpg">
 								<div class="carousel-caption">
-									<h4> test2</h4>
+									<h4> test3</h4>
 									<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 								</div>
 							</div>
@@ -62,7 +62,7 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> -->
 
 						<ul class="slide-num clearfix">
-							<li>1</li>
+							<li class="active">1</li>
 							<li>2</li>
 							<li>3</li>
 						</ul>
@@ -76,13 +76,12 @@
 								友途活动是友途旅行网官方品牌活动，目前以川西体验探索为主，领略那些最熟悉的画面与灿烂无比的景色，蓝天、白云、雪山、草原、藏民、牦牛、青青的草地，悠悠的民歌，美丽的少女，我们精心策划的趣味活动给让你的旅行更加梦幻，如三五人选一样颜色的马儿，在皑皑的雪山下、在美丽的山谷中、在清澈的溪流边并肩骑马，享受极度的浪漫与惬意。 
 							</dt>
 							<?php foreach($term as $termtour):?>
-								<dd>
-								<h4><a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>
+							<dd>
 								<a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><img src="<?php echo $termtour['thumbnail'];?>"></a>
+								<h4><a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>
 								<p>
-									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $termtour['Id']?>">更多</a>
-								</p>
-								<p>
+									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,50,'utf-8')).'...';?>
+									<br>
 									<b>旅行地区：</b> <?php echo str_replace(',','、',substr($termtour['destination'],0,-1));?>
 									<br>
 									<b>全国统一价：</b><?php echo $termtour['price'];?> 元/人
@@ -264,7 +263,7 @@
 
 					<div class="social clearfix">
 						<h3>关注友途， 关注不一样的旅行</h3>
-						<a href="">
+						<a class="mt" href="">
 							<img src="assets/images/renren.png">
 							人人网<br>
 							友途旅行

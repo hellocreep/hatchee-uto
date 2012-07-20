@@ -123,6 +123,9 @@
 							<?php foreach($expand as $expandtour):?>
 								<dd><a href="expandtour/expand?id=<?php echo $expandtour['Id'];?>"><?php echo $expandtour['title'];?></a></dd>
 							<?php endforeach;?>
+							<dd>
+								<img src="assets/images/tuozhan-small.jpg">
+							</dd>
 						</dl>
 					</div>
 

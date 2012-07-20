@@ -16,7 +16,7 @@ window.loadings = {
 		loadings.show( msg );
 		setTimeout(function(){
 			loadings.hide();
-		},2000);
+		},3000);
 	}
 }
 
@@ -26,7 +26,7 @@ $.ajaxSetup({
 	dataType: 'json',
 	cache: false,
 	error: function(){
-		//$( '.window-tip' ).text( '加载失败，请稍后重试' ).show();
+		loadings.autohide('出错啦，请稍候重试');
 		if( $('#list-panel').length > 0 ){
 			$('#list-panel').empty();
 		}
@@ -413,6 +413,10 @@ var tour = {
 				});
 			}
 		});
+	},
+	//TODO
+	search_tour: function(){
+
 	}
 
 }
@@ -625,6 +629,10 @@ var member = {
 				});
 			}
 		});
+	},
+	//TODO
+	search_member: function(){
+
 	}
 }
 
@@ -689,6 +697,10 @@ var order = {
 				});
 			}
 		});
+	},
+	//TODO
+	search_order: function(){
+
 	}
 }
 
@@ -747,6 +759,10 @@ var custom_order = {
 				});
 			}
 		});
+	},
+	//TODO
+	search_order: function(){
+
 	}
 	
 }
@@ -862,7 +878,6 @@ $(function(){
 	}
 
 	//页面
-	//TODO
 	$( '.web-manage' ).each(function( e ){
 		$( this ).hover(function(){
 			var page_link = $( this ).attr( 'rel' );
@@ -881,7 +896,6 @@ $(function(){
 		$.ajax({
 			url: 'usermanage',
 			success: function( result ){
-				//var json = $.evalJSON( result )
 				manager.list_manager( result );
 			}
 		});
@@ -908,7 +922,10 @@ $(function(){
 	$( '#tour-manage' ).click(function( e ){
 		left_menu_post_list( e );
 		$( '#list-title' ).text( '线路管理' );
-		$( '#tool-bar' ).html( '<a href="tourmanage/newtour" class="btn btn-primary" id="add-tour"><i class="icon-plus icon-white"></i>添加线路</a>' );
+		var tool_bar = '<a href="tourmanage/newtour" class="btn btn-primary" id="add-tour"><i class="icon-plus icon-white"></i>添加线路</a> \
+						<div class="span4 offset6"><input class="input-large search-query" type="text" placeholder="线路名称"> \
+						<button class="btn" type="submit" id="search_tour">查找</button></div>';
+		$( '#tool-bar' ).html( tool_bar );
 		$.ajax({
 			url: 'tourmanage',
 			data: {
@@ -956,7 +973,9 @@ $(function(){
 	$( '#order-manage' ).click(function( e ){
 		left_menu_post_list( e );
 		$( '#list-title' ).text( '常规订单管理' );
-		$( '#tool-bar' ).empty();
+		var tool_bar = '<div><input class="input-large search-query" type="text" placeholder="订单号"> \
+						<button class="btn" type="submit" id="search_order">查找</button></div>';
+		$( '#tool-bar' ).html( tool_bar );
 		$.ajax({
 			url: 'ordermanage/orderlist',
 			data: {
@@ -971,7 +990,9 @@ $(function(){
 	$( '#custome-order-manage' ).click(function( e ){
 		left_menu_post_list( e );
 		$( '#list-title' ).text( '定制化旅行订单管理' );
-		$( '#tool-bar' ).empty();
+		var tool_bar = '<div><input class="input-large search-query" type="text" placeholder="订单号"> \
+						<button class="btn" type="submit" id="search_order">查找</button></div>';
+		$( '#tool-bar' ).html( tool_bar );
 		$.ajax({
 			url: 'ordermanage/getcustomize',
 			data: {

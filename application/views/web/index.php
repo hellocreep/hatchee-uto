@@ -34,7 +34,7 @@
 				<div class="homelt">
 					<div class="slide carousel" id="myCarousel">
 						<div class="carousel-inner">					
-							<div class="item">
+							<div class="item active">
 								<a href="tourdetail/?tid=30"><img src="assets/images/banner/gonggashan-banner.jpg"></a>
 							</div>
 							<div class="item">
@@ -105,7 +105,7 @@
 					<div class="col col-com">
 						<h2>公司出游</h2>
 						<ul>
-							<li>
+							<li class="nobg">
 								<img src="assets/images/company-small.jpg">
 							</li>
 							<?php foreach($company as $companytour):?>

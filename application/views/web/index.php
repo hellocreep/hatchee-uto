@@ -70,7 +70,7 @@
 									<br>
 									<b>旅行地区：</b> <?php echo str_replace(',','、',substr($termtour['destination'],0,-1));?>
 									<br>
-									<b>全国统一价：</b><?php echo $termtour['price'];?> 元/人
+									<b>全国统一价：</b><em class="red"><?php echo $termtour['price'];?> </em>元/人
 								</p>
 							</dd>
 							<?php endforeach;?>

@@ -147,9 +147,14 @@
 									<span>小编：<?php echo $note['editor'];?></span>
 									<span> 时间：<?php echo $note['tour_time'];?></span>
 								</p>
-								<img src="<?php echo $note['thumb'];?>">
+								<?php if($note['images']!=''):?>
+									<?php $arr=explode(',',$note['images']);?>
+									<?php foreach($arr as $img):?>
+									<img src="<?php echo $img;?>">
+									<?php endforeach?>
+								<?php endif;?>
 								<p>
-									<?php echo mb_substr($note['content'],0,100,'utf-8').'…';?>
+								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8');?> 
 								</p>
 							</li>
 							<?php endforeach;?>

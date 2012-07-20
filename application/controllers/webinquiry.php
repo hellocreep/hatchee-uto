@@ -24,7 +24,7 @@ class Webinquiry extends CI_Controller
 		$data=array(
 			"user"=>$user[0]->Id,
 			"uuid"=>'TM-'.time(),
-			"tour"=>'0',
+			"tour"=>$info->tid,
 			"tour_time"=>$info->tour_time,
 			"car"=>$info->car,
 			"people"=>$info->people,
@@ -34,9 +34,12 @@ class Webinquiry extends CI_Controller
 			"other"=>$info->other,
 			"special_day"=>$info->special_day
 		);
+		$this->load->model('tour');
+		$tour=$this->tour->gettourname($info->tid);
 		$content='<table class="formtab">
 		<tbody>
-		<tr><td>目的地：</td><td>'.$info->add_des.'</td></tr>
+		<tr><td>线路名：</td><td>'.$tour['title'].'</td></tr>
+		<tr><td>增加目的地：</td><td>'.$info->add_des.'</td></tr>
 		<tr><td>特别纪念：</td><td>'.$info->special_day.'</td></tr>
 		<tr><td>增加天数：</td><td class="r_day">'.$info->add_day.'</td></tr>
 		<tr><td>参加人数：</td><td>'.$info->people.'</td></tr>

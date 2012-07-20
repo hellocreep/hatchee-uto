@@ -27,7 +27,6 @@
 			<div class="content clearfix">
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>themetour">主题旅行</a> > <?php echo $tour[0] -> name;?>
-					<input class="Wdate" type="text" name="tour_time" id="test">
 				</div>
 				<?php $this -> load -> view("web/include/aside-theme");?> <!-- 侧边栏chunk -->
 				<div class="article">

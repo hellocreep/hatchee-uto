@@ -14,7 +14,17 @@
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<?php $this -> load -> view("web/global_source");?>
+		<script type="text/javascript" src="assets/jquery-ui/jquery-ui-1.8.21.custom.min.js"></script>
+		<script type="text/javascript" src="assets/jquery-ui/jquery.ui.datepicker-zh-CN.js"></script>
+		<link rel="stylesheet" type="text/css" href="assets/jquery-ui/jquery-ui-1.8.21.custom.css">
 		<link rel="stylesheet" type="text/css" href="assets/styles/tour.css">
+		<script>
+			(function(){
+			$(function(){
+				$( '.Wdate' ).datepicker();	
+			})
+			})(jQuery)
+		</script>
 	</head>
 	<body id="n-company">
 		<div class="wrapper">
@@ -162,7 +172,7 @@
 								</tr>
 								<tr>
 									<td>出发时间：</td>
-									<td><input type="text" name="tour_time" class="date"></td>
+									<td><input type="text" name="tour_time" class="date Wdate"></td>
 								</tr>
 								<tr>
 									<td>参加人数：</td>

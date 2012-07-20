@@ -74,6 +74,15 @@ $(function(){
 	// }
 
 
+	//首页轮播效果 
+	$('.carousel').carousel();
+		$( '.slide-num li' ).each(function(e){
+			$(this).mouseover(function(){
+				$('.slide-num li').eq(e).addClass('current').siblings().removeClass('current');
+				$('.carousel').carousel(e);
+		})
+	})
+
 	// 首页主题旅行鼠标hover效果
 	$('.col-theme li').delegate('a', "mouseover",function(){
 		$(this).children('div').stop().animate({"opacity":1 },500);
@@ -266,7 +275,7 @@ $(function(){
 			$( 'input[name="train"]:checked' ).each(function(){
 			    tr.push( $(this).val() )
 			});
-			btn_mask( '#custom-submit' );
+			btn_mask( '#company-submit' );
 			var data = {
 				tid: $('#tid').val(),
 				name: $('input[name="name"]').val(),

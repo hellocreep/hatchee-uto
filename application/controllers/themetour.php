@@ -129,14 +129,9 @@ class Themetour extends CI_Controller
 		{
 			$page=1;
 		}
-		if(isset($page) && $page!='')
-		{
-			$start=($page*$per_page)-$per_page;
-		}
-		else
-		{
-			$start=0;
-		}
+		
+		$start=($page*$per_page)-$per_page;
+		
 		if(isset($_GET['action']))
 		{
 			$action=$_GET['action'];

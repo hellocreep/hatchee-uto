@@ -16,7 +16,7 @@
 		<dd><a href="themetour/searchtour?searchtype=theme&&key=休闲度假" title="">休闲度假</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=theme&&key=摄影旅行" title="">摄影旅行</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=theme&&key=美食之旅" title="">美食之旅</a></dd>
-		<dd><a href="themetour/searchtour?searchtype=theme&&key=徒步之旅" title="">徒步之旅</a></dd>
+		<dd><a href="themetour/searchtour?searchtype=theme&&key=徒步旅行" title="">徒步旅行</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=theme&&key=心灵之旅" title="">心灵之旅</a></dd>
 	</dl>
 	<dl>

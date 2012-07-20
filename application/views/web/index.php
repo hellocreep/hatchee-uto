@@ -112,7 +112,7 @@
 								<li>
 								<h4><a href="tourdetail/?tid=<?php echo $companytour['Id']?>"><?php echo $companytour['sub_name'];?></a></h4>
 								<p>
-									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,50,'utf-8')).'......';?>
+									<?php echo str_replace('<br>','',mb_substr($companytour['intro'],0,50,'utf-8')).'......';?>
 								</p>
 							</li>
 							<?php endforeach;?>						

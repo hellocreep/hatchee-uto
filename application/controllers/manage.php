@@ -20,6 +20,7 @@ class Manage extends CI_Controller{
 					$data['power']=$res[0]['level'];
 				        	$_SESSION['username']=$uname;
 				        	$_SESSION['power']=$res[0]['level'];
+				        	$_SESSION['auth']=true;
 				        	$data['name']=$uname;
 				        	$this->load->vars($data);
 					
@@ -52,6 +53,7 @@ class Manage extends CI_Controller{
 	public function loginout()
 	{
 		unset($_SESSION['username']);
+		unset($_SESSION['auth']);
 		self::index();
 	}
 }

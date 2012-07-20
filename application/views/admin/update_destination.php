@@ -81,11 +81,14 @@
 				var data = {
 					id: $( '#d_id' ).val(),
 					name: $( 'input[name="name"]' ).val(),
+					title: $( 'input[name="title]' ).val(),
+					des: $( 'input[name="des"]' ).val(),
+					keywords: $( 'input[name="key"]' ).val(),
 					img: img.toString()
 				}
 				var synopsis = $( '#editor' ).val();
 				
-				if( data.name !=='' ){
+				if( data.name !=='' &&  data.title!=='' ){
 					loadings.show();
 					$( 'body' ).append( '<div class="modal-backdrop fade in"></div>' );
 					$( '#submit-tour' ).addClass( 'disabled' ).text( '正在保存...' );
@@ -110,11 +113,7 @@
 					});
 				}else{
 					$( '.modal-backdrop' ).hide();
-					loadings.show( '请将信息填写完整' );
-					$( '.required-info' ).show();
-					setTimeout(function(){
-						loadings.hide();
-					},2000);
+					loadings.autohide( '请将信息填写完整' );
 				}
 				
 			});
@@ -156,6 +155,42 @@
 						<label class="control-label" for="name">名称：</label>
 						<div class="controls">
 							<input class="input-xlarge" name="name" value="<?php echo $des['name']?>">
+							<p class="help-block row-fluid">
+								<div class="alert alert-error hide span3 required-info">
+									<strong>你一定忘了填写什么重要的信息 ↑</strong>
+								</div>
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="title">Title：</label>
+						<div class="controls">
+							<input class="input-xlarge" name="title" value="<?php echo $des['title']?>">
+							<p class="help-block row-fluid">
+								<div class="alert alert-error hide span3 required-info">
+									<strong>你一定忘了填写什么重要的信息 ↑</strong>
+								</div>
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="des">Description：</label>
+						<div class="controls">
+							<input class="input-xlarge" name="des" value="<?php echo $des['des']?>">
+							<p class="help-block row-fluid">
+								<div class="alert alert-error hide span3 required-info">
+									<strong>你一定忘了填写什么重要的信息 ↑</strong>
+								</div>
+							</p>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<label class="control-label" for="name">Keywords：</label>
+						<div class="controls">
+							<input class="input-xlarge" name="key" value="<?php echo $des['keywords']?>">
 							<p class="help-block row-fluid">
 								<div class="alert alert-error hide span3 required-info">
 									<strong>你一定忘了填写什么重要的信息 ↑</strong>

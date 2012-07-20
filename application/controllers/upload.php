@@ -62,6 +62,8 @@ class Upload extends CI_Controller {
    
 
     public function upload_img() {
+        if( isset($_FILES['userfile']['name']) ){
+
         $name = $_FILES['userfile']['name'];
         $name = strtr($name, 'ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ', 'AAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');
 
@@ -141,8 +143,11 @@ class Upload extends CI_Controller {
             echo json_encode(array($error));
         }
 
-
+    }else{
+        echo true;
+    }
        }
+
 
 
 //Function for the upload : return true/false

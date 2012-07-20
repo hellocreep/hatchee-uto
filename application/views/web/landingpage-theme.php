@@ -2,9 +2,15 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title><?php echo$webinfo[0] -> title;?>| 友途旅行网</title>
+		<?php if(isset($desinfo)&& $desinfo!=''):?>
+		<title><?php echo $desinfo['name'];?>| 友途旅行网</title>
+		<meta name="description" content="<?php echo $desinfo['des'];?>">
+		<meta name="keywords" content="<?php echo $desinfo['keywords'];?>">
+		<?php else:?>
+		<title><?php echo $webinfo[0] -> title;?>| 友途旅行网</title>
 		<meta name="description" content="<?php echo $webinfo[0] -> description;?>">
 		<meta name="keywords" content="<?php echo $webinfo[0] -> keywords;?>">
+		<?php endif;?>
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<link rel="stylesheet" type="text/css" href="assets/styles/landingpage.css">
@@ -26,12 +32,16 @@
 				<div class="article">
 					<div class="pageintro">
 						<p><img src="assets/images/ztlx.gif"></p>
+						<?php if(isset($desinfo) && $desinfo!=''):?>
+							<?php echo $desinfo['synopsis'];?>
+						<?php else:?>
 						<p>
 							友途的系列主题旅行产品，以休闲度假、舌尖美食、徒步探索、身心休养、光影行摄、及公益慈善为出游主题，深度行走成都及绝美四川的各个地方，涵盖多彩魔幻的水世界 - 九寨沟，瑶池仙山的黄龙，天边灵魂自由如风的若尔盖，东方的阿尔卑斯四姑娘山，中国最美高原古村丹巴，落入凡间的水晶宫殿海螺沟，光影天堂的新都桥，以及沉睡的天堂稻城亚丁，等等。
 						</p>
 						<p>
 							还记得吗？友途的宗旨是：一样的地方，但给你不一样的体验，更不用提传统旅游的购物，加点，赶路等。友途想给的是让你回忆一生，且每每想起会感动的旅行。　
 						</p>
+						<?php endif;?>
 					</div>
 					<!-- 当前线路不多，因此暂时隐藏排序功能，勿删 -->
 					<div class="sort">

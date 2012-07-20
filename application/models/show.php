@@ -95,5 +95,13 @@ class Show extends CI_Model
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}
+	public function getdecinfo($key)
+	{
+		$this->db->select('des,keywords,name,synopsis');
+		$this->db->where('name',$key);
+		$this->db->from('destination');
+		$query=$this->db->get();
+		return $query->row_array();
+	}
 }
 ?>

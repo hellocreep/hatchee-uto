@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<?php if(isset($desinfo)&& $desinfo!=''):?>
-		<title><?php echo $desinfo['name'];?>| 友途旅行网</title>
+		<title><?php echo $desinfo['title'];?></title>
 		<meta name="description" content="<?php echo $desinfo['des'];?>">
 		<meta name="keywords" content="<?php echo $desinfo['keywords'];?>">
 		<?php else:?>
@@ -31,10 +31,17 @@
 				<?php $this -> load -> view("web/include/aside-theme");?> <!-- 侧边栏chunk -->
 				<div class="article">
 					<div class="pageintro">
-						<p><img src="assets/images/ztlx.gif"></p>
+
+						<?php if(isset($title)):?>
+							<h1><?php echo $title;?></h1>
+						<?php else:?>
+							<h1>主题旅行</h1>
+						<?php endif;?>
+					
 						<?php if(isset($desinfo) && $desinfo!=''):?>
 							<?php echo $desinfo['synopsis'];?>
 						<?php else:?>
+
 						<p>
 							友途的系列主题旅行产品，以休闲度假、舌尖美食、徒步探索、身心休养、光影行摄、及公益慈善为出游主题，深度行走成都及绝美四川的各个地方，涵盖多彩魔幻的水世界 - 九寨沟，瑶池仙山的黄龙，天边灵魂自由如风的若尔盖，东方的阿尔卑斯四姑娘山，中国最美高原古村丹巴，落入凡间的水晶宫殿海螺沟，光影天堂的新都桥，以及沉睡的天堂稻城亚丁，等等。
 						</p>
@@ -95,7 +102,17 @@
 										<?php else:?>
 										<?php echo "一团一议";?>
 										<?php endif;?>
+
 									</div>
+									<span class="s-wrap discount">
+										<i>早多优惠</i>
+										<span class="inbox">
+			                                &bull;&nbsp;提前<em>20</em>天（含）以上完成签约和付清全款，每位成人优惠<em>50</em>元。<br>
+			                                &bull;&nbsp;<em>5</em>位（含）以上成人预订，每位成人立减<em>50</em>元；<br>
+			                                &bull;&nbsp;行程不做修改，立即付款的，每位成人立减<em>80</em>元；<br>
+			                                &bull;&nbsp;以上促销不能叠加使用。
+										</span>
+									</span>	
 									</dd>
 									<dd class="last">
 										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	

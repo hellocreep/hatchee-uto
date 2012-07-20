@@ -68,9 +68,21 @@ var btn_mask = function( target ){
 
 $(function(){
 
+	// 导航置顶
 	// if( !$( '#a-index').length > 0 ){
 	// 	$( window ).scrollTop( $('.nav').offset().top  );
 	// }
+
+
+	// 首页主题旅行鼠标hover效果
+	$('.col-theme li').delegate('a', "mouseover",function(){
+		$(this).children('div').stop().animate({"opacity":1 },500);
+	})
+
+	$('.col-theme li').delegate('a', "mouseout", function(){
+		$(this).children('div').stop().animate({"opacity":0, },500);
+	})
+
 
 	// 线路内页选项卡切换
 	$('.sub-nav > li').each(function(index){
@@ -102,11 +114,12 @@ $(function(){
 	// 友途活动内页参加人数选择
 	$('#peo .people').click(function() {
 		if($("#peo .people:selected").val() == "more"){
-		    $('#peo').replaceWith('<input type="text" class="people">')
+		    $('#peo').replaceWith('<input type="text" class="people">');
+		    $('input.people').focus();
 		}
 	});
 
-	//订单
+	//弹出框订单
 	$( '#inquiry' ).fancybox({
 		content: inquiry_form,
 		onComplete: function(){
@@ -366,7 +379,9 @@ $(function(){
 	$('.s-wrap').each(function(){
 		$(this).hover(function(){
 			$(this).children('.inbox').show();
-		},function(){$(this).children('.inbox').hide()})
+		},function(){
+			$(this).children('.inbox').hide();
+		})
 	})
 
 	//联系我们

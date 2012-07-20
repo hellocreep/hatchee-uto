@@ -17,9 +17,7 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>aboutus">关于友途</a> > <a href="<?php echo base_url();?>aboutus/review">精彩回顾</a> > <?php echo $note['title'];?>
 				</div>
-				<div class="aside">
 					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
-				</div>
 				<div class="article">
 					<h1>【<?php echo $note['type'];?>】<?php echo $note['title'];?></h1>				
 					<p class="note">

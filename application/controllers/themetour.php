@@ -129,14 +129,9 @@ class Themetour extends CI_Controller
 		{
 			$page=1;
 		}
-		if(isset($page) && $page!='')
-		{
-			$start=($page*$per_page)-$per_page;
-		}
-		else
-		{
-			$start=0;
-		}
+		
+		$start=($page*$per_page)-$per_page;
+		
 		if(isset($_GET['action']))
 		{
 			$action=$_GET['action'];
@@ -227,11 +222,16 @@ class Themetour extends CI_Controller
 			$data['sortday']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=days&&sort='.$sort;
 			$data['sortprice']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=price&&sort='.$sort;
 		}
+		$data['title']=$key.'|主题旅行';
 		if($type=='destination')
 		{
 			$data['desinfo']=$this->show->getdecinfo($key);
+			$data['title']=$key;
 		}
-		
+		else if($type=='holidays')
+		{
+			$data['title']=$key;
+		}
 		$data['count']=$count;
 		$data['pagenow']=$page;
 		$data['tour']=$this->show->tourtypelist($field,$key,$start,$per_page,$action,$sort);

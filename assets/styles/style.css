@@ -424,7 +424,8 @@ div.separator{
 table.formtab{
 	width: 95%;
 }
-.formtab td{
+table.formtab td{
+	border: none;
 	padding:3px 0;
 	line-height: 20px;
 	text-align: left;	
@@ -596,10 +597,10 @@ a.online img{
 
 .homelt .col{
 	background: #fff;	
-	padding: 15px;
+	padding: 10px;
 	float: left;
-	margin: 10px 0;
-	width: 668px;
+	margin:0 0 10px 0;
+	width: 678px;
 	border: 1px solid #DDDDCF;
 	border-radius: 5px 5px 5px 5px;
 	box-shadow: 0 1px #C9C8BA;
@@ -625,11 +626,15 @@ a.online img{
 
 .col-tour dd{
 	margin: 8px 0 0;
+	padding: 10px 0 5px;
 }
 .col-tour dd:hover{
 	background: #F8EFDA;
 }
-
+.col-theme ul{
+	float: left;
+	overflow: hidden;
+}
 .col-theme li{
 	float: left;
 	position: relative;
@@ -665,6 +670,9 @@ a.online img{
 	min-height: 100px;
 	margin: 0 10px 0 0;
 }
+.col-com li:hover{
+	background: #F8EFDA;
+}
 .col-com ul li img{
 	width: 200px;
 	height: 94px;
@@ -675,10 +683,16 @@ a.online img{
 }
 
 .col-review img{
+	width: 160px;
+	height: 120px;
 	float: left;
 	margin: 0 10px 0 0;
 }
-
+.col-review li{
+	margin: 10px 0;
+	float: left;
+	width: 100%;
+}
 .auth-top-tool {
 	position: fixed;
 	right: 130px;
@@ -731,7 +745,7 @@ a.online img{
 }
 .idea li img{
 	float: left;
-	margin: 5px 5px 0 0;
+	margin: 0 5px 0 0;
 }
 .leader{
 	padding-bottom: 10px;
@@ -739,20 +753,24 @@ a.online img{
 .leader li{
 	float: left;
 	margin: 5px 10px 0;
+	width: 240px;
 	*float: none;
 	*height: 51px;
 }
-
+.leader li a{
+	float: right;
+	margin: 0 10px 0 0;
+}
 .leader li img{
 	float: left;
 	margin:0 10px 0 0;
 }
 .leader li b{
-	line-height: 50px;
+	line-height: 40px;
 	float: left;
 }
 .leader li span{
-	line-height: 50px;
+	line-height: 40px;
 	margin: 0 10px 0 0;
 	float: right;
 }

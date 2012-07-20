@@ -71,7 +71,21 @@ class Travelnote extends CI_Controller
 		{
 			$img=$match[1][0];
 		}
-		
+		$images='';
+		for($i=0;$i<4;$i++)
+		{
+			$arr=explode('/',$match[1][$i]);
+			$config['new_image'] = 'uploads/images/expand'.$arr[2];
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $match[1][$i];
+            $config['create_thumb'] = FALSE;
+            $config['maintain_ratio'] = TRUE;
+            $config['width'] = 130;
+            $config['height'] = 100;
+            $this->load->library('image_lib', $config);
+            $this->image_lib->resize();
+			$images.=$config['new_image'].",";
+		}
 		$travel=array(
 			"tour"=>$data->tour,
 			"type"=>$data->type,
@@ -83,6 +97,7 @@ class Travelnote extends CI_Controller
 			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
 			"thumb"=>$img,
+			'images'=>$images,
 			"company"=>$data->company,
 			"people"=>$data->people
 		);	
@@ -115,6 +130,22 @@ class Travelnote extends CI_Controller
 		{
 			$img=$match[1][0];
 		}
+		$images='';
+		for($i=0;$i<4;$i++)
+		{
+			$arr=explode('/',$match[1][$i]);
+			$config['new_image'] = 'uploads/images/expand'.$arr[2];
+            $config['image_library'] = 'gd2';
+            $config['source_image'] = $match[1][$i];
+            $config['create_thumb'] = FALSE;
+            $config['maintain_ratio'] = TRUE;
+            $config['width'] = 130;
+            $config['height'] = 100;
+            $this->load->library('image_lib', $config);
+            $this->image_lib->resize();
+			$images.=$config['new_image'].",";
+		}
+
 		$travel=array(
 			"tour"=>$data->tour,
 			"type"=>$data->type,
@@ -126,6 +157,7 @@ class Travelnote extends CI_Controller
 			"tour_time"=>$data->tour_time,
 			"edit_time"=>date('Y-m-d H:i:s',time()),
 			"thumb"=>$img,
+			'images'=>$images,
 			"company"=>$data->company,
 			"people"=>$data->people
 		);

@@ -105,13 +105,13 @@
 						<h2>公司出游</h2>
 						<ul>
 							<li>
-								<img src="assets/images/img.jpg" width="200" height="100">
+								<img src="assets/images/company-small.jpg">
 							</li>
 							<?php foreach($company as $companytour):?>
 								<li>
 								<h4><a href="tourdetail/?tid=<?php echo $companytour['Id']?>"><?php echo $companytour['sub_name'];?></a></h4>
 								<p>
-									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,50,'utf-8')).'......';?>
+									<?php echo str_replace('<br>','',mb_substr($companytour['intro'],0,50,'utf-8')).'......';?>
 								</p>
 							</li>
 							<?php endforeach;?>						
@@ -122,6 +122,9 @@
 							<?php foreach($expand as $expandtour):?>
 								<dd><a href="expandtour/expand?id=<?php echo $expandtour['Id'];?>"><?php echo $expandtour['title'];?></a></dd>
 							<?php endforeach;?>
+							<dd>
+								<img src="assets/images/tuozhan-small.jpg">
+							</dd>
 						</dl>
 					</div>
 
@@ -135,14 +138,11 @@
 									<span>小编：<?php echo $note['editor'];?></span>
 									<span> 时间：<?php echo $note['tour_time'];?></span>
 								</p>
-								<!--<?php if($note['images']!=''):?>
-									<?php $arr=explode(',',$note['images']);?>
-									<?php foreach($arr as $img):?>-->
+								
 									<img src="<?php echo $note['thumb'];?>">
-									<!--<?php endforeach?>
-								<?php endif;?>-->
+
 								<p>
-								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8');?> 
+								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8').'......';?> 
 								</p>
 							</li>
 							<?php endforeach;?>

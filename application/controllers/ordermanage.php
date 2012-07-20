@@ -67,7 +67,7 @@ class Ordermanage extends CI_Controller
 		$content='<table class="formtab">
 		<tbody>
 		<tr><td>线路名称：</td><td class="r_name">'.$tour['title'].'</td></tr>
-		<tr><td>发团期数：</td><td class="r_term">'.$data->tour_time.'</td></tr>
+		<tr><td>发团期数：</td><td class="r_term">'.$data->term.'</td></tr>
 		<tr><td>天数：</td><td class="r_day">'.$data->day.'</td></tr>
 		<tr><td>参加人数：</td><td>'.$data->people.'</td></tr>
 		</tbody>
@@ -84,8 +84,21 @@ class Ordermanage extends CI_Controller
 		</table>';
 		if($res['uuid'])
 		{
-			//$this->sendmailtosystem($content);
-			$this->sendmailtocustomer($data->name,$data->email,$res['uuid']);//将订单信息发送给客人
+			$this->load->library('sendmail');
+			$result1=$this->sendmail->send('no-replay@utotrip.com','bm@utotrip.com','来自友途的订单',$content,$attachment=null);
+			
+			$result2=$this->sendmail->send('no-replay@utotrip.com',$data->email,$data->name,$res['uuid'],$attachment=null);//将订单信息发送给客人
+			if($result2)
+			{
+				$data['status']=true;
+				$data['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
+			}
+			else
+			{
+				$data['status']=false;
+				$data['result']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
+			}
+			echo json_encode($data['result']);
 		}
 	}
 	public function delorder()
@@ -185,51 +198,7 @@ class Ordermanage extends CI_Controller
 	{
 		echo $this->order->checkorder($condition);
 	}
-	public function sendmailtosystem($content)
-	{
-		$config['protocol']='smtp';
-		$config['smtp_host']='smtp.exmail.qq.com';
-		$config['smtp_user']='no-replay@utotrip.com';
-		$config['smtp_pass']='uto51766';
-		$config['charset']='utf-8';
-		$config['wordwarp']='TRUE';
-		$config['mailtype']='html';
-		$this->load->library('email');
-		$this->email->initialize($config);
-		$this->email->from('no-replay@utotrip.com');
-		$this->email->to('bm@utotrip.com');
-		$this->email->subject('友途订单邮件');
-		$this->email->message($content);
-		$this->email->send();
-		
-	}
-	public function sendmailtocustomer($name,$email,$content)
-	{
-		$config['protocol']='smtp';
-		$config['smtp_host']='smtp.exmail.qq.com';
-		$config['smtp_user']='no-replay@utotrip.com';
-		$config['smtp_pass']='uto51766';
-		$config['charset']='utf-8';
-		$config['wordwarp']='TRUE';
-		$config['mailtype']='html';
-		$this->load->library('email');
-		$this->email->initialize($config);
-		$this->email->from('no-replay@utotrip.com');
-		$this->email->to($email);
-		$this->email->subject('你好'.$name);
-		$this->email->message('您的订单号：'.$content);
-		if(!$this->email->send())
-		{
-			$data['status']=false;
-			$data['result']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
-		}
-		else
-		{
-			$data['status']=true;
-			$data['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
-		}
-		echo json_encode($data['result']);
-	} 
+	
 	public function getcustomize()
 	{
 		

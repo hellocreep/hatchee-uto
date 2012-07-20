@@ -4,9 +4,10 @@
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=四姑娘山" title="">四姑娘山</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=贡嘎" title="">贡嘎</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=丹巴" title="">丹巴</a></dd>
-		<dd><a href="themetour/searchtour?searchtype=destination&&key=九寨" title="">九寨</a></dd>
+		<dd><a href="themetour/searchtour?searchtype=destination&&key=九寨沟" title="">九寨沟</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=青城山" title="">青城山</a></dd>
-		<dd><a href="themetour/searchtour?searchtype=destination&&key=峨眉乐山" title="">峨眉乐山</a></dd>
+		<dd><a href="themetour/searchtour?searchtype=destination&&key=峨眉山" title="">峨眉山</a></dd>
+		<dd><a href="themetour/searchtour?searchtype=destination&&key=乐山" title="">乐山</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=稻城亚丁" title="">稻城亚丁</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=西昌" title="">西昌</a></dd>
 		<dd><a href="themetour/searchtour?searchtype=destination&&key=新都桥" title="">新都桥</a></dd>

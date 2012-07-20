@@ -91,9 +91,17 @@ class Show extends CI_Model
 		{
 			$orderby='';
 		}
-		$sql="select * from tour where ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from tour where tour_type !='2' and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
+	}
+	public function getdecinfo($key)
+	{
+		$this->db->select('des,keywords,name,synopsis');
+		$this->db->where('name',$key);
+		$this->db->from('destination');
+		$query=$this->db->get();
+		return $query->row_array();
 	}
 }
 ?>

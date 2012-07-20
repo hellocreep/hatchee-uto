@@ -227,6 +227,11 @@ class Themetour extends CI_Controller
 			$data['sortday']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=days&&sort='.$sort;
 			$data['sortprice']='themetour/searchtour?searchtype='.$type.'&&key='.$key.'&&page=1&&action=price&&sort='.$sort;
 		}
+		if($type=='destination')
+		{
+			$data['desinfo']=$this->show->getdecinfo($key);
+		}
+		
 		$data['count']=$count;
 		$data['pagenow']=$page;
 		$data['tour']=$this->show->tourtypelist($field,$key,$start,$per_page,$action,$sort);

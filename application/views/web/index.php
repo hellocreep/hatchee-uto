@@ -80,7 +80,7 @@
 								<a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><img src="<?php echo $termtour['thumbnail'];?>"></a>
 								<h4><a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>
 								<p>
-									<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,50,'utf-8')).'...';?>
+									<?php echo mb_substr(str_replace('<br>','',$termtour['intro']),0,40,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $termtour['Id']?>">更多</a>
 									<br>
 									<b>旅行地区：</b> <?php echo str_replace(',','、',substr($termtour['destination'],0,-1));?>
 									<br>
@@ -100,9 +100,9 @@
 								<li>
 								<a href="tourdetail/?tid=<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>" width="167" height="120">
 								<div>
-									<h4><?php echo $termtour['title'];?></h4>
+									<h4><?php echo $themetour['title'];?></h4>
 									<p>
-										<?php echo str_replace('<br>','',mb_substr($termtour['intro'],0,40,'utf-8')).'......';?>
+										<?php echo mb_substr(str_replace('<br>','',$themetour['intro']),0,40,'utf-8').'......';?>
 									</p>
 								</div>
 								</a>
@@ -180,7 +180,7 @@
 
 				<div class="homert">
 					<div class="choose">
-						<img src="assets/images/img.jpg">
+						<img src="assets/images/head-top.jpg">
 					</div>
 
 					<div class="idea clearfix">

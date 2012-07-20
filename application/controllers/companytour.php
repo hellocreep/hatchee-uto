@@ -48,6 +48,23 @@ class Companytour extends CI_Controller
 			"create_date"=>date('Y-m-d H:i:s',time()),
 			"inquiry_type"=>'1'//订单类型 默认0  小包团  1 公司出游
 		);
+		$content='<table><tr><td>公司名称：</td><td>'.$inquiry->company.'</td></tr>
+		<tr><td>公司拓展活动：</td><td>'.$inquiry->expand.'</td></tr>
+		<tr><td>企业内训课程：</td><td>'.$inquiry->train.'</td></tr>
+		<tr><td>这趟出游要达到的目的：</td><td>'.$inquiry->aim.'</td></tr>
+		<tr><td>参加人数：</td><td>'.$inquiry->people.'</td></tr>
+		<tr><td>出发时间：</td><td>'.$inquiry->tour_time.'</td></tr>
+		</tbody>
+		</table>
+		<table class="formtab">
+		<tbody>
+		<tr><td>姓名：</td><td>'.$inquiry->name.'</td></tr>
+		<tr><td>手机：</td><td>'.$inquiry->tel.'</td></tr>
+		<tr><td>邮箱：</td><td>'.$inquiry->email.'</td></tr>
+		<tr><td>QQ：</td><td>'.$inquiry->qq.'</td></tr>
+		<tr><td>其他需求：</td><td>'.$inquiry->other.'</td></tr>
+		</tbody>
+		</table>';
 		$this->load->model('order');
 		$res=$this->order->tailormade($info);
 		$cusinfo=$this->order->checkcustomize($res);
@@ -55,7 +72,7 @@ class Companytour extends CI_Controller
 		{
 			$cusinfo=$this->order->checkcustomize($res);
 			$this->load->library('sendmail');
-			$result1=$this->sendmail->send('no-replay@utotrip.com','bm@utotrip.com','来自友途的定制订单',$content,$attachment=null);
+			$result1=$this->sendmail->send('no-replay@utotrip.com','bm@utotrip.com','来自友途的公司出游定制订单',$content,$attachment=null);
 			if($result1)
 			{
 				$result2=$this->sendmail->send('no-replay@utotrip.com',$inquiry->email,$inquiry->name,$cusinfo['uuid'],$attachment=null);//将订单信息发送给客人
@@ -75,32 +92,6 @@ class Companytour extends CI_Controller
 			echo json_encode($result);
 		}
 	}
-	public function sendmail($name,$email,$content)
-	{
-		$config['protocol']='smtp';
-		$config['smtp_host']='smtp.163.com';
-		$config['smtp_user']='remaintears@163.com';
-		$config['smtp_pass']='cz19871127';
-		$config['charset']='utf-8';
-		$config['wordwarp']='TRUE';
-		$config['mailtype']='html';
-		$this->load->library('email');
-		$this->email->initialize($config);
-		$this->email->from('remaintears@163.com');
-		$this->email->to($email);
-		$this->email->subject('您好：'.$name);
-		$this->email->message($content);
-		if(!$this->email->send())
-		{
-			$data['status']=false;
-			$data['result']="<font color='red'>邮件发送失败，可能是由系统邮箱或密码不匹配造成！</font>";
-		}
-		else
-		{
-			$data['status']=true;
-			$data['result']="<font color='red'>我们已将您的订单信息发送到您的邮箱，请注意查收！</font>";
-		}
-		echo json_encode($data['result']);
-	}	
+
 }
 ?>

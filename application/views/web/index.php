@@ -8,10 +8,9 @@
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
 		<link rel="stylesheet" type="text/css" href="assets/styles/onecol.css">
-		<script type="text/javascript" src="assets/My97DatePicker/WdatePicker.js"></script>
-		<script type="text/javascript" src="assets/My97DatePicker/calendar.js"></script>
 		<?php $this -> load -> view("web/global_source");?>
 		<script type="text/javascript" src="assets/scripts/web/bootstrap-carousel.js"></script>
+		<script type="text/javascript" src="assets/scripts/bootstrap-transition.js"></script>
 	</head>
 	<body id="n-index">
 		<div class="wrapper">
@@ -23,7 +22,7 @@
 						$('.carousel').carousel();
 						$( '.slide-num li' ).each(function(e){
 							$(this).mouseover(function(){
-								$('.slide-num li').eq(e).addClass('active').siblings().removeClass('active');
+								$('.slide-num li').eq(e).addClass('current').siblings().removeClass('current');
 								$('.carousel').carousel(e);
 							})
 						})
@@ -48,7 +47,7 @@
 						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a> -->
 
 						<ul class="slide-num clearfix">
-							<li class="active">1</li>
+							<li class="current">1</li>
 							<li>2</li>
 							<li>3</li>
 						</ul>

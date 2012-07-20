@@ -266,7 +266,7 @@ $(function(){
 			$( 'input[name="train"]:checked' ).each(function(){
 			    tr.push( $(this).val() )
 			});
-			btn_mask( '#custom-submit' );
+			btn_mask( '#company-submit' );
 			var data = {
 				tid: $('#tid').val(),
 				name: $('input[name="name"]').val(),

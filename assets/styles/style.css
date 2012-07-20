@@ -583,7 +583,7 @@ a.online img{
 	border-radius: 3px;
 	margin: 0 5px;
 }
-.slide-num li.active{
+.slide-num li.current{
 	background: #df5031;
 }
 

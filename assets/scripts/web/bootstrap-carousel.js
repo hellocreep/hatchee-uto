@@ -21,14 +21,6 @@
 !function ($) {
 
   "use strict"; // jshint ;_;
-var ua = navigator.userAgent;
-if( ua.indexOf( 'Gecko' )==-1 && ua.indexOf( 'WebKit' )==-1 && ua.indexOf( 'MSIE 9.0' )==-1 ){
-    
-}else{
-      $.support.transition = {
-      end: "transitionend"
-    }
-}
 
  /* CAROUSEL CLASS DEFINITION
   * ========================= */
@@ -113,6 +105,14 @@ if( ua.indexOf( 'Gecko' )==-1 && ua.indexOf( 'WebKit' )==-1 && ua.indexOf( 'MSIE
         $next.addClass(type)
         $next[0].offsetWidth // force reflow
         $active.addClass(direction)
+     
+        var f = $next.parent().find('.active');
+        var s = $('.item').index(f)+1;
+        if( s >($('.item').length) -1 ){
+          s=0
+        }
+        $( '.slide-num li' ).eq(s).addClass('current').siblings().removeClass('current');
+
         $next.addClass(direction)
         this.$element.one($.support.transition.end, function () {
           $next.removeClass([type, direction].join(' ')).addClass('active')
@@ -125,6 +125,14 @@ if( ua.indexOf( 'Gecko' )==-1 && ua.indexOf( 'WebKit' )==-1 && ua.indexOf( 'MSIE
         if (e.isDefaultPrevented()) return
         $active.removeClass('active')
         $next.addClass('active')
+
+       var f = $next.parent().find('.active');
+        var s = $('.item').index(f);
+        if( s >($('.item').length)){
+          s=0
+        }
+        $( '.slide-num li' ).eq(s).addClass('current').siblings().removeClass('current');
+
         this.sliding = false
         this.$element.trigger('slid')
       }

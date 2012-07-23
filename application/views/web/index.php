@@ -15,20 +15,6 @@
 	<body id="n-index">
 		<div class="wrapper">
 			<?php $this->load->view('web/header'); ?>
-				
-			<script type="text/javascript">
-				(function(){
-					$(function(){
-						$('.carousel').carousel();
-						$( '.slide-num li' ).each(function(e){
-							$(this).mouseover(function(){
-								$('.slide-num li').eq(e).addClass('current').siblings().removeClass('current');
-								$('.carousel').carousel(e);
-							})
-						})
-					})
-				})(jQuery)
-			</script>
 			<div class="content clearfix">
 				<div class="homelt">
 					<div class="slide carousel" id="myCarousel">
@@ -39,7 +25,7 @@
 							<div class="item">
 								<a href="tourdetail/?tid=29"><img src="assets/images/banner/siguniangshan-banner.jpg"></a>
 							</div>
-							<div class="active item">
+							<div class="item">
 								<a href="tourdetail/?tid=33"><img src="assets/images/banner/emeishan-banner.jpg"></a>
 							</div>
 						</div>

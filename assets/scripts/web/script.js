@@ -75,13 +75,16 @@ $(function(){
 
 
 	//首页轮播效果 
-	$('.carousel').carousel();
+	try{
+		$('.carousel').carousel();
 		$( '.slide-num li' ).each(function(e){
 			$(this).mouseover(function(){
 				$('.slide-num li').eq(e).addClass('current').siblings().removeClass('current');
 				$('.carousel').carousel(e);
 		})
 	})
+	}catch(e){}
+	
 
 	// 首页主题旅行鼠标hover效果
 	$('.col-theme li').delegate('a', "mouseover",function(){

@@ -92,7 +92,7 @@ $(function(){
 	})
 
 	$('.col-theme li').delegate('a', "mouseout", function(){
-		$(this).children('div').stop().animate({"opacity":0, },500);
+		$(this).children('div').stop().animate({"opacity":0 },500);
 	})
 
 

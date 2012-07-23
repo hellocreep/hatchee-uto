@@ -17,7 +17,9 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>aboutus">关于友途</a> > 联系我们
 				</div>
+				<div class="aside">
 					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
+				</div>
 				<div class="article contact-con">
 					<h1>联系我们</h1>					
 					<p>
@@ -41,6 +43,7 @@
 							<dd><a href="mailto:bm@utotrip.com"><span>bm@utotrip.com</span></a></dd>
 						</dl>	
 					</div>
+					<p><b>友途旅行网：</b>成都雅竹国际旅行社有限公司官方预定网站</p>
 					<p><b>友途地址：</b> 成都市武侯区武阳大道1段288号中央花园城市别墅1栋23号</p>
 					<div class="separator"></div>
 					<h2>在线咨询</h2>

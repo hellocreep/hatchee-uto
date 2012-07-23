@@ -2,11 +2,12 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>友途旅行网</title>
+		<title><?php echo $webinfo[0]->title;?></title>
 		<meta name="description" content="<?php echo $webinfo[0]->description;?>">
 		<meta name="keywords" content="<?php echo $webinfo[0]->keywords;?>">
 		<base href="<?php echo base_url();?>"/>
 		<base src="<?php echo base_url();?>"/>
+		<link rel="shortcut icon" href="favicon.ico">
 		<link rel="stylesheet" type="text/css" href="assets/styles/onecol.css">
 		<?php $this -> load -> view("web/global_source");?>
 		<script type="text/javascript" src="assets/scripts/web/bootstrap-carousel.js"></script>
@@ -44,7 +45,7 @@
 						<h2>友途活动</h2>
 						<dl>
 							<dt>
-								友途活动是友途旅行网官方品牌活动 - 独家、趣味、探索、自由。目前以前往“大美川西”贡嘎山和四姑娘为主，固定排期，承诺一人发团，成都集结，全国同一家，无购物，加点，一路随时停车，回归最简单，最快乐的旅行。
+								友途活动是友途旅行网官方品牌活动 - 独家、趣味、探索、自由。目前以前往“大美川西”贡嘎山和四姑娘为主，固定排期，承诺一人发团，成都集结，全国统一价，无购物，加点，一路随时停车，回归最简单，最快乐的旅行。
 							</dt>
 							<?php foreach($term as $termtour):?>
 							<dd>
@@ -64,9 +65,7 @@
 					<div class="col col-theme">
 						<h2>主题旅行</h2>
 						<p>
-							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。
-							<br>
-							多个炫彩主题，数条顶级行程，让您玩转四川。　
+							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。多个炫彩主题，数条顶级行程，让您玩转四川。　
 						</p>
 						<ul>
 							<?php foreach($theme as $themetour):?>
@@ -219,7 +218,7 @@
 							</li>
 							<li>
 								<img src="assets/images/xiaoyuan.png">
-								<b>袁辰凯（圆小胖）</b>
+								<b>袁辰恺（圆小胖）</b>
 								<span>友途小编</span>
 							</li>
 							<li>

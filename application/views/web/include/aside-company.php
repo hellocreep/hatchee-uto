@@ -7,26 +7,47 @@
 		<img class="arrow-bt" src="assets/images/arrow_bt.gif">
 	</div>
 
-	<ul class="other">
-		<li>
-			<h4>团队拓展</h4>
-			<img src="assets/images/tuozhan.jpg">
-		</li>
-		<li>
-			<h4>金牌内训</h4>
-			<img src="assets/images/neixun.jpg">
-		</li>
-		<li>
-			<h4>会议服务</h4>
-			<img src="assets/images/huiyi.jpg">
-		</li>
+	<div class="clearfix show">
 
-		<li>
-			<h4>考察旅游</h4>
-			<img src="assets/images/kaocha.jpg">
+		<ul class="other">
+			<li>
+				<img src="assets/images/aside/tzhd.jpg">
+				<span>
+					1.舞林大会<br>
+					2.这是我的船<br>
+					3.寻找魔兽<br>
+					4.CS野战<br>
+					5.趣味运动会
+				</span>
+			</li>
+			<li>
+				<img src="assets/images/aside/jpnx.jpg">
+				<span>
+					让顾客回头<br>
+					绝对执行力<br>
+					卓越团队共同理念<br>
+					同理心
+				</span>
+			</li>
+			<li>
+				<img src="assets/images/aside/hyfw.jpg">
+				<span>
+					会议考察、会议礼品<br>
+					礼仪服务、会议秘书<br>
+					会议策划、餐饮服务
+				</span>
 
-		</li>
-	</ul>
+			</li>
+			<li>
+				<img src="assets/images/aside/kcly.jpg">
+				<span>
+					公司考察、农场考察<br>
+					庄园考察、果园考察
+				</span>
+			</li>
+
+		</ul>
+	</div>
 
 		
 </div>

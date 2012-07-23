@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://utotrip.com/';
-//$config['base_url']	= 'http://127.0.0.1/';
+// $config['base_url']	= 'http://utotrip.com/';
+$config['base_url']	= 'http://127.0.0.1/uto';
 
 /*
 |--------------------------------------------------------------------------

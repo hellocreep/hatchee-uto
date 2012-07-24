@@ -43,7 +43,7 @@ class Indexdata extends CI_Model
 	}
 	function gettravel()//获得游记
 	{
-		$this->db->limit('3');
+		$this->db->limit('5');
 		$this->db->order_by('Id','desc');
 		$this->db->from('travel_note');
 		$query=$this->db->get();

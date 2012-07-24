@@ -106,7 +106,6 @@
 							<textarea name="note" class="input-xlarge" rows="10" id="note_editor" style="height: 530px; width: 100%; margin-left: 0"></textarea>
 						</div>
 					</div>
-
 					<div class="control-group">
 						<label class="control-label" for="tour_time">活动的起止时间：</label>
 						<div class="controls">
@@ -120,6 +119,7 @@
 							<input name="editor" class="input-xlarge" type="text">
 						</div>
 					</div>
+
 
 				</fieldset>
 

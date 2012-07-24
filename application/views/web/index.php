@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<title>友途旅行网</title>
+		<title><?php echo $webinfo[0]->title;?></title>
 		<meta name="description" content="<?php echo $webinfo[0]->description;?>">
 		<meta name="keywords" content="<?php echo $webinfo[0]->keywords;?>">
 		<base href="<?php echo base_url();?>"/>
@@ -104,14 +104,6 @@
 					<div class="col col-com">
 						<h2>公司出游</h2>
 						<ul>
-<<<<<<< HEAD
-							<li>
-								<img src="assets/images/img.jpg" width="200" height="100">
-=======
-							<li class="nobg">
-								<img src="assets/images/company-small.jpg">
->>>>>>> 938e7904fd5709f08d98630005dda365eca914bc
-							</li>
 							<?php foreach($company as $companytour):?>
 								<li>
 								<h4><a href="tourdetail/?tid=<?php echo $companytour['Id']?>"><?php echo $companytour['sub_name'];?></a></h4>
@@ -143,9 +135,14 @@
 									<span>小编：<?php echo $note['editor'];?></span>
 									<span> 时间：<?php echo $note['tour_time'];?></span>
 								</p>
-								
-									<img src="<?php echo $note['thumb'];?>">
-
+								<?php if($note['images']!=''):?>
+									<?php $arr=explode(',',$note['images']);?>
+										<?php foreach($arr as $img):?>
+											<a href="aboutus/note?id=<?php echo $note['Id'];?>"><img src="<?php echo $img;?>"></a>
+										<?php endforeach;?>
+								<?php else:?>
+									<a href="aboutus/note?id=<?php echo $note['Id'];?>"><img src="<?php echo $note['thumb'];?>"></a>
+								<?php endif;?>
 								<p>
 								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8').'......';?> 
 								</p>

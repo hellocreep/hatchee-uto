@@ -176,11 +176,11 @@ img, div {
 	min-height:350px;
 	margin:0 auto;
 	background:#f8efda;
-	border-radius:0 0 10px 10px;
-	border-top: none;
-	border-right: 10px solid #30625E;
-	border-bottom: 10px solid #30625E;
-	border-left: 10px solid #30625E;
+	border-radius:0 10px 10px 10px;
+	/*border-top: none;*/
+	/*border-right: 10px solid #30625E;*/
+	/*border-bottom: 10px solid #30625E;*/
+	/*border-left: 10px solid #30625E;*/
 	position:relative;
 }
 /*导航样式*/
@@ -279,6 +279,15 @@ img, div {
 	text-indent: 20px;
 	font-size: 12px;
 }
+
+.bg{
+	background: #30625E;
+	border-radius: 0 0 10px 10px;
+	width: 1020px;
+	padding: 0 0 10px 0;
+	margin: 0 auto;
+}
+
 .aside{
 	width:220px;
 	min-height:300px;
@@ -313,6 +322,16 @@ img, div {
 .aside img{
 	margin: 0 0 0 10px;
 }
+.aside .leader,
+.aside .show{
+	margin: 5px 0;
+	background: #f7f7ed;	
+}
+.aside .leader li{
+	width: 220px;
+	border-bottom: 1px solid #fff;
+	margin: 5px 0;
+}
 .sidetop{
 	background: #6ABFBA;
 	padding: 10px 0 0 0;
@@ -330,17 +349,21 @@ img, div {
 	bottom: -6px;
 }
 .other li{
-	background: #fff;
-	border-radius: 5px;
-	margin: 10px 0;
-	padding: 0 0 5px 0;
+	width: 220px;
+	float: left;
+	clear: both;
+	padding: 5px 0;
+	border-bottom: 1px solid #fff;
 }
-.other li h4{
-	text-indent: 10px;
-	padding: 3px 0;
+.other img{
+	float: left;
+	margin: 0 10px 0 0;
 }
-.other li img{
-	width: 200px;
+.other span{
+	display: block;
+	float: left;
+	width: 120px;
+	line-height: 18px;
 }
 
 .article{
@@ -356,16 +379,21 @@ img, div {
 	margin: 10px auto 15px;
 	padding: 0 50px;
 	width: 920px;
+	background: url("../images/logo-footer.png") no-repeat 720px top;
 }
 .footer p{
 	margin: 0 0 2px 0;
 }
+.footer a img{
+	vertical-align: middle;
+}
 .footnav a{
 	margin: 0 10px;
+	font-weight: bold;
 	/*color: #DF5031;*/
 }
 .footer span{
-	margin: 0 30px 0 10px;
+	margin: 0 0 0 6px;
 }
 
 .footnav span{

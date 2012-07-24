@@ -74,13 +74,25 @@ $(function(){
 	// }
 
 
+	//首页轮播效果 
+	try{
+		$('.carousel').carousel();
+		$( '.slide-num li' ).each(function(e){
+			$(this).mouseover(function(){
+				$('.slide-num li').eq(e).addClass('current').siblings().removeClass('current');
+				$('.carousel').carousel(e);
+		})
+	})
+	}catch(e){}
+	
+
 	// 首页主题旅行鼠标hover效果
 	$('.col-theme li').delegate('a', "mouseover",function(){
 		$(this).children('div').stop().animate({"opacity":1 },500);
 	})
 
 	$('.col-theme li').delegate('a', "mouseout", function(){
-		$(this).children('div').stop().animate({"opacity":0, },500);
+		$(this).children('div').stop().animate({"opacity":0 },500);
 	})
 
 

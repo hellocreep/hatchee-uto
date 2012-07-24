@@ -1,3 +1,4 @@
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link href="assets/styles/style.css" type="text/css" rel="stylesheet">
 <link rel="stylesheet" href="assets/fancybox/jquery.fancybox-1.3.4.css" type="text/css" media="screen" />
 <script src="assets/scripts/jquery-1.7.1.min.js"></script>

@@ -17,7 +17,9 @@
 				<div class="breadcrumb">
 					您的位置：<a href="<?php echo base_url();?>">首页</a> > <a href="<?php echo base_url();?>aboutus">关于友途</a> > 友途领队
 				</div>
+				
 					<?php $this -> load -> view("aboutus/aside");?> <!-- 关于我们侧边栏chunk -->
+				
 				<div class="article">
 					<div class="know clearfix">
 						<div class="left">
@@ -130,7 +132,7 @@
 						</p>
                         <h5>在四川这么多年，你最不能忘的人或事是什么？   </h5>
 						<p>
-							泸沽湖的淳朴民风让人如沐春风。一路上你会遇到很多人，每个人都有自己的故事。本地的司机热情地带你游玩，分文不取；外地来开旅店的老板不为挣钱，只为玩；外地来的游客不住单间，就为能找人聊天。你若不想动，可以在院子里晒一个下午的太阳，啥都不用想。
+							如画的风景、淳朴的民风、一路上的旅伴、青旅的畅聊和每个人的故事。
 						</p>
 					</div>
 					

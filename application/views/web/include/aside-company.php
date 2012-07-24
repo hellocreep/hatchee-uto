@@ -1,8 +1,12 @@
 <div class="aside side-thme">
 	<div class="sidetop">
-		<img src="assets/images/side-top.jpg">
+		<img src="assets/images/aside/top-company.jpg">
+		<div class="toplayer">
+			<h2>公司出游</h2>
+			<span>拓展、内训、会议、考察</span>
+		</div>
 		<p>
-			公司旅游，雅竹国际旅行社联合大型的团队拓展和会议公司机构，为您公司来川旅游量身打造拓展旅游、内训旅游、会议旅游、考察旅游。
+			为公司安排各种出游，是友途所擅长的。已与四川各大团队拓展公司、会议机构、大型或特色酒店等有多年的合作，有些已建立了非常友好关系，相信友途能为贵公司来川量身打造拓展、内训、会议、或考察等各种旅行。
 		</p>	
 		<img class="arrow-bt" src="assets/images/arrow_bt.gif">
 	</div>
@@ -12,6 +16,7 @@
 		<ul class="other">
 			<li>
 				<img src="assets/images/aside/tzhd.jpg">
+
 				<span>
 					1.舞林大会<br>
 					2.这是我的船<br>
@@ -23,10 +28,10 @@
 			<li>
 				<img src="assets/images/aside/jpnx.jpg">
 				<span>
-					让顾客回头<br>
-					绝对执行力<br>
-					卓越团队共同理念<br>
-					同理心
+					《让顾客回头》<br>
+					《绝对执行力》<br>
+					《卓越团队共同理念》<br>
+					《同理心》
 				</span>
 			</li>
 			<li>

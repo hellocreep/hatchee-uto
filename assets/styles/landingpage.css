@@ -16,6 +16,7 @@
 	padding: 0 5px;
 }
 .sort a{
+	padding: 0 3px;
 	text-decoration: none;
 }
 .pagenate{
@@ -173,7 +174,8 @@ span.s-wrap {
 	border:1px solid #ccc;
 	padding: 1px;
 }
-.event li .detail{
+.event li .detail,
+.activity li .detail{
 	float: right;
 }
 .activity li{

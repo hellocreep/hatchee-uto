@@ -96,7 +96,7 @@
 									<?php echo $list['intro'];?>
 								</p>
 								<p>
-									活动天数：<?php echo $list['day'];?>
+									活动天数：<?php echo $list['day'];?> <a class="detail" href="expandtour/expand?id=<?php echo $list['Id'];?>">活动详情</a>
 								</p>
 							</li>
 							<?php endforeach;?>

@@ -47,11 +47,13 @@
 .unit{
 	float:left;
 	clear:both;
+	*width: 680px;
 }
 .unit ol{
 	list-style: inside decimal;
 }
 .unit ul{
+	*width: 680px;
 	list-style: none;
 }
 
@@ -219,6 +221,7 @@ span.promotion img{
 .route dl{
 	float:left;
 	width:100%;
+	*width: 680px;	
 	padding:10px 0 0 0 ;
 	background:#ECEDED;
 }

@@ -1,8 +1,12 @@
 <div class="aside side-thme">
 	<div class="sidetop">
-		<img src="assets/images/side-top.jpg">
+		<img src="assets/images/aside/top-tour.jpg">
+		<div class="toplayer">
+			<h2>友途官方品牌活动</h2>
+			<span>独家、趣味、探索、互动</span>
+		</div>
 		<p>
-			友途旅行网活动，精心包装的旅游线路产品。在景点、住宿、餐饮安排上注重顾客的体验。在旅行过程中加入很多体验和互动元素，让您去感受和探索当地的风土人情，去感受真正的旅行。
+			目前，友途活动以川西体验探索为主，精心包装独家线路，策划趣味、互动活动，在景点、住宿、餐饮安排上给你不一样的体验，感受当地最原汁原味的风土人情。
 		</p>	
 		<img class="arrow-bt" src="assets/images/arrow_bt.gif">
 	</div>

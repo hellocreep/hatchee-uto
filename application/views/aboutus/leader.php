@@ -36,15 +36,15 @@
 						<div class="right">
 							<h4>TA刚结束的旅行 Just Back From......</h4>
 							<div class="over">
-								<img src="assets/images/img.jpg">
-									<h5><a href="">勇攀四姑娘山二峰</a></h5>
-									<b>领队：木灯</b><br>
-									<b>时间：2012.06.21 - 2012.06.26</b><br>
+								<img src="<?php echo $newnote['thumb'];?>">
+									<h5><a href="aboutus/note/?id=<?php echo $newnote['Id'];?>"><?php echo $newnote['title'];?></a></h5>
+									<b>小编：<?php echo $newnote['editor'];?></b><br>
+									<b>时间：<?php echo $newnote['tour_time'];?></b><br>
 									<p>
-										丢弃俱乐部探险、赶路、高强度体力耗尽式的登山或徒步活动，摒弃全程观光车的常规旅行团游览方式，友途为旅行者打开了另外一扇窗 - 轻户外 （对体力的要求尽为健康即可）。
-										<a class="they" href="#" title="">查看他们的旅行故事>> </a><br>
+										<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$newnote['content']),0,100,'utf-8').'......';?> 
+										<a class="they" href="aboutus/note/?id=<?php echo $newnote['Id'];?>" title="">查看他们的旅行故事>> </a><br>
 									</p>
-									<a href="#" title="">查看更多友途精彩故事>> </a>
+									<a href="aboutus/review" title="">查看更多友途精彩故事>> </a>
 							</div>
 						</div>
 					</div>

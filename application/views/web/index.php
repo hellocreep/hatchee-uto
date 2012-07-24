@@ -121,7 +121,7 @@
 									<span> 时间：<?php echo $note['tour_time'];?></span>
 								</p>
 								<?php if($note['images']!=''):?>
-									<?php $arr=explode(',',$note['images']);?>
+									<?php $arr=explode(',',substr($note['images'],0,-1));?>
 										<?php foreach($arr as $img):?>
 											<a href="aboutus/note?id=<?php echo $note['Id'];?>"><img src="<?php echo $img;?>"></a>
 										<?php endforeach;?>

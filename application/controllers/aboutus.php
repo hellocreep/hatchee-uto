@@ -19,7 +19,9 @@ class Aboutus extends CI_Controller {
 
 	public function leader()
 	{
-		$this->load->view('aboutus/leader');
+		$this->load->model('show');
+		$data['newnote']=$this->show->newestnote();
+		$this->load->view('aboutus/leader',$data);
 	}
 
 	public function contactus()

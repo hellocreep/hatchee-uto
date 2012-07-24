@@ -36,9 +36,12 @@ class Sendmail{
 		date_default_timezone_set('PRC'); //邮件时区
 		$this->coding = 'UTF-8'; //邮件编码
 		$this->user = 'no-replay@utotrip.com';
+		//$this->user='remaintears@163.com';
 		$this->pass = 'uto51766';
+		//$this->pass='cz19871127';
 		$this->info = '';
 		$server = explode(':','smtp.exmail.qq.com:25');
+		//$server = explode(':','smtp.qq.com:25')
 		$server[1] = count($server)==1 ? 25 : $server[1];
 		$this->sock = fsockopen($server[0],$server[1]);
 	}

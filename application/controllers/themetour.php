@@ -11,7 +11,7 @@ class Themetour extends CI_Controller
 	{
 		$this->load->model('show');
 		$num=$this->show->totaltour('');
-		$per_page=5;
+		$per_page=8;
 		$count=ceil($num/$per_page);
 		$page=$this->uri->segment(3);
 		if($page=='')

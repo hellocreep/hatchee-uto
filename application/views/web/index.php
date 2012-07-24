@@ -89,10 +89,6 @@
 					<div class="col col-com">
 						<h2>公司出游</h2>
 						<ul>
-
-							<li class="nobg">
-								<img src="assets/images/company-small.jpg">
-							</li>
 							<?php foreach($company as $companytour):?>
 								<li>
 								<h4><a href="tourdetail/?tid=<?php echo $companytour['Id']?>"><?php echo $companytour['sub_name'];?></a></h4>
@@ -124,9 +120,14 @@
 									<span>小编：<?php echo $note['editor'];?></span>
 									<span> 时间：<?php echo $note['tour_time'];?></span>
 								</p>
-								
-									<img src="<?php echo $note['thumb'];?>">
-
+								<?php if($note['images']!=''):?>
+									<?php $arr=explode(',',$note['images']);?>
+										<?php foreach($arr as $img):?>
+											<a href="aboutus/note?id=<?php echo $note['Id'];?>"><img src="<?php echo $img;?>"></a>
+										<?php endforeach;?>
+								<?php else:?>
+									<a href="aboutus/note?id=<?php echo $note['Id'];?>"><img src="<?php echo $note['thumb'];?>"></a>
+								<?php endif;?>
 								<p>
 								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8').'......';?> 
 								</p>

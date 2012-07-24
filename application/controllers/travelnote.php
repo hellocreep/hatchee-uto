@@ -75,11 +75,27 @@ class Travelnote extends CI_Controller
             $config['source_image'] = $match[1][0];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
-            $config['width'] = 130;
-            $config['height'] = 100;
+            $config['width'] = 220;
+            $config['height'] = 140;
             $this->load->library('image_lib', $config);
             $this->image_lib->resize();
 			$img=$config['new_image'];
+			if(count($match[1])>=5)
+			{
+				for($i=0;$i<5;$i++)
+				{
+					$arr=explode('/',$match[1][$i]);
+					$images.=$this->makePhotoThumb($match[1][$i],'uploads/images/expand_thumbnails/'.$arr[2]).',';
+				}
+			}
+			else
+			{
+				for($i=0;$i<count($match[1]);$i++)
+				{
+					$arr=explode('/',$match[1][$i]);
+					$images.=$this->makePhotoThumb($match[1][$i],'uploads/images/expand_thumbnails/'.$arr[2]).',';
+				}
+			}
 		}
 		$images='';
 		
@@ -119,6 +135,7 @@ class Travelnote extends CI_Controller
 		$id=$data->id;
 		$pattern="/<img.*?src=[\'|\"](.*?(?:[\.gif|\.jpg|\.png]))[\'|\"].*?[\/]?>/";
 		preg_match_all($pattern,$content,$match);
+		$images='';
 		if(empty($match[1]))
 		{
 			$img='assets/images/img.jpg';
@@ -131,13 +148,29 @@ class Travelnote extends CI_Controller
             $config['source_image'] = $match[1][0];
             $config['create_thumb'] = FALSE;
             $config['maintain_ratio'] = TRUE;
-            $config['width'] = 130;
-            $config['height'] = 100;
+            $config['width'] = 220;
+            $config['height'] = 140;
             $this->load->library('image_lib', $config);
             $this->image_lib->resize();
 			$img=$config['new_image'];
+			$this->image_lib->clear();
+			if(count($match[1])>=5)
+			{
+				for($i=0;$i<5;$i++)
+				{
+					$arr=explode('/',$match[1][$i]);
+					$images.=$this->makePhotoThumb($match[1][$i],'uploads/images/expand_thumbnails/'.$arr[2]).',';
+				}
+			}
+			else
+			{
+				for($i=0;$i<count($match[1]);$i++)
+				{
+					$arr=explode('/',$match[1][$i]);
+					$images.=$this->makePhotoThumb($match[1][$i],'uploads/images/expand_thumbnails/'.$arr[2]).',';
+				}
+			}
 		}
-		$images='';
 		
 	
 		$travel=array(
@@ -164,5 +197,37 @@ class Travelnote extends CI_Controller
 		$id=$_POST['id'];
 		echo $this->travel->del($id);
 	}
+	function makePhotoThumb($srcFile,$photo_small)
+	{  
+		$data = @getimagesize($srcFile);
+		if($data[0]<$data[1]){
+			$out=($data[1]*100)/$data[0];
+			$dstW =100;
+			$dstH = $out;
+		}else{
+			$out=($data[0]*100)/$data[1];	
+			$dstW = $out;
+			$dstH = 100;
+		}
+		switch($data[2])
+		{  
+			case 1: //图片类型，1是GIF图  
+			$im = @ImageCreateFromGIF($srcFile);  
+			break;  
+			case 2: //图片类型，2是JPG图  
+			$im = @imagecreatefromjpeg($srcFile);  
+			break;  
+			case 3: //图片类型，3是PNG图  
+			$im = @ImageCreateFromPNG($srcFile);  
+			break;  
+		 }  
+
+		 $srcW=ImageSX($im);  
+		 $srcH=ImageSY($im);  
+		 $ni=imagecreatetruecolor(100,100);  
+		 imagecopyresized($ni,$im,0,0,0,0,$dstW,$dstH,$srcW,$srcH);  
+		 ImageJpeg($ni,$photo_small,100);  
+		return $photo_small;
+	 } 
 }
 ?>

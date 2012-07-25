@@ -103,5 +103,15 @@ class Show extends CI_Model
 		$query=$this->db->get();
 		return $query->row_array();
 	}
+	public function newestnote()
+	{
+		$this->db->select('Id,title,content,editor,tour_time,thumb');
+		$this->db->limit('1');
+		$this->db->order_by('Id','desc');
+		$this->db->from('travel_note');
+		$query=$this->db->get();
+		return $query->row_array();
+
+	}
 }
 ?>

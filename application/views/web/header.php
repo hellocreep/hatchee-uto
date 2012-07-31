@@ -35,6 +35,6 @@
 		</li>
 	</ul>
 </div>
-
+<img class="call400" src="assets/images/24hours.png">
 </div>
 <div class="bg">

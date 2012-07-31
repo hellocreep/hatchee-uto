@@ -26,11 +26,12 @@
 	
 
 </div>
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=slide&amp;img=2&amp;pos=left&amp;uid=718977" ></script>
+<script type="text/javascript" id="bdshell_js"></script>
+<script type="text/javascript">
+	document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + new Date().getHours();
+</script>
+<!-- Baidu Button END -->
 
 
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> a369f850d13f884e5a4d3f3e3da2983e08e27676

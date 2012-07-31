@@ -151,7 +151,7 @@ img, div {
 	display:inline;
 }
 .wrapper{
-	background:url("../images/body-bg.jpg") no-repeat top center; 
+	background:url("../images/body-bg.jpg") no-repeat center 200px; 
 }
 .header{
 	width: 1020px;
@@ -170,6 +170,12 @@ img, div {
 	float:left;
 	margin:0 0 0 20px ;
 	behavior: url(iepngfix.htc);
+}
+.header .call400 {
+  border: 0 none;
+  bottom: 11px;
+  position: absolute;
+  right: 0;
 }
 .content{
 	width:1000px;
@@ -396,6 +402,11 @@ img, div {
 	overflow: hidden;
 	*display: inline;
 }
+
+.col-review img:hover{
+	cursor: url("http://www.i9yu.com/include/highslide/graphics/zoomin.cur"), pointer !important;
+}
+
 .footer{
 	margin: 10px auto 15px;
 	padding: 0 50px;
@@ -739,8 +750,9 @@ a.online img{
 	margin: 0 -3px 0 0;
 }
 .col-review li{
-	margin: 10px 0;
+	border-bottom: 1px dashed #DDDDDD;
 	float: left;
+	margin: 0 0 10px;
 	width: 100%;
 }
 .auth-top-tool {

@@ -1044,7 +1044,8 @@ $(function(){
 						for( i = 0; i < result.length; i++ ){
 							tags_list += "<tr><td class='tag_id'>"+result[i].id+"</td> \
 							<td class='tags_name'>"+result[i].name+"</td> \
-							<td><i class='icon-trash'></i><a class='del-tags' rel='del-theme' href='#'>删除</a></td></tr>";
+							<td><i class='icon-trash'></i><a class='edit-tags' rel='edit-theme' href='systemmanage/edittheme/?id="+result[i].id+"' >编辑</a> \
+							<i class='icon-trash'></i><a class='del-tags' rel='del-theme' href='#'>删除</a></td></tr>";
 						}
 						list_panel.html( tags_list );
 						loadings.hide();

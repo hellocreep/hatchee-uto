@@ -156,7 +156,7 @@ class Travelnote extends CI_Controller
 			$this->image_lib->clear();
 			if(count($match[1])>=5)
 			{
-				for($i=0;$i<5;$i++)
+				for($i=1;$i<=5;$i++)
 				{
 					$arr=explode('/',$match[1][$i]);
 					$images.=$this->makePhotoThumb($match[1][$i],'uploads/images/expand_thumbnails/'.$arr[2]).',';
@@ -208,6 +208,7 @@ class Travelnote extends CI_Controller
 			$out=($data[0]*100)/$data[1];	
 			$dstW = $out;
 			$dstH = 100;
+
 		}
 		switch($data[2])
 		{  

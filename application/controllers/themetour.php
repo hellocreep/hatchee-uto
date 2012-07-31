@@ -102,6 +102,8 @@ class Themetour extends CI_Controller
 		$this->webpage=new webpage();
 		$type="theme_tour";
 		$data['webinfo'] = $this->webpage->getpage($type);
+		$data['dess']=$this->show->deslist();
+		$data['theme']=$this->show->themelist();
 		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort);
 		$this->load->view('web/landingpage-theme',$data);		
 	}
@@ -236,6 +238,8 @@ class Themetour extends CI_Controller
 		$data['pagenow']=$page;
 		$data['tour']=$this->show->tourtypelist($field,$key,$start,$per_page,$action,$sort);
 		$data['bread']=$bread;
+		$data['dess']=$this->show->deslist();
+		$data['theme']=$this->show->themelist();
 		$this->load->view('web/landingpage-theme',$data);	
 	}
 	

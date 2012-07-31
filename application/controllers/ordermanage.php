@@ -44,6 +44,13 @@ class Ordermanage extends CI_Controller
 			'registered'=>date('Y-m-d H:i:s',time()),
 			'logintime'=>''
 		);
+		$this->load->library('synregister');
+		$rest=$this->synregister->reg($userinfo['name'],$userinfo['password'],$userinfo['email']);
+		if($rest['status']!=1)
+		{
+			echo json_encode($rest);
+			exit(0);
+		}
 		$member = new Member();
 		$user = $member->addmember($userinfo);
 		$id_private=$data->is_private;
@@ -86,13 +93,14 @@ class Ordermanage extends CI_Controller
 		<tr><td>其他需求：</td><td>'.$data->comment.'</td></tr>
 		</tbody>
 		</table>';
+		$content2='您的订单我们已经收到，我们将在24小时内进行处理;您的订单号是：'.$res['uuid'].',您可以点击此处<a href="http://127.0.0.1/uto/utohome">查询我的订单信息</a>登录查询您的订单信息。登录账户是：'.$data->name.'  初始密码为：'.$userinfo['password'].';';
 		if($res['uuid'])
 		{
 			$this->load->library('sendmail');
 			$result1=$this->sendmail->send('no-replay@utotrip.com','bm@utotrip.com','来自友途的小包团定制订单',$content,$attachment=null);
 			if($result1)
 			{
-				$result2=$this->sendmail->send('no-replay@utotrip.com',$data->email,$data->name,$res['uuid'],$attachment=null);//将订单信息发送给客人
+				$result2=$this->sendmail->send('no-replay@utotrip.com',$data->email,$data->name,$content2,$attachment=null);//将订单信息发送给客人
 				if($result2)
 				{
 					$result['status']=true;

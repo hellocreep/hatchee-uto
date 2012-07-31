@@ -23,6 +23,18 @@ class Attribute extends CI_Model
 		$this->db->delete("tour_theme");
 		return $this->db->affected_rows();
 	}
+	public function gettheme($id)
+	{
+		$this->db->where('Id',$id);
+		$this->db->from("tour_theme");
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+	public function updatetheme($id,$data){
+		$this->db->where('Id', $id);
+		$this->db->update('tour_theme', $data);
+		return $this->db->affected_rows();
+	}
 	/**************目的地**********/
 	public function listdes()
 	{

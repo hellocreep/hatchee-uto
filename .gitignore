@@ -9,4 +9,11 @@ application/config/database.php
 .buildpath
 .settings
 uploads/*
+bbs/*
+ucenter/*
+utohome/*
+api/*
+include/*
+uc_client/*
+config.inc.php
 kcfinder-2.51

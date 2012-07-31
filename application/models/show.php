@@ -22,7 +22,6 @@ class Show extends CI_Model
 	}
 	public function showthemetour($offset,$num,$action,$sort)
 	{
-		
 		$this->db->where('tour_type','1');
 		$this->db->limit($num,$offset);
 		$this->db->from('tour');
@@ -39,6 +38,10 @@ class Show extends CI_Model
 				$this->db->order_by("days",$sort);
 				$this->db->order_by("price",$sort);
 			}
+		}
+		else
+		{
+			$this->db->order_by("sortid",'asc');
 		}
 
 		$query=$this->db->get();
@@ -63,6 +66,10 @@ class Show extends CI_Model
 				$this->db->order_by("days",$sort);
 				$this->db->order_by("price",$sort);
 			}
+		}
+		else
+		{
+			$this->db->order_by("sortid",'asc');
 		}
 
 		$query=$this->db->get();
@@ -89,7 +96,7 @@ class Show extends CI_Model
 		}
 		else
 		{
-			$orderby='';
+			$orderby=' order by sortid asc';
 		}
 		$sql="select * from tour where tour_type !=2 and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
@@ -112,6 +119,87 @@ class Show extends CI_Model
 		$query=$this->db->get();
 		return $query->row_array();
 
+	}
+	public function alltour($key)
+	{
+		$sql="select id from tour where tour_type !=2 and destination LIKE '%".$key."%' order by sortid asc";
+		$query=$this->db->query($sql);
+		return $query->num_rows();
+	}
+	public function getdes($key)
+	{
+		$this->db->where('filename',$key);
+		$this->db->from('destination');
+		$query=$this->db->get();
+		return $query->row_array();
+
+	}
+	public function gettheme($key)
+	{
+		$this->db->where('filename',$key);
+		$this->db->from('tour_theme');
+		$query=$this->db->get();
+		return $query->row_array();
+	}
+	public function tourthemelist($key,$start,$per_page,$action,$sort)
+	{
+		if($action!='')
+		{
+			if($action=='price')
+			{
+				$orderby=" order by price ".$sort.', days '.$sort;
+			}
+			else
+			{
+				$orderby=" order by days ".$sort.', price '.$sort;
+			}
+		}
+		else
+		{
+			$orderby=' order by sortid asc';
+		}
+		$sql="select * from tour where tour_type !=2 and destination LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$query=$this->db->query($sql);
+		return $query->result_array();
+	}
+	public function themetourlist($key,$start,$per_page,$action,$sort)
+	{
+		if($action!='')
+		{
+			if($action=='price')
+			{
+				$orderby=" order by price ".$sort.', days '.$sort;
+			}
+			else
+			{
+				$orderby=" order by days ".$sort.', price '.$sort;
+			}
+		}
+		else
+		{
+			$orderby=' order by sortid asc';
+		}
+		$sql="select * from tour where tour_type !=2 and theme LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$query=$this->db->query($sql);
+		return $query->result_array();
+	}
+	public function deslist()
+	{
+		$this->db->select('name,filename');
+		$this->db->where('isshow','1');
+		$this->db->order_by('term','asc');
+		$this->db->from('destination');
+		$query=$this->db->get();
+		return $query->result_array();
+	}
+	public function themelist()
+	{
+		$this->db->select('name,filename');
+		$this->db->where('isshow','1');
+		$this->db->order_by('term','asc');
+		$this->db->from('tour_theme');
+		$query=$this->db->get();
+		return $query->result_array();
 	}
 }
 ?>

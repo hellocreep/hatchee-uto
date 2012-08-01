@@ -40,14 +40,32 @@
 							<option name="tour_type" value="0" selected="selected">友途活动</option>
 							<option name="tour_type" value="1">定制旅行</option>
 							<option name="tour_type" value="2">公司出游</option>
+							<option name="tour_type" value="3">自由行</option>
+							<option name="tour_type" value="4">纯玩跟团</option>
 						<?php elseif($tour[0]->tour_type=='1'):?>
 							<option name="tour_type" value="0">友途活动</option>
 							<option name="tour_type" value="1" selected="selected">定制旅行</option>
 							<option name="tour_type" value="2">公司出游</option>
-						<?php else:?>
+							<option name="tour_type" value="3">自由行</option>
+							<option name="tour_type" value="4">纯玩跟团</option>
+						<?php elseif($tour[0]->tour_type=='2'):?>
 							<option name="tour_type" value="0">友途活动</option>
 							<option name="tour_type" value="1">定制旅行</option>
 							<option name="tour_type" value="2" selected="selected">公司出游</option>
+							<option name="tour_type" value="3">自由行</option>
+							<option name="tour_type" value="4">纯玩跟团</option>
+						<?php elseif($tour[0]->tour_type=='3'):?>
+							<option name="tour_type" value="0">友途活动</option>
+							<option name="tour_type" value="1">定制旅行</option>
+							<option name="tour_type" value="2">公司出游</option>
+							<option name="tour_type" value="3" selected="selected">自由行</option>
+							<option name="tour_type" value="4">纯玩跟团</option>
+						<?php else:?>
+							<option name="tour_type" value="0">友途活动</option>
+							<option name="tour_type" value="1">定制旅行</option>
+							<option name="tour_type" value="2">公司出游</option>
+							<option name="tour_type" value="3">自由行</option>
+							<option name="tour_type" value="4" selected="selected">纯玩跟团</option>
 						<?php endif;?>
 						</select>
 						<p class="help-block">
@@ -103,7 +121,14 @@
 						</p>
 					</div>
 				</div>
-
+				<div class="control-group">
+						<label class="control-label" for="sub_name">线路排序ID：</label>
+						<div class="controls">
+							<input name="sortid" class="input-xlarge" type="text" value="<?php echo $tour[0]->sortid;?>"><span style="font-size:12px">(填数字1-999 越小排序越靠前)</span>
+							<p class="help-block row-fluid">
+							</p>
+						</div>
+					</div>
 				<div class="control-group">
 					<label class="control-label" for="thumbnail">线路缩略图（300*180）：</label>
 					<div class="controls">

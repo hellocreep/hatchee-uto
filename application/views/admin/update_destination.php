@@ -84,6 +84,9 @@
 					title: $( 'input[name="title"]' ).val(),
 					des: $( 'input[name="des"]' ).val(),
 					keywords: $( 'input[name="key"]' ).val(),
+					filename: $('input[name="filename"]').val(),
+					isshow:   $('input[name="isshow"]').val(),
+					term:   $('input[name="term"]').val(),
 					img: img.toString()
 				}
 				var synopsis = $( '#editor' ).val();
@@ -198,7 +201,39 @@
 							</p>
 						</div>
 					</div>
-
+					<div class="control-group">
+						<label class="control-label" for="name">页面名称：</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" name="filename" value="<?php echo $des['filename']?>">
+							<p class="help-block row-fluid">
+								<div class="alert alert-error hide span3 required-info">
+									<strong>你一定忘了填写什么重要的信息 ↑</strong>
+								</div>
+							</p>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="name">是否在侧边栏展示：</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" name="isshow" value="<?php echo $des['isshow']?>"><span style="font-size:12px">(要展示出来的填1 不展示出来填 0)</span>
+							<p class="help-block row-fluid">
+								<div class="alert alert-error hide span3 required-info">
+									<strong>你一定忘了填写什么重要的信息 ↑</strong>
+								</div>
+							</p>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="name">展示位置：</label>
+						<div class="controls">
+							<input type="text" class="input-xlarge" name="term" value="<?php echo $des['term']?>">(用来排序的 数字越小越靠前 )
+							<p class="help-block row-fluid">
+								<div class="alert alert-error hide span3 required-info">
+									<strong>你一定忘了填写什么重要的信息 ↑</strong>
+								</div>
+							</p>
+						</div>
+					</div>
 					<div class="control-group">
 						<label class="control-label" for="type">景点简介：</label>
 						<div class="controls">

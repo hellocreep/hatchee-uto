@@ -38,6 +38,8 @@
 								<option name="tour_type" value="0" selected="selected">友途活动</option>
 								<option name="tour_type" value="1">定制旅行</option>
 								<option name="tour_type" value="2">公司出游</option>
+								<option name="tour_type" value="3">自由行</option>
+								<option name="tour_type" value="4">纯玩跟团</option>
 							</select>
 							<p class="help-block">
 							</p>
@@ -96,7 +98,14 @@
 							</p>
 						</div>
 					</div>
-
+					<div class="control-group">
+						<label class="control-label" for="sub_name">线路排序ID：</label>
+						<div class="controls">
+							<input name="sortid" class="input-xlarge" type="text"><span style="font-size:12px">(填数字1-999 越小排序越靠前)</span>
+							<p class="help-block row-fluid">
+							</p>
+						</div>
+					</div>
 					<div class="control-group">
 						<label class="control-label" for="intro">线路简介：</label>
 						<div class="controls">

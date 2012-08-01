@@ -17,7 +17,7 @@ class Member extends CI_Model
 	}
 
 	public function addmember($data){
-		$query = $this->db->query("select * from users where email='".$data['email']."'");
+		$query = $this->db->query("select * from users where name='".$data['name']."'");
 		if($query->result())
 		{
 			return $query->result();

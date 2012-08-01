@@ -282,6 +282,7 @@ var submittour = function(){
 			title: $('input[name="title"]').val(),
 			name : $('input[name="name"]').val(),
 			sub_name: $('input[name="sub_name"]').val()||'',
+			sortid: $('input[name="sortid"]').val()||'110',
 			thumbnail : $('input[name="thumbnail"]').val(),
 			keywords : $('input[name="keywords"]').val(),
 			description : $('input[name="description"]').val(),

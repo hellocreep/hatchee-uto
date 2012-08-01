@@ -18,7 +18,7 @@
 				<img src="assets/images/aside/tzhd.jpg">
 
 				<span>
-					1.舞林大会<br>
+					1.武林大会<br>
 					2.这是我的船<br>
 					3.寻找魔兽<br>
 					4.CS野战<br>

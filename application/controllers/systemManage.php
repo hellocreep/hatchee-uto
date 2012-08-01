@@ -45,6 +45,29 @@ class Systemmanage extends CI_Controller
 		}
 		echo json_encode($resinfo);
 	}
+	public function edittheme(){
+		$id = $_GET['id'];
+		$data['theme']=$this->attribute->gettheme($id);
+		$this->load->view('admin/update_theme',$data);
+	}
+	public function updatetheme(){
+		$des = json_decode($_POST['data']);
+		$id = $des->id;
+		$synopsis = $_POST['synopsis'];
+		$data = array(
+			'name'=>$des->name,
+			'synopsis'=>$synopsis,
+			'img'=>$des->img,
+			'title'=>$des->title,
+			'des'=>$des->des,
+			'keywords'=>$des->keywords,
+			'filename'=>$des->filename,
+			'isshow'=>$des->isshow,
+			'term'=>$des->term
+			);
+		echo $this->attribute->updatetheme($id,$data);
+
+	}
 /***********************************目的地************************************/
 	public function deslist()
 	{
@@ -69,7 +92,6 @@ class Systemmanage extends CI_Controller
 		{
 			$data['img'][]=$this->image->getimg($arrimg[$i]);
 		}
-		//print_r($data['img']);
 		$this->load->view('admin/update_destination',$data);
 	}
 
@@ -83,7 +105,10 @@ class Systemmanage extends CI_Controller
 			'img'=>$des->img,
 			'title'=>$des->title,
 			'des'=>$des->des,
-			'keywords'=>$des->keywords
+			'keywords'=>$des->keywords,
+			'filename'=>$des->filename,
+			'isshow'=>$des->isshow,
+			'term'=>$des->term
 			);
 		echo $this->attribute->updatedes($id,$data);
 

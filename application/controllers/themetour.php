@@ -103,6 +103,7 @@ class Themetour extends CI_Controller
 		$type="theme_tour";
 		$data['webinfo'] = $this->webpage->getpage($type);
 		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort);
+		$data['dess']=$this->show->deslist();
 		$this->load->view('web/landingpage-theme',$data);		
 	}
 	function searchtour()
@@ -236,6 +237,7 @@ class Themetour extends CI_Controller
 		$data['pagenow']=$page;
 		$data['tour']=$this->show->tourtypelist($field,$key,$start,$per_page,$action,$sort);
 		$data['bread']=$bread;
+		$data['dess']=$this->show->deslist();
 		$this->load->view('web/landingpage-theme',$data);	
 	}
 	

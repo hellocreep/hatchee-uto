@@ -22,7 +22,7 @@ class Show extends CI_Model
 	}
 	public function showthemetour($offset,$num,$action,$sort)
 	{
-		$this->db->where('tour_type','1');
+		$this->db->where('tour_type !=','0');
 		$this->db->limit($num,$offset);
 		$this->db->from('uto_tour');
 		if($action!='')

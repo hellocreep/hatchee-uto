@@ -50,7 +50,7 @@
 						</p>
 						<?php endif;?>
 					</div>
-					<!-- 当前线路不多，因此暂时隐藏排序功能，勿删 -->
+	
 					<div class="sort">
 						排序方式：
 						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>
@@ -81,7 +81,9 @@
 							<?php for($i=0;$i<count($tour);$i++):?>
 								<?php if($tour[$i]['tour_type']=='1'):?>
 								<li>
-								<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
+								<span class="days"><?php echo $tour[$i]['days'];?></span>
+								<span class="tags">自由行</span>
+								<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 								<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 									<dl class="route-detail">
 									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140"/></a></dt>

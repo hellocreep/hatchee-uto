@@ -54,6 +54,18 @@
 	color: #fff;
 	margin:10px 10px 0 0;
 }
+.routelist .tags{
+	display: block;	
+	float: left;
+	width: 29px;
+	height: 29px;
+	background: #F26522;
+	border-radius: 2px;
+	text-align: center;
+	line-height: 14px;
+	color: #fff;
+	margin:10px 10px 0 0;
+}
 .routelist dt{
 	display: block;
 	float: left;

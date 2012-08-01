@@ -84,7 +84,7 @@
 								<span class="days"><?php echo $tour[$i]['days'];?></span>
 								<span class="tags">
 									定制旅行
-									<table>
+									<table class="tag-con">
 										<caption>旅行方式的差异</caption>
 										<tr>
 											<th></th>
@@ -129,39 +129,32 @@
 											<td>体验、节奏悠闲</td>
 										</tr>
 										<tr>
-											<th></th>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<th>导游服务</th>
+											<td>有</td>
+											<td>无</td>
+											<td>可选</td>
+											<td>专职领队</td>
 										</tr>
 										<tr>
-											<th></th>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<th>购物安排</th>
+											<td>纯玩无购物</td>
+											<td>无</td>
+											<td>无</td>
+											<td>无</td>
 										</tr>
 										<tr>
-											<th></th>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<th>自费安排</th>
+											<td>有</td>
+											<td>可选</td>
+											<td>可选</td>
+											<td>可选</td>
 										</tr>
 										<tr>
-											<th></th>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
-										<tr>
-											<th></th>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<th>费用预算</th>
+											<td>经济实惠、便宜</td>
+											<td>一般</td>
+											<td>稍贵</td>
+											<td>稍贵</td>
 										</tr>
 									</table>
 

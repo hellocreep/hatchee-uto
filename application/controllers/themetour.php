@@ -105,6 +105,7 @@ class Themetour extends CI_Controller
 		$data['dess']=$this->show->deslist();
 		$data['theme']=$this->show->themelist();
 		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort);
+		$data['dess']=$this->show->deslist();
 		$this->load->view('web/landingpage-theme',$data);		
 	}
 	function searchtour()

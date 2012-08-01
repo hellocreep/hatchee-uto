@@ -11,12 +11,12 @@
 		public function updatepage($data){
 
 			$this->db->where('type',$data->type);
-			$this->db->update('web_page',$data);
+			$this->db->update('uto_web_page',$data);
 			return $this->db->affected_rows();
 		}
 
 		public function getpage($type){
-			$query=$this->db->query("select * from web_page where type='".$type."'");
+			$query=$this->db->query("select * from uto_web_page where type='".$type."'");
 			$data=$query->result();
 			return $data;
 		}

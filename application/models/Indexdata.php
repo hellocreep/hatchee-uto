@@ -11,7 +11,7 @@ class Indexdata extends CI_Model
 		$this->db->where('tour_type','0');
 		$this->db->limit('2');
 		$this->db->order_by('Id','desc');
-		$this->db->from('tour');
+		$this->db->from('uto_tour');
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -20,7 +20,7 @@ class Indexdata extends CI_Model
 		$this->db->where('tour_type','1');
 		$this->db->limit('9');
 		$this->db->order_by('days','desc');
-		$this->db->from('tour');
+		$this->db->from('uto_tour');
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -29,7 +29,7 @@ class Indexdata extends CI_Model
 		$this->db->where('tour_type','2');
 		$this->db->limit('9');
 		$this->db->order_by('Id','desc');
-		$this->db->from('tour');
+		$this->db->from('uto_tour');
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -37,7 +37,7 @@ class Indexdata extends CI_Model
 	{
 		$this->db->limit('9');
 		$this->db->order_by('Id','desc');
-		$this->db->from('expand');
+		$this->db->from('uto_expand');
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -45,7 +45,7 @@ class Indexdata extends CI_Model
 	{
 		$this->db->limit('5');
 		$this->db->order_by('Id','desc');
-		$this->db->from('travel_note');
+		$this->db->from('uto_travel_note');
 		$query=$this->db->get();
 		return $query->result_array();
 	}

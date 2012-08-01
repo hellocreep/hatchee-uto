@@ -16,7 +16,7 @@ class Show extends CI_Model
 		{
 			$this->db->where('tour_type','1');
 		}
-		$this->db->from('tour');
+		$this->db->from('uto_tour');
 		$query=$this->db->get();
 		return $query->num_rows();
 	}
@@ -24,7 +24,7 @@ class Show extends CI_Model
 	{
 		$this->db->where('tour_type','1');
 		$this->db->limit($num,$offset);
-		$this->db->from('tour');
+		$this->db->from('uto_tour');
 		if($action!='')
 		{
 			if($action=='price')
@@ -52,7 +52,7 @@ class Show extends CI_Model
 		
 		$this->db->where('tour_type','0');
 		$this->db->limit($num,$offset);
-		$this->db->from('tour');
+		$this->db->from('uto_tour');
 		if($action!='')
 		{
 			if($action=='price')
@@ -77,7 +77,7 @@ class Show extends CI_Model
 	}
 	public function counttour($field,$key)
 	{
-		$sql="select id from tour where tour_type !=2 and ".$field." LIKE '%".$key."%'";
+		$sql="select id from uto_tour where tour_type !=2 and ".$field." LIKE '%".$key."%'";
 		$query=$this->db->query($sql);
 		return $query->num_rows();
 	}
@@ -98,7 +98,7 @@ class Show extends CI_Model
 		{
 			$orderby=' order by sortid asc';
 		}
-		$sql="select * from tour where tour_type !=2 and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from uto_tour where tour_type !=2 and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}
@@ -106,7 +106,7 @@ class Show extends CI_Model
 	{
 		$this->db->select('title,des,keywords,name,synopsis');
 		$this->db->where('name',$key);
-		$this->db->from('destination');
+		$this->db->from('uto_destination');
 		$query=$this->db->get();
 		return $query->row_array();
 	}
@@ -115,21 +115,21 @@ class Show extends CI_Model
 		$this->db->select('Id,title,content,editor,tour_time,thumb');
 		$this->db->limit('1');
 		$this->db->order_by('Id','desc');
-		$this->db->from('travel_note');
+		$this->db->from('uto_travel_note');
 		$query=$this->db->get();
 		return $query->row_array();
 
 	}
 	public function alltour($key)
 	{
-		$sql="select id from tour where tour_type !=2 and destination LIKE '%".$key."%' order by sortid asc";
+		$sql="select id from uto_tour where tour_type !=2 and destination LIKE '%".$key."%' order by sortid asc";
 		$query=$this->db->query($sql);
 		return $query->num_rows();
 	}
 	public function getdes($key)
 	{
 		$this->db->where('filename',$key);
-		$this->db->from('destination');
+		$this->db->from('uto_destination');
 		$query=$this->db->get();
 		return $query->row_array();
 
@@ -137,7 +137,7 @@ class Show extends CI_Model
 	public function gettheme($key)
 	{
 		$this->db->where('filename',$key);
-		$this->db->from('tour_theme');
+		$this->db->from('uto_tour_theme');
 		$query=$this->db->get();
 		return $query->row_array();
 	}
@@ -158,7 +158,7 @@ class Show extends CI_Model
 		{
 			$orderby=' order by sortid asc';
 		}
-		$sql="select * from tour where tour_type !=2 and destination LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from uto_tour where tour_type !=2 and destination LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}
@@ -179,7 +179,7 @@ class Show extends CI_Model
 		{
 			$orderby=' order by sortid asc';
 		}
-		$sql="select * from tour where tour_type !=2 and theme LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from uto_tour where tour_type !=2 and theme LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}
@@ -188,7 +188,7 @@ class Show extends CI_Model
 		$this->db->select('name,filename');
 		$this->db->where('isshow','1');
 		$this->db->order_by('term','asc');
-		$this->db->from('destination');
+		$this->db->from('uto_destination');
 		$query=$this->db->get();
 		return $query->result_array();
 	}
@@ -197,7 +197,7 @@ class Show extends CI_Model
 		$this->db->select('name,filename');
 		$this->db->where('isshow','1');
 		$this->db->order_by('term','asc');
-		$this->db->from('tour_theme');
+		$this->db->from('uto_tour_theme');
 		$query=$this->db->get();
 		return $query->result_array();
 	}

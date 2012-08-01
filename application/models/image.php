@@ -9,38 +9,38 @@ class Image extends CI_Model
 	public function addimginfo($id,$data)
 	{
 		$this->db->where("Id",$id);
-		$this->db->update("images",$data);
+		$this->db->update("uto_images",$data);
 		return $this->db->affected_rows();
 	}
 	public function getimg($id)
 	{	
 		$this->db->cache_off();
-		$sql="select * from images where Id='".$id."'";
+		$sql="select * from uto_images where Id='".$id."'";
 		$query=mysql_query($sql);
 		$row=mysql_fetch_array($query);
 		return $row;
 	}
 	public function getimginfo($id)
 	{
-		$query=$this->db->query("select * from images where Id='".$id."'");
+		$query=$this->db->query("select * from uto_images where Id='".$id."'");
 		$data=$query->result();
 		return $data;
 	}
 	public function delimg($id)
 	{
 		$this->db->where("Id",$id);
-		$this->db->delete("images");
+		$this->db->delete("uto_images");
 		return $this->db->affected_rows();
 	}
 	public function updateimg($id,$data)
 	{
 		$this->db->where("Id",$id);
-		$this->db->update("images",$data);
+		$this->db->update("uto_images",$data);
 		return $this->db->affected_rows();
 	}
 	public function upload($data)
 	{
-		$sql="select * from images where path='".$data['path']."' or middle='".$data['path']."' or small='".$data['path']."'";
+		$sql="select * from uto_images where path='".$data['path']."' or middle='".$data['path']."' or small='".$data['path']."'";
 		$query=$this->db->query($sql);
 		if($query->result())
 		{
@@ -48,16 +48,16 @@ class Image extends CI_Model
 		}
 		else
 		{
-			$query=$this->db->insert('images',$data);
+			$query=$this->db->insert('uto_images',$data);
 			$id=$this->db->insert_id();
-			$query=$this->db->query("select * from images where Id='".$id."'");
+			$query=$this->db->query("select * from uto_images where Id='".$id."'");
 			return $query->result();
 			
 		}
 	}
 	public function uploadimg($data)
 	{
-		$query=$this->db->insert('images',$data);
+		$query=$this->db->insert('uto_images',$data);
 		return $this->db->insert_id();
 	}
 }

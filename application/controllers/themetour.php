@@ -85,8 +85,16 @@ class Themetour extends CI_Controller
 		}
 		if(isset($sort) && $sort!='')
 		{
-				$data['sortday']='themetour/index/1/days/'.$sort;
-				$data['sortprice']='themetour/index/1/price/'.$sort;
+			if($sort=='asc')
+			{
+				$data['sortday']='themetour/index/1/days/desc';
+				$data['sortprice']='themetour/index/1/price/desc';
+			}
+			else
+			{
+				$data['sortday']='themetour/index/1/days/asc';
+				$data['sortprice']='themetour/index/1/price/asc';
+			}
 		}
 		else
 		{

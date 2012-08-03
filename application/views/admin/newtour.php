@@ -30,6 +30,15 @@
 
 			<form class="well form-horizontal" action="tourmanage/addtour" method="post">
 				<fieldset class="offset1">
+					<div class="control-group">
+						<label class="control-label" for="publish">是否发布：</label>
+						<div class="controls">
+							<select name="piblish_select">
+								<option name="publish" value="1" selected="selected">发布</option>
+								<option name="publish" value="0">暂不发布</option>
+							</select>	
+						</div>
+					</div>
 
 					<div class="control-group">
 						<label class="control-label" for="name">线路类型：</label>

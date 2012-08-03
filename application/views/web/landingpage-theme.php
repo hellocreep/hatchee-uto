@@ -139,7 +139,7 @@
 										
 										
 									<?php else :?>
-										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">友途活动 </span>
+										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">纯玩跟</span>
 									<?php endif ;?>
 									<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>

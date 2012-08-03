@@ -278,6 +278,7 @@ var submittour = function(){
 		//判断是否为小包团
 		var term = $( '#tour-term-private' ).val();
 		var data = {
+			publish: $( 'option[name="publish"]:checked' ).val(),
 			tour_type: $( 'option[name="tour_type"]:checked' ).val(),
 			title: $('input[name="title"]').val(),
 			name : $('input[name="name"]').val(),

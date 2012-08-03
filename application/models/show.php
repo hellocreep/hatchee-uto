@@ -16,6 +16,7 @@ class Show extends CI_Model
 		{
 			$this->db->where('tour_type','1');
 		}
+		$this->db->where('ispublish','1');
 		$this->db->from('uto_tour');
 		$query=$this->db->get();
 		return $query->num_rows();
@@ -23,6 +24,7 @@ class Show extends CI_Model
 	public function showthemetour($offset,$num,$action,$sort)
 	{
 		$this->db->where('tour_type !=','0');
+		$this->db->where('ispublish','1');
 		$this->db->limit($num,$offset);
 		$this->db->from('uto_tour');
 		if($action!='')
@@ -51,6 +53,7 @@ class Show extends CI_Model
 	{
 		
 		$this->db->where('tour_type','0');
+		$this->db->where('ispublish','1');
 		$this->db->limit($num,$offset);
 		$this->db->from('uto_tour');
 		if($action!='')
@@ -77,7 +80,7 @@ class Show extends CI_Model
 	}
 	public function counttour($field,$key)
 	{
-		$sql="select id from uto_tour where tour_type !=2 and ".$field." LIKE '%".$key."%'";
+		$sql="select id from uto_tour where ispublish='1' and tour_type !=2 and ".$field." LIKE '%".$key."%'";
 		$query=$this->db->query($sql);
 		return $query->num_rows();
 	}
@@ -98,7 +101,7 @@ class Show extends CI_Model
 		{
 			$orderby=' order by sortid asc';
 		}
-		$sql="select * from uto_tour where tour_type !=2 and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from uto_tour where ispublish='1' and tour_type !=2 and ".$field." LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}
@@ -122,7 +125,7 @@ class Show extends CI_Model
 	}
 	public function alltour($key)
 	{
-		$sql="select id from uto_tour where tour_type !=2 and destination LIKE '%".$key."%' order by sortid asc";
+		$sql="select id from uto_tour where ispublish='1' and tour_type !=2 and destination LIKE '%".$key."%' order by sortid asc";
 		$query=$this->db->query($sql);
 		return $query->num_rows();
 	}
@@ -158,7 +161,7 @@ class Show extends CI_Model
 		{
 			$orderby=' order by sortid asc';
 		}
-		$sql="select * from uto_tour where tour_type !=2 and destination LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from uto_tour where ispublish='1' and tour_type !=2 and destination LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}
@@ -179,7 +182,7 @@ class Show extends CI_Model
 		{
 			$orderby=' order by sortid asc';
 		}
-		$sql="select * from uto_tour where tour_type !=2 and theme LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from uto_tour where ispublish='1' and tour_type !=2 and theme LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}

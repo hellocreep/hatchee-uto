@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: lang_admincp.php 30436 2012-05-29 03:35:07Z monkey $
+ *      $Id: lang_admincp.php 30893 2012-06-29 02:57:06Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -3717,7 +3717,7 @@ $lang = array
 	'usergroups_edit_basic_allow_stat' => '允许查看趋势统计',
 	'usergroups_edit_basic_allow_statdata' => '允许查看站点统计',
 	'usergroups_edit_basic_domain_length' => '二级域名最短长度',
-	'usergroups_edit_basic_domain_length_comment' => '0为禁止使用二级域名，在站点开启二级域名时有效',
+	'usergroups_edit_basic_domain_length_comment' => '0为禁止使用二级域名，最大长度为15，在站点开启二级域名时有效',
 	'usergroups_edit_basic_intro_length' => '介绍类文字最大长度',
 	'usergroups_edit_basic_intro_length_comment' => '字节(单位)，0不限制',
 	'usergroups_edit_basic_allowcreatecollection' => '允许用户创建淘专辑的数量',
@@ -5179,7 +5179,7 @@ $lang = array
 	'ec_alipay_securitycode' => '交易安全校验码 (key)',
 	'ec_alipay_securitycode_comment' => '支付宝签约用户可以在此处填写支付宝分配给您的交易安全校验码，此校验码您可以到支付宝官方的商家服务功能处查看',
 	'ec_alipay_partner' => '合作者身份 (PID)',
-	'ec_alipay_partner_comment' => '支付宝签约用户请在此处填写支付宝分配给您的合作者身份，签约用户的手续费按照您与支付宝官方的签约协议为准。<br/>如果您还未签约，<a href="http://act.life.alipay.com/systembiz/discuz/" target="_blank">请点击这里签约</a>；如果已签约,<a href="https://b.alipay.com/order/pidKey.htm?pid=2088501719138773&product=fastpay" target="_blank">请点击这里获取PID、Key</a>;如果在签约时出现合同模板冲突，请咨询0571-88158090',
+	'ec_alipay_partner_comment' => '支付宝签约用户请在此处填写支付宝分配给您的合作者身份，签约用户的手续费按照您与支付宝官方的签约协议为准。<br/>如果您还未签约，<a href="http://act.life.alipay.com/systembiz/discuz/" target="_blank">请点击这里签约</a>；如果已签约,<a href="https://b.alipay.com/order/pidKey.htm?pid=2088501719138773&product=fastpay" id="aliapitype" target="_blank">请点击这里获取PID、Key</a>;如果在签约时出现合同模板冲突，请咨询0571-88158090',
 	'ec_alipay_creditdirectpay' => '使用纯即时到帐接口',
 	'ec_alipay_creditdirectpay_comment' => '如果您的签约协议中包含纯即时到帐接口（不是标准双接口）可以选择此项，让积分充值只能使用即时到账方式付款',
 

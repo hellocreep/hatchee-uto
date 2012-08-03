@@ -1,4 +1,4 @@
-<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('template/default/space_feed|template/default/header|template/default/space_status|template/default/space_menu|template/default/space_feed_li|template/default/space_feed_li|template/default/space_feed_li|template/default/footer', '1343362148', 'template/default/space_feed');?><?php if(empty($_TPL['getmore'])) { ?>	
+<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('template/default/space_feed|template/default/header|template/default/space_status|template/default/space_menu|template/default/space_feed_li|template/default/space_feed_li|template/default/space_feed_li|template/default/footer', '1343811488', 'template/default/space_feed');?><?php if(empty($_TPL['getmore'])) { ?>	
 <?php $_TPL['titles'] = array('首页'); ?>
 <?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -642,6 +642,7 @@ hiddenstatus();
 <div class="notice" id="feed_filter_notice_<?=$start?>">
 根据您的<a href="cp.php?ac=privacy&op=view">筛选设置</a>，有 <?=$filtercount?> 条动态被屏蔽 (<a href="javascript:;" onclick="filter_more(<?=$start?>);" id="a_feed_privacy_more">点击查看</a>)
 </div>
+
 <div id="feed_filter_div_<?=$start?>" class="enter-content" style="display:none;">
 <h4 class="feedtime">以下是被屏蔽的动态</h4>
 <ul>

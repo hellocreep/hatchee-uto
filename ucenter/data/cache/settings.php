@@ -26,6 +26,7 @@ $_CACHE['settings'] = array (
   'mailusername' => '1',
   'mailsilent' => '1',
   'version' => '1.6.0',
+  'timeformat' => 'H:i',
 );
 
 ?>

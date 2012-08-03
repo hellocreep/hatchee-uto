@@ -5,7 +5,6 @@ $_CACHE['settings'] = array (
   'censorusername' => '',
   'dateformat' => 'y-n-j',
   'doublee' => '0',
-  'nextnotetime' => '0',
   'timeoffset' => '28800',
   'privatepmthreadlimit' => '25',
   'chatpmthreadlimit' => '30',
@@ -25,7 +24,5 @@ $_CACHE['settings'] = array (
   'maildelimiter' => '0',
   'mailusername' => '1',
   'mailsilent' => '1',
-  'version' => '1.6.0',
+  'timeformat' => 'H:i',
 );
-
-?>

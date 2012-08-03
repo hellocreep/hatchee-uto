@@ -1,9 +1,9 @@
 <?php if(!defined('IN_DISCUZ')) exit('Access Denied'); hookscriptoutput('discuz');
 0
-|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/header.htm', 1343379691, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
-|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/footer.htm', 1343379691, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
-|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/header_common.htm', 1343379691, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
-|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/pubsearchform.htm', 1343379691, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
+|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/header.htm', 1343869359, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
+|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/footer.htm', 1343869359, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
+|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/header_common.htm', 1343869359, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
+|| checktplrefresh('./template/default/forum/discuz.htm', './template/default/common/pubsearchform.htm', 1343869359, 'diy', './data/template/1_diy_forum_discuz.tpl.php', './template/default', 'forum/discuz')
 ;?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -50,7 +50,7 @@
 <?php if($_GET['diy'] == 'yes' && check_diy_perm($topic)) { include template('common/header_diy'); } if(check_diy_perm($topic)) { ?><?php
 $__STATICURL = STATICURL;$diynav = <<<EOF
 
-<a id="diy-tg" href="javascript:openDiy();" title="打开 DIY 面板" class="xi1 xw1" onmousemove="showMenu(this.id)"><img src="{$__STATICURL}image/diy/panel-toggle.png" alt="DIY" /></a>
+<a id="diy-tg" href="javascript:openDiy();" title="打开 DIY 面板" class="xi1 xw1" onmouseover="showMenu(this.id)"><img src="{$__STATICURL}image/diy/panel-toggle.png" alt="DIY" /></a>
 <div id="diy-tg_menu" style="display: none;">
 <ul>
 <li><a href="javascript:saveUserdata('diy_advance_mode', '');openDiy();" class="xi2">简洁模式</a></li>

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: lang_admincp_msg.php 30255 2012-05-17 09:14:49Z zhengqingpeng $
+ *      $Id: lang_admincp_msg.php 30741 2012-06-15 08:53:29Z monkey $
  *
  *      This file is automatically generate
  */
@@ -553,8 +553,8 @@ $lang = array (
   'upgrade_continue' => '您上次升级到 {step}，请继续完成升级',
   'upgrade_download_upgradelist_error' => '获取待更新文件列表失败，是否重新获取？ {upgradeurl}',
   'upgrade_download_complete_to_compare' => '待更新文件下载完成，即将进行本地文件比较 {upgradeurl}',
-  'upgrade_redownload' => '更新文件 {file} 下载出现问题，是否进行重试？ {upgradeurl}',
-  'upgrade_downloading_file' => '正在从官方下载更新文件 {file} {upgradeurl}',
+  'upgrade_redownload' => '文件 {file} 下载出现问题，请查看您的服务器网络以及data目录是否有写权限，请确认无误后点击确定 {upgradeurl}',
+  'upgrade_downloading_file' => '正在从官方下载更新文件 {file} <br>已完成{percent} {upgradeurl}',
   'upgrade_cannot_access_file' => '发现您的目录及文件无修改权限，请您填写 ftp 账号，或者修改文件权限为可读可写后重试',
   'upgrade_backuping' => '正在备份原始文件... {upgradeurl}',
   'upgrade_backup_error' => '备份原始文件出错 {upgradeurl}',
@@ -622,6 +622,7 @@ $lang = array (
   'cloudaddons_ftp_path_error' => '站点 FTP 路径错误，请重新填写',
 
   'cloudaddons_check_url_fopen_error' => '您的服务器无法访问应用中心，这将会导致应用无法安装。请联系您的服务商或者网站技术人员，确保您的服务器能够正常访问 addon.discuz.com 或 addon1.discuz.com',
+  'cloudaddons_check_gzuncompress_error' => '您的服务器不支持 Zlib，这将会导致应用无法安装。请联系您的服务商或者网站技术人员。',
   'cloudaddons_genuine_message' => '对不起，您安装的不是正版应用，安装程序无法继续执行<br /><br /><a href="admin.php?action=cloudaddons&id={addonid}">点击这里安装正版应用</a>',);
 
 ?>

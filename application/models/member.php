@@ -24,7 +24,7 @@ class Member extends CI_Model
 		}
 		else
 		{
-			$this->db->insert('users',$data);
+			$this->db->insert('uto_users',$data);
 			$id=$this->db->insert_id();
 			$query = $this->db->query("select * from uto_users where Id='".$id."'");
 			return $query->result();

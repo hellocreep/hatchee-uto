@@ -17,6 +17,14 @@ $_SGLOBAL['app']=Array
 		'type' => 'UCHOME',
 		'open' => '0',
 		'icon' => 'uchome'
+		),
+	3 => Array
+		(
+		'name' => '论坛',
+		'url' => 'http://127.0.0.1/uto/bbs',
+		'type' => 'DISCUZX',
+		'open' => 1,
+		'icon' => 'discuzx'
 		)
 	)
 ?>

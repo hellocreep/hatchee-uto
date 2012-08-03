@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: lang_notification.php 28954 2012-03-20 09:23:02Z monkey $
+ *      $Id: lang_notification.php 30795 2012-06-20 02:03:13Z liulanbo $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -101,7 +101,7 @@ $lang = array
 
 	'modthreads_delete' => '您发表的主题 {threadsubject} 未通过审核，现已被删除！',
 
-	'modthreads_validate' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{threadsubject}</a> 已审核通过！ &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" target="_blank" class="lit">查看 &rsaquo;</a></div>',
+	'modthreads_validate' => '您发表的主题 <a href="forum.php?mod=viewthread&tid={tid}" target="_blank">{threadsubject}</a> 已审核通过！ &nbsp; <a href="forum.php?mod=viewthread&tid={tid}" target="_blank" class="lit">查看 &rsaquo;</a>',
 
 	'modreplies_delete' => '您发表回复未通过审核，现已被删除！ <p class="summary">回复内容：<span>{post}</span></p>',
 

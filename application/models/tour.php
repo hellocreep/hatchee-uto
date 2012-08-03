@@ -108,7 +108,7 @@
 		}
 		public function addroute($data)
 		{
-			$query=$this->db->insert('route',$data);
+			$query=$this->db->insert('uto_route',$data);
 			return $this->db->insert_id();
 				
 		}

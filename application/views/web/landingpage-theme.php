@@ -76,89 +76,16 @@
 							<!--<a href="<?php echo $page['end'];?>">尾页</a>-->
 						</div>
 					</div>
+
 					<ul class="routelist clearfix">
+					
 						<?php if(isset($tour)):?>
 							<?php for($i=0;$i<count($tour);$i++):?>
 								<?php if($tour[$i]['tour_type']=='1'):?>
 								<li>
 								<span class="days"><?php echo $tour[$i]['days'];?></span>
-								<span class="tags">
-									定制旅行
-									<table class="tag-con">
-										<caption>旅行方式的差异</caption>
-										<tr>
-											<th></th>
-											<th>纯玩跟团游</th>
-											<th>自由行</th>
-											<th>独立成团</th>
-											<th>友途活动</th>
-										</tr>
-										<tr>
-											<th>适合人群</th>
-											<td>中青年老年、首次出行、临时安排、经济</td>
-											<td>年轻人、1-3人</td>
-											<td>中高收入者、深度旅游者、团体</td>
-											<td>友途会员群体出游</td>
-										</tr>
-										<tr>
-											<th>行程安排</th>
-											<td>固定,线路与有资质旅行社合作</td>
-											<td>自由</td>
-											<td>特别定制</td>
-											<td>友途独家精选线路</td>
-										</tr>
-										<tr>
-											<th>住宿酒店</th>
-											<td>团队固定酒店、中低端</td>
-											<td>自选</td>
-											<td>特别精选</td>
-											<td>精选当地特色酒店</td>
-										</tr>
-										<tr>
-											<th>餐饮</th>
-											<td>团队餐</td>
-											<td>无</td>
-											<td>特别精选</td>
-											<td>AA或者精选餐饮，餐标较高 </td>
-										</tr>
-										<tr>
-											<th>旅行节奏</th>
-											<td>快</td>
-											<td>自由</td>
-											<td>特别定制</td>
-											<td>体验、节奏悠闲</td>
-										</tr>
-										<tr>
-											<th>导游服务</th>
-											<td>有</td>
-											<td>无</td>
-											<td>可选</td>
-											<td>专职领队</td>
-										</tr>
-										<tr>
-											<th>购物安排</th>
-											<td>纯玩无购物</td>
-											<td>无</td>
-											<td>无</td>
-											<td>无</td>
-										</tr>
-										<tr>
-											<th>自费安排</th>
-											<td>有</td>
-											<td>可选</td>
-											<td>可选</td>
-											<td>可选</td>
-										</tr>
-										<tr>
-											<th>费用预算</th>
-											<td>经济实惠、便宜</td>
-											<td>一般</td>
-											<td>稍贵</td>
-											<td>稍贵</td>
-										</tr>
-									</table>
+								<span class="tags tags<?php echo$tour[$i]['tour_type']?>"> 独立成团 </span>
 
-								</span>
 								<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 								<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 									<dl class="route-detail">
@@ -202,11 +129,17 @@
 									<li>
 										<span class="days"><?php echo $tour[$i]['days'];?></span>
 									<?php if($tour[$i]['tour_type']=='2') :?>
-										<span class="tags">公司出游</span>
+										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">公司出游</span>
+										
+											
+
+
 									<?php elseif($tour[$i]['tour_type']=='3') :?>
-										<span class="tags">自由行</span>
+										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">自由行</span>
+										
+										
 									<?php else :?>
-										<span class="tags">纯玩跟团</span>
+										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">友途活动 </span>
 									<?php endif ;?>
 									<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>

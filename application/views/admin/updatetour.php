@@ -35,8 +35,15 @@
 					<label class="control-label" for="publish">是否发布：</label>
 					<div class="controls">
 						<select name="piblish_select">
-							<option name="publish" value="1" selected="selected">发布</option>
-							<option name="publish" value="0">暂不发布</option>
+							<?php if(isset($tour[0]->ispublish)):?>
+								<?php if($tour[0]->ispublish==1):?>
+								<option name="publish" value="1" selected="selected">发布</option>
+								<option name="publish" value="0">暂不发布</option>
+								<?php else:?>
+								<option name="publish" value="1">发布</option>
+								<option name="publish" value="0" selected="selected">暂不发布</option>
+								<?php endif;?>
+							<?php endif;?>
 						</select>	
 					</div>
 				</div>

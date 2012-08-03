@@ -14,7 +14,7 @@ class Show extends CI_Model
 		}
 		else
 		{
-			$this->db->where('tour_type','1');
+			$this->db->where('tour_type !=','0');
 		}
 		$this->db->where('ispublish','1');
 		$this->db->from('uto_tour');

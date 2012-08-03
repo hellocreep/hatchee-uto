@@ -48,13 +48,98 @@ var inquiry_form2="<form class='inquiry-form'> \
 			</table> \
 			</form>";
 
+// 类型区别
+var tagcon = "<table class='tag-con'> \
+						<colgroup class='list3'></colgroup> \
+						<colgroup class='list0'></colgroup><!-- 纯玩跟团游 --> \
+						<colgroup class='list2'></colgroup><!-- 自由行 --> \
+						<colgroup class='list1'></colgroup><!-- 独立成团  --> \
+						<colgroup class='list4'></colgroup><!-- 友途活动 --> \
+						<thead> \
+						<tr> \
+							<th>旅行方式</th> \
+							<th>纯玩跟团游</th> \
+							<th>自由行</th> \
+							<th>独立成团</th> \
+							<th>友途活动</th> \
+						</tr> \
+						</thead> \
+						<tbody> \
+						<tr> \
+							<th>适合人群</th> \
+							<td>中青年老年、首次出行、临时安排、经济</td> \
+							<td>年轻人、1-3人</td> \
+							<td>中高收入者、深度旅游者、团体</td> \
+							<td>友途会员群体出游</td> \
+						</tr> \
+						<tr> \
+							<th>行程安排</th> \
+							<td>固定，线路与有资质旅行社合作</td> \
+							<td>自由</td> \
+							<td>特别定制</td> \
+							<td>友途独家精选线路</td> \
+						</tr> \
+						<tr> \
+							<th>住宿酒店</th> \
+							<td>团队固定酒店、中低端</td> \
+							<td>自选</td> \
+							<td>特别精选</td> \
+							<td>精选当地特色酒店</td> \
+						</tr> \
+						<tr> \
+							<th>餐饮</th> \
+							<td>团队餐</td> \
+							<td>无</td> \
+							<td>特别精选</td> \
+							<td>AA或者精选餐饮，餐标较高 </td> \
+						</tr> \
+						<tr> \
+							<th>旅行节奏</th> \
+							<td>快</td> \
+							<td>自由</td> \
+							<td>特别定制</td> \
+							<td>体验、节奏悠闲</td> \
+						</tr> \
+						<tr> \
+							<th>导游服务</th> \
+							<td>有</td> \
+							<td>无</td> \
+							<td>可选</td> \
+							<td>专职领队</td> \
+						</tr> \
+						<tr> \
+							<th>购物安排</th> \
+							<td>纯玩无购物</td> \
+							<td>无</td> \
+							<td>无</td> \
+							<td>无</td> \
+						</tr> \
+						<tr> \
+							<th>自费安排</th> \
+							<td>有</td> \
+							<td>可选</td> \
+							<td>可选</td> \
+							<td>可选</td> \
+						</tr> \
+						<tr> \
+							<th>费用预算</th> \
+							<td>经济实惠、便宜</td> \
+							<td>一般</td> \
+							<td>稍贵</td> \
+							<td>稍贵</td> \
+						</tr> \
+						</tbody> \
+					</table> "
+
+
+
 //按钮提交中mask
 var btn_mask = function( target ){
 	$( target ).ajaxStart(function(){
 		var h = $( this ).outerHeight();
 		var w = $( this ).outerWidth();
 		var offset = $( this ).offset();
-		var mask = $( '<div class="btn-mask"></div>' ).css({
+		var mask = $( '<div class=btn-mask"></div>' ).css({
 			height: h,
 			widht: w,
 			left: -w,
@@ -67,6 +152,7 @@ var btn_mask = function( target ){
 
 
 $(function(){
+
 
 	// 导航置顶
 	// if( !$( '#a-index').length > 0 ){
@@ -95,6 +181,17 @@ $(function(){
 		$(this).children('div').stop().animate({"opacity":0 },500);
 	})
 
+
+	// 主题旅行tag解释
+	$(".tags").append(tagcon);
+
+	$('.tags').hover(function(){
+		$(this).children('.tag-con').show();
+	},function(){
+		$(this).children('.tag-con').hide();
+	})
+
+	
 
 	// 线路内页选项卡切换
 	$('.sub-nav > li').each(function(index){

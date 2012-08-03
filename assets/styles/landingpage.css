@@ -63,9 +63,56 @@
 	border-radius: 2px;
 	text-align: center;
 	line-height: 14px;
+	cursor: default;
 	color: #fff;
+	position: relative;
 	margin:10px 10px 0 0;
 }
+
+
+.routelist .tags1{
+	background: #EE3124;
+}
+.routelist .tags2{
+	background: #5192CB;
+}
+.routelist .tags3{
+	background: #CEDBBC;
+}
+.routelist .tags4{
+	background: #3C774D;
+}
+.routelist .tags0{
+	background: #3283BA;
+}
+.tags1 .list1, .tags2 .list2, .tags3 .list3, .tags0 .list4{
+	background: #DEF3CA;
+}
+
+.list0, .list1 ,.list2 ,.list3 ,.list4    
+{ 
+	background-color: #F0FCFB;
+}
+
+.tag-con{
+	display: none;
+	color: #333333;
+	left: 0;
+	line-height: 15px;
+	position: absolute;
+	top: 28px;
+	width: 480px;
+	z-index: 99;
+	font-family: "微软雅黑";
+	font-size: 12px;
+}
+
+.tag-con td,
+.tag-con th { padding: 2px 5px; vertical-align: middle;  text-align: center; border:1px dotted #eee;}
+.tag-con thead th{
+	background: #73C2BD;
+}
+
 .routelist dt{
 	display: block;
 	float: left;

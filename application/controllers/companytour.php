@@ -48,7 +48,7 @@ class Companytour extends CI_Controller
 			"create_date"=>date('Y-m-d H:i:s',time()),
 			"inquiry_type"=>'1'//订单类型 默认0  小包团  1 公司出游
 		);
-		$content='<table><tr><td>公司名称：</td><td>'.$inquiry->company.'</td></tr>
+		$content='<table><tbody><tr><td>公司名称：</td><td>'.$inquiry->company.'</td></tr>
 		<tr><td>公司拓展活动：</td><td>'.$inquiry->expand.'</td></tr>
 		<tr><td>企业内训课程：</td><td>'.$inquiry->train.'</td></tr>
 		<tr><td>这趟出游要达到的目的：</td><td>'.$inquiry->aim.'</td></tr>

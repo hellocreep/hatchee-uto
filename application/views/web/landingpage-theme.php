@@ -125,11 +125,12 @@
 				
 								</dl>
 								</li>
-								<?php else:?>
+
+								<?php elseif($tour[$i]['tour_type']!='2'):?>
 									<li>
 										<span class="days"><?php echo $tour[$i]['days'];?></span>
-									<?php if($tour[$i]['tour_type']=='2') :?>
-										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">公司出游</span>
+									<?php if($tour[$i]['tour_type']=='0') :?>
+										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">友途活动</span>
 										
 											
 
@@ -138,20 +139,38 @@
 										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">自由行</span>
 										
 										
-									<?php else :?>
-										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">纯玩跟</span>
+									<?php elseif($tour[$i]['tour_type']=='4') :?>
+										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">纯玩跟团</span>
 									<?php endif ;?>
 									<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 									<dl class="route-detail">
 										<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" alt="<?php echo $tour[$i]['name'];?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140" /></a></dt>
-										<dd>
+										<!-- <dd>
 											<span><b>旅行主题：&nbsp;&nbsp;</b></span><div><?php echo str_replace(',','、',substr($tour[$i]['theme'],0,-1));?></div>
-										</dd>
+										</dd> -->
+										<!-- 出发时间: -->
 										<dd>
 											<span><b>旅行地区：&nbsp;&nbsp;</b></span><div><?php echo str_replace(',','、',substr($tour[$i]['destination'],0,-1));?></div>
 										</dd>
 										<dd>
+											<span><b>旅行时间：&nbsp;&nbsp;</b></span><div><?php   ?></div>
+										</dd>
+										<dd>
+										<span>价&#12288;&#12288;格：</span>
+										<div>
+											<?php if(isset($tour[$i]['price']) && $tour[$i]['price'] != 0): ?>
+											<?php echo '<b class="price">'.$tour[$i]['price']."</b>元起";?>
+											<?php else:?>
+											<?php echo "一团一议";?>
+											<?php endif;?>
+
+										</div>
+										</dd>
+
+
+
+<!-- 										<dd>
 											<p>
 												<em class="red">*&nbsp;&nbsp;</em>友途官方组织的活动线路，保证一个人也发团，价格
 												<b class="price"><?php if(isset($tour[$i]['price'])): ?>
@@ -159,7 +178,7 @@
 											<?php endif;?></b>
 												元起;
 											</p>
-										</dd>
+										</dd> -->
 										<dd>
 											<span class="promotion"><img src="assets/images/promotion100.png"></span>
 										</dd>

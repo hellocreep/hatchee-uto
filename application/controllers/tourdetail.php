@@ -53,7 +53,7 @@ class Tourdetail extends CI_Controller{
 		{
 			$this->load->view('web/tour',$data);
 		}
-		elseif($tourinfo[0]->tour_type==1)
+		elseif($tourinfo[0]->tour_type==1 || $tourinfo[0]->tour_type==4 )
 		{
 			$destination=$this->tour->destinations();
 			$arr=explode(",",$tourinfo[0]->destination);

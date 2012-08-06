@@ -529,22 +529,25 @@ $(function(){
 		}
 	});
 	
-$('#tourtype .type'+$.cookie('sort')).attr('selected','selected');
+	// 主题旅行线路筛选
+	$('#tourtype .type'+$.cookie('sort')).attr('selected','selected');
+
 	$('#tourtype').change(function(){
 		$.cookie('sort',$('#tourtype').val());
 		alert($.cookie('sort'));
 		alert($('#tourtype').val());
-		if($(this).val()=='0')
-		{
+		if($(this).val()=='0'){
 			window.location.href='themetour';
 		}
-		else
-		{
-		window.location.href='themetour/index/?type='+$('#tourtype').val();
+		else{
+			window.location.href='themetour/index/?type='+$('#tourtype').val();
 		}
 	});
 	
 	$('#tourtype .type'+$.cookie('sort')).attr('selected','selected');
 	$.cookie('sort','');
+
+
+
 })
 })(jQuery);

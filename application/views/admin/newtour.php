@@ -143,6 +143,13 @@
 					</div>
 
 					<div class="control-group">
+						<label class="control-label" for="departure">出发时间：</label>
+						<div class="controls">
+							<input name="departure" class="input-small" type="text">
+						</div>
+					</div>
+
+					<div class="control-group">
 						<label class="control-label" for="discount">折扣信息：</label>
 						<div class="controls">
 							<textarea name="discount" class="input-xlarge" rows="5">&bull;&nbsp;提前<em>20</em>天（含）以上完成签约和付清全款，每位成人优惠<em>50</em>元。<br>

@@ -175,6 +175,13 @@
 						<input name="price" class="input-small" type="text" value="<?php echo $tour[0] -> price; ?>">
 					</div>
 				</div>
+
+				<div class="control-group">
+					<label class="control-label" for="departure">出发时间：</label>
+					<div class="controls">
+						<input name="departure" class="input-small" type="text">
+					</div>
+				</div>
 				
 				<div class="control-group">
 					<label class="control-label" for="discount">折扣信息：</label>

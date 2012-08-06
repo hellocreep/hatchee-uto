@@ -35,7 +35,95 @@
 					<input type="hidden" value="<?php echo $tour[0]->tour_type;?>" id="is_private">
 					
 					<?php  if($tour[0]->tour_type==4):?>
-						test
+						
+						<?php if(isset($tour[0]->name)):?>
+						<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
+						<?php endif;?>
+						<div class="describe clearfix">
+							<div class="des-l">
+								<?php if(isset($tour[0]->thumbnail)): ?>
+									<img class="des-img" width="300" height="180" src="<?php echo $tour[0]->thumbnail; ?>" title="<?php echo $tour[0]->name;?>" alt="<?php echo $tour[0]->name;?>">
+								<?php endif;?>
+								<ul>
+									<li>
+										<b>价&#12288;&#12288;格：</b>
+										<span class="price">
+											<?php if(isset($tour[0]->price) && $tour[0]->price != 0): ?>
+											<?php echo '￥<b>'.$tour[0]->price."</b>起";?>
+											<?php else:?>
+											<?php echo "一团一议";?>
+											<?php endif;?>
+										</span>
+										<span class="s-wrap">
+											<img src="assets/images/why.gif">&nbsp;起价说明
+											<span class="inbox">
+												1. 本起价是从已经核算好的时间内、按双人出行共用一间房的单人最低价格。
+												<br>
+												2. 本起价为纯玩品质团，包含领队和导游服务费的价格。
+											</span>
+										</span>
+									</li>
+									<li> <b>报名时间：</b>
+										<span  class="m-time">
+											请提前&nbsp; <b>5</b>
+											&nbsp;天报名
+										</span>
+									</li>
+									<li>
+										<b>出发时间：</b>
+										<span></span>
+									</li>
+									<li>
+										<b>客服电话：</b>
+										<span class="price">
+											<b>4000-520-161</b>
+										</span>
+									</li>
+									<li>
+										<b>客服&nbsp;QQ：</b>
+										<?php $this -> load -> view("web/qqonline");?> <!-- 在线联系QQ -->
+									</li>
+									
+								</ul>						
+								<h5>纯玩跟团产品说明 </h5>
+								<p>
+									1. 只做纯玩与品质有关的事情；
+									<br>
+									2. 与四川市面上接待质量最好的旅行社强强联合发团；
+									<br>
+									3. 二环内上门接客人，出游更简单；
+									<br>
+									4.这条线在某某网上的价格比友途旅行网便宜多少多少，为什么？ 同一款产品，有推荐购物、强制购物，所以价格很多也有很大的差别。我们的报价是市面上接待质量最好的旅行社价格，是纯玩不购物团的价格。
+								</p>
+								
+							</div>
+						</div>
+						
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 					<?php else:?>
 						<?php if(isset($tour[0]->name)):?>
 						<h1 id="tour_title"><?php echo $tour[0] -> name;?></h1>
@@ -83,7 +171,6 @@
 											请提前&nbsp; <b>10</b>
 											&nbsp;天报名
 										</span>
-
 									</li>
 									<li>
 										<b>客服电话：</b>
@@ -114,7 +201,6 @@
 								</p>
 								
 							</div>
-
 
 							<!-- <?php if(isset($tour[0]->intro)):
 								?>

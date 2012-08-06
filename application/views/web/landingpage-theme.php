@@ -155,7 +155,12 @@
 											<span><b>旅行地区：&nbsp;&nbsp;</b></span><div><?php echo str_replace(',','、',substr($tour[$i]['destination'],0,-1));?></div>
 										</dd>
 										<dd>
-											<span><b>旅行时间：&nbsp;&nbsp;</b></span><div><?php   ?></div>
+											<span><b>出发时间：&nbsp;&nbsp;</b></span>
+											<div>
+												<?php if(isset($tour[$i]['departure'])): ?>
+													<?php echo $tour[$i]['departure'] ;?>
+												<?php endif; ?>
+											</div>
 										</dd>
 										<dd>
 										<span>价&#12288;&#12288;格：</span>
@@ -169,17 +174,6 @@
 										</div>
 										</dd>
 
-
-
-<!-- 										<dd>
-											<p>
-												<em class="red">*&nbsp;&nbsp;</em>友途官方组织的活动线路，保证一个人也发团，价格
-												<b class="price"><?php if(isset($tour[$i]['price'])): ?>
-											<?php echo $tour[$i]['price'];?>
-											<?php endif;?></b>
-												元起;
-											</p>
-										</dd> -->
 										<dd>
 											<span class="promotion"><img src="assets/images/promotion100.png"></span>
 										</dd>

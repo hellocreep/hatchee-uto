@@ -543,8 +543,5 @@ $('#tourtype .type'+$.cookie('sort')).attr('selected','selected');
 		window.location.href='themetour/index/?type='+$('#tourtype').val();
 		}
 	});
-	
-	$('#tourtype .type'+$.cookie('sort')).attr('selected','selected');
-	$.cookie('sort','');
 })
 })(jQuery);

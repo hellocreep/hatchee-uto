@@ -6,7 +6,7 @@ class Show extends CI_Model
 		parent::__construct();
 		$this->load->database();
 	}
-	public function totaltour($term)
+	public function totaltour($term,$sort)
 	{
 		if($term!='')
 		{
@@ -14,16 +14,32 @@ class Show extends CI_Model
 		}
 		else
 		{
-			$this->db->where('tour_type !=','0');
+			if($sort!='')
+			{
+				$this->db->where('tour_type',$sort);
+			}
+			else
+			{
+				$this->db->where('tour_type !=','0');
+				$this->db->where('tour_type !=','2');
+			}
 		}
 		$this->db->where('ispublish','1');
 		$this->db->from('uto_tour');
 		$query=$this->db->get();
 		return $query->num_rows();
 	}
-	public function showthemetour($offset,$num,$action,$sort)
+	public function showthemetour($offset,$num,$action,$sort,$sorttype)
 	{
-		$this->db->where('tour_type !=','0');
+		if($sorttype!='')
+		{
+			$this->db->where('tour_type',$sorttype);
+		}
+		else
+		{
+			$this->db->where('tour_type !=','0');
+			$this->db->where('tour_type !=','2');
+		}
 		$this->db->where('ispublish','1');
 		$this->db->limit($num,$offset);
 		$this->db->from('uto_tour');

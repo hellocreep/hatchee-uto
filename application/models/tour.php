@@ -13,7 +13,15 @@
 			$data=$query->result();
 			return $data;	
 		}
-		
+		public function searchtour($key)
+		{
+			$step = 15;
+			$begin = ($page-1) * $step;
+			$sql = "select Id,name,edit_time,who_edit,price,tour_type from uto_tour where title like '%".$key."%' limit ".$begin.",".$step;
+			$query=$this->db->query($sql);
+			$data=$query->result();
+			return $data;	
+		}
 		public function tourcount(){
 			$sql = "select Id from uto_tour";
 			$query = $this->db->query($sql);

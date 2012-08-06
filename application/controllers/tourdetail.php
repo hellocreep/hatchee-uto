@@ -53,7 +53,8 @@ class Tourdetail extends CI_Controller{
 		{
 			$this->load->view('web/tour',$data);
 		}
-		elseif($tourinfo[0]->tour_type==1 || $tourinfo[0]->tour_type==4 )
+
+		elseif($tourinfo[0]->tour_type==2 )
 		{
 			$destination=$this->tour->destinations();
 			$arr=explode(",",$tourinfo[0]->destination);
@@ -64,8 +65,7 @@ class Tourdetail extends CI_Controller{
 					$data['des'][]=$destination[$i]['name'];
 				}
 			}
-
-			$this->load->view('web/smalltour',$data);
+			$this->load->view('web/companytour',$data);
 		}
 		else
 		{
@@ -78,7 +78,8 @@ class Tourdetail extends CI_Controller{
 					$data['des'][]=$destination[$i]['name'];
 				}
 			}
-			$this->load->view('web/companytour',$data);
+
+			$this->load->view('web/smalltour',$data);
 		}
 	} 
 

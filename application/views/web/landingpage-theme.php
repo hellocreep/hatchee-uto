@@ -53,7 +53,7 @@
 	
 					<div class="sort">
 						排序方式：
-						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>
+						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>|<select name="tourtype" id="tourtype"><option value='0' class='type0'>选择全部</option><option value="1"  class='type1'>定制旅行</option><option value="3"  class='type3'>自由行</option><option value="4"  class='type4'>纯玩跟团</option></select>
 					<div class="pagenate">
 							<!--<a>共<?php echo $count;?>页</a>
 							<a>当前第 <?php echo $pagenow;?> 页  </a>
@@ -139,7 +139,7 @@
 										
 										
 									<?php else :?>
-										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">纯玩跟</span>
+										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">纯玩跟团</span>
 									<?php endif ;?>
 									<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>

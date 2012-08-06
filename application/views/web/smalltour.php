@@ -83,6 +83,7 @@
 											请提前&nbsp; <b>10</b>
 											&nbsp;天报名
 										</span>
+
 									</li>
 									<li>
 										<b>客服电话：</b>
@@ -113,6 +114,7 @@
 								</p>
 								
 							</div>
+
 
 							<!-- <?php if(isset($tour[0]->intro)):
 								?>

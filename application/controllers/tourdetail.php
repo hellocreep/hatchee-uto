@@ -53,6 +53,7 @@ class Tourdetail extends CI_Controller{
 		{
 			$this->load->view('web/tour',$data);
 		}
+
 		elseif($tourinfo[0]->tour_type==2 )
 		{
 			$destination=$this->tour->destinations();

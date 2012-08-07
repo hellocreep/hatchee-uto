@@ -27,7 +27,7 @@ class Tourmanage extends CI_Controller{
 		$data = $this->tour->tourcount();
 		echo $data; 
 	}
-
+	
 	function newtour(){
 		if(@$_SESSION['username'])
 		{
@@ -439,6 +439,23 @@ class Tourmanage extends CI_Controller{
 		$this->load->model('tour');
 		$tour=new Tour();
 		echo $tour->priceupdate($id,$data);
+		
+	}
+	function searchtour()
+	{
+		$key=$_POST['keywords'];
+		if(isset($_POST['page']) &&$_POST['page']!='')
+		{
+			$page = $_POST['page'];
+		}
+		else
+		{
+			$page=1;
+		}
+		$this->load->model('tour');
+		$tour=new Tour();
+		$data = $this->tour->searchtour( $key,$page );
+		echo json_encode($data);
 		
 	}
 }

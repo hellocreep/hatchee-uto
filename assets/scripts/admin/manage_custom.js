@@ -145,6 +145,7 @@ var page_count = function( opts ){
 	var _step = 15;
 	$.ajax({
 		url: opts.url1,
+		data: { keywords:opts.keywords},
 		success: function( result ){
 			if( $('#list-title .badge').length == 0 ){
 				$( '#list-title' ).append( '<span class="badge">'+result+'</span>' );
@@ -423,9 +424,56 @@ var tour = {
 		});
 	},
 	//TODO
-	search_tour: function(){
+	search_tour: function(result,keywords){
+		var tour_list = ' ';
+		var who_edit =' ';
+		var tour_type = '';
+		for( var i = 0; i<result.length; i++ ){
+			if( result[i].who_edit.length>0 ){
+				who_edit = "<span class='label label-warning' title='正在编辑'>"+result[i].who_edit+"</span>";
+			}else{
+				who_edit = '';
+			}
+			if( result[i].tour_type == 0 ){
+				tour_type = "<span class='badge badge-tour-type badge-0'>活动</span>";
+			}
+			if( result[i].tour_type == 1 ){
+				tour_type = "<span class='badge badge-tour-type badge-1'>定制</span>";
+			}
+			if( result[i].tour_type == 2 ){
+				tour_type = "<span class='badge badge-tour-type badge-2'>公司</span>";
+			}
+			if( result[i].tour_type == 2 ){
+				tour_type = "<span class='badge badge-tour-type badge-3'>自由</span>";
+			}
+			if( result[i].tour_type == 2 ){
+				tour_type = "<span class='badge badge-tour-type badge-4'>纯玩</span>";
+			}
 
-	}
+			tour_list += "<tr><td class='t_id'>"+result[i].Id+tour_type+"</td> \
+			<td class='t_name'>" +result[i].name+ "</td> \
+			<td class='t_price' rel='"+result[i].price+"'>"+result[i].price+"</td> \
+			<td>"+result[i].edit_time+"</td> \
+			<td><i class='icon-share'></i><a target='_blank' href='tourdetail/?tid="+result[i].Id+"'>预览</a> \
+			<i class='icon-pencil'></i><a href='tourmanage/edittour/?tid="+result[i].Id+"' class='edit-tour'>修改</a> \
+			<i class='icon-trash'></i><a class='del-tour' href='#'>删除</a>"+who_edit+"</td></tr>";
+		}
+		$( '#list-head' ).html( tour_list_tpl );
+		list_panel.html( tour_list );
+		loadings.hide();
+		tour.count_searchtour(keywords);
+		tour.del_tour();
+		tour.edit_price();
+		$( '.pagination' ).show();
+	},
+	count_searchtour: function(key){
+		page_count({
+			url1: 'tourmanage/seartourcount',
+			url2:  'tourmanage/seartour',
+			type: 'tour',
+			keywords:key
+		});
+	},
 
 }
 
@@ -957,7 +1005,7 @@ $(function(){
 				keywords: keywords
 			},
 			success: function(result){
-					tour.list_tour( result );
+					tour.search_tour( result,keywords );
 			}
 		});
 	})

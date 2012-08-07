@@ -22,6 +22,14 @@
 			$data=$query->result();
 			return $data;	
 		}
+		public function searchtourcount($key)
+		{
+			
+			$sql = "select Id from uto_tour where title like '%".$key."%'";
+			$query=$this->db->query($sql);
+			$data=$query->num_rows();
+			return $data;	
+		}
 		public function tourcount(){
 			$sql = "select Id from uto_tour";
 			$query = $this->db->query($sql);

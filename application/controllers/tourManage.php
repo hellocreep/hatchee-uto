@@ -441,6 +441,14 @@ class Tourmanage extends CI_Controller{
 		echo $tour->priceupdate($id,$data);
 		
 	}
+	function seartourcount()
+	{
+		$key=$_POST['keywords'];
+		$this->load->model('tour');
+		$tour=new Tour();
+		$data = $this->tour->searchtourcount($key);
+		echo $data;
+	}
 	function searchtour()
 	{
 		$key=$_POST['keywords'];

@@ -53,7 +53,7 @@
 	
 					<div class="sort">
 						排序方式：
-						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>|<select name="tourtype" id="tourtype"><option value='0' class='type0'>选择全部</option><option value="1"  class='type1'>定制旅行</option><option value="3"  class='type3'>自由行</option><option value="4"  class='type4'>纯玩跟团</option></select>
+						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>|<select name="tourtype" id="tourtype"><option value='' class='type' <?php echo $sortindex;?>>选择全部</option><option value="1"  class='type1' <?php echo $sortcustomize;?>>定制旅行</option><option value="3"  class='type3' <?php echo $sortfree;?>>自由行</option><option value="4"  class='type4' <?php echo $sortgroup;?>>纯玩跟团</option></select>
 					<div class="pagenate">
 							<!--<a>共<?php echo $count;?>页</a>
 							<a>当前第 <?php echo $pagenow;?> 页  </a>

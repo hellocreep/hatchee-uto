@@ -27,7 +27,7 @@ class Tourmanage extends CI_Controller{
 		$data = $this->tour->tourcount();
 		echo $data; 
 	}
-
+	
 	function newtour(){
 		if(@$_SESSION['username'])
 		{
@@ -82,6 +82,7 @@ class Tourmanage extends CI_Controller{
 		$route_intro=$data->route_intro;
 		$intro=$data->intro;//线路简介
 		$content=$data->content;
+		$departure=$data->departure;
 		$notice=$data->notice;
 		$term=$data->term;
 		$gallery=$data->gallery;
@@ -161,6 +162,7 @@ class Tourmanage extends CI_Controller{
 				'tour_type'=>$tour_type,
 				'tour_map'=>$tour_map,
 				'ispublish'=>$ispublish,
+				'departure'=>$departure,
 				'sortid'=>$sortid,
 				'company_intro'=>$data->company_intro
 				
@@ -275,6 +277,7 @@ class Tourmanage extends CI_Controller{
 		$route_intro=$data->route_intro;
 		$intro=$data->intro;//线路简介
 		$content=$data->content;
+		$departure=$data->departure;
 		$notice=$data->notice;
 		$thumbnail=$data->thumbnail;
 		$gallery=$data->gallery;
@@ -348,6 +351,7 @@ class Tourmanage extends CI_Controller{
 				'edit_time'=>date('Y-m-d H:i:s',time()),
 				'term'=>$term,
 				'tags'=>$tags,
+				'departure'=>$departure,
 				'theme'=>$theme,
 				'destination'=>$destination,
 				'groups'=>$group,
@@ -435,6 +439,23 @@ class Tourmanage extends CI_Controller{
 		$this->load->model('tour');
 		$tour=new Tour();
 		echo $tour->priceupdate($id,$data);
+		
+	}
+	function searchtour()
+	{
+		$key=$_POST['keywords'];
+		if(isset($_POST['page']) &&$_POST['page']!='')
+		{
+			$page = $_POST['page'];
+		}
+		else
+		{
+			$page=1;
+		}
+		$this->load->model('tour');
+		$tour=new Tour();
+		$data = $this->tour->searchtour( $key,$page );
+		echo json_encode($data);
 		
 	}
 }

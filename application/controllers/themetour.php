@@ -10,18 +10,7 @@ class Themetour extends CI_Controller
 	}
 	function index()
 	{
-		if(isset($_GET['type']) && $_GET['type']!='0')
-		{
-			$sorttype=$_GET['type'];
-		}
-		elseif(isset($_COOKIE['sort']) && isset($_COOKIE['sort'])!='0')
-		{
-			$sorttype=$_COOKIE['sort'];
-		}
-		else
-		{
-			$sorttype='';
-		}
+		$sorttype='';
 		$this->load->model('show');
 		$num=$this->show->totaltour('',$sorttype);
 		$per_page=8;
@@ -117,7 +106,353 @@ class Themetour extends CI_Controller
 		}
 
 		$data['count']=$count;
+		$data['sortindex']='selected=selected';
+		$data['sortcustomize']='';
+		$data['sortfree']='';
+		$data['sortgroup']='';
 		$data['pagenow']=$page;
+		$this->load->library('cimarkdown');
+		$this->load->model('webpage');
+		$this->webpage=new webpage();
+		$type="theme_tour";
+		$data['webinfo'] = $this->webpage->getpage($type);
+		$data['dess']=$this->show->deslist();
+		$data['theme']=$this->show->themelist();
+		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort,$sorttype);
+		$data['dess']=$this->show->deslist();
+		$this->load->view('web/landingpage-theme',$data);		
+	}
+	function customize()
+	{
+		$sorttype='1';
+		$this->load->model('show');
+		$num=$this->show->totaltour('',$sorttype);
+		$per_page=8;
+		$count=ceil($num/$per_page);
+		$page=$this->uri->segment(3);
+		if($page=='')
+		{
+			$page=1;
+		}
+		$action=$this->uri->segment(4);
+		$sort=$this->uri->segment(5);
+		if(isset($page) && $page!='')
+		{
+			$start=($page*$per_page)-$per_page;
+		}
+		else
+		{
+			$start=0;
+		}
+		
+		if(isset($action) &&$action!='')
+		{
+			$data['page']['first']='themetour/customize/1/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/customize/'.$count.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			if($page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if($page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='termtour/customize/'.$i.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/customize/'.$pagepre.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/customize/'.$pagenext.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+		}
+		else
+		{
+			$data['page']['first']='themetour/customize/1'.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/customize/'.$count.$this->config->item('url_suffix');
+			if(isset($page) && $page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if(isset($page) && $page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='themetour/customize/'.$i.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/customize/'.$pagepre.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/customize/'.$pagenext.$this->config->item('url_suffix');
+		}
+		if(isset($sort) && $sort!='')
+		{
+			if($sort=='asc')
+			{
+				$data['sortday']='themetour/customize/1/days/desc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/customize/1/price/desc'.$this->config->item('url_suffix');
+			}
+			else
+			{
+				$data['sortday']='themetour/customize/1/days/asc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/customize/1/price/asc'.$this->config->item('url_suffix');
+			}
+		}
+		else
+		{
+			$data['sortday']='themetour/customize/1/days/asc'.$this->config->item('url_suffix');
+			$data['sortprice']='themetour/customize/1/price/asc'.$this->config->item('url_suffix');
+			$sort='asc';
+		}
+
+		$data['count']=$count;
+		$data['pagenow']=$page;
+		$data['sortindex']='';
+		$data['sortcustomize']='selected=selected';
+		$data['sortfree']='';
+		$data['sortgroup']='';
+		$this->load->library('cimarkdown');
+		$this->load->model('webpage');
+		$this->webpage=new webpage();
+		$type="theme_tour";
+		$data['webinfo'] = $this->webpage->getpage($type);
+		$data['dess']=$this->show->deslist();
+		$data['theme']=$this->show->themelist();
+		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort,$sorttype);
+		$data['dess']=$this->show->deslist();
+		$this->load->view('web/landingpage-theme',$data);		
+	}
+	function free()
+	{
+		$sorttype='3';
+		$this->load->model('show');
+		$num=$this->show->totaltour('',$sorttype);
+		$per_page=8;
+		$count=ceil($num/$per_page);
+		$page=$this->uri->segment(3);
+		if($page=='')
+		{
+			$page=1;
+		}
+		$action=$this->uri->segment(4);
+		$sort=$this->uri->segment(5);
+		if(isset($page) && $page!='')
+		{
+			$start=($page*$per_page)-$per_page;
+		}
+		else
+		{
+			$start=0;
+		}
+		
+		if(isset($action) &&$action!='')
+		{
+			$data['page']['first']='themetour/free/1/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/free/'.$count.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			if($page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if($page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='termtour/free/'.$i.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/free/'.$pagepre.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/free/'.$pagenext.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+		}
+		else
+		{
+			$data['page']['first']='themetour/free/1'.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/free/'.$count.$this->config->item('url_suffix');
+			if(isset($page) && $page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if(isset($page) && $page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='themetour/free/'.$i.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/free/'.$pagepre.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/free/'.$pagenext.$this->config->item('url_suffix');
+		}
+		if(isset($sort) && $sort!='')
+		{
+			if($sort=='asc')
+			{
+				$data['sortday']='themetour/free/1/days/desc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/free/1/price/desc'.$this->config->item('url_suffix');
+			}
+			else
+			{
+				$data['sortday']='themetour/free/1/days/asc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/free/1/price/asc'.$this->config->item('url_suffix');
+			}
+		}
+		else
+		{
+			$data['sortday']='themetour/free/1/days/asc'.$this->config->item('url_suffix');
+			$data['sortprice']='themetour/free/1/price/asc'.$this->config->item('url_suffix');
+			$sort='asc';
+		}
+
+		$data['count']=$count;
+		$data['pagenow']=$page;
+		$data['sortindex']='';
+		$data['sortcustomize']='';
+		$data['sortfree']='selected=selected';
+		$data['sortgroup']='';
+		$this->load->library('cimarkdown');
+		$this->load->model('webpage');
+		$this->webpage=new webpage();
+		$type="theme_tour";
+		$data['webinfo'] = $this->webpage->getpage($type);
+		$data['dess']=$this->show->deslist();
+		$data['theme']=$this->show->themelist();
+		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort,$sorttype);
+		$data['dess']=$this->show->deslist();
+		$this->load->view('web/landingpage-theme',$data);		
+	}
+	function group()
+	{
+		$sorttype='4';
+		$this->load->model('show');
+		$num=$this->show->totaltour('',$sorttype);
+		$per_page=8;
+		$count=ceil($num/$per_page);
+		$page=$this->uri->segment(3);
+		if($page=='')
+		{
+			$page=1;
+		}
+		$action=$this->uri->segment(4);
+		$sort=$this->uri->segment(5);
+		if(isset($page) && $page!='')
+		{
+			$start=($page*$per_page)-$per_page;
+		}
+		else
+		{
+			$start=0;
+		}
+		
+		if(isset($action) &&$action!='')
+		{
+			$data['page']['first']='themetour/group/1/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/group/'.$count.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			if($page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if($page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='termtour/group/'.$i.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/group/'.$pagepre.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/group/'.$pagenext.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+		}
+		else
+		{
+			$data['page']['first']='themetour/group/1'.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/group/'.$count.$this->config->item('url_suffix');
+			if(isset($page) && $page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if(isset($page) && $page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='themetour/group/'.$i.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/group/'.$pagepre.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/group/'.$pagenext.$this->config->item('url_suffix');
+		}
+		if(isset($sort) && $sort!='')
+		{
+			if($sort=='asc')
+			{
+				$data['sortday']='themetour/group/1/days/desc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/group/1/price/desc'.$this->config->item('url_suffix');
+			}
+			else
+			{
+				$data['sortday']='themetour/group/1/days/asc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/group/1/price/asc'.$this->config->item('url_suffix');
+			}
+		}
+		else
+		{
+			$data['sortday']='themetour/group/1/days/asc'.$this->config->item('url_suffix');
+			$data['sortprice']='themetour/group/1/price/asc'.$this->config->item('url_suffix');
+			$sort='asc';
+		}
+
+		$data['count']=$count;
+		$data['pagenow']=$page;
+		$data['sortindex']='';
+		$data['sortcustomize']='';
+		$data['sortfree']='';
+		$data['sortgroup']='selected=selected';
 		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();

@@ -10,7 +10,7 @@ class Termtour extends CI_Controller
 	function index()
 	{
 		$this->load->model('show');
-		$num=$this->show->totaltour('term');
+		$num=$this->show->totaltour('term','');
 		$per_page=5;
 		$count=ceil($num/$per_page);
 		$page=$this->uri->segment(3);

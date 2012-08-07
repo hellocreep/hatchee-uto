@@ -13,7 +13,7 @@
 			$data=$query->result();
 			return $data;	
 		}
-		public function searchtour($key)
+		public function searchtour($key,$page)
 		{
 			$step = 15;
 			$begin = ($page-1) * $step;

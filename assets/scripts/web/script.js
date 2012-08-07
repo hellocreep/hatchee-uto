@@ -529,19 +529,25 @@ $(function(){
 		}
 	});
 	
-$('#tourtype .type'+$.cookie('sort')).attr('selected','selected');
 	$('#tourtype').change(function(){
-		$.cookie('sort',$('#tourtype').val());
-		alert($.cookie('sort'));
-		alert($('#tourtype').val());
-		if($(this).val()=='0')
+		if($('#tourtype').val()=='')
 		{
-			window.location.href='themetour';
+			window.location.href='themetour.html';
+		}
+		else if($('#tourtype').val()=='1')
+		{
+			window.location.href='themetour/customize.html';
+		}
+		else if($('#tourtype').val()=='1')
+		{
+			window.location.href='themetour/free.html';
 		}
 		else
 		{
-		window.location.href='themetour/index/?type='+$('#tourtype').val();
+			window.location.href='themetour/group.html';
 		}
+		
 	});
+
 })
 })(jQuery);

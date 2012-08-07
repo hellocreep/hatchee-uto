@@ -943,9 +943,11 @@ $(function(){
 			}
 		});
 	});
-	
+
 	// 线路列表搜索 过滤
-	$('#search_tour').click(function( e ){
+
+	$('#search_tour').live("click", function( e ){
+
 		e.preventDefault();
 		var keywords = $('.search-query').val();
 		$.ajax({

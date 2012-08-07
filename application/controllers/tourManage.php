@@ -88,6 +88,7 @@ class Tourmanage extends CI_Controller{
 		$tour_type=$data->tour_type;
 		$tour_map=$data->map;
 		$ispublish=$data->publish;
+		$sortid=$data->sortid;
 		$tags='';
 		$theme='';
 		$group='';
@@ -160,6 +161,7 @@ class Tourmanage extends CI_Controller{
 				'tour_type'=>$tour_type,
 				'tour_map'=>$tour_map,
 				'ispublish'=>$ispublish,
+				'sortid'=>$sortid,
 				'company_intro'=>$data->company_intro
 				
 			);
@@ -280,6 +282,7 @@ class Tourmanage extends CI_Controller{
 		$tour_type=$data->tour_type;
 		$tour_map=$data->map;
 		$ispublish=$data->publish;
+		$sortid=$data->sortid;
 		$tags='';
 		$theme='';
 		$group='';
@@ -351,6 +354,7 @@ class Tourmanage extends CI_Controller{
 				'tour_type'=>$tour_type,
 				'tour_map'=>$tour_map,
 				'ispublish'=>$ispublish,
+				'sortid'=>$sortid,
 				'company_intro'=>$data->company_intro
 			);
 		}

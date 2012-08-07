@@ -543,11 +543,14 @@ $(function(){
 			window.location.href='themetour/index/?type='+$('#tourtype').val();
 		}
 	});
+<<<<<<< HEAD
 	
 	$('#tourtype .type'+$.cookie('sort')).attr('selected','selected');
 	$.cookie('sort','');
 
 
 
+=======
+>>>>>>> 0babbc51c5cba99af2bb5056b6a506a615013661
 })
 })(jQuery);

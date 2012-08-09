@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: space_share.php 28049 2012-02-21 09:30:06Z zhengqingpeng $
+ *      $Id: space_share.php 28048 2012-02-21 09:29:40Z zhengqingpeng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -18,7 +18,8 @@ $_GET['type'] = in_array($_GET['type'], array('all', 'link', 'video', 'music', '
 if($id) {
 
 	if(!IS_ROBOT) {
-		$share = C::t('home_share')->fetch_by_sid_uid($id, $space['uid']);
+		$query = DB::query("SELECT * FROM ".DB::table('home_share')." WHERE sid='$id' AND uid='$space[uid]'");
+		$share = DB::fetch($query);
 		if(empty($share)) {
 			showmessage('share_does_not_exist');
 		}
@@ -35,11 +36,10 @@ if($id) {
 		$cid = empty($_GET['cid'])?0:intval($_GET['cid']);
 		$csql = $cid?"cid='$cid' AND":'';
 
-		$count = C::t('home_comment')->count_by_id_idtype($id, 'sid', $cid);
-
+		$count = DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('home_comment')." WHERE $csql id='$id' AND idtype='sid'"),0);
 		if($count) {
-			$query = C::t('home_comment')->fetch_all_by_id_idtype($id, 'sid', $start, $perpage, $cid);
-			foreach($query as $value) {
+			$query = DB::query("SELECT * FROM ".DB::table('home_comment')." WHERE $csql id='$id' AND idtype='sid' ORDER BY dateline LIMIT $start,$perpage");
+			while ($value = DB::fetch($query)) {
 				$list[] = $value;
 			}
 			$multi = multi($count, $perpage, $page, "home.php?mod=space&uid=$share[uid]&do=share&id=$id", '', 'comment_ul');
@@ -69,8 +69,7 @@ if($id) {
 		$need_count = true;
 
 		if(empty($_GET['view'])) $_GET['view'] = 'we';
-		$uids = 0;
-		$type = '';
+
 		if($_GET['view'] == 'all') {
 			$wheresql = "1";
 
@@ -79,7 +78,7 @@ if($id) {
 			space_merge($space, 'field_home');
 
 			if($space['feedfriend']) {
-				$uids = explode(',', $space['feedfriend']);
+				$wheresql = "uid IN ($space[feedfriend])";
 				$f_index = 'USE INDEX(dateline)';
 			} else {
 				$need_count = false;
@@ -89,14 +88,14 @@ if($id) {
 
 			if($_GET['from'] == 'space') $diymode = 1;
 
-			$uids = $space['uid'];
+			$wheresql = "uid='$space[uid]'";
 
 		}
 		$actives = array($_GET['view'] => ' class="a"');
 
 		if($_GET['type'] && $_GET['type'] != 'all') {
 			$sub_actives = array('type_'.$_GET['type'] => ' class="a"');
-			$type = $_GET['type'];
+			$wheresql .= " AND type='$_GET[type]'";
 		} else {
 			$sub_actives = array('type_all' => ' class="a"');
 		}
@@ -105,12 +104,17 @@ if($id) {
 		$pricount = 0;
 
 		$sid = empty($_GET['sid'])?0:intval($_GET['sid']);
+		$sharesql = $sid?"sid='$sid' AND":'';
 
 		if($need_count) {
-			$count = C::t('home_share')->count_by_sid_uid_type($sid, $uids, $type);
+			$count = DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('home_share')." WHERE $sharesql $wheresql"),0);
 			if($count) {
 				require_once libfile('function/share');
-				foreach(C::t('home_share')->fetch_all_by_sid_uid_type($sid, $uids, $type, $start, $perpage) as $value) {
+				$query = DB::query("SELECT * FROM ".DB::table('home_share')." $f_index
+					WHERE $sharesql $wheresql
+					ORDER BY dateline DESC
+					LIMIT $start,$perpage");
+				while ($value = DB::fetch($query)) {
 					$value = mkshare($value);
 					if($value['status'] == 0 || $value['uid'] == $_G['uid'] || $_G['adminid'] == 1) {
 						$list[] = $value;

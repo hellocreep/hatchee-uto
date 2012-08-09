@@ -1,4 +1,6 @@
 {eval
+include_once libfile('function/ftn');
+
 function tpl_hide_credits_hidden($creditsrequire) {
 global $_G;
 }
@@ -61,7 +63,8 @@ $attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) |
 $aidencode = packaids($attach);
 $widthcode = attachwidth($attach['width']);
 $is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G[forum_thread][archiveid] : '';
-$pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach[aid]]) ? $_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach[aid]] : '';
+//qqdl
+$qqdlurl = make_qqdl_url($attach['sha1'],$attach['filename']);
 }
 <!--{block return}-->
 <ignore_js_op>
@@ -79,7 +82,7 @@ $pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$a
 				<div class="tip tip_4" id="aid$attach[aid]_menu" style="display: none">
 					<div class="tip_c">
 						<p class="y">$attach[dateline] {lang upload}</p>
-						<p>{lang clicktodownload}</p>
+						<p>{lang downloads}: $attach[downloads]</p>
 						<!--{if !$attach['attachimg'] && $_G['getattachcredits']}-->{lang attachcredits}: $_G[getattachcredits]<br /><!--{/if}-->
 					</div>
 					<div class="tip_horn"></div>
@@ -95,7 +98,13 @@ $pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$a
 				<!--{/if}-->
 			</p>
 			<!--{if $attach['description']}--><p class="xg2">{$attach[description]}</p><!--{/if}-->
-			$pluginhook
+			<!--{if $attach['sha1'] && (!$attach['price'] || $attach['payed'])}-->
+			<script type='text/javascript'>
+				appendscript('http://x.soso.com/js/xf/xflib.js','','','utf-8');
+			</script>
+			<style type="text/css">.tattl {height:84px;}</style>
+			<p class="xg2"><a href="javascript:;" QHref="{$qqdlurl}" class="ftn_qqdl" onclick="OnDownloadClick_Simple(this, event, 21504);ajaxget('forum.php?mod=attachment{$is_archive}&aid=$aidencode','','',null,null);return false;" oncontextmenu="OnContextClick(this, event)">{lang xf_storage:download_xf}</a></p>
+			<!--{/if}-->
 		</dd>
 	</dl>
 </ignore_js_op>
@@ -111,7 +120,6 @@ $aidencode = packaids($attach);
 $widthcode = attachwidth($attach['width']);
 $is_archive = $_G['forum_thread']['is_archived'] ? "&fid=".$_G['fid']."&archiveid=".$_G[forum_thread][archiveid] : '';
 $attachthumb = getimgthumbname($attach['attachment']);
-$pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach[aid]]) ? $_G['setting']['pluginhooks']['viewthread_attach_extra'][$attach[aid]] : '';
 }
 <!--{block return}-->
 	<!--{if $attach['attachimg'] && $_G['setting']['showimages'] && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid'])}-->
@@ -130,10 +138,10 @@ $pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$a
 					<div class="tip tip_4" id="aid$attach[aid]_menu" style="display: none">
 						<div class="tip_c">
 							<p class="y">$attach[dateline] {lang upload}</p>
-							<p>{lang clicktodownload}</p>
+							<p>{lang downloads}: $attach[downloads]</p>
 							<p>
-								<a href="javascript:;" onclick="imageRotate('aimg_$attach[aid]', 1)"><img src="{STATICURL}image/common/rleft.gif" class="vm" /></a>
-								<a href="javascript:;" onclick="imageRotate('aimg_$attach[aid]', 2)"><img src="{STATICURL}image/common/rright.gif" class="vm" /></a>
+								<a href="javascript:;" onclick="imageRotate('aimg_$attach[aid]', 1)"><img src="{STATICURL}image/common/rleft.gif" /></a>
+								<a href="javascript:;" onclick="imageRotate('aimg_$attach[aid]', 2)"><img src="{STATICURL}image/common/rright.gif" /></a>
 							</p>
 						</div>
 						<div class="tip_horn"></div>
@@ -147,13 +155,12 @@ $pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$a
 						<!--{/if}-->
 					</p>
 					<!--{if $attach['description']}--><p class="mbn xg2">{$attach[description]}</p><!--{/if}-->
-					$pluginhook
 					<!--{if !$attach['price'] || $attach['payed']}-->
 						<p class="mbn">
 						<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
-							<a href="javascript:;"><img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" /></a>
+							<a href="javascript:;"><img id="aimg_$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'))" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" /></a>
 						<!--{else}-->
-							<img id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" />
+							<img id="aimg_$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode id="aimg_$attach[aid]" alt="$attach[imgalt]" title="$attach[imgalt]" w="$attach[width]" />
 						<!--{/if}-->
 						</p>
 					<!--{/if}-->
@@ -176,24 +183,24 @@ $pluginhook = !empty($_G['setting']['pluginhooks']['viewthread_attach_extra'][$a
 {eval
 }
 
-function attachinpost($attach, $post) {
+function attachinpost($attach, $firstpost = 0) {
 global $_G;
-$firstpost = $post['first'];
 $attach['refcheck'] = (!$attach['remote'] && $_G['setting']['attachrefcheck']) || ($attach['remote'] && ($_G['setting']['ftp']['hideurl'] || ($attach['isimage'] && $_G['setting']['attachimgpost'] && strtolower(substr($_G['setting']['ftp']['attachurl'], 0, 3)) == 'ftp')));
 $aidencode = packaids($attach);
 $widthcode = attachwidth($attach['width']);
 $is_archive = $_G['forum_thread']['is_archived'] ? '&fid='.$_G['fid'].'&archiveid='.$_G[forum_thread][archiveid] : '';
 $attachthumb = getimgthumbname($attach['attachment']);
-$musiccode = getstatus($post[status], 7) && fileext($attach['attachment']) == 'mp3' ? (browserversion('ie') > 8 || browserversion('safari') ? '<audio controls="controls"><source src="'.$attach['url'].$attach['attachment'].'"></audio>' : parseaudio($attach['url'].$attach['attachment'], 400)) : '';
+//qqdlurl
+$qqdlurl = make_qqdl_url($attach['sha1'],$attach['filename']);
 }
 <!--{block return}-->
 <ignore_js_op>
 	<!--{if $attach['attachimg'] && $_G['setting']['showimages'] && (!$attach['price'] || $attach['payed']) && ($_G['group']['allowgetimage'] || $_G['uid'] == $attach['uid'])}-->
 		<!--{if !IS_ROBOT}-->
 			<!--{if $_G['setting']['thumbstatus'] && $attach['thumb']}-->
-				<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} style="cursor:pointer" id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'), 0, 0, '{$_G[setting][showexif]}')" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" inpost="1" alt="$attach[imgalt]" title="$attach[imgalt]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+				<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} style="cursor:pointer" id="aimg_$attach[aid]" src="{STATICURL}image/common/none.gif" onclick="zoom(this, this.getAttribute('zoomfile'))" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode{else}{$attach[url]}$attachthumb{/if}" inpost="1" alt="$attach[imgalt]" title="$attach[imgalt]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
 			<!--{else}-->
-				<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} id="aimg_$attach[aid]" aid="$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode id="aimg_$attach[aid]" inpost="1" alt="$attach[imgalt]" title="$attach[imgalt]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
+				<img{if $attach['price'] && $_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']} class="attprice"{/if} id="aimg_$attach[aid]" src="{STATICURL}image/common/none.gif" zoomfile="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes&nothumb=yes{else}{$attach[url]}$attach[attachment]{/if}" file="{if $attach[refcheck]}forum.php?mod=attachment{$is_archive}&aid=$aidencode&noupdate=yes{else}{$attach[url]}$attach[attachment]{/if}" $widthcode id="aimg_$attach[aid]" inpost="1" alt="$attach[imgalt]" title="$attach[imgalt]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})" />
 			<!--{/if}-->
 			<div class="tip tip_4 aimg_tip" id="aimg_$attach[aid]_menu" style="position: absolute; display: none">
 				<div class="tip_c xs0">
@@ -209,9 +216,6 @@ $musiccode = getstatus($post[status], 7) && fileext($attach['attachment']) == 'm
 			<div style="display: none">
 		<!--{/if}-->
 	<!--{else}-->
-		<!--{if $musiccode}-->
-			<div>$musiccode</div>
-		<!--{/if}-->
 		$attach[attachicon]
 		<span style="white-space: nowrap" id="attach_$attach[aid]" onmouseover="showMenu({'ctrlid':this.id,'pos':'12'})">
 			<!--{if !$attach['price'] || $attach['payed']}-->
@@ -219,12 +223,19 @@ $musiccode = getstatus($post[status], 7) && fileext($attach['attachment']) == 'm
 			<!--{else}-->
 				<a href="forum.php?mod=misc&action=attachpay&aid=$attach[aid]&tid=$attach[tid]" onclick="showWindow('attachpay', this.href)">$attach[filename]</a>
 			<!--{/if}-->
-			<em class="xg1">($attach[attachsize], {lang downloads}: $attach[downloads]<!--{if $attach['price']}-->, {lang price}: $attach[price] {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][unit]}{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}<!--{/if}-->)</em>
+			<em class="xg1">($attach[attachsize], {lang downloads}: $attach[downloads]<!--{if $attach['price']}-->, {lang price}: $attach[price] {$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][unit]}{$_G['setting']['extcredits'][$_G['setting']['creditstransextra'][1]][title]}<!--{/if}-->)
+			<!--{if $attach['sha1'] && (!$attach['price'] || $attach['payed'])}-->
+			<script type='text/javascript'>
+				appendscript('http://x.soso.com/js/xf/xflib.js','','','utf-8');
+			</script>
+			<a href="javascript:;" QHref="{$qqdlurl}" class="ftn_qqdl" onclick="OnDownloadClick_Simple(this, event, 21504);ajaxget('forum.php?mod=attachment{$is_archive}&aid=$aidencode','','',null,null);return false;" oncontextmenu="OnContextClick(this, event)">{lang xf_storage:download_xf}</a><br>
+			<!--{/if}-->
+			</em>
 		</span>
 		<div class="tip tip_4" id="attach_$attach[aid]_menu" style="position: absolute; display: none">
 			<div class="tip_c xs0">
 				<div class="y">$attach[dateline] {lang upload}</div>
-				{lang clicktodownload}
+				{lang downloads}: $attach[downloads]
 				<!--{if $attach['description']}--><br />$attach[description]<!--{/if}-->
 				<!--{if $attach['readperm']}--><br />{lang readperm}: $attach[readperm]<!--{/if}-->
 	<!--{/if}-->
@@ -238,9 +249,6 @@ $musiccode = getstatus($post[status], 7) && fileext($attach['attachment']) == 'm
 			</div>
 			<div class="tip_horn"></div>
 		</div>
-	<!--{if $musiccode}-->
-		<br />
-	<!--{/if}-->
 </ignore_js_op>
 <!--{/block}-->
 <!--{eval return $return;}-->

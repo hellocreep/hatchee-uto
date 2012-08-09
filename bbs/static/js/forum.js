@@ -1,8 +1,8 @@
 /*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
+	[Discuz!] (C)2001-2009 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
 
-	$Id: forum.js 28137 2012-02-23 03:28:22Z zhengqingpeng $
+	$Id: forum.js 22522 2011-05-11 03:12:47Z monkey $
 */
 
 function saveData(ignoreempty) {
@@ -64,7 +64,16 @@ function saveData(ignoreempty) {
 		return;
 	}
 
-	saveUserdata('forum_'+discuz_uid, data);
+	saveUserdata('forum', data);
+}
+
+function switchFullMode() {
+	var obj = $('postform') && (($('fwin_newthread') && $('fwin_newthread').style.display == '') || ($('fwin_reply') && $('fwin_reply').style.display == '')) ? $('postform') : $('fastpostform');
+	if(obj && obj.message.value != '') {
+		saveData();
+	}
+	ajaxget('forum.php?mod=ajax&action=editor&cedit=yes' + (!fid ? '' : '&fid=' + fid), 'fastposteditor');
+	return false;
 }
 
 function fastUload() {
@@ -206,7 +215,7 @@ function fastpostvalidate(theform, noajaxpost) {
 			return false;
 		}
 	}
-	if(theform.message.value == '' || theform.subject.value == '') {
+	if(theform.message.value == '' && theform.subject.value == '') {
 		s = '抱歉，您尚未输入标题或内容';
 		theform.message.focus();
 	} else if(mb_strlen(theform.subject.value) > 80) {
@@ -223,7 +232,6 @@ function fastpostvalidate(theform, noajaxpost) {
 		return false;
 	}
 	$('fastpostsubmit').disabled = true;
-	theform.message.value = theform.message.value.replace(/([^>=\]"'\/]|^)((((https?|ftp):\/\/)|www\.)([\w\-]+\.)*[\w\-\u4e00-\u9fa5]+\.([\.a-zA-Z0-9]+|\u4E2D\u56FD|\u7F51\u7EDC|\u516C\u53F8)((\?|\/|:)+[\w\.\/=\?%\-&~`@':+!]*)+\.(jpg|gif|png|bmp))/ig, '$1[img]$2[/img]');
 	theform.message.value = parseurl(theform.message.value);
 	if(!noajaxpost) {
 		ajaxpost('fastpostform', 'fastpostreturn', 'fastpostreturn', 'onerror', $('fastpostsubmit'));
@@ -247,13 +255,13 @@ function errorhandle_fastnewpost() {
 }
 
 function atarget(obj) {
-	obj.target = getcookie('atarget') > 0 ? '_blank' : '';
+	obj.target = getcookie('atarget') ? '_blank' : '';
 }
 
 function setatarget(v) {
 	$('atarget').className = 'y atarget_' + v;
-	$('atarget').onclick = function() {setatarget(v == 1 ? -1 : 1);};
-	setcookie('atarget', v, 2592000);
+	$('atarget').onclick = function() {setatarget(v ? 0 : 1);};
+	setcookie('atarget', v, (v ? 2592000 : -1));
 }
 
 function loadData(quiet, formobj) {
@@ -269,7 +277,7 @@ function loadData(quiet, formobj) {
 	};
 
 	var data = '';
-	data = loadUserdata('forum_'+discuz_uid);
+	data = loadUserdata('forum');
 	var formobj = !formobj ? $('postform') : formobj;
 
 	if(in_array((data = trim(data)), ['', 'null', 'false', null, false])) {
@@ -364,7 +372,11 @@ function checkForumnew(fid, lasttime) {
 	var x = new Ajax();
 	x.get('forum.php?mod=ajax&action=forumchecknew&fid=' + fid + '&time=' + lasttime + '&inajax=yes', function(s){
 		if(s > 0) {
-			var table = $('separatorline').parentNode;
+			if($('separatorline')) {
+				var table = $('separatorline').parentNode;
+			} else {
+				var table = $('forum_' + fid);
+			}
 			if(!isUndefined(checkForumnew_handle)) {
 				clearTimeout(checkForumnew_handle);
 			}

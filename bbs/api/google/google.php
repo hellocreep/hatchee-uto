@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: google.php 29236 2012-03-30 05:34:47Z chenmengshu $
+ *      $Id: google.php 22319 2011-04-29 09:40:43Z monkey $
  */
 
 @define('IN_API', true);
@@ -14,7 +14,7 @@ require_once('../../source/class/class_core.php');
 require_once('../../source/function/function_home.php');
 
 $cachelist = array();
-$discuz = C::app();
+$discuz = & discuz_core::instance();
 
 $discuz->cachelist = $cachelist;
 $discuz->init_cron = false;
@@ -48,7 +48,7 @@ class GoogleAPI
 	}
 
 	function authcheck() {
-		$siteuniqueid = C::t('common_setting')->fetch('siteuniqueid');
+		$siteuniqueid = DB::result_first("SELECT svalue FROM ".DB::table('common_setting')." WHERE skey='siteuniqueid'");
 		$auth = md5($siteuniqueid.'DISCUZ*COMSENZ*GOOGLE*API'.substr(time(), 0, 6));
 		if($auth != getgpc('s') && ip2long($_SERVER['REMOTE_ADDR']) != 2096036344 && ip2long($_SERVER['REMOTE_ADDR']) != 2096036256) {
 			$this->error('Access error');
@@ -85,12 +85,12 @@ class GoogleAPI
 	}
 
 	function on_on() {
-		C::t('common_setting')->update('google', 1);
+		DB::insert('common_setting', array('skey' => 'google', 'svalue' => 1), false, true);
 		$this->result();
 	}
 
 	function on_off() {
-		C::t('common_setting')->update('google', 0);
+		DB::insert('common_setting', array('skey' => 'google', 'svalue' => 0), false, true);
 		$this->result();
 	}
 
@@ -107,8 +107,8 @@ class GoogleAPI
 				}
 			}
 			if($ftid) {
-				$threads = C::t('forum_thread')->fetch_all_by_tid($ftid);
-				foreach($threads as $thread) {
+				$query = DB::query("SELECT tid, fid, posttableid, dateline, special, authorid, subject, views, replies, lastpost FROM ".DB::table('forum_thread')." WHERE tid IN($ftid)");
+				while($thread = DB::fetch($query)) {
 					$thread['message'] = '';
 					if($msg) {
 						if($thread['posttableid']) {
@@ -123,7 +123,7 @@ class GoogleAPI
 					foreach($tablenamelist AS $tablename => $tids) {
 						$pquery = DB::query("SELECT tid, message FROM ".DB::table($tablename)." WHERE tid IN (".dimplode($tids).") AND first=1", 'SILENT');
 						while($pquery && $post = DB::fetch($pquery)) {
-							$threadlist[$post['tid']]['message'] = dhtmlspecialchars($post['message']);
+							$threadlist[$post['tid']]['message'] = htmlspecialchars($post['message']);
 						}
 					}
 					unset($tablenamelist);
@@ -154,7 +154,7 @@ class GoogleAPI
 
 	function on_gts() {
 		$xmlcontent = '';
-		$threads = C::t('forum_thread')->count();
+		$threads = DB::result_first("SELECT COUNT(*) FROM ".DB::table('forum_thread'));
 
 		$posts = 0;
 		loadcache('posttableids');
@@ -163,10 +163,9 @@ class GoogleAPI
 				$posts += DB::result_first("SELECT COUNT(*) FROM ".DB::table(getposttable($tableid))." LIMIT 1");
 			}
 		}
-		$members = C::t('common_member')->count();
-		$settings = C::t('common_setting')->fetch_all(array('bbname', 'historyposts'));
-		$bbname = $settings['bbname'];
-		$yesterdayposts = $settings['historyposts'];
+		$members = DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_member'));
+		$bbname = DB::result_first("SELECT svalue FROM ".DB::table('common_setting')." WHERE skey='bbname'");
+		$yesterdayposts = DB::result_first("SELECT svalue FROM ".DB::table('common_setting')." WHERE skey='historyposts'");
 		if(!empty($yesterdayposts)) {
 			$yesterdayposts = explode("\t", $yesterdayposts);
 			$yestoday = intval($yesterdayposts[0]);
@@ -176,7 +175,7 @@ class GoogleAPI
 		}
 
 		$xmlcontent .= "<sitedata>\n".
-		"	<bbname>".dhtmlspecialchars($bbname)."</bbname>\n".
+		"	<bbname>".htmlspecialchars($bbname)."</bbname>\n".
 		"	<threads>$threads</threads>\n".
 		"	<posts>$posts</posts>\n".
 		"	<members>$members</members>\n".
@@ -186,13 +185,17 @@ class GoogleAPI
 		echo $xmlcontent;
 
 		echo "<forumdata>\n";
-		$query = C::t('forum_forum')->fetch_all_forum_ignore_access();
-		foreach($query as $forum) {
+		$query = DB::query("SELECT f.fid, f.fup, f.type, f.name, f.threads, f.posts, f.todayposts, ff.description
+					FROM ".DB::table('forum_forum')." f
+					LEFT JOIN ".DB::table('forum_forumfield')." ff ON ff.fid=f.fid
+					WHERE status <3
+					ORDER BY fid");
+		while($forum = DB::fetch($query)) {
 			echo "	<$forum[type]>\n".
 			"		<fid>$forum[fid]</fid>\n".
 			"		<fup>$forum[fup]</fup>\n".
-			"		<name>".dhtmlspecialchars($forum['name'])."</name>\n".
-			"		<description>".dhtmlspecialchars($forum['description'])."</description>\n".
+			"		<name>".htmlspecialchars($forum['name'])."</name>\n".
+			"		<description>".htmlspecialchars($forum['description'])."</description>\n".
 			"		<threads>$forum[threads]</threads>\n".
 			"		<posts>$forum[posts]</posts>\n".
 			"		<todayposts>$forum[todayposts]</todayposts>\n".

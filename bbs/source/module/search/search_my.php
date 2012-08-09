@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: search_my.php 26446 2011-12-13 07:12:28Z yangli $
+ *      $Id: search_my.php 22878 2011-05-28 09:53:00Z zhouguoqiang $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,47 +13,47 @@ if(!defined('IN_DISCUZ')) {
 
 define('NOROBOT', TRUE);
 
-if (!$_G['setting']['my_siteid'] || !$_G['setting']['my_search_status']) {
+if (!$_G['setting']['my_siteid']) {
 	dheader('Location: index.php');
 }
 
-$appService = Cloud::loadClass('Service_App');
+require_once DISCUZ_ROOT . './api/manyou/Manyou.php';
+require_once libfile('function/cloud');
 
-if ($appService->getCloudAppStatus('connect')) {
-	$connectService = Cloud::loadClass('Cloud_Service_Connect');
-	$connectService->connectMergeMember();
+if (getcloudappstatus('connect')) {
+	require_once libfile('function/connect');
+	connect_merge_member();
 }
 
-$searchHelper = Cloud::loadClass('Cloud_Service_SearchHelper');
-$myForums = $searchHelper->getForums();
+$my_forums = SearchHelper::getForums();
 
-$myExtGroupIds = array();
-$_extGroupIds = explode("\t", $_G['member']['extgroupids']);
-foreach($_extGroupIds as $v) {
+$my_extgroupids = array();
+$_extgroupids = explode("\t", $_G['member']['extgroupids']);
+foreach($_extgroupids as $v) {
 	if ($v) {
-		$myExtGroupIds[] = $v;
+		$my_extgroupids[] = $v;
 	}
 }
-$myExtGroupIdsStr = implode(',', $myExtGroupIds);
+$my_extgroupids_str = implode(',', $my_extgroupids);
 
 $params = array(
 				'cuName' => $_G['username'],
 				'gId' => $_G['groupid'],
 				'agId' => $_G['adminid'],
-				'egIds' => $myExtGroupIdsStr,
-				'fmSign' => substr($myForums['sign'], -4),
+				'egIds' => $my_extgroupids_str,
+				'fmSign' => substr($my_forums['sign'], -4),
 			   );
 
 $groupIds = explode(',', $_G['groupid']);
 if ($_G['adminid']) {
 	$groupIds[] = $_G['adminid'];
 }
-if ($myExtGroupIds) {
-	$groupIds = array_merge($groupIds, $myExtGroupIds);
+if ($my_extgroupids) {
+	$groupIds = array_merge($groupIds, $my_extgroupids);
 }
 
 $groupIds = array_unique($groupIds);
-$userGroups = $searchHelper->getUserGroupPermissions($groupIds);
+$userGroups = SearchHelper::getUserGroupPermissions($groupIds);
 foreach($groupIds as $k => $v) {
 	$value =  substr($userGroups[$v]['sign'], -4);
 	if ($value) {
@@ -71,15 +71,14 @@ foreach($extra as $v) {
 		$params[$v] = $_GET[$v];
 	}
 }
-$mySearchData = $_G['setting']['my_search_data'];
+$mySearchData = unserialize($_G['setting']['my_search_data']);
 if ($mySearchData['domain']) {
 	$domain = $mySearchData['domain'];
 } else {
 	$domain = 'search.discuz.qq.com';
 }
 
-$utilService = Cloud::loadClass('Cloud_Service_Util');
-$url = 'http://' . $domain . '/f/discuz?' . $utilService->generateSiteSignUrl($params, true, true);
+$url = 'http://' . $domain . '/f/discuz?' . generateSiteSignUrl($params, true, true);
 
 dheader('Location: ' . $url);
 

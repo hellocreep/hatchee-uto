@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: js.php 25510 2011-11-14 02:22:26Z yexinhao $
+ *      $Id: js.php 22320 2011-04-29 09:42:11Z monkey $
  */
 
 define('IN_API', true);
@@ -14,7 +14,7 @@ require_once('../../source/class/class_core.php');
 require_once('../../source/function/function_home.php');
 
 $cachelist = array();
-$discuz = C::app();
+$discuz = & discuz_core::instance();
 
 $discuz->cachelist = $cachelist;
 $discuz->init_cron = false;
@@ -23,11 +23,13 @@ $discuz->init_user = $_GET['module'] == 'Search' ? true : false;
 $discuz->init_session = false;
 $discuz->init();
 
+require_once DISCUZ_ROOT . './api/manyou/Manyou.php';
+
 $js = "if(!window['ManYou']) {window['ManYou']={};}\n";
 $id = $_GET['module'] . '_' . $_GET['method'];
 $js .= "if(!window['ManYou.$id']) {window['ManYou.$id']={};}\n";
 
-if(empty($_G['setting']['my_siteid']) || empty($_G['setting']['my_sitekey'])) {
+if( empty($_G['setting']['my_siteid']) || empty($_G['setting']['my_sitekey'])) {
 	echo $js . 'ManYou.' . $id . '={status:"error", result: "plug-in has not been opened"};';
 	exit;
 }
@@ -150,7 +152,7 @@ class JSAPI {
 
 }
 
-Cloud::loadFile('Service_SearchHelper');
+
 class Thread {
 
 	function getReplyAndView($tids) {
@@ -160,7 +162,7 @@ class Thread {
 
 		$tids = explode(',', $tids);
 		$res = array();
-		$threads = Cloud_Service_SearchHelper::getThreads($tids);
+		$threads = SearchHelper::getThreads($tids);
 		foreach($threads as $thread) {
 			$res[$thread['tId']] = array('tid' => $thread['tId'],
 										 'replies' => $thread['replyNum'],
@@ -178,7 +180,7 @@ class Search {
 			return array();
 		}
 		$res = array();
-		$threads = Cloud_Service_SearchHelper::getThreads($tids);
+		$threads = SearchHelper::getThreads($tids);
 		foreach($threads as $thread) {
 			$res[$thread['tId']] = array('tid' => $thread['tId'],
 										 'replies' => $thread['replyNum'],

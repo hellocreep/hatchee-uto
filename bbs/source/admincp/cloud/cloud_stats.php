@@ -4,14 +4,14 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: cloud_stats.php 29282 2012-03-31 09:26:14Z zhouxiaobo $
+ *      $Id: cloud_stats.php 24511 2011-09-22 09:23:35Z yexinhao $
  */
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-$_GET['anchor'] = in_array($_GET['anchor'], array('base', 'summary')) ? $_GET['anchor'] : 'summary';
-$current = array($_GET['anchor'] => 1);
+$_G['gp_anchor'] = in_array($_G['gp_anchor'], array('base', 'summary')) ? $_G['gp_anchor'] : 'summary';
+$current = array($_G['gp_anchor'] => 1);
 
 $statsnav = array();
 $statsnav[0] = array('cloud_stats_summary', 'cloud&operation=stats&anchor=summary', $current['summary']);
@@ -21,7 +21,7 @@ if(!$_G['inajax']) {
 	cpheader();
 }
 
-if($_GET['anchor'] == 'base') {
+if($_G['gp_anchor'] == 'base') {
 
 	if(!submitcheck('settingsubmit')) {
 
@@ -33,7 +33,7 @@ if($_GET['anchor'] == 'base') {
 		showhiddenfields(array('operation' => $operation));
 		showtableheader();
 
-		$myicon = C::t('common_setting')->fetch('cloud_staticon');
+		$myicon = DB::result_first("SELECT svalue FROM ".DB::table('common_setting')." WHERE skey = 'cloud_staticon'");
 		if ($myicon === false || in_array($myicon, array(5, 6, 7, 8))) {
 			$myicon = 1;
 		}
@@ -63,23 +63,24 @@ if($_GET['anchor'] == 'base') {
 
 	} else {
 
-		$settingnew = $_GET['settingnew'];
+		$settingnew = $_G['gp_settingnew'];
 		$settingnew['cloud_staticon'] = intval($settingnew['cloud_staticon']);
 
-		C::t('common_setting')->update('cloud_staticon', $settingnew['cloud_staticon']);
+		DB::query("REPLACE INTO ".DB::table('common_setting')." (`skey`, `svalue`) VALUES ('cloud_staticon', '$settingnew[cloud_staticon]')");
 		updatecache('setting');
 
-		cpmsg('setting_update_succeed', 'action=cloud&operation='.$operation.(!empty($_GET['anchor']) ? '&anchor='.$_GET['anchor'] : ''), 'succeed');
+		cpmsg('setting_update_succeed', 'action=cloud&operation='.$operation.(!empty($_G['gp_anchor']) ? '&anchor='.$_G['gp_anchor'] : ''), 'succeed');
 	}
 
-} elseif($_GET['anchor'] == 'summary') {
+} elseif($_G['gp_anchor'] == 'summary') {
 
 	shownav('navcloud', 'cloud_stats');
 	showsubmenu('cloud_stats', $statsnav);
 
-	$statsDomain = 'http://ta.qq.com';
-	$utilService = Cloud::loadClass('Service_Util');
-	$signUrl = $utilService->generateSiteSignUrl(array('v' => 2));
+	$statsDomain = 'http://stats.discuz.qq.com';
+	$signUrl = generateSiteSignUrl(array('v' => 2));
 
-	$utilService->redirect($statsDomain . '/statsSummary/?' . $signUrl);
+	headerLocation($statsDomain.'/statsSummary/?'.$signUrl);
 }
+
+?>

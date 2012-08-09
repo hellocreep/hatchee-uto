@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_friendlink.php 24531 2011-09-23 05:45:11Z chenmengshu $
+ *      $Id: block_friendlink.php 11742 2010-06-12 02:27:38Z xupeng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -58,9 +58,9 @@ class block_friendlink extends commonblock_html {
 			}
 		}
 		$type = intval($b, '2');
-		$query = C::t('common_friendlink')->fetch_all_by_displayorder($type);
+		$query = DB::query('SELECT * FROM '.DB::table('common_friendlink')."  WHERE (`type` & '$type' > 0) ORDER BY displayorder");
 		$group1 = $group2 = $group3 = array();
-		foreach ($query as $value) {
+		while($value=DB::fetch($query)) {
 			if($parameter['content']=='logo') {
 				$group2[] = $value;
 			} elseif($parameter['content']=='text') {

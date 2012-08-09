@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="Title"><![CDATA[Discuz! Plugin]]></item>
-	<item id="Version"><![CDATA[X2.5]]></item>
+	<item id="Version"><![CDATA[X2]]></item>
 	<item id="Data">
 		<item id="plugin">
 			<item id="available"><![CDATA[1]]></item>
@@ -12,7 +12,7 @@
 			<item id="datatables"><![CDATA[]]></item>
 			<item id="directory"><![CDATA[security/]]></item>
 			<item id="copyright"><![CDATA[Comsenz Inc.]]></item>
-			<item id="version"><![CDATA[1.09]]></item>
+			<item id="version"><![CDATA[1.02]]></item>
 			<item id="__modules">
 				<item id="0">
 					<item id="name"><![CDATA[security]]></item>
@@ -40,7 +40,7 @@
 				</item>
 			</item>
 		</item>
-		<item id="version"><![CDATA[X2.5]]></item>
+		<item id="version"><![CDATA[X2]]></item>
 		<item id="installfile"><![CDATA[install.php]]></item>
 		<item id="upgradefile"><![CDATA[upgrade.php]]></item>
 		<item id="language">
@@ -54,9 +54,6 @@
 			<item id="templatelang">
 				<item id="unlock_title"><![CDATA[请输入验证码，解除禁言状态]]></item>
 				<item id="unlock"><![CDATA[解禁]]></item>
-			</item>
-			<item id="installlang">
-				<item id="cron"><![CDATA[防水墙每日计划任务]]></item>
 			</item>
 		</item>
 	</item>

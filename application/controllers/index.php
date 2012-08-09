@@ -133,6 +133,11 @@ class Index extends CI_Controller
 		$data['bread']=$bread;	
 		$data['dess']=$this->show->deslist();
 		$data['theme']=$this->show->themelist();
+		$data['screening']='tourtype';
+		$data['sortindex']='selected=selected';
+		$data['sortcustomize']='';
+		$data['sortfree']='';
+		$data['sortgroup']='';
 		$this->load->view('web/landingpage-theme',$data);	
 	
 	}
@@ -259,7 +264,11 @@ class Index extends CI_Controller
 		$data['count']=$count;
 		$data['pagenow']=$page;
 		$data['tour']=$this->show->themetourlist($dess['name'],$start,$per_page,$action,$sort);
-	
+		$data['screening']='tourtype';
+		$data['sortindex']='selected=selected';
+		$data['sortcustomize']='';
+		$data['sortfree']='';
+		$data['sortgroup']='';
 		$data['bread']=$bread;	
 		$data['dess']=$this->show->deslist();
 		$data['theme']=$this->show->themelist();

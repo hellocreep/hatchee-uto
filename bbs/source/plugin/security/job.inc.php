@@ -3,16 +3,26 @@
  *		[Discuz!] (C)2001-2099 Comsenz Inc.
  *		This is NOT a freeware, use is subject to license terms
  *
- *		$Id: job.inc.php 29265 2012-03-31 06:03:26Z yexinhao $
+ *		$Id: job.inc.php 27070 2012-01-04 05:55:20Z songlixin $
  */
 
 if (!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-if ($_POST['formhash'] != formhash()) {
+if ($_G['gp_formhash'] != formhash()) {
 	exit('Access Denied');
 }
 
-$securityService = Cloud::loadClass('Service_Security');
-$securityService->retryReportData('3');
+require_once libfile('class/sec');
+$sec = Sec::getInstance();
+
+$limit = 3;
+while ($limit > 0) {
+	$limit = $limit - 1;
+	$sec->retryReportData();
+}
+
+
+
+?>

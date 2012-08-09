@@ -4,14 +4,12 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: admincp_topic.php 29236 2012-03-30 05:34:47Z chenmengshu $
+ *      $Id: admincp_topic.php 18628 2010-11-30 06:04:06Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 		exit('Access Denied');
 }
-
-require_once libfile('function/portalcp');
 
 cpheader();
 $operation = 'list';
@@ -38,11 +36,11 @@ if(submitcheck('opsubmit')) {
 		cpmsg('topic_delete_succeed', 'action=topic', 'succeed');
 
 	} elseif($_POST['optype'] == 'close') {
-		C::t('portal_topic')->update($_POST['ids'], array('closed' => 1));
+		DB::query('UPDATE '.DB::table('portal_topic')." SET closed = '1' WHERE topicid IN (".dimplode($_POST['ids']).")");
 		cpmsg('topic_close_succeed', 'action=topic', 'succeed');
 
 	} elseif($_POST['optype'] == 'open') {
-		C::t('portal_topic')->update($_POST['ids'], array('closed' => 0));
+		DB::query('UPDATE '.DB::table('portal_topic')." SET closed = '0' WHERE topicid IN (".dimplode($_POST['ids']).")");
 		cpmsg('topic_open_succeed', 'action=topic', 'succeed');
 
 	} else {
@@ -57,11 +55,12 @@ if(submitcheck('opsubmit')) {
 	$likekeys = array('title', 'username');
 	$results = getwheres($intkeys, $strkeys, $randkeys, $likekeys);
 	foreach($likekeys as $k) {
-		$_GET[$k] = dhtmlspecialchars($_GET[$k]);
+		$_GET[$k] = htmlspecialchars(stripslashes($_GET[$k]));
 	}
 	$wherearr = $results['wherearr'];
 	$mpurl = ADMINSCRIPT.'?action=topic';
 	$mpurl .= '&'.implode('&', $results['urls']);
+	$wheresql = empty($wherearr)?'1':implode(' AND ', $wherearr);
 	if(strlen($_GET['closed'])) {
 		$statusarr[$_GET['closed']] = ' selected';
 	}
@@ -141,20 +140,21 @@ SEARCH;
 	showsubtitle(array('', 'topic_title', 'topic_domain', 'topic_name', 'topic_creator', 'topic_dateline', 'operation'));
 
 	$multipage = '';
-	$count = C::t('portal_topic')->count_by_search_where($wherearr);
+	$count = DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('portal_topic')." WHERE $wheresql"), 0);
 	if($count) {
-		foreach(C::t('portal_topic')->fetch_all_by_search_where($wherearr, $ordersql, $start, $perpage) as $topicid => $value) {
+		$query = DB::query("SELECT * FROM ".DB::table('portal_topic')." WHERE $wheresql $ordersql LIMIT $start,$perpage");
+		while ($value = DB::fetch($query)) {
 			showtablerow('', array('class="td25"', 'class=""', 'class="td28"'), array(
-					"<input type=\"checkbox\" class=\"checkbox\" name=\"ids[]\" value=\"$topicid\">",
-					"<a href=\"portal.php?mod=topic&topicid=$topicid\" target=\"_blank\">".$value[title]."</a>"
+					"<input type=\"checkbox\" class=\"checkbox\" name=\"ids[]\" value=\"$value[topicid]\">",
+					"<a href=\"portal.php?mod=topic&topicid=$value[topicid]\" target=\"_blank\">".$value[title]."</a>"
 					.($value['closed'] ? ' ['.cplang('topic_closed_yes').']' : ''),
 					$value['domain'] && !empty($_G['setting']['domain']['root']['topic']) ? 'http://'.$value['domain'].'.'.$_G['setting']['domain']['root']['topic'] : '',
 					$value['name'],
 					"<a href=\"home.php?mod=space&uid=$value[uid]&do=profile\" target=\"_blank\">$value[username]</a>",
 					dgmdate($value[dateline]),
-					"<a href=\"portal.php?mod=portalcp&ac=topic&topicid=$topicid\" target=\"_blank\">".cplang('topic_edit')."</a>&nbsp;&nbsp;".
-					"<a href=\"portal.php?mod=topic&topicid=$topicid&diy=yes\" target=\"_blank\">DIY</a>".
-					'&nbsp;&nbsp;<a href="'.ADMINSCRIPT.'?action=diytemplate&operation=perm&targettplname=portal/portal_topic_content_'.$value['topicid'].'&tpldirectory='.getdiydirectory($value['primaltplname']).'">'.cplang('topic_perm').'</a>',
+					"<a href=\"portal.php?mod=portalcp&ac=topic&topicid=$value[topicid]\" target=\"_blank\">".cplang('topic_edit')."</a>&nbsp;&nbsp;".
+					"<a href=\"portal.php?mod=topic&topicid=$value[topicid]&diy=yes\" target=\"_blank\">DIY</a>".
+					'&nbsp;&nbsp;<a href="'.ADMINSCRIPT.'?action=diytemplate&operation=perm&targettplname=portal/portal_topic_content_'.$value['topicid'].'">'.cplang('topic_perm').'</a>',
 				));
 		}
 		$multipage = multi($count, $perpage, $page, $mpurl);

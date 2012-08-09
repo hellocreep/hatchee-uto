@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: uc.php 30176 2012-05-15 08:25:28Z zhangguosheng $
+ *      $Id: uc.php 28842 2012-03-14 10:42:48Z svn_project_zhangjie $
  */
 
 error_reporting(0);
@@ -31,14 +31,19 @@ define('API_RETURN_SUCCEED', '1');
 define('API_RETURN_FAILED', '-1');
 define('API_RETURN_FORBIDDEN', '1');
 
-define('IN_API', true);
-define('CURSCRIPT', 'api');
+@define('IN_DISCUZ', true);
+@define('IN_API', true);
+@define('CURSCRIPT', 'api');
 
 
 if(!defined('IN_UC')) {
-	require_once '../source/class/class_core.php';
+	define('DISCUZ_ROOT', dirname(dirname(__FILE__)).'/');
+	require_once DISCUZ_ROOT.'./config/config_global.php';
+	require_once DISCUZ_ROOT.'./config/config_ucenter.php';
+	require_once DISCUZ_ROOT.'./source/function/function_core.php';
+	require_once DISCUZ_ROOT.'./source/class/class_core.php';
 
-	$discuz = C::app();
+	$discuz = & discuz_core::instance();
 	$discuz->init();
 
 	require DISCUZ_ROOT.'./config/config_ucenter.php';
@@ -98,7 +103,10 @@ class uc_note {
 		}
 		$uids = str_replace("'", '', stripslashes($get['ids']));
 		$ids = array();
-		$ids = array_keys(C::t('common_member')->fetch_all($uids));
+		$query = DB::query("SELECT * FROM ".DB::table('common_member')." WHERE uid IN ($uids)");
+		while($row = DB::fetch($query)) {
+			$ids[] = $row['uid'];
+		}
 		require_once DISCUZ_ROOT.'./source/function/function_delete.php';
 		$ids && deletemember($ids);
 
@@ -117,6 +125,7 @@ class uc_note {
 		$tables = array(
 			'common_block' => array('id' => 'uid', 'name' => 'username'),
 			'common_invite' => array('id' => 'fuid', 'name' => 'fusername'),
+			'common_member' => array('id' => 'uid', 'name' => 'username'),
 			'common_member_verify_info' => array('id' => 'uid', 'name' => 'username'),
 			'common_mytask' => array('id' => 'uid', 'name' => 'username'),
 			'common_report' => array('id' => 'uid', 'name' => 'username'),
@@ -152,10 +161,6 @@ class uc_note {
 			'portal_topic_pic' => array('id' => 'uid', 'name' => 'username'),
 		);
 
-		if(!C::t('common_member')->update($get['uid'], array('username' => $get[newusername])) && isset($_G['setting']['membersplit'])){
-			C::t('common_member_archive')->update($get['uid'], array('username' => $get[newusername]));
-		}
-
 		loadcache("posttableids");
 		if($_G['cache']['posttableids']) {
 			foreach($_G['cache']['posttableids'] AS $tableid) {
@@ -188,7 +193,8 @@ class uc_note {
 
 		$cookietime = 31536000;
 		$uid = intval($get['uid']);
-		if(($member = getuserbyuid($uid, 1))) {
+		$query = DB::query("SELECT uid, username, password FROM ".DB::table('common_member')." WHERE uid='$uid'");
+		if($member = DB::fetch($query)) {
 			dsetcookie('auth', authcode("$member[password]\t$member[uid]", 'ENCODE'), $cookietime);
 		}
 	}
@@ -214,15 +220,7 @@ class uc_note {
 
 		$username = $get['username'];
 		$newpw = md5(time().rand(100000, 999999));
-		$uid = 0;
-		if(($uid = C::t('common_member')->fetch_uid_by_username($username))) {
-			$ext = '';
-		} elseif(($uid = C::t('common_member_archive')->fetch_uid_by_username($username))) {
-			$ext = '_archive';
-		}
-		if($uid) {
-			C::t('common_member'.$ext)->update($uid, array('password' => $newpw));
-		}
+		DB::query("UPDATE ".DB::table('common_member')." SET password='$newpw' WHERE username='$username'");
 
 		return API_RETURN_SUCCEED;
 	}
@@ -329,12 +327,12 @@ class uc_note {
 		$credit = $get['credit'];
 		$amount = $get['amount'];
 		$uid = $get['uid'];
-		if(!getuserbyuid($uid)) {
+		if(!DB::result_first("SELECT count(*) FROM ".DB::table('common_member')." WHERE uid='$uid'")) {
 			return API_RETURN_SUCCEED;
 		}
 
 		updatemembercount($uid, array($credit => $amount));
-		C::t('common_credit_log')->insert(array('uid' => $uid, 'operation' => 'ECU', 'relatedid' => $uid, 'dateline' => time(), 'extcredits'.$credit => $amount));
+		DB::insert('common_credit_log', array('uid' => $uid, 'operation' => 'ECU', 'relatedid' => $uid, 'dateline' => time(), 'extcredits'.$credit => $amount));
 
 		return API_RETURN_SUCCEED;
 	}
@@ -347,7 +345,7 @@ class uc_note {
 		}
 		$uid = intval($get['uid']);
 		$credit = intval($get['credit']);
-		$_G['uid'] = $_G['member']['uid'] = $uid;
+		$_G['uid'] = $uid;
 		return getuserprofile('extcredits'.$credit);
 	}
 

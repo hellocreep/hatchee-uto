@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: function_attachment.php 28348 2012-02-28 06:16:29Z monkey $
+ *      $Id: function_attachment.php 23304 2011-07-04 10:04:10Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -71,13 +71,11 @@ function attachtype($type, $returnval = 'html') {
 
 function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) {
 	global $_G;
-	if(!$attachpids) {
-		return;
-	}
-	$attachpids = is_array($attachpids) ? $attachpids : array($attachpids);
+
+	$query = DB::query("SELECT * FROM ".DB::table(getattachtablebytid($_G['tid']))." a WHERE a.pid IN ($attachpids)");
 	$attachexists = FALSE;
 	$skipattachcode = $aids = $payaids = $findattach = array();
-	foreach(C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$_G['tid'], 'pid', $attachpids) as $attach) {
+	while($attach = DB::fetch($query)) {
 		$attachexists = TRUE;
 		if($skipaids && in_array($attach['aid'], $skipaids)) {
 			$skipattachcode[$attach[pid]][] = "/\[attach\]$attach[aid]\[\/attach\]/i";
@@ -98,7 +96,7 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 		}
 		if($attach['price']) {
 			if($_G['setting']['maxchargespan'] && TIMESTAMP - $attach['dateline'] >= $_G['setting']['maxchargespan'] * 3600) {
-				C::t('forum_attachment_n')->update('tid:'.$_G['tid'], $attach['aid'], array('price' => 0));
+				DB::query("UPDATE ".DB::table(getattachtablebytid($_G['tid']))." SET price='0' WHERE aid='$attach[aid]'");
 				$attach['price'] = 0;
 			} elseif(!$_G['forum_attachmentdown'] && $_G['uid'] != $attach['uid']) {
 				$payaids[$attach['aid']] = $attach['pid'];
@@ -106,10 +104,9 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 		}
 		$attach['payed'] = $_G['forum_attachmentdown'] || $_G['uid'] == $attach['uid'] ? 1 : 0;
 		$attach['url'] = ($attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl']).'forum/';
-		$attach['dbdateline'] = $attach['dateline'];
 		$attach['dateline'] = dgmdate($attach['dateline'], 'u');
 		$postlist[$attach['pid']]['attachments'][$attach['aid']] = $attach;
-		if(!defined('IN_MOBILE_API') && !empty($attachtags[$attach['pid']]) && is_array($attachtags[$attach['pid']]) && in_array($attach['aid'], $attachtags[$attach['pid']])) {
+		if(!empty($attachtags[$attach['pid']]) && is_array($attachtags[$attach['pid']]) && in_array($attach['aid'], $attachtags[$attach['pid']])) {
 			$findattach[$attach['pid']][$attach['aid']] = "/\[attach\]$attach[aid]\[\/attach\]/i";
 			$attached = 1;
 		}
@@ -130,15 +127,14 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 		$aids[] = $attach['aid'];
 	}
 	if($aids) {
-		$attachs = C::t('forum_attachment')->fetch_all($aids);
-		foreach($attachs as $aid => $attach) {
-			if($postlist[$attach['pid']]) {
-				$postlist[$attach['pid']]['attachments'][$attach['aid']]['downloads'] = $attach['downloads'];
-			}
+		$query = DB::query("SELECT aid, pid, downloads FROM ".DB::table('forum_attachment')." WHERE aid IN (".dimplode($aids).")");
+		while($attach = DB::fetch($query)) {
+			$postlist[$attach['pid']]['attachments'][$attach['aid']]['downloads'] = $attach['downloads'];
 		}
 	}
 	if($payaids) {
-		foreach(C::t('common_credit_log')->fetch_all_by_uid_operation_relatedid($_G['uid'], 'BAC', array_keys($payaids)) as $creditlog) {
+		$query = DB::query("SELECT relatedid FROM ".DB::table('common_credit_log')." WHERE relatedid IN (".dimplode(array_keys($payaids)).") AND uid='$_G[uid]' AND operation='BAC'");
+		while($creditlog = DB::fetch($query)) {
 			$postlist[$payaids[$creditlog['relatedid']]]['attachments'][$creditlog['relatedid']]['payed'] = 1;
 		}
 	}
@@ -154,24 +150,20 @@ function parseattach($attachpids, $attachtags, &$postlist, $skipaids = array()) 
 		foreach($attachtags as $pid => $aids) {
 			if($findattach[$pid]) {
 				foreach($findattach[$pid] as $aid => $find) {
-					$postlist[$pid]['message'] = preg_replace($find, attachinpost($postlist[$pid]['attachments'][$aid], $postlist[$pid]), $postlist[$pid]['message'], 1);
+					$postlist[$pid]['message'] = preg_replace($find, attachinpost($postlist[$pid]['attachments'][$aid], $postlist[$pid]['first']), $postlist[$pid]['message'], 1);
 					$postlist[$pid]['message'] = preg_replace($find, '', $postlist[$pid]['message']);
 				}
 			}
 		}
 	} else {
-		loadcache('posttableids');
-		$posttableids = $_G['cache']['posttableids'] ? $_G['cache']['posttableids'] : array('0');
-		foreach($posttableids as $id) {
-			C::t('forum_post')->update($id, $attachpids, array('attachment' => '0'), true);
-		}
+		updatepost(array('attachment' => '0'), "pid IN ($attachpids)", true);
 	}
 }
 
 function attachwidth($width) {
 	global $_G;
 	if($_G['setting']['imagemaxwidth'] && $width) {
-		return 'class="zoom" onclick="zoom(this, this.src, 0, 0, '.($_G['setting']['showexif'] ? 1 : 0).')" width="'.($width > $_G['setting']['imagemaxwidth'] ? $_G['setting']['imagemaxwidth'] : $width).'"';
+		return 'class="zoom" onclick="zoom(this, this.src)" width="'.($width > $_G['setting']['imagemaxwidth'] ? $_G['setting']['imagemaxwidth'] : $width).'"';
 	} else {
 		return 'thumbImg="1"';
 	}
@@ -189,41 +181,6 @@ function showattach($post, $type = 0) {
 		foreach($post[$type] as $aid) {
 			if(!empty($post['attachments'][$aid])) {
 				$return .= $type($post['attachments'][$aid], $post['first']);
-			}
-		}
-	}
-	return $return;
-}
-
-function getattachexif($aid, $path = '') {
-	global $_G;
-	$return = $filename = '';
-	if(!$path) {
-		if($attach = C::t('forum_attachment_n')->fetch('aid:'.$aid, $aid, array(1, -1))) {
-			if($attach['remote']) {
-				$filename = $_G['setting']['ftp']['attachurl'].'forum/'.$attach['attachment'];
-			} else {
-				$filename = $_G['setting']['attachdir'].'forum/'.$attach['attachment'];
-			}
-		}
-	} else {
-		$filename = $path;
-	}
-	if($filename) {
-		require_once libfile('function/exif');
-		$exif = getexif($filename);
-		$keys = array(
-		    exif_lang('Model'),
-		    exif_lang('ShutterSpeedValue'),
-		    exif_lang('ApertureValue'),
-		    exif_lang('FocalLength'),
-		    exif_lang('ExposureTime'),
-		    exif_lang('DateTimeOriginal'),
-		    exif_lang('ISOSpeedRatings'),
-		);
-		foreach($exif as $key => $value) {
-			if(in_array($key, $keys)) {
-				$return .= "$key : $value<br />";
 			}
 		}
 	}

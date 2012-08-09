@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: moderate_reply.php 30465 2012-05-30 04:10:03Z zhengqingpeng $
+ *      $Id: moderate_reply.php 24361 2011-09-14 08:40:47Z svn_project_zhangjie $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -12,17 +12,17 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 }
 
 loadcache('posttableids');
-$posttable = in_array($_GET['posttableid'], $_G['cache']['posttableids']) ? $_GET['posttableid'] : 0;
+$posttable = in_array($_G['gp_posttableid'], $_G['cache']['posttableids']) ? $_G['gp_posttableid'] : 0;
 
-if(!submitcheck('modsubmit') && !$_GET['fast']) {
+if(!submitcheck('modsubmit') && !$_G['gp_fast']) {
 
 	require_once libfile('function/discuzcode');
 
-	$select[$_GET['ppp']] = $_GET['ppp'] ? "selected='selected'" : '';
+	$select[$_G['gp_ppp']] = $_G['gp_ppp'] ? "selected='selected'" : '';
 	$ppp_options = "<option value='20' $select[20]>20</option><option value='50' $select[50]>50</option><option value='100' $select[100]>100</option>";
-	$ppp = !empty($_GET['ppp']) ? $_GET['ppp'] : '20';
+	$ppp = !empty($_G['gp_ppp']) ? $_G['gp_ppp'] : '20';
 	$start_limit = ($page - 1) * $ppp;
-	$dateline = $_GET['dateline'] ? $_GET['dateline'] : '604800';
+	$dateline = $_G['gp_dateline'] ? $_G['gp_dateline'] : '604800';
 	$dateline_options = '';
 	foreach(array('all', '604800', '2592000', '7776000') as $v) {
 		$selected = '';
@@ -42,8 +42,8 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 
 	showtablerow('', array('width="60"', 'width="160"', 'width="60"', $posttableselect ? 'width="160"' : '', $posttableselect ? 'width="60"' : ''),
 		array(
-			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"$_GET[username]\" />",
-			cplang('moderate_content_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"$_GET[title]\" />",
+			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"$_G[gp_username]\" />",
+			cplang('moderate_title_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"$_G[gp_title]\" />",
 			$posttableselect ? cplang('postsplit_select') : '',
 			$posttableselect
 		)
@@ -64,37 +64,43 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 	showtableheader();
 	$fidadd = array();
 	$sqlwhere = '';
-	if(!empty($_GET['username'])) {
-		$sqlwhere .= " AND p.author='{$_GET['username']}'";
+	if(!empty($_G['gp_username'])) {
+		$sqlwhere .= " AND p.author='{$_G['gp_username']}'";
 	}
 	if(!empty($dateline) && $dateline != 'all') {
 		$sqlwhere .= " AND p.dateline>'".(TIMESTAMP - $dateline)."'";
 	}
-	if(!empty($_GET['title'])) {
-		$sqlwhere .= " AND t.subject LIKE '%{$_GET['title']}%'";
+	if(!empty($_G['gp_title'])) {
+		$sqlwhere .= " AND t.subject LIKE '%{$_G['gp_title']}%'";
 	}
 	if($modfid > 0) {
-		$fidadd['fids'] = $modfid;
+		$fidadd['and'] = ' AND';
+		$fidadd['fids'] = " p.fid='$modfid'";
 	}
 
-	$modcount = C::t('common_moderate')->count_by_search_for_post(getposttable($posttable), $moderatestatus, 0, ($modfid > 0 ? $modfid : 0), $_GET['username'], (($dateline &&  $dateline != 'all') ? (TIMESTAMP - $dateline) : null), $_GET['title'], ($modfid == -1 ? 1 : 0));
+	$modcount = DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_moderate')." m
+			LEFT JOIN ".DB::table(getposttable($posttable))." p on p.pid=m.id
+			LEFT JOIN ".DB::table('forum_thread')." t ON t.tid=p.tid WHERE m.idtype='pid' AND m.status='$moderatestatus' AND p.first='0' $fidadd[and]$fidadd[fids]".($modfid == -1 ? " AND t.isgroup='1'" : '')." $sqlwhere");
 	if(empty($modcount) && $sqlwhere == '' && empty($fidadd) && empty($modfid)) {
-		C::t('common_moderate')->delete_by_status_idtype($moderatestatus, 'pid');
+		DB::delete('common_moderate', "status='$moderatestatus' AND idtype='pid'");
 	}
 	$start_limit = ($page - 1) * $ppp;
-	$postarr = C::t('common_moderate')->fetch_all_by_search_for_post(getposttable($posttable), $moderatestatus, 0, ($modfid > 0 ? $modfid : 0), $_GET['username'], (($dateline &&  $dateline != 'all') ? (TIMESTAMP - $dateline) : null), $_GET['title'], ($modfid == -1 ? 1 : 0), $start_limit, $ppp);
-	$multipage = multi($modcount, $ppp, $page, ADMINSCRIPT."?action=moderate&operation=replies&filter=$filter&modfid=$modfid&dateline={$_GET['dateline']}&username={$_GET['username']}&title={$_GET['title']}&ppp=$ppp&showcensor=$showcensor&posttableid=$posttable");
+	$query = DB::query("SELECT f.name AS forumname, f.allowsmilies, f.allowhtml, f.allowbbcode, f.allowimgcode, p.pid, p.fid, p.tid, p.author, p.authorid, p.subject, p.dateline, p.message, p.useip, p.attachment, p.htmlon, p.smileyoff, p.bbcodeoff, t.subject AS tsubject
+			FROM ".DB::table('common_moderate')." m
+			LEFT JOIN ".DB::table(getposttable($posttable))." p on p.pid=m.id
+			LEFT JOIN ".DB::table('forum_thread')." t ON t.tid=p.tid LEFT JOIN ".DB::table('forum_forum')." f ON f.fid=p.fid
+			WHERE m.idtype='pid' AND m.status='$moderatestatus' AND p.first='0' $fidadd[and]$fidadd[fids]".($modfid ==-1 ? " AND t.isgroup='1'" : '')." $sqlwhere
+			ORDER BY m.dateline DESC
+			LIMIT $start_limit, $ppp");
+	$multipage = multi($modcount, $ppp, $page, ADMINSCRIPT."?action=moderate&operation=replies&filter=$filter&modfid=$modfid&dateline={$_G['gp_dateline']}&username={$_G['gp_username']}&title={$_G['gp_title']}&ppp=$ppp&showcensor=$showcensor&posttableid=$posttable");
 
 	echo '<p class="margintop marginbot"><a href="javascript:;" onclick="expandall();">'.cplang('moderate_all_expand').'</a> <a href="javascript:;" onclick="foldall();">'.cplang('moderate_all_fold').'</a><p>';
 
+	require_once libfile('class/censor');
 	$censor = & discuz_censor::instance();
 	$censor->highlight = '#FF0000';
 	require_once libfile('function/misc');
-	foreach($postarr as $post) {
-		if(getstatus($post['status'], 5)) {
-			$post['authorid'] = 0;
-			$post['author'] = cplang('moderate_t_comment');
-		}
+	while($post = DB::fetch($query)) {
 		$post['dateline'] = dgmdate($post['dateline']);
 		$post['subject'] = $post['subject'] ? '<b>'.$post['subject'].'</b>' : '<i>'.$lang['nosubject'].'</i>';
 		$post['message'] = discuzcode($post['message'], $post['smileyoff'], $post['bbcodeoff'], sprintf('%00b', $post['htmlon']), $post['allowsmilies'], $post['allowbbcode'], $post['allowimgcode'], $post['allowhtml']);
@@ -113,7 +119,8 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 		if($post['attachment']) {
 			require_once libfile('function/attachment');
 
-			foreach(C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$post['tid'], 'pid', $post['pid']) as $attach) {
+			$queryattach = DB::query("SELECT aid, filename, filesize, attachment, isimage, remote FROM ".DB::table(getattachtablebytid($post['tid']))." WHERE pid='$post[pid]'");
+			while($attach = DB::fetch($queryattach)) {
 				$_G['setting']['attachurl'] = $attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
 				$attach['url'] = $attach['isimage']
 				 		? " $attach[filename] (".sizecount($attach['filesize']).")<br /><br /><img src=\"".$_G['setting']['attachurl']."forum/$attach[attachment]\" onload=\"if(this.width > 400) {this.resized=true; this.width=400;}\">"
@@ -157,28 +164,32 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 		}
 	}
 
-	if($_GET['apply_all']) {
-		$apply_all_action = $_GET['apply_all'];
-		$first = '0';
+	if($_G['gp_apply_all']) {
+		$apply_all_action = $_G['gp_apply_all'];
+		$sqlwhere = "p.first='0'";
 		if($filter == 'ignore') {
-			$invisible = '-3';
+			$sqlwhere .= " AND p.invisible='-3'";
 		} else {
-			$invisible = '-2';
+			$sqlwhere .= " AND p.invisible='-2'";
 		}
 		if($modfid > 0) {
-			$modfid = $modfid;
+			$sqlwhere .= " AND p.fid='$modfid'";
 		}
-		if(!empty($_GET['dateline']) && $_GET['dateline'] != 'all') {
-			$starttime = $_GET['dateline'];
+		if($modfid == -1) {
+			$sqlwhere .= " AND t.isgroup='1'";
 		}
-		if(!empty($_GET['username'])) {
-			$author = $_GET['username'];
+		if(!empty($_G['gp_dateline']) && $_G['gp_dateline'] != 'all') {
+			$sqlwhere .= " AND p.dateline>'{$_G['gp_dateline']}'";
 		}
-		if(!empty($_GET['title'])) {
-			$title = str_replace(array('_', '%'), array('\_', '\%'), $_GET['title']);
-			$keywords = $title;
+		if(!empty($_G['gp_username'])) {
+			$sqlwhere .= " AND p.author='{$_G['gp_username']}'";
 		}
-		foreach(C::t('forum_post')->fetch_all_by_search($posttable, null, $keywords, $invisible, $modfid, null, $author, $starttime, null, null, $first) as $post) {
+		if(!empty($_G['gp_title'])) {
+			$title = str_replace(array('_', '\%'), array('\_', '\%'), $_G['gp_title']);
+			$sqlwhere .= " AND t.subject LIKE '%{$title}%'";
+		}
+		$query = DB::query("SELECT p.pid FROM ".DB::table(getposttable($posttable))." p LEFT JOIN ".DB::table('forum_thread')." t ON p.tid=t.tid WHERE $sqlwhere");
+		while($post = DB::fetch($query)) {
 			switch($apply_all_action) {
 				case 'validate':
 					$moderation['validate'][] = $post['pid'];
@@ -193,35 +204,36 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 		}
 	}
 	if($ignorepids = dimplode($moderation['ignore'])) {
-		$ignores = C::t('forum_post')->update($posttable, $moderation['ignore'], array('invisible' => -3), false, false, 0, -2, $fidadd[fids]);
+		DB::query("UPDATE ".DB::table(getposttable($posttable))." SET invisible='-3' WHERE pid IN ($ignorepids) AND invisible='-2' AND first='0' $fidadd[and]$fidadd[fids]");
+		$ignores = DB::affected_rows();
 		updatemoderate('pid', $moderation['ignore'], 1);
 	}
 
 	if($deletepids = dimplode($moderation['delete'])) {
 		$pids = $recyclebinpids = array();
-		foreach(C::t('forum_post')->fetch_all($posttable, $moderation['delete']) as $post) {
-			if($post['invisible'] != $displayorder || $post['first'] != 0 || ($fidadd['fids'] && $post['fid'] != $fidadd['fids'])) {
-				continue;
-			}
+		$query = DB::query('SELECT pid, authorid, tid, fid, message FROM '.DB::table(getposttable($posttable))." WHERE pid IN ($deletepids) AND invisible='$displayorder' AND first='0' $fidadd[and]$fidadd[fids]");
+		while($post = DB::fetch($query)) {
 			if($recyclebins[$post['fid']]) {
 				$recyclebinpids[] = $post['pid'];
 			} else {
 				$pids[] = $post['pid'];
 			}
 			$pm = 'pm_'.$post['pid'];
-			if($post['authorid'] && $post['authorid'] != $_G['uid']) {
+			if(isset($_G['gp_'.$pm]) && $_G['gp_'.$pm] <> '' && $post['authorid']) {
 				$pmlist[] = array(
 					'action' => 'modreplies_delete',
-					'notevar' => array('pid' => $post['pid'], 'post' => dhtmlspecialchars(cutstr($post['message'], 30)), 'reason' => dhtmlspecialchars($_GET[''.$pm])),
+					'notevar' => array('pid' => $post['pid'], 'post' => dhtmlspecialchars(cutstr($post['message'], 30)), 'reason' => dhtmlspecialchars($_G['gp_'.$pm])),
 					'authorid' => $post['authorid'],
 				);
 			}
 		}
-		require_once libfile('function/delete');
+
 		if($recyclebinpids) {
-			deletepost($recyclebinpids, 'pid', false, $posttable, true);
+			DB::query("UPDATE ".DB::table(getposttable($posttable))." SET invisible='-5' WHERE pid IN (".dimplode($recyclebinpids).")");
 		}
+
 		if($pids) {
+			require_once libfile('function/delete');
 			$deletes = deletepost($pids, 'pid', false, $posttable);
 		}
 		$deletes += count($recyclebinpids);
@@ -230,54 +242,39 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 	}
 
 	if($validatepids = dimplode($moderation['validate'])) {
+		require_once libfile('function/forum');
 		$forums = $threads = $lastpost = $attachments = $pidarray = $authoridarray = array();
-		$tids = $postlist = array();
-		foreach(C::t('forum_post')->fetch_all($posttable, $moderation['validate']) as $post) {
-			if($post['first'] != 0) {
-				continue;
-			}
-			$tids[$post['tid']] = $post['tid'];
-			$postlist[] = $post;
-		}
-		$threadlist = C::t('forum_thread')->fetch_all($tids);
-
-		$log_handler = Cloud::loadClass('Cloud_Service_SearchHelper');
-		foreach($postlist as $post) {
-			$post['lastpost'] = $threadlist[$post['tid']]['lastpost'];
-
+		$query = DB::query("SELECT t.lastpost, p.pid, p.fid, p.tid, p.authorid, p.author, p.dateline, p.attachment, p.message, p.anonymous, p.status
+			FROM ".DB::table(getposttable($posttable))." p LEFT JOIN ".DB::table('forum_thread')." t ON t.tid=p.tid
+			WHERE pid IN ($validatepids)  AND first='0'");
+		while($post = DB::fetch($query)) {
 			$pidarray[] = $post['pid'];
-			$log_handler->myPostLog('validate', array('pid' => $post['pid']));
+			my_post_log('validate', array('pid' => $post['pid']));
 			if(getstatus($post['status'], 3) == 0) {
 				updatepostcredits('+', $post['authorid'], 'reply', $post['fid']);
-				$attachcount = C::t('forum_attachment_n')->count_by_id('tid:'.$post['tid'], 'pid', $post['pid']);
+				$attachcount = DB::result_first("SELECT COUNT(*) FROM ".DB::table(getattachtablebytid($post['tid']))." WHERE pid='$post[pid]'");
 				updatecreditbyaction('postattach', $post['authorid'], array(), '', $attachcount, 1, $post['fid']);
 			}
 
 			$forums[] = $post['fid'];
 
-
-			$threads[$post['tid']]['replies']++;
-			if($post['dateline'] > $post['lastpost'] && $post['dateline'] > $lastpost[$post['tid']]) {
-				$threads[$post['tid']]['lastpost'] = array($post['dateline']);
-				$threads[$post['tid']]['lastposter'] = array($post['anonymous'] && $post['dateline'] != $post['lastpost'] ? '' : $post['author']);
-			}
-			if($threads[$post['tid']]['attachadd'] || $post['attachment']) {
-				$threads[$post['tid']]['attachment'] = array(1);
-			}
+			$threads[$post['tid']]['posts']++;
+			$threads[$post['tid']]['lastpostadd'] = $post['dateline'] > $post['lastpost'] && $post['dateline'] > $lastpost[$post['tid']] ?
+				", lastpost='$post[dateline]', lastposter='".($post['anonymous'] && $post['dateline'] != $post['lastpost'] ? '' : addslashes($post[author]))."'" : '';
+			$threads[$post['tid']]['attachadd'] = $threads[$post['tid']]['attachadd'] || $post['attachment'] ? ', attachment=\'1\'' : '';
 
 			$pm = 'pm_'.$post['pid'];
-			if($post['authorid'] && $post['authorid'] != $_G['uid']) {
+			if(isset($_G['gp_'.$pm]) && $_G['gp_'.$pm] <> '' && $post['authorid']) {
 				$pmlist[] = array(
 					'action' => 'modreplies_validate',
-					'notevar' => array('pid' => $post['pid'], 'tid' => $post['tid'], 'post' => dhtmlspecialchars(cutstr($post['message'], 30)), 'reason' => dhtmlspecialchars($_GET[''.$pm]), 'from_id' => 0, 'from_idtype' => 'modreplies'),
+					'notevar' => array('pid' => $post['pid'], 'tid' => $post['tid'], 'post' => dhtmlspecialchars(cutstr($post['message'], 30)), 'reason' => dhtmlspecialchars($_G['gp_'.$pm])),
 					'authorid' => $post['authorid'],
 				);
 			}
 		}
-		unset($postlist, $tids, $threadlist);
 
 		foreach($threads as $tid => $thread) {
-			C::t('forum_thread')->increase($tid, $thread);
+			DB::query("UPDATE ".DB::table('forum_thread')." SET replies=replies+$thread[posts] $thread[lastpostadd] $thread[attachadd] WHERE tid='$tid'", 'UNBUFFERED');
 		}
 
 		foreach(array_unique($forums) as $fid) {
@@ -285,12 +282,12 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 		}
 
 		if(!empty($pidarray)) {
-			C::t('forum_post')->update($posttable, $pidarray, array('status' => 4), false, false, null, -2, null, 0);
-			$validates = C::t('forum_post')->update($posttable, $pidarray, array('invisible' => 0));
+			DB::query("UPDATE ".DB::table(getposttable($posttable))." SET status='4' WHERE pid IN (0,".implode(',', $pidarray).") AND status='0' AND invisible='-2'");
+			DB::query("UPDATE ".DB::table(getposttable($posttable))." SET invisible='0' WHERE pid IN (0,".implode(',', $pidarray).")");
+			$validates = DB::affected_rows();
 			updatemodworks('MOD', $validates);
 			updatemoderate('pid', $pidarray, 2);
 		} else {
-		    require_once libfile('function/forum');
 			updatemodworks('MOD', 1);
 		}
 	}
@@ -300,11 +297,11 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 			notification_add($pm['authorid'], 'system', $pm['action'], $pm['notevar'], 1);
 		}
 	}
-	if($_GET['fast']) {
-		echo callback_js($_GET['pid']);
+	if($_G['gp_fast']) {
+		echo callback_js($_G['gp_pid']);
 		exit;
 	} else {
-		cpmsg('moderate_replies_succeed', "action=moderate&operation=replies&page=$page&filter=$filter&modfid=$modfid&posttableid=$posttable&dateline={$_GET['dateline']}&username={$_GET['username']}&title={$_GET['title']}&ppp={$_GET['ppp']}&showcensor=$showcensor", 'succeed', array('validates' => $validates, 'ignores' => $ignores, 'recycles' => $recycles, 'deletes' => $deletes));
+		cpmsg('moderate_replies_succeed', "action=moderate&operation=replies&page=$page&filter=$filter&modfid=$modfid&posttableid=$posttable&dateline={$_G['gp_dateline']}&username={$_G['gp_username']}&title={$_G['gp_title']}&ppp={$_G['gp_ppp']}&showcensor=$showcensor", 'succeed', array('validates' => $validates, 'ignores' => $ignores, 'recycles' => $recycles, 'deletes' => $deletes));
 	}
 
 }

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: portal_list.php 28903 2012-03-19 06:37:49Z zhangguosheng $
+ *      $Id: portal_list.php 21365 2011-03-24 02:42:39Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -44,23 +44,15 @@ $page = max(1, intval($_GET['page']));
 foreach($cat['ups'] as $val) {
 	$cats[] = $val['catname'];
 }
-
-$bodycss = array($cat['topid'] => 'pg_list_'.$cat['topid']);
-if($cat['upid']) {
-	$bodycss[$cat['upid']] = 'pg_list_'.$cat['upid'];
-}
-$bodycss[$cat['catid']] = 'pg_list_'.$cat['catid'];
-$cat['bodycss'] = implode(' ', $bodycss);
-
 $catseoset = array(
 	'seotitle' => $cat['seotitle'],
 	'seokeywords' => $cat['keyword'],
 	'seodescription' => $cat['description']
 );
-$seodata = array('firstcat' => $cats[0], 'secondcat' => $cats[1], 'curcat' => $cat['catname'], 'page' => intval($_GET['page']));
+$seodata = array('firstcat' => $cats[0], 'secondcat' => $cats[1], 'curcat' => $cat['catname'], 'page' => intval($_G['gp_page']));
 list($navtitle, $metadescription, $metakeywords) = get_seosetting('articlelist', $seodata, $catseoset);
 if(!$navtitle) {
-	$navtitle = helper_seo::get_title_page($cat['catname'], $_G['page']);
+	$navtitle = get_title_page($cat['catname'], $_G['page']);
 	$nobbname = false;
 } else {
 	$nobbname = true;
@@ -73,12 +65,7 @@ if(!$metadescription) {
 }
 
 $file = 'portal/list:'.$catid;
-$tpldirectory = '';
-$primaltplname = $cat['primaltplname'];
-if(strpos($primaltplname, ':') !== false) {
-	list($tpldirectory, $primaltplname) = explode(':', $primaltplname);
-}
-include template('diy:'.$file, NULL, $tpldirectory, NULL, $primaltplname);
+include template('diy:'.$file, NULL, NULL, NULL, $cat['primaltplname']);
 
 
 function category_get_wheresql($cat) {
@@ -112,10 +99,10 @@ function category_get_list($cat, $wheresql, $page = 1, $perpage = 0) {
 	$list = array();
 	$pricount = 0;
 	$multi = '';
-	$count = C::t('portal_article_title')->fetch_all_by_sql($wheresql, '', 0, 0, 1, 'at');
+	$count = DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('portal_article_title')." at WHERE $wheresql"), 0);
 	if($count) {
-		$query = C::t('portal_article_title')->fetch_all_by_sql($wheresql, 'ORDER BY at.dateline DESC', $start, $perpage, 0, 'at');
-		foreach($query as $value) {
+		$query = DB::query("SELECT * FROM ".DB::table('portal_article_title')." at WHERE $wheresql ORDER BY at.dateline DESC LIMIT $start,$perpage");
+		while ($value = DB::fetch($query)) {
 			$value['catname'] = $value['catid'] == $cat['catid'] ? $cat['catname'] : $_G['cache']['portalcategory'][$value['catid']]['catname'];
 			$value['onerror'] = '';
 			if($value['pic']) {
@@ -151,15 +138,15 @@ function category_get_list_more($cat, $wheresql, $hassub = true,$hasnew = true,$
 	$allowmemory = memory('check');
 	foreach ($cachearr as $key) {
 		$cachekey = $key.$catid;
-		$data[$key] = $allowmemory ? memory('get', $cachekey) : false;
-		if($data[$key] === false) {
+		$data[$key] = $allowmemory ? memory('get', $cachekey) : '';
+		if(empty($data[$key])) {
 			$list = array();
 			$sql = '';
 			if($key == 'portalhotarticle') {
 				$dateline = TIMESTAMP - 3600 * 24 * 90;
-				$query = C::t('portal_article_count')->fetch_all_hotarticle($wheresql, $dateline);
+				$sql = "SELECT at.* FROM ".DB::table('portal_article_count')." ac, ".DB::table('portal_article_title')." at WHERE $wheresql AND ac.dateline>'$dateline' AND ac.aid=at.aid ORDER BY ac.viewnum DESC LIMIT 10";
 			} elseif($key == 'portalnewarticle') {
-				$query = C::t('portal_article_title')->fetch_all_by_sql($wheresql, 'ORDER BY at.dateline DESC', 0, 10, 0, 'at');
+				$sql = "SELECT * FROM ".DB::table('portal_article_title')." at WHERE $wheresql ORDER BY at.dateline DESC LIMIT 10";
 			} elseif(substr($key, 0, 7) == 'subcate') {
 				$cacheid = intval(str_replace('subcate', '', $key));
 				if(!empty($_G['cache']['portalcategory'][$cacheid])) {
@@ -171,13 +158,14 @@ function category_get_list_more($cat, $wheresql, $hassub = true,$hasnew = true,$
 						$where = 'at.catid='.$cacheid;
 					}
 					$where .= " AND at.status='0'";
-					$query = C::t('portal_article_title')->fetch_all_by_sql($where, 'ORDER BY at.dateline DESC', 0, 10, 0, 'at');
+					$sql = "SELECT * FROM ".DB::table('portal_article_title')." at WHERE $where ORDER BY at.dateline DESC LIMIT 10";
 				}
 			}
 
-			if($query) {
+			if($sql) {
+				$query = DB::query($sql);
 
-				foreach($query as $value) {
+				while ($value = DB::fetch($query)) {
 					$value['catname'] = $value['catid'] == $cat['catid'] ? $cat['catname'] : $_G['cache']['portalcategory'][$value['catid']]['catname'];
 					if($value['pic']) $value['pic'] = pic_get($value['pic'], '', $value['thumb'], $value['remote'], 1, 1);
 					$value['timestamp'] = $value['dateline'];
@@ -187,8 +175,8 @@ function category_get_list_more($cat, $wheresql, $hassub = true,$hasnew = true,$
 			}
 
 			$data[$key] = $list;
-			if($allowmemory) {
-				memory('set', $cachekey, $list, empty($list) ? 60 : 600);
+			if($allowmemory && !empty($list)) {
+				memory('set', $cachekey, $list, 600);
 			}
 		}
 	}

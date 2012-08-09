@@ -4,20 +4,16 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_forum.php 29623 2012-04-23 06:54:18Z zhengqingpeng $
+ *      $Id: block_forum.php 9038 2010-04-26 07:56:28Z xupeng $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class block_forum extends discuz_block {
+class block_forum {
 	var $setting = array();
 	function block_forum() {
 		$this->setting = array(
-			'fids'	=> array(
-				'title' => 'forumlist_fids',
-				'type' => 'text',
-			),
 			'fups'	=> array(
 				'title' => 'forumlist_fups',
 				'type' => 'mselect',
@@ -57,7 +53,6 @@ class block_forum extends discuz_block {
 
 	function fields() {
 		return array(
-					'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
 					'url' => array('name' => lang('blockclass', 'blockclass_forum_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
 					'title' => array('name' => lang('blockclass', 'blockclass_forum_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
 					'summary' => array('name' => lang('blockclass', 'blockclass_forum_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'),
@@ -98,11 +93,14 @@ class block_forum extends discuz_block {
 		return $settings;
 	}
 
+	function cookparameter($parameter) {
+		return $parameter;
+	}
+
 	function getdata($style, $parameter) {
 		global $_G;
 
 		$parameter = $this->cookparameter($parameter);
-		$fids	= !empty($parameter['fids']) ? explode(',',$parameter['fids']) : array();
 		$fups		= isset($parameter['fups']) && !in_array(0, (array)$parameter['fups']) ? $parameter['fups'] : '';
 		$orderby	= isset($parameter['orderby']) ? (in_array($parameter['orderby'],array('displayorder','threads','posts', 'todayposts')) ? $parameter['orderby'] : 'displayorder') : 'displayorder';
 		$titlelength = isset($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
@@ -122,22 +120,13 @@ class block_forum extends discuz_block {
 			}
 		}
 
-		$wheres = array();
-		if($fids) {
-			$wheres[] = 'f.`fid` IN ('.dimplode($fids).')';
-		}
-		if($fups) {
-			$wheres[] = 'f.`fup` IN ('.dimplode($fups).')';
-		}
-		$wheres[] = "f.`status`='1'";
-		$wheres[] = "f.`type`!='group'";
-		$wheresql = implode(' AND ', $wheres);
-
 		$ffadd1 = ", ff.icon, ff.description";
 		$ffadd2 = "LEFT JOIN `".DB::table('forum_forumfield')."` ff ON f.`fid`=ff.`fid`";
 		$query = DB::query("SELECT f.* $ffadd1
 			FROM `".DB::table('forum_forum')."` f $ffadd2
-			WHERE $wheresql
+			WHERE
+			".($fups ? "f.`fup` IN (".dimplode($fups).") " : "1 ")."
+			AND f.`status`='1' AND f.`type`!='group'
 			$sqlban
 			ORDER BY ".($orderby == 'displayorder' ? "f.fup, f.`displayorder` ASC " : "f.`$orderby` DESC")
 			." LIMIT $startrow, $items"
@@ -145,11 +134,7 @@ class block_forum extends discuz_block {
 		$datalist = $list = array();
 		$attachurl = preg_match('/^(http|ftp|ftps|https):\/\//', $_G['setting']['attachurl']) ? $_G['setting']['attachurl'] : $_G['siteurl'].$_G['setting']['attachurl'];
 		while($data = DB::fetch($query)) {
-			if(!empty($data['icon'])) {
-				$data['icon'] = preg_match('/^(http|ftp|ftps|https):\/\//', $data['icon']) ? $data['icon'] : $attachurl.'common/'.$data['icon'];
-			} else {
-				$data['icon'] = 'static/image/common/forum_new.gif';
-			}
+			$data['icon'] = $data['icon'] ? $data['icon'] : 'static/image/common/forum_new.gif';
 			$list[] = array(
 				'id' => $data['fid'],
 				'idtype' => 'fid',
@@ -159,7 +144,7 @@ class block_forum extends discuz_block {
 				'summary' => cutstr($data['description'], $summarylength, ''),
 				'fields' => array(
 					'fulltitle' => $data['name'],
-					'icon' => $data['icon'],
+					'icon' => preg_match('/^(http|ftp|ftps|https):\/\//', $data['icon']) ? $data['icon'] : $attachurl.'common/'.$data['icon'],
 					'threads' => intval($data['threads']),
 					'posts' => intval($data['posts']),
 					'todayposts' => intval($data['todayposts'])

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: task_post.php 26754 2011-12-22 08:14:22Z zhengqingpeng $
+ *      $Id: task_post.php 20396 2011-02-23 03:21:40Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -44,6 +44,12 @@ class task_post {
 			'value' => '',
 			'sort' => 'complete',
 		),
+		'author' => array(
+			'title' => 'post_complate_var_author',
+			'type' => 'text',
+			'value' => '',
+			'sort' => 'complete',
+		),
 		'num' => array(
 			'title' => 'post_complete_var_num',
 			'type' => 'text',
@@ -72,7 +78,8 @@ class task_post {
 		global $_G;
 
 		$taskvars = array('num' => 0);
-		foreach(C::t('common_taskvar')->fetch_all_by_taskid($task['taskid']) as $taskvar) {
+		$query = DB::query("SELECT variable, value FROM ".DB::table('common_taskvar')." WHERE taskid='$task[taskid]'");
+		while($taskvar = DB::fetch($query)) {
 			if($taskvar['value']) {
 				$taskvars[$taskvar['variable']] = $taskvar['value'];
 			}
@@ -81,29 +88,28 @@ class task_post {
 
 		$tbladd = $sqladd = '';
 		if($taskvars['act'] == 'newreply' && $taskvars['threadid']) {
-			$threadid = $taskvars['threadid'];
+			$sqladd .= " AND p.tid='$taskvars[threadid]'";
 		} else {
 			if($taskvars['forumid']) {
-				$forumid = $taskvars['forumid'];
+				$sqladd .= " AND p.fid='$taskvars[forumid]'";
 			}
 			if($taskvars['author']) {
-				return TRUE;
+				$taskvars['authorid'] = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='".addslashes($taskvars['author'])."'");
+				$tbladd .= ", ".DB::table('forum_thread')." t";
+				$sqladd .= " AND p.tid=t.tid AND t.authorid='$taskvars[authorid]'";
 			}
 		}
 		if($taskvars['act']) {
 			if($taskvars['act'] == 'newthread') {
-				$first = '1';
+				$sqladd .= " AND p.first='1'";
 			} elseif($taskvars['act'] == 'newreply') {
-				$first = '0';
+				$sqladd .= " AND p.first='0'";
 			}
 		}
 
-		$starttime = $task['applytime'];
-		if($taskvars['time'] = floatval($taskvars['time'])) {
-			$endtime = $task['applytime'] + 3600 * $taskvars['time'];
-		}
+		$sqladd .= ($taskvars['time'] = floatval($taskvars['time'])) ? " AND p.dateline BETWEEN $task[applytime] AND $task[applytime]+3600*$taskvars[time]" : " AND p.dateline>$task[applytime]";
 
-		$num = C::t('forum_post')->count_by_search(0, $threadid, null, 0, $forumid, $_G['uid'], null, $starttime, $endtime, null, $first);
+		$num = DB::result_first("SELECT COUNT(*) FROM ".DB::table(getposttable())." p $tbladd WHERE p.authorid='{$_G['uid']}' $sqladd");
 
 		if($num && $num >= $taskvars['num']) {
 			return TRUE;
@@ -123,11 +129,11 @@ class task_post {
 			$value = '<a href="forum.php?mod=forumdisplay&fid='.$value.'"><strong>'.$_G['cache']['forums'][$value]['name'].'</strong></a>';
 		} elseif(!empty($taskvars['complete']['threadid'])) {
 			$value = intval($taskvars['complete']['threadid']['value']);
-			$thread = C::t('forum_thread')->fetch($value);
-			$value = '<a href="forum.php?mod=viewthread&tid='.$value.'"><strong>'.($thread['subject'] ? $thread['subject'] : 'TID '.$value).'</strong></a>';
+			$subject = DB::result_first("SELECT subject FROM ".DB::table('forum_thread')." WHERE tid='$value'");
+			$value = '<a href="forum.php?mod=viewthread&tid='.$value.'"><strong>'.($subject ? $subject : 'TID '.$value).'</strong></a>';
 		} elseif(!empty($taskvars['complete']['author'])) {
-			$value = $taskvars['complete']['author']['value'];
-			$authorid = C::t('common_member')->fetch_uid_by_username($value);
+			$value = addslashes($taskvars['complete']['author']['value']);
+			$authorid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='".$value."'");
 			$value = '<a href="home.php?mod=space&uid='.$authorid.'"><strong>'.$value.'</strong></a>';
 		}
 		$taskvars['complete']['num']['value'] = intval($taskvars['complete']['num']['value']);

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: topicadmin_copy.php 28832 2012-03-14 08:31:20Z chenmengshu $
+ *      $Id: topicadmin_copy.php 23127 2011-06-21 01:23:03Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -24,9 +24,11 @@ if(!submitcheck('modsubmit')) {
 
 	$modaction = 'CPY';
 	$reason = checkreasonpm();
-	$copyto = $_GET['copyto'];
-	$toforum = C::t('forum_forum')->fetch_info_by_fid($copyto);
-	if(!$toforum || $toforum['status'] != 1 || $toforum['type'] == 'group') {
+	$copyto = $_G['gp_copyto'];
+	$toforum = DB::fetch_first("SELECT f.fid, f.name, f.modnewposts, ff.threadsorts FROM ".DB::table('forum_forum')." f
+								LEFT JOIN ".DB::table('forum_forumfield')." ff USING(fid)
+								WHERE f.fid='$copyto' AND f.status='1' AND f.type<>'group'");
+	if(!$toforum) {
 		showmessage('admin_copy_invalid');
 	} else {
 		$modnewthreads = (!$_G['group']['allowdirectpost'] || $_G['group']['allowdirectpost'] == 1) && $toforum['modnewposts'] ? 1 : 0;
@@ -38,7 +40,8 @@ if(!submitcheck('modsubmit')) {
 	$toforum['threadsorts_arr'] = unserialize($toforum['threadsorts']);
 
 	if($thread['sortid'] != 0 && $toforum['threadsorts_arr']['types'][$thread['sortid']]) {
-		foreach(C::t('forum_typeoptionvar')->fetch_all_by_search($thread['sortid'], null, $thread['tid']) as $result) {
+		$query = DB::query("SELECT * FROM ".DB::table('forum_typeoptionvar')." WHERE sortid = '{$thread['sortid']}' AND tid = '{$thread['tid']}'");
+		while ($result = DB::fetch($query)) {
 			$typeoptionvar[] = $result;
 		}
 	} else {
@@ -51,12 +54,13 @@ if(!submitcheck('modsubmit')) {
 	$thread['lastposter'] = $thread['author'];
 	$thread['views'] = $thread['replies'] = $thread['highlight'] = $thread['digest'] = 0;
 	$thread['rate'] = $thread['displayorder'] = $thread['attachment'] = 0;
-	$thread['typeid'] = $_GET['threadtypeid'];
+	$thread['typeid'] = $_G['gp_threadtypeid'];
 	$thread = daddslashes($thread);
 
 	$thread['posttableid'] = 0;
-	$threadid = C::t('forum_thread')->insert($thread, true);
-	if($post = C::t('forum_post')->fetch_threadpost_by_tid_invisible($_G['tid'])) {
+	$threadid = DB::insert('forum_thread', $thread, true);
+	$posttable = getposttablebytid($_G['tid']);
+	if($post = DB::fetch_first("SELECT * FROM ".DB::table($posttable)." WHERE tid='$_G[tid]' AND first=1 LIMIT 1")) {
 		$post['pid'] = '';
 		$post['tid'] = $threadid;
 		$post['fid'] = $copyto;
@@ -67,17 +71,14 @@ if(!submitcheck('modsubmit')) {
 		$pid = insertpost($post);
 	}
 
-	$class_tag = new tag();
-	$class_tag->copy_tag($_G['tid'], $threadid, 'tid');
-
 	if($typeoptionvar) {
 		foreach($typeoptionvar AS $key => $value) {
 			$value['tid'] = $threadid;
 			$value['fid'] = $toforum['fid'];
-			C::t('forum_typeoptionvar')->insert($value);
+			DB::insert('forum_typeoptionvar', $value);
 		}
 	}
-	updatepostcredits('+', $post['authorid'], 'post', $copyto);
+	updatepostcredits('+', $post['authorid'], 'post', $_G['fid']);
 
 	updateforumcount($copyto);
 	updateforumcount($_G['fid']);
@@ -86,7 +87,7 @@ if(!submitcheck('modsubmit')) {
 	$resultarray = array(
 	'redirect'	=> "forum.php?mod=forumdisplay&fid=$_G[fid]",
 	'reasonpm'	=> ($sendreasonpm ? array('data' => array($thread), 'var' => 'thread', 'item' => 'reason_copy') : array()),
-	'reasonvar'	=> array('tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason, 'threadid' => $threadid),
+	'reasonvar'	=> array('tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => stripslashes($reason), 'threadid' => $threadid),
 	'modtids'	=> $thread['tid'],
 	'modlog'	=> array($thread, $other)
 	);

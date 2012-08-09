@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: cloudstat.class.php 29952 2012-05-03 10:53:30Z monkey $
+ *      $Id: cloudstat.class.php 27511 2012-02-03 02:42:16Z yexinhao $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,12 +15,12 @@ class plugin_cloudstat {
 	var $discuzParams = array();
 	var $extraParams = array();
 
-	function common() {
+	function global_footerlink() {
 		global $_G;
 		if($_G['inajax']) {
-			return;
+			return '';
 		}
-		$_G['setting']['statcode'] = $this->_makejs() . $_G['setting']['statcode'];
+		return $this->_makejs();
 	}
 
 	function global_cpnav_extra1() {
@@ -40,7 +40,7 @@ class plugin_cloudstat {
 	}
 
 	function _makedzjs() {
-		global $_G, $mod;
+		global $_G;
 
 		$this->discuzParams['r2'] = $_G['setting']['my_siteid'];
 
@@ -52,8 +52,8 @@ class plugin_cloudstat {
 
 		$this->discuzParams['rt'] = $_G['basescript'];
 
-		if($mod) {
-			$this->discuzParams['md'] = $mod;
+		if($_G['mod']) {
+			$this->discuzParams['md'] = $_G['mod'];
 		}
 
 		if($_G['fid']) {
@@ -74,9 +74,8 @@ class plugin_cloudstat {
 		dsetcookie('stats_qc_reg');
 		$qq .= $_G['uid']?'1':'0';
 
-		$qclogin = intval(getcookie('stats_qc_login'));
-		if(($_G['uid'] && $_G['member']['conisbind']) || $qclogin == 4) {
-			$qq .= $qclogin?$qclogin:1;
+		if($_G['uid'] && $_G['member']['conisbind']) {
+			$qq .= ($qclogin = intval(getcookie('stats_qc_login')))?$qclogin:1;
 			dsetcookie('stats_qc_login');
 		} else {
 			$qq .= '0';
@@ -184,7 +183,7 @@ class plugin_cloudstat {
 	function _viewthread_postbottom_output() {
 		global $_G;
 		$cloudstatjs = array();
-		if($_G['inajax'] && !empty($_GET['viewpid'])) {
+		if($_G['inajax'] && !empty($_G['gp_viewpid'])) {
 			$cloudstatjs[] = $this->_makejs();
 		}
 		return $cloudstatjs;
@@ -312,3 +311,5 @@ class mobileplugin_cloudstat extends plugin_cloudstat {
 		return '<img src="' . $pingd . '" height="1" width="1" style="float:right" />';
 	}
 }
+
+?>

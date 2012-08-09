@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: misc_diyhelp.php 25889 2011-11-24 09:52:20Z monkey $
+ *      $Id: misc_diyhelp.php 21666 2011-04-07 04:57:15Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,20 +12,21 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $allowdiy = false; //diy权限:$_G['group']['allowdiy'] || $_G['group']['allowaddtopic'] && $topic['uid'] == $_G['uid'] || $_G['group']['allowmanagetopic']
-$ref = $_GET['diy'] == 'yes';//DIY模式中
-if(!$ref && $_GET['action'] == 'get') {
-	if($_GET['type'] == 'index') {
+$ref = $_G['gp_diy'] == 'yes';//DIY模式中
+if(!$ref && $_G['gp_action'] == 'get') {
+	if($_G['gp_type'] == 'index') {
 		if($_G['group']['allowdiy']) {
 			$allowdiy = true;
 		}
-	} else if($_GET['type'] == 'topic') {
+	} else if($_G['gp_type'] == 'topic') {
 		$topic = array();
-		$topicid = max(0, intval($_GET['topicid']));
+		$topicid = max(0, intval($_G['gp_topicid']));
 		if($topicid) {
 			if($_G['group']['allowmanagetopic']) {
 				$allowdiy = true;
 			} else if($_G['group']['allowaddtopic']) {
-				if(($topic=C::t('portal_topic')->fetch($topicid)) && $topic['uid'] == $_G['uid']) {
+				$topic = DB::fetch_first('SELECT uid FROM '.DB::table('portal_topic')." WHERE topicid='$topicid'");
+				if($topic && $topic['uid'] == $_G['uid']) {
 					$allowdiy = true;
 				}
 			}

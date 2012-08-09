@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: function_editor.php 29236 2012-03-30 05:34:47Z chenmengshu $
+ *      $Id: function_editor.php 19947 2011-01-25 06:37:25Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -173,7 +173,7 @@ function html2bbcode($text) {
 	$strreplace = array(' ', '<', '>', '&');
 	$text = str_replace($strfind, $strreplace, $text);
 
-	return dhtmlspecialchars(trim($text));
+	return htmlspecialchars(trim($text));
 }
 
 function imgtag($attributes) {

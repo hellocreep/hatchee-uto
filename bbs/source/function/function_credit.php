@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: function_credit.php 25885 2011-11-24 09:30:09Z monkey $
+ *      $Id:$
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -57,10 +57,16 @@ function _updatemembercount($uids, $dataarr = array(), $checkgroup = true, $oper
 	if(!is_array($dataarr) || empty($dataarr)) return;
 	if($operation && $relatedid) {
 		$writelog = true;
+		$log = array(
+			'uid' => $uids,
+			'operation' => $operation,
+			'relatedid' => $relatedid,
+			'dateline' => time(),
+		);
 	} else {
 		$writelog = false;
 	}
-	$data = $log = array();
+	$data = array();
 	foreach($dataarr as $key => $val) {
 		if(empty($val)) continue;
 		$val = intval($val);
@@ -76,7 +82,7 @@ function _updatemembercount($uids, $dataarr = array(), $checkgroup = true, $oper
 		}
 	}
 	if($writelog) {
-		credit_log($uids, $operation, $relatedid, $log);
+		DB::insert('common_credit_log', $log);
 	}
 	if($data) {
 		include_once libfile('class/credit');
@@ -85,27 +91,4 @@ function _updatemembercount($uids, $dataarr = array(), $checkgroup = true, $oper
 	}
 }
 
-function credit_log($uids, $operation, $relatedid, $data) {
-	if(!$operation || empty($relatedid) || empty($uids) || empty($data)) {
-		return;
-	}
-	$log = array(
-		'uid' => $uids,
-		'operation' => $operation,
-		'relatedid' => $relatedid,
-		'dateline' => TIMESTAMP,
-	);
-	foreach($data as $k => $v) {
-		$log[$k] = $v;
-	}
-	if(is_array($uids)) {
-		foreach($uids as $k => $uid) {
-			$log['uid'] = $uid;
-			$log['relatedid'] = is_array($relatedid) ? $relatedid[$k] : $relatedid;
-			C::t('common_credit_log')->insert($log);
-		}
-	} else {
-		C::t('common_credit_log')->insert($log);
-	}
-}
 ?>

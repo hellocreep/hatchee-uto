@@ -4,12 +4,8 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: class_card.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ *      $Id: class_card.php 21053 2011-03-11 04:13:37Z congyushuai $
  */
-
-if(!defined('IN_DISCUZ')) {
-	exit('Access Denied');
-}
 class card{
 
 	var $set = array();
@@ -45,8 +41,13 @@ class card{
 			return -1;
 		}
 		$this->fail($num);
-		$cardval['makeruid'] = $_G['uid'];
-		$cardval['dateline'] = $_G['timestamp'];
+		if(is_array($cardval)) {
+			foreach($cardval AS $key => $val) {
+				$sqlkey .= ", $key";
+				$sqlval .= ", '{$val}'";
+			}
+
+		}
 		for($i = 0; $i < $num ; $i++) {
 			if($this->checkrule($this->rule)) {
 				$card = $this->rule;
@@ -60,19 +61,20 @@ class card{
 			} else {
 				return 0;
 			}
-			$cardval['id'] = $card;
-			C::t('common_card')->insert($cardval, false, false, 'SILENT');
-			if(($sqlerror = DB::error())) {
-				if($sqlerror == 1062) {
+
+			$sql = "INSERT INTO ".DB::table('common_card')." (id, makeruid, dateline $sqlkey)VALUES('$card', '$_G[uid]', '$_G[timestamp]' $sqlval)";
+			DB::query($sql, 'SILENT');
+			if($sqlerror = DB::error()) {
+				if(DB::errno() == 1062) {
 					$this->fail++;
 					if($this->failmin > $this->fail) {
 						$num++;
 					} else {
 						$num = $i - 1;
 					}
-				}/* else {
+				} else {
 					DB::halt($sqlerror, $sql);
-				}*/
+				}
 			} else {
 				$this->succeed += intval(DB::affected_rows());
 				$this->cardlist[] = $card;

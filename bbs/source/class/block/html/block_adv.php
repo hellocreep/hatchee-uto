@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_adv.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ *      $Id: block_adv.php 7212 2010-03-30 13:05:47Z xupeng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -34,7 +34,8 @@ class block_adv extends commonblock_html {
 				'type' => 'text',
 			)
 		);
-		foreach(C::t('common_advertisement_custom')->fetch_all_data() as $value) {
+		$query = DB::query('SELECT * FROM '.DB::table('common_advertisement_custom'));
+		while($value=DB::fetch($query)) {
 			$settings['adv']['value'][] = array($value['name'], $value['name']);
 		}
 		return $settings;
@@ -43,14 +44,16 @@ class block_adv extends commonblock_html {
 	function getdata($style, $parameter) {
 		$advid = 0;
 		if(!empty($parameter['title'])) {
-			$adv = C::t('common_advertisement_custom')->fetch_by_name($parameter['title']);
+			$parameter['title'] = addslashes($parameter['title']);
+			$adv = DB::fetch_first('SELECT * FROM '.DB::table('common_advertisement_custom')." WHERE name='$parameter[title]'");
 			if(empty($adv)) {
-				$advid = C::t('common_advertisement_custom')->insert(array('name' => $parameter['title']), true);
+				$advid = DB::insert('common_advertisement_custom', array('name'=>$parameter['title']), 1);
 			} else {
 				$advid = $adv['id'];
 			}
 		} elseif(!empty($parameter['adv'])) {
-		   $adv = C::t('common_advertisement_custom')->fetch_by_name($parameter['adv']);
+		   $parameter['adv'] = addslashes($parameter['adv']);
+		   $adv = DB::fetch_first('SELECT * FROM '.DB::table('common_advertisement_custom')." WHERE name='$parameter[adv]'");
 		   $advid = intval($adv['id']);
 		} else {
 			$return = 'Empty Ads';

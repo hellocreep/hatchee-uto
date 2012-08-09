@@ -34,7 +34,7 @@ var inquiry_form2="<form class='inquiry-form'> \
 			<tr><td>天数：</td><td class='r_day'></td></tr> \
 			<tr><td>出发时间：</td><td><input type='text' class='r_date Wdate'></td></tr> \
 			<tr><td>选用车型：</td><td><select class='car-select'></select></td></tr> \
-			<tr><td>参加人数：</td><td><input type='text' class='r_people'></td></tr> \
+			<tr><td>参加人数：</td><td><input type='text' class='r_people' name='people'></td></tr> \
 			</table> \
 			<h3>填写联系人信息</h3> \
 			<table class='formtab'> \
@@ -295,7 +295,8 @@ $(function(){
 						data.car = $( '.car-select option:selected' ).val()||'';
 						data.tour_time = $( '.r_date' ).val();
 					}
-					$.ajax({
+					alert($( 'input[name="people"]' ).val());
+					/*$.ajax({
 						url: 'ordermanage/addorder',
 						data: {
 							data: $.toJSON(data)
@@ -314,7 +315,7 @@ $(function(){
 								$( '#inquiry-submit' ).attr('value','确认提交').removeClass('btn-updating').after( '<span class="red">系统正忙，请稍候提交</span>' );
 							}
 						}
-					});
+					});*/
 				}
 			});
 		}
@@ -534,11 +535,15 @@ $(function(){
 		{
 			window.location.href='themetour.html';
 		}
+		else if($('#tourtype').val()=='0')
+		{
+			window.location.href='themetour/term.html';
+		}
 		else if($('#tourtype').val()=='1')
 		{
 			window.location.href='themetour/customize.html';
 		}
-		else if($('#tourtype').val()=='1')
+		else if($('#tourtype').val()=='3')
 		{
 			window.location.href='themetour/free.html';
 		}

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: cache_globalstick.php 24152 2011-08-26 10:04:08Z zhangguosheng $
+ *      $Id: cache_globalstick.php 22908 2011-05-31 02:49:40Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,9 +13,10 @@ if(!defined('IN_DISCUZ')) {
 
 function build_cache_globalstick() {
 	$data = array();
-	$query = C::t('forum_forum')->fetch_all_valid_forum();
+	$query = DB::query("SELECT fid, type, fup FROM ".DB::table('forum_forum')." WHERE status='1' AND type IN ('forum', 'sub') ORDER BY type");
+
 	$fuparray = $threadarray = array();
-	foreach($query as $forum) {
+	while($forum = DB::fetch($query)) {
 		switch($forum['type']) {
 			case 'forum':
 				$fuparray[$forum['fid']] = $forum['fup'];
@@ -25,7 +26,8 @@ function build_cache_globalstick() {
 				break;
 		}
 	}
-	foreach(C::t('forum_thread')->fetch_all_by_displayorder(array(2, 3)) as $thread) {
+	$query = DB::query("SELECT tid, fid, displayorder FROM ".DB::table('forum_thread')." WHERE fid>'0' AND displayorder IN (2, 3)");
+	while($thread = DB::fetch($query)) {
 		switch($thread['displayorder']) {
 			case 2:
 				$threadarray[$fuparray[$thread['fid']]][] = $thread['tid'];
@@ -48,7 +50,7 @@ function build_cache_globalstick() {
 		'count'	=> intval(@count($threadarray['global']))
 	);
 
-	savecache('globalstick', $data);
+	save_syscache('globalstick', $data);
 }
 
 ?>

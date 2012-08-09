@@ -4,7 +4,7 @@
 	[Discuz!] (C)2001-2007 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
 
-	$Id: admincp_recyclebinpost.php 28728 2012-03-09 03:15:48Z songlixin $
+	$Id: admincp_recyclebinpost.php 28159 2012-02-23 07:08:33Z songlixin $
 */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -14,12 +14,12 @@ if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 require_once libfile('function/post');
 require_once libfile('function/discuzcode');
 
-$posttableid = intval($_GET['posttableid']);
+$posttableid = intval($_G['gp_posttableid']);
 
 cpheader();
 
 if(submitcheck('rbsubmit')) {
-	$moderate = $_GET['moderate'];
+	$moderate = $_G['gp_moderate'];
 	$moderation = array('delete' => array(), 'undelete' => array(), 'ignore' => array());
 	if(is_array($moderate)) {
 		foreach($moderate as $pid => $action) {
@@ -45,10 +45,11 @@ if(submitcheck('rbsubmit')) {
 	}
 }
 
-$lpp = empty($_GET['lpp']) ? 20 : $_GET['lpp'];
+$lpp = empty($_G['gp_lpp']) ? 20 : $_G['gp_lpp'];
 $start = ($page - 1) * $lpp;
 $start_limit = ($page - 1) * $lpp;
 $multi = '';
+$innersql = '';
 
 if(!$operation) {
 	shownav('topic', 'nav_recyclebinpost');
@@ -62,9 +63,9 @@ if(!$operation) {
 	showhiddenfields(array('posttableid' => $posttableid));
 	showtableheader('recyclebinpost');
 
-	$postlistcount = C::t('forum_post')->count_by_invisible($posttableid, '-5');
+	$postlistcount = DB::result_first("SELECT COUNT(*) FROM ".DB::table(getposttable($posttableid))." WHERE invisible='-5'");
 
-	if($postlistcount && recyclebinpostshowpostlist(null, null, null, null, null, $start_limit, $lpp)) {
+	if($postlistcount && recyclebinpostshowpostlist('', $start_limit, $lpp)) {
 		$multi = multi($postlistcount, $lpp, $page, ADMINSCRIPT."?action=recyclebinpost");
 	}
 	showsubmit('rbsubmit', 'submit', '', '<a href="#rb" onclick="checkAll(\'option\', $(\'rbform\'), \'delete\')">'.cplang('recyclebin_all_delete').'</a> &nbsp;<a href="#rb" onclick="checkAll(\'option\', $(\'rbform\'), \'undelete\')">'.cplang('recyclebin_all_undelete').'</a> &nbsp;<a href="#rb" onclick="checkAll(\'option\', $(\'rbform\'), \'ignore\')">'.cplang('recyclebin_all_ignore').'</a> &nbsp;', $multi);
@@ -75,19 +76,17 @@ if(!$operation) {
 
 } elseif($operation == 'search') {
 
-	$inforum = $_GET['inforum'];
-	$authors = $_GET['authors'];
-	$keywords = $_GET['keywords'];
-	$pstarttime = $_GET['pstarttime'];
-	$pendtime = $_GET['pendtime'];
-
-	$appService = Cloud::loadClass('Service_App');
-	$secStatus = $appService->getCloudAppStatus('security');
+	$inforum = $_G['gp_inforum'];
+	$authors = $_G['gp_authors'];
+	$keywords = $_G['gp_keywords'];
+	$pstarttime = $_G['gp_pstarttime'];
+	$pendtime = $_G['gp_pendtime'];
+	$searchsubmit = $_G['gp_searchsubmit'];
+	require_once libfile('function/cloud');
+	$secStatus = getcloudappstatus('security', 0);
 	if($secStatus){
-		$security = $_GET['security'];
+		$security = $_G['gp_security'];
 	}
-
-	$searchsubmit = $_GET['searchsubmit'];
 
 	require_once libfile('function/forumlist');
 
@@ -123,27 +122,42 @@ EOT;
 	showsetting('recyclebin_search_post_time', array('pstarttime', 'pendtime'), array($pstarttime, $pendtime), 'daterange');
 	showsetting('postsplit', '', '', getposttableselect());
 	if($secStatus){
-        showsetting('recyclebin_search_security_thread', 'security', $security, 'radio');
+		showsetting('recyclebin_search_security_post','security', $security, 'radio');
 	}
 	showsubmit('searchsubmit');
 	showtablefooter();
 	showformfooter();
 	showtagfooter('div');
 
-	if(submitcheck('searchsubmit')) {
+	if(submitcheck('searchsubmit', 1)) {
 
-		$security = $secStatus && $security;
-		if($security){
-			$postlistcount = C::t('#security#security_evilpost')->count_by_search($posttableid, null, $keywords, -5, $inforum, null, ($authors ? explode(',', str_replace(' ', '', $authors)) : null), strtotime($pstarttime), strtotime($pendtime));
-		}else{
-			$postlistcount = C::t('forum_post')->count_by_search($posttableid, null, $keywords, -5, $inforum, null, ($authors ? explode(',', str_replace(' ', '', $authors)) : null), strtotime($pstarttime), strtotime($pendtime));
+		$sql = '';
+		$sql .= $inforum			? " AND fid='$inforum'" : '';
+		$sql .= $authors != ''		? " AND author IN ('".str_replace(',', '\',\'', str_replace(' ', '', $authors))."')" : '';
+		$sql .= $pstarttime != ''	? " AND dateline>='".strtotime($pstarttime)."'" : '';
+		$sql .= $pendtime != ''		? " AND dateline<'".strtotime($pendtime)."'" : '';
+
+		if(trim($keywords)) {
+			$sqlkeywords = $or = '';
+			foreach(explode(',', str_replace(' ', '', $keywords)) as $keyword) {
+				$sqlkeywords .= " $or message LIKE '%$keyword%'";
+				$or = 'OR';
+			}
+			$sql .= " AND ($sqlkeywords)";
 		}
+
+		if($secStatus && $security){
+			$innersql = " INNER JOIN ".DB::table('security_evilpost')." s ON t.pid = s.pid ";
+			$sql .= " AND s.type = '0'";
+		}
+
+		$postlistcount = DB::result_first("SELECT COUNT(*) FROM ".DB::table(getposttable($posttableid))." t $innersql WHERE invisible='-5' $sql");
 
 		showtagheader('div', 'postlist', $searchsubmit);
 		showformheader('recyclebinpost&operation=search&frame=no', 'target="rbframe"', 'rbform');
 		showtableheader(cplang('recyclebinpost_result').' '.$postlistcount.' <a href="#" onclick="$(\'postlist\').style.display=\'none\';$(\'postsearch\').style.display=\'\';" class="act lightlink normal">'.cplang('research').'</a>', 'fixpadding');
 
-		if($postlistcount && recyclebinpostshowpostlist($inforum, $authors, $pstarttime, $pendtime, $keywords, $start_limit, $lpp)) {
+		if($postlistcount && recyclebinpostshowpostlist($sql, $start_limit, $lpp)) {
 			$multi = multi($postlistcount, $lpp, $page, ADMINSCRIPT."?action=recyclebinpost");
 			$multi = preg_replace("/href=\"".ADMINSCRIPT."\?action=recyclebinpost&amp;page=(\d+)\"/", "href=\"javascript:page(\\1)\"", $multi);
 			$multi = str_replace("window.location='".ADMINSCRIPT."?action=recyclebinpost&amp;page='+this.value", "page(this.value)", $multi);
@@ -158,7 +172,7 @@ EOT;
 
 } elseif($operation == 'clean') {
 
-	if(!submitcheck('cleanrbsubmit', 1)) {
+	if(!submitcheck('cleanrbsubmit')) {
 
 		shownav('topic', 'nav_recyclebinpost');
 		showsubmenu('nav_recyclebinpost', array(
@@ -176,41 +190,37 @@ EOT;
 	} else {
 
 		$deletetids = array();
-		$pernum = 200;
-		$postsdel = intval($_GET['postsdel']);
-		$days = intval($_GET['days']);
-		$timestamp = TIMESTAMP - max(0, $days * 86400);
+		$timestamp = TIMESTAMP - max(0, intval($_G['gp_days'])*86400);
 
 		$postlist = array();
 		loadcache('posttableids');
 		$posttables = !empty($_G['cache']['posttableids']) ? $_G['cache']['posttableids'] : array(0);
 		foreach($posttables as $ptid) {
-			foreach(C::t('forum_post')->fetch_all_pid_by_invisible_dateline($ptid, -5, $timestamp, 0, $pernum) as $post) {
+			$query = DB::query('SELECT pid FROM '.DB::table(getposttable($ptid))." WHERE invisible='-5' AND dateline<$timestamp");
+			while($post = DB::fetch($query)) {
 				$postlist[$ptid][] = $post['pid'];
 			}
 		}
-		$postsundel = 0;
-		if($postlist) {
-			foreach($postlist as $ptid => $deletepids) {
-				$postsdel += recyclebinpostdelete($deletepids, $ptid);
-			}
-			$startlimit += $pernum;
-			cpmsg('recyclebinpost_clean_next', 'action=recyclebinpost&operation=clean&cleanrbsubmit=1&days='.$days.'&postsdel='.$postsdel, 'succeed', array('postsdel' => $postsdel));
-		} else {
-			cpmsg('recyclebinpost_succeed', 'action=recyclebinpost&operation=clean', 'succeed', array('postsdel' => $postsdel, 'postsundel' => $postsundel));
+		if(empty($postlist)) {
+			cpmsg('recyclebinpost_none', 'action=recyclebinpost', 'error');
 		}
+		$postsdel = $postsundel = 0;
+		foreach($postlist as $ptid => $deletepids) {
+			$postsdel += recyclebinpostdelete($deletepids, $ptid);
+		}
+		cpmsg('recyclebinpost_succeed', 'action=recyclebinpost&operation=clean', 'succeed', array('postsdel' => $postsdel, 'postsundel' => $postsundel));
 	}
 }
 
-function recyclebinpostshowpostlist($fid, $authors, $starttime, $endtime, $keywords, $start_limit, $lpp) {
-	global $_G, $lang, $posttableid, $security;
+function recyclebinpostshowpostlist($sql, $start_limit, $lpp) {
+	global $_G, $lang, $posttableid, $innersql;
 
 	$tids = $fids = array();
 
-	if($security){
-		$postlist = C::t('#security#security_evilpost')->fetch_all_by_search($posttableid, null, $keywords, -5, $fid, null, ($authors ? explode(',', str_replace(' ', '', $authors)): null), strtotime($starttime), strtotime($endtime), null, null, $start_limit, $lpp);
-	}else{
-		$postlist = C::t('forum_post')->fetch_all_by_search($posttableid, null, $keywords, -5, $fid, null, ($authors ? explode(',', str_replace(' ', '', $authors)): null), strtotime($starttime), strtotime($endtime), null, null, $start_limit, $lpp);
+	$query = DB::query("SELECT t.message, t.useip, t.attachment, t.htmlon, t.smileyoff, t.bbcodeoff, t.pid, t.tid, t.fid, t.author, t.dateline, t.subject, t.authorid, t.anonymous FROM ".DB::table(getposttable($posttableid))." t $innersql
+		WHERE invisible='-5' $sql ORDER BY dateline DESC LIMIT $start_limit, $lpp");
+	while($post = DB::fetch($query)) {
+		$postlist[] = $post;
 	}
 
 	if(empty($postlist)) return false;
@@ -219,19 +229,12 @@ function recyclebinpostshowpostlist($fid, $authors, $starttime, $endtime, $keywo
 		$tids[$post['tid']] = $post['tid'];
 		$fids[$post['fid']] = $post['fid'];
 	}
-	foreach(C::t('forum_thread')->fetch_all_by_tid($tids) as $thread) {
-		$thread['tsubject'] = $thread['subject'];
+	$query = DB::query("SELECT tid, subject as tsubject FROM ".DB::table('forum_thread')." WHERE tid IN (".dimplode($tids).")");
+	while($thread = DB::fetch($query)) {
 		$threadlist[$thread['tid']] = $thread;
 	}
-	$query = C::t('forum_forum')->fetch_all_by_fid($fids);
-	foreach($query as $val) {
-		$forum = array('fid' => $val['fid'],
-			'forumname' => $val['name'],
-			'allowsmilies' => $val['allowsmilies'],
-			'allowhtml' => $val['allowhtml'],
-			'allowbbcode' => $val['allowbbcode'],
-			'allowimgcode' => $val['allowimgcode']
-			);
+	$query = DB::query("SELECT fid, name AS forumname, allowsmilies, allowhtml, allowbbcode, allowimgcode FROM ".DB::table('forum_forum')." WHERE fid IN (".dimplode($fids).")");
+	while($forum = DB::fetch($query)) {
 		$forumlist[$forum['fid']] = $forum;
 	}
 
@@ -240,10 +243,11 @@ function recyclebinpostshowpostlist($fid, $authors, $starttime, $endtime, $keywo
 		$post['dateline'] = dgmdate($post['dateline']);
 		if($post['attachment']) {
 			require_once libfile('function/attachment');
-			foreach(C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$post['tid'], 'pid', $post['pid']) as $attach) {
+			$queryattach = DB::query("SELECT aid, filename, filesize, attachment, isimage, remote FROM ".DB::table(getattachtablebytid($post['tid']))." WHERE pid='$post[pid]'");
+			while($attach = DB::fetch($queryattach)) {
 				$_G['setting']['attachurl'] = $attach['remote'] ? $_G['setting']['ftp']['attachurl'] : $_G['setting']['attachurl'];
 				$attach['url'] = $attach['isimage']
-					? " $attach[filename] (".sizecount($attach['filesize']).")<br /><br /><img src=\"".$_G['setting']['attachurl']."forum/$attach[attachment]\" onload=\"if(this.width > 100) {this.resized=true; this.width=100;}\">"
+					? " $attach[filename] (".sizecount($attach['filesize']).")<br /><br /><img src=\"".$_G['setting']['attachurl']."forum/$attach[attachment]\" onload=\"if(this.width > 400) {this.resized=true; this.width=400;}\">"
 					 : "<a href=\"".$_G['setting']['attachurl']."forum/$attach[attachment]\" target=\"_blank\">$attach[filename]</a> (".sizecount($attach['filesize']).")";
 				$post['message'] .= "<br /><br />$lang[attachment]: ".attachtype(fileext($attach['filename'])."\t").$attach['url'];
 			}

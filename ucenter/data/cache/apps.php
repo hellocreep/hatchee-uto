@@ -6,7 +6,7 @@ $_CACHE['apps'] = array (
     'type' => 'OTHER',
     'name' => '友途',
     'url' => 'http://127.0.0.1/uto',
-    'authkey' => '0e35fVVK/AZa78tp9cUrnvtI0L8AZJnDAzIZ8tI',
+    'authkey' => 'c3edCJewd6FiKFYCvHN6FwIvpfAy4Nfh5bByjjA',
     'ip' => '127.0.0.1',
     'viewprourl' => '',
     'apifilename' => 'uc.php',
@@ -17,6 +17,9 @@ $_CACHE['apps'] = array (
     'extra' => 
     array (
       'apppath' => '',
+      'extraurl' => 
+      array (
+      ),
     ),
     'tagtemplates' => '<?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
@@ -29,22 +32,16 @@ $_CACHE['apps'] = array (
     'appid' => '2',
     'type' => 'UCHOME',
     'name' => '个人家园',
-    'url' => 'http://127.0.0.1/uto/utohome',
-    'authkey' => 'Tdn5Tck4s4bfO7S267j9RdJ3j7Mc0ey9vfAe06l61c4bZ1T174o6q7H2G6e5r0x1',
-    'ip' => '127.0.0.1',
+    'url' => 'http://127.0.0.1/uto/mhome',
+    'authkey' => '20B2M1VcT6v7R7xcV0R1OaVdAbo6Z6O6c9bek1Q1Yd82odS5OdgcM7Yeh6D3u3F8',
+    'ip' => '',
     'viewprourl' => '',
     'apifilename' => 'uc.php',
     'charset' => 'utf-8',
     'dbcharset' => 'utf8',
     'synlogin' => '1',
     'recvnote' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-      'extraurl' => 
-      array (
-      ),
-    ),
+    'extra' => '',
     'tagtemplates' => '<?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
 	<item id="template"><![CDATA[<a href="{url}" target="_blank">{subject}</a>]]></item>
@@ -65,24 +62,25 @@ $_CACHE['apps'] = array (
     'type' => 'DISCUZX',
     'name' => '论坛',
     'url' => 'http://127.0.0.1/uto/bbs',
-    'authkey' => 'd5b5jAhWV43wjk0GzsbGJDjky+5oh+DpmjfE+ik',
-    'ip' => '127.0.0.1',
+    'authkey' => 'T4Ee47q7kc40P2t9B9930094d716Yf99aeP0Z4Z8IaS962repde8Nbo3O6Qdu4bc',
+    'ip' => '',
     'viewprourl' => '',
     'apifilename' => 'uc.php',
-    'charset' => '',
-    'dbcharset' => '',
+    'charset' => 'utf-8',
+    'dbcharset' => 'utf8',
     'synlogin' => '1',
     'recvnote' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-      'extraurl' => 
-      array (
-      ),
-    ),
+    'extra' => '',
     'tagtemplates' => '<?xml version="1.0" encoding="ISO-8859-1"?>
 <root>
-	<item id="template"><![CDATA[]]></item>
+	<item id="template"><![CDATA[<a href="{url}" target="_blank">{subject}</a>]]></item>
+	<item id="fields">
+		<item id="subject"><![CDATA[标题]]></item>
+		<item id="uid"><![CDATA[用户 ID]]></item>
+		<item id="username"><![CDATA[发帖者]]></item>
+		<item id="dateline"><![CDATA[日期]]></item>
+		<item id="url"><![CDATA[主题地址]]></item>
+	</item>
 </root>',
     'allowips' => '',
   ),

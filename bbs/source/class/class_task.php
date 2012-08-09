@@ -4,12 +4,8 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: class_task.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ *      $Id: class_task.php 23482 2011-07-19 09:47:58Z zhengqingpeng $
  */
-
-if(!defined('IN_DISCUZ')) {
-	exit('Access Denied');
-}
 
 class task {
 
@@ -33,14 +29,34 @@ class task {
 		global $_G;
 
 		$multipage = '';
-		$page = max(1, intval($_GET['page']));
+		$page = max(1, intval($_G['gp_page']));
 		$start_limit = ($page - 1) * $_G['tpp'];
 		$tasklist = $endtaskids = $magicids = $medalids = $groupids = array();
 
+		switch($item) {
+			case 'doing':
+				$sql = "mt.status='0'";
+				break;
+			case 'done':
+				$sql = "mt.status='1'";
+				break;
+			case 'failed':
+				$sql = "mt.status='-1'";
+				break;
+			case 'canapply':
+			case 'new':
+			default:
+				$todaytimestamp = TIMESTAMP - (TIMESTAMP + $_G['setting']['timeoffset'] * 3600) % 86400 + $_G['setting']['timeoffset'] * 3600;
+				$sql = "'$_G[timestamp]' > starttime AND (mt.taskid IS NULL OR (ABS(mt.status)='1' AND t.period>0))";
+				break;
+		}
 
 		$updated = FALSE;
 		$num = 0;
-		foreach(C::t('common_task')->fetch_all_by_status($_G['uid'], $item) as $task) {
+		$query = DB::query("SELECT t.*, mt.csc, mt.dateline FROM ".DB::table('common_task')." t
+			LEFT JOIN ".DB::table('common_mytask')." mt ON mt.taskid=t.taskid AND mt.uid='$_G[uid]'
+			WHERE $sql AND t.available='2' ORDER BY t.displayorder, t.taskid DESC");
+		while($task = DB::fetch($query)) {
 			if($item == 'new' || $item == 'canapply') {
 				list($task['allowapply'], $task['t']) = $this->checknextperiod($task);
 				if($task['allowapply'] < 0) {
@@ -81,12 +97,12 @@ class task {
 				}
 				if($result === TRUE) {
 					$task['csc'] = '100';
-					C::t('common_mytask')->update($_G['uid'], $task['taskid'], array('csc' => $task['csc']));
+					DB::query("UPDATE ".DB::table('common_mytask')." SET csc='100' WHERE uid='$_G[uid]' AND taskid='$task[taskid]'");
 				} elseif($result === FALSE) {
-					C::t('common_mytask')->update($_G['uid'], $task['taskid'], array('status' => -1));
+					DB::query("UPDATE ".DB::table('common_mytask')." SET status='-1' WHERE uid='$_G[uid]' AND taskid='$task[taskid]'", 'UNBUFFERED');
 				} else {
 					$task['csc'] = floatval($result['csc']);
-					C::t('common_mytask')->update($_G['uid'], $task['taskid'], array('csc' => $task['csc']."\t".$_G['timestamp']));
+					DB::query("UPDATE ".DB::table('common_mytask')." SET csc='$task[csc]\t$_G[timestamp]' WHERE uid='$_G[uid]' AND taskid='$task[taskid]'", 'UNBUFFERED');
 				}
 			}
 			if(in_array($item, array('done', 'failed')) && $task['period']) {
@@ -100,19 +116,22 @@ class task {
 		}
 
 		if($magicids) {
-			foreach(C::t('common_magic')->fetch_all($magicids) as $magic) {
+			$query = DB::query("SELECT magicid, name FROM ".DB::table('common_magic')." WHERE magicid IN (".dimplode($magicids).")");
+			while($magic = DB::fetch($query)) {
 				$this->listdata[$magic['magicid']] = $magic['name'];
 			}
 		}
 
 		if($medalids) {
-			foreach(C::t('forum_medal')->fetch_all($medalids) as $medal) {
+			$query = DB::query("SELECT medalid, name FROM ".DB::table('forum_medal')." WHERE medalid IN (".dimplode($medalids).")");
+			while($medal = DB::fetch($query)) {
 				$this->listdata[$medal['medalid']] = $medal['name'];
 			}
 		}
 
 		if($groupids) {
-			foreach(C::t('common_usergroup')->fetch_all($groupids) as $group) {
+			$query = DB::query("SELECT groupid, grouptitle FROM ".DB::table('common_usergroup')." WHERE groupid IN (".dimplode($groupids).")");
+			while($group = DB::fetch($query)) {
 				$this->listdata[$group['groupid']] = $group['grouptitle'];
 			}
 		}
@@ -129,22 +148,19 @@ class task {
 	function view($id) {
 		global $_G;
 
-		$this->task = C::t('common_task')->fetch_by_uid($_G['uid'], $id);
+		$this->task = DB::fetch_first("SELECT t.*, mt.status, mt.csc, mt.dateline, mt.dateline AS applytime FROM ".DB::table('common_task')." t LEFT JOIN ".DB::table('common_mytask')." mt ON mt.uid='$_G[uid]' AND mt.taskid=t.taskid WHERE t.taskid='$id' AND t.available='2'");
 		if(!$this->task) {
 			showmessage('task_nonexistence');
 		}
 		switch($this->task['reward']) {
 			case 'magic':
-				$this->task['rewardtext'] = C::t('common_magic')->fetch($this->task['prize']);
-				$this->task['rewardtext'] = $this->task['rewardtext']['name'];
+				$this->task['rewardtext'] = DB::result_first("SELECT name FROM ".DB::table('common_magic')." WHERE magicid='".$this->task['prize']."'");
 				break;
 			case 'medal':
-				$this->task['rewardtext'] = C::t('forum_medal')->fetch($this->task['prize']);
-				$this->task['rewardtext'] = $this->task['rewardtext']['name'];
+				$this->task['rewardtext'] = DB::result_first("SELECT name FROM ".DB::table('forum_medal')." WHERE medalid='".$this->task['prize']."'");
 				break;
 			case 'group':
-				$group = C::t('common_usergroup')->fetch($this->task['prize']);
-				$this->task['rewardtext'] = $group['grouptitle'];
+				$this->task['rewardtext'] = DB::result_first("SELECT grouptitle FROM ".DB::table('common_usergroup')." WHERE groupid='".$this->task['prize']."'");
 				break;
 		}
 		$this->task['icon'] = $this->task['icon'] ? $this->task['icon'] : 'task.gif';
@@ -153,7 +169,8 @@ class task {
 		$this->task['description'] = nl2br($this->task['description']);
 
 		$this->taskvars = array();
-		foreach(C::t('common_taskvar')->fetch_all_by_taskid($id) as $taskvar) {
+		$query = DB::query("SELECT sort, name, description, variable, value FROM ".DB::table('common_taskvar')." WHERE taskid='$id'");
+		while($taskvar = DB::fetch($query)) {
 			if(!$taskvar['variable'] || $taskvar['value']) {
 				if(!$taskvar['variable']) {
 					$taskvar['value'] = $taskvar['description'];
@@ -171,16 +188,15 @@ class task {
 		$this->task['grouprequired'] = $comma = '';
 		$this->task['applyperm'] = $this->task['applyperm'] == 'all' ? '' : $this->task['applyperm'];
 		if(!in_array($this->task['applyperm'], array('', 'member', 'admin'))) {
-			$query = C::t('common_usergroup')->fetch_all(explode(',', str_replace("\t", ',', $this->task['applyperm'])));
-			foreach($query as $group) {
+			$query = DB::query("SELECT grouptitle FROM ".DB::table('common_usergroup')." WHERE groupid IN (".str_replace("\t", ',', $this->task['applyperm']).")");
+			while($group = DB::fetch($query)) {
 				$this->task['grouprequired'] .= $comma.$group[grouptitle];
 				$comma = ', ';
 			}
 		}
 
 		if($this->task['relatedtaskid']) {
-			$task = C::t('common_task')->fetch($this->task['relatedtaskid']);
-			$_G['taskrequired'] = $task['name'];
+			$_G['taskrequired'] = DB::result_first("SELECT name FROM ".DB::table('common_task')." WHERE taskid='".$this->task['relatedtaskid']."'");
 		}
 
 		require_once libfile('task/'.$this->task['scriptname'], 'class');
@@ -203,13 +219,13 @@ class task {
 				}
 				if($result === TRUE) {
 					$this->task['csc'] = '100';
-					C::t('common_mytask')->update($_G['uid'], $id, array('csc' => $this->task['csc']));
+					DB::query("UPDATE ".DB::table('common_mytask')." SET csc='100' WHERE uid='$_G[uid]' AND taskid='$id'");
 				} elseif($result === FALSE) {
-					C::t('common_mytask')->update($_G['uid'], $id, array('status' => -1));
+					DB::query("UPDATE ".DB::table('common_mytask')." SET status='-1' WHERE uid='$_G[uid]' AND taskid='$id'", 'UNBUFFERED');
 					dheader("Location: home.php?mod=task&do=view&id=$id");
 				} else {
 					$this->task['csc'] = floatval($result['csc']);
-					C::t('common_mytask')->update($_G['uid'], $id, array('csc' => $this->task['csc']."\t".$_G['timestamp']));
+					DB::query("UPDATE ".DB::table('common_mytask')." SET csc='".$this->task['csc']."\t$_G[timestamp]' WHERE uid='$_G[uid]' AND taskid='$id'", 'UNBUFFERED');
 				}
 			}
 		} elseif($this->task['status'] == '1') {
@@ -288,8 +304,7 @@ class task {
 	function apply($id) {
 		global $_G;
 
-		$this->task = C::t('common_task')->fetch($id);
-		if($this->task['available'] != 2) {
+		if(!$this->task = DB::fetch_first("SELECT * FROM ".DB::table('common_task')." WHERE taskid='$id' AND available='2'")) {
 			showmessage('task_nonexistence');
 		} elseif(($this->task['starttime'] && $this->task['starttime'] > TIMESTAMP) || ($this->task['endtime'] && $this->task['endtime'] <= TIMESTAMP)) {
 			showmessage('task_offline');
@@ -297,18 +312,16 @@ class task {
 			showmessage('task_full');
 		}
 
-		if($this->task['relatedtaskid'] && !C::t('common_mytask')->count($_G['uid'], $this->task['relatedtaskid'], 1)) {
+		if($this->task['relatedtaskid'] && !DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_mytask')." WHERE uid='$_G[uid]' AND taskid='".$this->task['relatedtaskid']."' AND status='1'")) {
 			return -1;
 		} elseif($this->task['applyperm'] && $this->task['applyperm'] != 'all' && !(($this->task['applyperm'] == 'member' && $_G['adminid'] == '0') || ($this->task['applyperm'] == 'admin' && $_G['adminid'] > '0') || preg_match("/(^|\t)(".$_G['groupid'].")(\t|$)/", $this->task['applyperm']))) {
 			return -2;
-		} elseif(!$this->task['period'] && C::t('common_mytask')->count($_G['uid'], $id)) {
+		} elseif(!$this->task['period'] && DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_mytask')." WHERE uid='$_G[uid]' AND taskid='$id'")) {
 			return -3;
 		} elseif($this->task['period']) {
-			$mytask = C::t('common_mytask')->fetch($_G['uid'], $id);
-			$task = C::t('common_task')->fetch($id);
-			$mytask['period'] = $task['period'];
-			$mytask['periodtype'] = $task['periodtype'];
-			unset($task);
+			$mytask = DB::fetch_first("SELECT mt.*, t.period, t.periodtype FROM ".DB::table('common_mytask')." mt
+				INNER JOIN ".DB::table('common_task')." t USING(taskid)
+				WHERE mt.uid='$_G[uid]' AND mt.taskid='$id' ORDER BY mt.dateline DESC");
 			list($allowapply) = $this->checknextperiod($mytask);
 			if($allowapply < 0) {
 				return -4;
@@ -321,14 +334,9 @@ class task {
 		if(method_exists($taskclass, 'condition')) {
 			$taskclass->condition();
 		}
-		C::t('common_mytask')->insert(array(
-			'uid' => $_G['uid'],
-			'username' => $_G['username'],
-			'taskid' => $this->task['taskid'],
-			'csc' => '0\t'.$_G['timestamp'],
-			'dateline' => $_G['timestamp']
-		), false, true);
-		C::t('common_task')->update_applicants($this->task['taskid'], 1);
+		DB::query("REPLACE INTO ".DB::table('common_mytask')." (uid, username, taskid, csc, dateline)
+			VALUES ('$_G[uid]', '$_G[username]', '".$this->task['taskid']."', '0\t$_G[timestamp]', '$_G[timestamp]')");
+		DB::query("UPDATE ".DB::table('common_task')." SET applicants=applicants+1 WHERE taskid='".$this->task['taskid']."'", 'UNBUFFERED');
 		if(method_exists($taskclass, 'preprocess')) {
 			$taskclass->preprocess($this->task);
 		}
@@ -338,7 +346,7 @@ class task {
 	function draw($id) {
 		global $_G;
 
-		if(!($this->task = C::t('common_task')->fetch_by_uid($_G['uid'], $id))) {
+		if(!($this->task = DB::fetch_first("SELECT t.*, mt.dateline AS applytime, mt.status FROM ".DB::table('common_task')." t, ".DB::table('common_mytask')." mt WHERE mt.uid='$_G[uid]' AND mt.taskid=t.taskid AND t.taskid='$id' AND t.available='2'"))) {
 			showmessage('task_nonexistence');
 		} elseif($this->task['status'] != 0) {
 			showmessage('task_not_underway');
@@ -361,17 +369,14 @@ class task {
 				$rewards = $this->reward();
 				$notification = $this->task['reward'];
 				if($this->task['reward'] == 'magic') {
-					$rewardtext = C::t('common_magic')->fetch($this->task['prize']);
-					$rewardtext = $rewardtext['name'];
+					$rewardtext = DB::result_first("SELECT name FROM ".DB::table('common_magic')." WHERE magicid='".$this->task['prize']."'");
 				} elseif($this->task['reward'] == 'medal') {
-					$rewardtext = C::t('forum_medal')->fetch($this->task['prize']);
-					$rewardtext = $rewardtext['name'];
+					$rewardtext = DB::result_first("SELECT name FROM ".DB::table('forum_medal')." WHERE medalid='".$this->task['prize']."'");
 					if(!$this->task['bonus']) {
 						$notification = 'medal_forever';
 					}
 				} elseif($this->task['reward'] == 'group') {
-					$group = C::t('common_usergroup')->fetch($this->task['prize']);
-					$rewardtext = $group['grouptitle'];
+					$rewardtext = DB::result_first("SELECT grouptitle FROM ".DB::table('common_usergroup')." WHERE groupid='".$this->task['prize']."'");
 				} elseif($this->task['reward'] == 'invite') {
 					$rewardtext = $this->task['prize'];
 				}
@@ -389,8 +394,8 @@ class task {
 				$taskclass->sufprocess($this->task);
 			}
 
-			C::t('common_mytask')->update($_G['uid'], $id, array('status' => 1, 'csc' => 100, 'dateline' => $_G['timestamp']));
-			C::t('common_task')->update_achievers($id, 1);
+			DB::query("UPDATE ".DB::table('common_mytask')." SET status='1', csc='100', dateline='$_G[timestamp]' WHERE uid='$_G[uid]' AND taskid='$id'");
+			DB::query("UPDATE ".DB::table('common_task')." SET achievers=achievers+1 WHERE taskid='$id'", 'UNBUFFERED');
 
 			if($_G['inajax']) {
 				$this->message('100', $this->task['reward'] ? 'task_reward_'.$this->task['reward'] : 'task_completed', array(
@@ -406,7 +411,7 @@ class task {
 
 		} elseif($result === FALSE) {
 
-			C::t('common_mytask')->update($_G['uid'], $id, array('status' => -1));
+			DB::query("UPDATE ".DB::table('common_mytask')." SET status='-1' WHERE uid='$_G[uid]' AND taskid='$id'", 'UNBUFFERED');
 			if($_G['inajax']) {
 				$this->message('-1', 'task_failed');
 			} else {
@@ -418,7 +423,7 @@ class task {
 			$result['t'] = $this->timeformat($result['remaintime']);
 			$this->messagevalues['values'] = array('csc' => $result['csc'], 't' => $result['t']);
 			if($result['csc']) {
-				C::t('common_mytask')->update($_G['uid'], $id, array('csc' => $result['csc']."\t".$_G['timestamp']));
+				DB::query("UPDATE ".DB::table('common_mytask')." SET csc='$result[csc]\t$_G[timestamp]' WHERE uid='$_G[uid]' AND taskid='$id'", 'UNBUFFERED');
 				$this->messagevalues['msg'] = $result['t'] ? 'task_doing_rt' : 'task_doing';
 			} else {
 				$this->messagevalues['msg'] = $result['t'] ? 'task_waiting_rt' : 'task_waiting';
@@ -435,21 +440,22 @@ class task {
 	function giveup($id) {
 		global $_G;
 
-		if($_GET['formhash'] != FORMHASH) {
+		if($_G['gp_formhash'] != FORMHASH) {
 			showmessage('undefined_action');
-		} elseif(!($this->task = C::t('common_task')->fetch_by_uid($_G['uid'], $id))) {
+		} elseif(!($this->task = DB::fetch_first("SELECT t.taskid, mt.status FROM ".DB::table('common_task')." t LEFT JOIN ".DB::table('common_mytask')." mt ON mt.taskid=t.taskid AND mt.uid='$_G[uid]' WHERE t.taskid='$id' AND t.available='2'"))) {
 			showmessage('task_nonexistence');
 		} elseif($this->task['status'] != '0') {
 			showmessage('task_not_underway');
 		}
 
-		C::t('common_mytask')->delete($_G['uid'], $id);
-		C::t('common_task')->update_applicants($id, -1);
+		DB::query("DELETE FROM ".DB::table('common_mytask')." WHERE uid='$_G[uid]' AND taskid='$id'", 'UNBUFFERED');
+		DB::query("UPDATE ".DB::table('common_task')." SET applicants=applicants-1 WHERE taskid='$id'", 'UNBUFFERED');
 	}
 
 	function parter($id) {
+		$query = DB::query("SELECT * FROM ".DB::table('common_mytask')." WHERE taskid='$id' ORDER BY dateline DESC LIMIT 0, 8");
 		$parterlist = array();
-		foreach(C::t('common_mytask')->fetch_all_by_taskid($id, 8) as $parter) {
+		while($parter = DB::fetch($query)) {
 			$parter['avatar'] = avatar($parter['uid'], 'small');
 			$csc = explode("\t", $parter['csc']);
 			$parter['csc'] = floatval($csc[0]);
@@ -460,9 +466,8 @@ class task {
 
 	function delete($id) {
 		global $_G;
-		$mytask = C::t('common_mytask')->fetch($_G['uid'], $id);
-		$this->task = C::t('common_task')->fetch($id);
-		if($this->task['available'] != 2 || empty($mytask) || $mytask['status'] == 1) {
+		$mytask = DB::fetch_first("SELECT * FROM ".DB::table('common_mytask')." WHERE uid='$_G[uid]' AND taskid='$id'");
+		if(!($this->task = DB::fetch_first("SELECT * FROM ".DB::table('common_task')." WHERE taskid='$id' AND available='2'")) || empty($mytask) || $mytask['status'] == 1) {
 			showmessage('task_nonexistence');
 		}
 
@@ -470,8 +475,8 @@ class task {
 			$taskclass->delete($this->task);
 		}
 
-		C::t('common_mytask')->delete($_G['uid'], $id);
-		C::t('common_task')->update_applicants($id, -1);
+		DB::delete('common_mytask', "uid='$_G[uid]' AND taskid='$id'");
+		DB::query("UPDATE ".DB::table('common_task')." SET applicants=applicants+'-1' WHERE taskid='$id'", 'UNBUFFERED');
 		return true;
 	}
 
@@ -495,35 +500,21 @@ class task {
 	function reward_magic($magicid, $num) {
 		global $_G;
 
-		if(C::t('common_member_magic')->count($_G['uid'], $magicid)) {
-			C::t('common_member_magic')->increase($_G['uid'], $magicid, array('num' => $num), false, true);
+		if(DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_member_magic')." WHERE uid='$_G[uid]' AND magicid='$magicid'")) {
+			DB::query("UPDATE ".DB::table('common_member_magic')." SET num=num+'$num' WHERE magicid='$magicid' AND uid='$_G[uid]'", 'UNBUFFERED');
 		} else {
-			C::t('common_member_magic')->insert(array(
-				'uid' => $_G['uid'],
-				'magicid' => $magicid,
-				'num' => $num
-			));
+			DB::query("INSERT INTO ".DB::table('common_member_magic')." (uid, magicid, num) VALUES ('$_G[uid]', '$magicid', '$num')");
 		}
 	}
 
 	function reward_medal($medalid, $day) {
 		global $_G;
 
-		$memberfieldforum = C::t('common_member_field_forum')->fetch($_G['uid']);
-		$medals = $memberfieldforum['medals'];
-		unset($memberfieldforum);
+		$medals = DB::result_first("SELECT medals FROM ".DB::table('common_member_field_forum')." WHERE uid='$_G[uid]'");
 		if(empty($medals) || !in_array($medalid, explode("\t", $medals))) {
 			$medalsnew = $medals ? $medals."\t".$medalid : $medalid;
-			C::t('common_member_field_forum')->update($_G['uid'], array('medals' => $medalsnew), 'UNBUFFERED');
-			$data = array(
-				'uid' => $_G['uid'],
-				'medalid' => $medalid,
-				'type' => 0,
-				'dateline' => TIMESTAMP,
-				'expiration' => $day ? TIMESTAMP + $day * 86400 : '',
-				'status' => 1,
-			);
-			C::t('forum_medallog')->insert($data);
+			DB::query("UPDATE ".DB::table('common_member_field_forum')." SET medals='$medalsnew' WHERE uid='$_G[uid]'", 'UNBUFFERED');
+			DB::query("INSERT INTO ".DB::table('forum_medallog')." (uid, medalid, type, dateline, expiration, status) VALUES ('$_G[uid]', '$medalid', '0', '$_G[timestamp]', '".($day ? TIMESTAMP + $day * 86400 : '')."', '1')");
 		}
 	}
 
@@ -535,16 +526,11 @@ class task {
 		for ($i=0; $i < $num; $i++) {
 			$code = strtolower(random(6));
 			$codes[] = "('$_G[uid]', '$code', '$_G[timestamp]', '$expiration', '$_G[clientip]')";
-			$invitedata = array(
-					'uid' => $_G['uid'],
-					'code' => $code,
-					'dateline' => $_G['timestamp'],
-					'endtime' => $expiration,
-					'inviteip' => $_G['clientip']
-			);
-			C::t('common_invite')->insert($invitedata);
 		}
 
+		if($codes) {
+			DB::query("INSERT INTO ".DB::table('common_invite')." (uid, code, dateline, endtime, inviteip) VALUES ".implode(',', $codes));
+		}
 	}
 
 	function reward_group($gid, $day = 0) {
@@ -563,15 +549,13 @@ class task {
 			$_G['forum_extgroupids'] = $gid;
 		}
 
-		C::t('common_member')->update($_G['uid'], array('extgroupids' => $_G['forum_extgroupids']), 'UNBUFFERED');
+		DB::query("UPDATE ".DB::table('common_member')." SET extgroupids='".$_G['forum_extgroupids']."' WHERE uid='$_G[uid]'", 'UNBUFFERED');
 
 		if($day) {
-			$memberfieldforum = C::t('common_member_field_forum')->fetch($_G['uid']);
-			$groupterms = !empty($memberfieldforum['groupterms']) ? dunserialize($memberfieldforum['groupterms']) : array();
-			unset($memberfieldforum);
+			$groupterms = DB::result_first("SELECT groupterms FROM ".DB::table('common_member_field_forum')." WHERE uid='$_G[uid]'");
+			$groupterms = $groupterms ? unserialize($groupterms) : array();
 			$groupterms['ext'][$gid] = $exists && $groupterms['ext'][$gid] ? max($groupterms['ext'][$gid], TIMESTAMP + $day * 86400) : TIMESTAMP + $day * 86400;
-			C::t('common_member_field_forum')->update($_G['uid'], array('groupterms' => serialize($groupterms)), 'UNBUFFERED');
-
+			DB::query("UPDATE ".DB::table('common_member_field_forum')." SET groupterms='".addslashes(serialize($groupterms))."' WHERE uid='$_G[uid]'", 'UNBUFFERED');
 		}
 	}
 
@@ -608,4 +592,5 @@ function tasktimeformat($t) {
 	}
 	return '';
 }
+
 ?>

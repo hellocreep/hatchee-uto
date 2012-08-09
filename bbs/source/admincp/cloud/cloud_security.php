@@ -4,24 +4,26 @@
  *		[Discuz!] (C)2001-2099 Comsenz Inc.
  *		This is NOT a freeware, use is subject to license terms
  *
- *		$Id: cloud_security.php 29273 2012-03-31 07:58:50Z yexinhao $
+ *		$Id: cloud_security.php 589 2011-12-13 05:01:44Z songlixin $
  */
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-$op = trim($_GET['op']);
+$op = trim($_G['gp_op']);
 
-$_GET['anchor'] = in_array($_GET['anchor'], array('index', 'setting', 'thread', 'post', 'reportOperation')) ? $_GET['anchor'] : 'index';
-$pt = in_array($_GET['anchor'], array('thread', 'post')) ? $_GET['anchor'] : 'thread';
+$_G['gp_anchor'] = in_array($_G['gp_anchor'], array('index', 'setting', 'thread', 'post', 'reportOperation')) ? $_G['gp_anchor'] : 'index';
+$pt = in_array($_G['gp_anchor'], array('thread', 'post')) ? $_G['gp_anchor'] : 'thread';
 
-$current = array($_GET['anchor'] => 1);
+$current = array($_G['gp_anchor'] => 1);
 
 $operateresultmap = array(
 						'0' => 1,
 						'-1' => 0,
 						'-5' => 0
 						);
+
+$nooperategroup = array(4, 5, 6, 7, 8, 9);
 
 $securitynav = array();
 
@@ -32,37 +34,35 @@ $securitynav[3] = array('security_post_list', 'cloud&operation=security&anchor=p
 
 if (!$_G['inajax']) {
 	cpheader();
-	shownav('navcloud', 'menu_cloud_security', 'security_'.$_GET['anchor'].'_list');
+	shownav('navcloud', 'menu_cloud_security', 'security_'.$_G['gp_anchor'].'_list');
 	showsubmenu('menu_cloud_security', $securitynav);
 }
 
-$tpp = !empty($_GET['tpp']) ? $_GET['tpp'] : '20';
+$tpp = !empty($_G['gp_tpp']) ? $_G['gp_tpp'] : '20';
 $start_limit = ($page - 1) * $tpp;
 require_once libfile('function/discuzcode');
 require_once libfile('function/core');
 $datas = $data = $eviluids = $evilPids = $evilTids = $members = $thread = $post = '';
 
-if ($_GET['anchor'] == 'index') {
-	$utilService = Cloud::loadClass('Service_Util');
-	$signUrl = $utilService->generateSiteSignUrl();
-	$utilService->redirect($cloudDomain.'/security/stats/list/?' . $signUrl);
-} elseif ($_GET['anchor'] == 'setting') {
+if ($_G['gp_anchor'] == 'index') {
+	$signUrl = generateSiteSignUrl();
+	headerLocation($cloudDomain.'/security/stats/list/?'.$signUrl);
+} elseif ($_G['gp_anchor'] == 'setting') {
 
 	if (!submitcheck('settingsubmit')) {
-		loadcache('setting');
 
-		$evilthreads = C::t('common_setting')->fetch('cloud_security_stats_thread');
-		$evilposts = C::t('common_setting')->fetch('cloud_security_stats_post');
-		$evilmembers = C::t('common_setting')->fetch('cloud_security_stats_member');
+		$evilthreads = DB::result_first("SELECT svalue FROM " . DB::table('common_setting') . " WHERE skey = 'cloud_security_stats_thread'");
+		$evilposts = DB::result_first("SELECT svalue FROM " . DB::table('common_setting') . " WHERE skey = 'cloud_security_stats_post'");
+		$evilmembers = DB::result_first("SELECT svalue FROM " . DB::table('common_setting') . " WHERE skey = 'cloud_security_stats_member'");
 
 		$usergroupswhitelist = unserialize($_G['setting']['security_usergroups_white_list']);
 		$groupselect = array();
-
-		foreach (C::t('common_usergroup')->fetch_all_not(array('6','7')) as $group) {
+		$usergroupid = isset($_G['gp_usergroupid']) && is_array($_G['gp_usergroupid']) ? $_G['gp_usergroupid'] : array();
+		$query = DB::query("SELECT type, groupid, grouptitle, radminid FROM ".DB::table('common_usergroup')." WHERE groupid NOT IN ('6', '7') ORDER BY (creditshigher<>'0' || creditslower<>'0'), creditslower, groupid");
+		while($group = DB::fetch($query)) {
 			$group['type'] = $group['type'] == 'special' && $group['radminid'] ? 'specialadmin' : $group['type'];
 			$groupselect[$group['type']] .= "<option value=\"$group[groupid]\" ".(in_array($group['groupid'], $usergroupswhitelist) ? 'selected' : '').">$group[grouptitle]</option>\n";
 		}
-
 		$groupselect = '<optgroup label="'.$lang['usergroups_member'].'">'.$groupselect['member'].'</optgroup>'.
 			($groupselect['special'] ? '<optgroup label="'.$lang['usergroups_special'].'">'.$groupselect['special'].'</optgroup>' : '').
 			($groupselect['specialadmin'] ? '<optgroup label="'.$lang['usergroups_specialadmin'].'">'.$groupselect['specialadmin'].'</optgroup>' : '').
@@ -86,25 +86,17 @@ if ($_GET['anchor'] == 'index') {
 		$usergroups = $_POST['groupid'];
 		$forums = $_POST['fid'];
 
-		$updateData = array(
-							'security_usergroups_white_list' => serialize($usergroups),
-							'security_forums_white_list' => serialize($forums)
-						);
-
-		C::t('common_setting')->update_batch($updateData);
+		DB::query("REPLACE INTO ".DB::table('common_setting')." (`skey`, `svalue`) VALUES ('security_usergroups_white_list', '".serialize($usergroups)."'), ('security_forums_white_list', '".serialize($forums)."')");
 		updatecache('setting');
 
-		cpmsg('setting_update_succeed', 'action=cloud&operation=security&anchor='.$_GET['anchor'], 'succeed');
+		cpmsg('setting_update_succeed', 'action=cloud&operation=security&anchor='.$_G['gp_anchor'], 'succeed');
 	}
 
-} elseif ($_GET['anchor'] == 'thread') {
-	$count = C::t('#security#security_evilpost')->count_by_type('1');
+} elseif ($_G['gp_anchor'] == 'thread') {
+	$count = DB::result_first("SELECT count(*) FROM ".DB::table('security_evilpost')." WHERE type = '1'");
 	$multipage = multi($count, $tpp, $page, ADMINSCRIPT.'?action=cloud&operation=security&anchor=thread');
 	list($datas, $evilTids) = getEvilList('thread', $start_limit, $tpp);
-	echo "<p><a href='###' onclick='$(\"recyclebinform\").submit();'>{$lang['security_recyclebin_thread']}</a></p>";
-	showformheader('recyclebin&operation=search', 'style="display: none;"', 'recyclebinform');
-	showhiddenfields(array('security' => 1, 'searchsubmit' => 1));
-	showformfooter();
+	echo "<p><a href='{$adminscript}?action=recyclebin&operation=search&formhash=".formhash()."&security=1&searchsubmit=1' target='_blank'>{$lang['security_recyclebin_thread']}</a></p>";
 	showtableheader('', '', 'id = "security_list"');
 	showsubtitle(array('security_subject', 'security_forum', 'security_author', 'security_thread_status'));
 
@@ -131,15 +123,12 @@ if ($_GET['anchor'] == 'index') {
 	}
 	showtablefooter();
 
-} elseif($_GET['anchor'] == 'post') {
+} elseif($_G['gp_anchor'] == 'post') {
 
-	$count = C::t('#security#security_evilpost')->count_by_type('0');
+	$count = DB::result_first("SELECT count(*) FROM ".DB::table('security_evilpost')." WHERE type = '0'");
 	$multipage = multi($count, $tpp, $page, ADMINSCRIPT.'?action=cloud&operation=security&anchor=post');
 	list($datas, $evilPids) = getEvilList('post', $start_limit, $tpp);
-	echo "<p><a href='###' onclick='$(\"recyclebinpostform\").submit();'>{$lang['security_recyclebin_post']}</a></p>";
-	showformheader('recyclebinpost&operation=search', 'style="display: none;"', 'recyclebinpostform');
-	showhiddenfields(array('security' => 1, 'searchsubmit' => 1));
-	showformfooter();
+	echo "<p><a href='{$adminscript}?action=recyclebinpost&operation=search&formhash=".formhash()."&security=1&searchsubmit=1' target='_blank'>{$lang['security_recyclebin_post']}</a></p>";
 	showtableheader('', '', 'id = "security_list"');
 	showsubtitle(array('security_subject', 'security_forum', 'security_author', 'security_post_status'));
 
@@ -164,17 +153,15 @@ if ($_GET['anchor'] == 'index') {
 	}
 	showtablefooter();
 
-} elseif($_GET['anchor'] == 'member') {
-
+} elseif($_G['gp_anchor'] == 'member') {
 	$memberperpage = $_G['setting']['memberperpage'];
 	$start_limit = ($page - 1) * $memberperpage;
-	$count = C::t('#security#security_eviluser')->count();
+	$count = DB::result_first('SELECT count(*) FROM ' . DB::table('security_eviluser'));
 	$multipage = multi($count, $memberperpage, $page, ADMINSCRIPT.'?action=cloud&operation=security&anchor=member');
 
 	list($datas, $eviluids) = getEvilList('user', $start_limit, $memberperpage);
 	showtableheader();
 	showsubtitle(array('security_members_name', 'members_edit_info', 'security_members_eviltype', 'security_thread_member'));
-
 	foreach($datas as $value) {
 		if ($value['username']) {
 			$username = '<a href="' . ADMINSCRIPT . '?action=members&operation=group&uid='.$value['uid'].'" target="_blank" title="'.$title.'">'.$value['username'].'</a>';
@@ -284,17 +271,16 @@ function getEvilList($type, $start, $ppp) {
 	}
 
 	if ($type == 'user') {
-		$query = C::t('#security#security_eviluser')->fetch_range($start, $ppp);
+		$query = DB::query("SELECT * FROM ".DB::table('security_eviluser')." ORDER BY createtime DESC LIMIT $start, $ppp ");
 		$idtype = 'uid';
 	} elseif($type == 'thread') {
-		$query = C::t('#security#security_evilpost')->fetch_range_by_type('1', $start, $ppp);
+		$query = DB::query("SELECT * FROM ".DB::table('security_evilpost')." WHERE type = '1' ORDER BY createtime DESC LIMIT $start, $ppp ");
 		$idtype = 'pid';
 	} elseif($type == 'post') {
-		$query = C::t('#security#security_evilpost')->fetch_range_by_type('0', $start, $ppp);
+		$query = DB::query("SELECT * FROM ".DB::table('security_evilpost')." WHERE type = '0' ORDER BY createtime DESC LIMIT $start, $ppp ");
 		$idtype = 'pid';
 	}
-
-	foreach ($query as $data) {
+	while ($data = DB::fetch($query)) {
 		$datas[$data[$idtype]] = $data;
 		$evilids[] = $data[$idtype];
 		if ($data['tid']) {
@@ -303,8 +289,12 @@ function getEvilList($type, $start, $ppp) {
 		}
 	}
 
+	if (is_array($evilids) && count($evilids) > 0) {
+		$evilids = dimplode($evilids);
+	}
 	if (is_array($evilTids)) {
 		$evilTids = array_unique($evilTids);
+		$evilTids = dimplode($evilTids);
 	}
 
 	if (!$evilids) {
@@ -313,28 +303,27 @@ function getEvilList($type, $start, $ppp) {
 	if ($type == 'user') {
 
 		$usergroups = array();
-		foreach (C::t('common_usergroup')->range() as $group) {
+		$query = DB::query("SELECT groupid, grouptitle FROM ".DB::table('common_usergroup'));
+		while($group = DB::fetch($query)) {
 			$usergroups[$group['groupid']] = $group['grouptitle'];
 		}
 
-		$regips = C::t('common_member_status')->fetch_all($evilids);
+		$query = DB::query("SELECT m.uid, m.email, m.username, m.regdate, m.groupid, ms.regip
+							FROM ".DB::table('common_member')." m
+							LEFT JOIN ".DB::table('common_member_status')." ms ON m.uid = ms.uid
+							WHERE m.uid IN ($evilids)");
 
-		$query = C::t('common_member')->fetch_all($evilids);
-		foreach ($query as $key => $user) {
-			$query[$key]['regip'] = $regips[$key]['regip'];
-		}
 
 	} elseif($type == 'thread' || $type == 'post') {
-
-		$query = C::t('forum_thread')->fetch_all_by_tid($evilTids);
+		$query = DB::query("SELECT * FROM ".DB::table('forum_thread')." WHERE tid IN ($evilTids)");
 	}
 
-	foreach ($query as $data) {
-
+	while ($data = DB::fetch($query)) {
 		if ($type == 'thread' || $type == 'post') {
 			foreach($threadPid[$data['tid']] as $pid) {
 				$isFirst = ($type == 'thread') ? 1 : 0;
-				$postData = C::t('forum_post')->fetch($data['posttableid'], $pid);
+				$posttable = $data['posttableid'] ? "forum_post_{$data['posttableid']}" : 'forum_post';
+				$postData = DB::fetch_first("SELECT * FROM ".DB::table($posttable)." WHERE tid = '{$data[tid]}' AND pid = '$pid' AND first = '$isFirst'");
 				if ($postData['pid']) {
 					$datas[$postData['pid']] = array_merge($datas[$postData['pid']], $postData);
 					if ($type == 'post') {
@@ -355,8 +344,7 @@ function getNamebyFid($fid) {
 	if (!$fid) {
 		return false;
 	}
-	$forumInfo = C::t('forum_forum')->fetch_all_name_by_fid($fid);
-	$name = $forumInfo[$fid]['name'];
+	$name = DB::result_first("SELECT name FROM ".DB::table('forum_forum')." WHERE fid = '$fid'");
 	$name = "<a href='forum.php?mod=forumdisplay&fid=$fid' target='_blank'>".$name."</a>";
 	return $name;
 }
@@ -369,7 +357,7 @@ function convertSubjectandIP($value, $viewlink = '') {
 		$result = '<h3><a title="'.$lang['security_clicktotoggle'].'" href="javascript:;" onclick="return toggle_mod(\'mod_'.$value['tid'].'_row_'.$value['pid'].'\');" target="_blank">'.$value['subject'].'</a></h3>';
 	}
 
-	$result .= '<p>'.$value['useip'].' '.convertip($value['useip']).' ( pid : '.$value['pid'].' ) </p>';
+	$result .= '<p>'.$value['useip'].' '.convertip($value['useip']).' ( pid : '.$value['pid'].' )</p>';
 	if (!$value['message']) {
 		return $lang['security_postdeleted']."(tid:{$value['tid']} pid:{$value['pid']})";
 	}
@@ -420,3 +408,5 @@ function getDataToReport($operateType, $datatosync, $datas) {
 	}
 	return $datatoreport;
 }
+
+?>

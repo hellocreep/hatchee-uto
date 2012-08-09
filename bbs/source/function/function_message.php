@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: function_message.php 29236 2012-03-30 05:34:47Z chenmengshu $
+ *      $Id: function_message.php 22775 2011-05-20 05:43:23Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -14,11 +14,15 @@ if(!defined('IN_DISCUZ')) {
 function dshowmessage($message, $url_forward = '', $values = array(), $extraparam = array(), $custom = 0) {
 	global $_G, $show_message;
 	$_G['messageparam'] = func_get_args();
+	if(!empty($_G['gp_mobiledata'])) {
+		require_once libfile('class/mobiledata');
+		$mobiledata = new mobiledata();
+		if($mobiledata->validator()) {
+			$mobiledata->outputvariables();
+		}
+	}
 	if(empty($_G['inhookscript']) && defined('CURMODULE')) {
 		hookscript(CURMODULE, $_G['basescript'], 'messagefuncs', array('param' => $_G['messageparam']));
-	}
-	if($extraparam['break']) {
-		return;
 	}
 	$_G['inshowmessage'] = true;
 
@@ -50,7 +54,7 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 	}
 
 	define('CACHE_FORBIDDEN', TRUE);
-	$_G['setting']['msgforward'] = @dunserialize($_G['setting']['msgforward']);
+	$_G['setting']['msgforward'] = @unserialize($_G['setting']['msgforward']);
 	$handlekey = $leftmsg = '';
 
 	if(defined('IN_MOBILE')) {
@@ -70,16 +74,16 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 	}
 
 
-	if(empty($_G['inajax']) && (!empty($_GET['quickforward']) || $_G['setting']['msgforward']['quick'] && empty($extraparam['clean_msgforward']) && $_G['setting']['msgforward']['messages'] && @in_array($message, $_G['setting']['msgforward']['messages']))) {
+	if(empty($_G['inajax']) && (!empty($_G['gp_quickforward']) || $_G['setting']['msgforward']['quick'] && $_G['setting']['msgforward']['messages'] && @in_array($message, $_G['setting']['msgforward']['messages']))) {
 		$param['header'] = true;
 	}
-	$_GET['handlekey'] = !empty($_GET['handlekey']) && preg_match('/^\w+$/', $_GET['handlekey']) ? $_GET['handlekey'] : '';
+	$_G['gp_handlekey'] = !empty($_G['gp_handlekey']) && preg_match('/^\w+$/', $_G['gp_handlekey']) ? $_G['gp_handlekey'] : '';
 	if(!empty($_G['inajax'])) {
-		$handlekey = $_GET['handlekey'] = !empty($_GET['handlekey']) ? dhtmlspecialchars($_GET['handlekey']) : '';
+		$handlekey = $_G['gp_handlekey'] = !empty($_G['gp_handlekey']) ? htmlspecialchars($_G['gp_handlekey']) : '';
 		$param['handle'] = true;
 	}
 	if(!empty($_G['inajax'])) {
-		$param['msgtype'] = empty($_GET['ajaxmenu']) && (empty($_POST) || !empty($_GET['nopost'])) ? 2 : 3;
+		$param['msgtype'] = empty($_G['gp_ajaxmenu']) && (empty($_POST) || !empty($_G['gp_nopost'])) ? 2 : 3;
 	}
 	if($url_forward) {
 		$param['timeout'] = true;
@@ -133,21 +137,6 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 	} else {
 		$show_message = lang('message', $message, $values);
 	}
-	if($_G['connectguest']) {
-		$param['login'] = false;
-		$param['alert'] = 'info';
-		if (defined('IN_MOBILE')) {
-			if ($message == 'postperm_login_nopermission_mobile') {
-				$show_message = lang('plugin/qqconnect', 'connect_register_mobile_bind_error');
-			}
-			$show_message = str_replace(lang('forum/misc', 'connectguest_message_mobile_search'), lang('forum/misc', 'connectguest_message_mobile_replace'), $show_message);
-		} else {
-			$show_message = str_replace(lang('forum/misc', 'connectguest_message_search'), lang('forum/misc', 'connectguest_message_replace'), $show_message);
-		}
-		if ($message == 'group_nopermission') {
-			$show_message = lang('plugin/qqconnect', 'connectguest_message_complete_or_bind');
-		}
-	}
 	if($param['msgtype'] == 2 && $param['login']) {
 		dheader('location: member.php?mod=logging&action=login&handlekey='.$handlekey.'&infloat=yes&inajax=yes&guestmessage=yes');
 	}
@@ -200,8 +189,7 @@ function dshowmessage($message, $url_forward = '', $values = array(), $extrapara
 	}
 	if($handlekey) {
 		if($param['showdialog']) {
-			$modes = array('alert_error' => 'alert', 'alert_right' => 'right', 'alert_info' => 'notice');
-			$extra .= 'hideWindow(\''.$handlekey.'\');showDialog(\''.$show_jsmessage.'\', \''.$modes[$alerttype].'\', null, '.($param['locationtime'] !== null ? 'function () { window.location.href =\''.$url_forward.'\'; }' : 'null').', 0, null, null, null, null, '.($param['closetime'] ? $param['closetime'] : 'null').', '.($param['locationtime'] ? $param['locationtime'] : 'null').');';
+			$extra .= 'hideWindow(\''.$handlekey.'\');showDialog(\''.$show_jsmessage.'\', \'notice\', null, '.($param['locationtime'] !== null ? 'function () { window.location.href =\''.$url_forward.'\'; }' : 'null').', 0, null, null, null, null, '.($param['closetime'] ? $param['closetime'] : 'null').', '.($param['locationtime'] ? $param['locationtime'] : 'null').');';
 			$param['closetime'] = null;
 			$st = '';
 		}

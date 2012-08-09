@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: task_profile.php 24704 2011-10-08 10:19:11Z zhangguosheng $
+ *      $Id: task_profile.php 18074 2010-11-11 07:15:30Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -40,25 +40,25 @@ class task_profile {
 	function checkfield() {
 		global $_G;
 
-		$fields = array('realname', 'gender', 'birthyear', 'birthmonth', 'birthday', 'bloodtype', 'affectivestatus',
-				'birthprovince','birthcity', 'resideprovince', 'residecity');
+		$fields = lang('task/profile', 'profile_fields');
 		loadcache('profilesetting');
-		$fieldsnew = array();
-		foreach($fields as $v) {
-			if(isset($_G['cache']['profilesetting'][$v])) {
-				$fieldsnew[$v] = $_G['cache']['profilesetting'][$v]['title'];
+		$fieldsql = array();
+		foreach($fields as $k => $v) {
+			$nk = explode('.', $k);
+			if(isset($_G['cache']['profilesetting'][$nk[1]])) {
+				$fieldsnew[$nk[1]] = $v;
+				$fieldsql[] = $k;
 			}
 		}
-		if($fieldsnew) {
-			space_merge($_G['member'], 'profile');
+		if($fieldsql) {
+			$result = DB::fetch_first("SELECT ".implode(',', $fieldsql)." FROM ".DB::table('common_member')." m LEFT JOIN ".DB::table('common_member_profile')." mp ON m.uid=mp.uid WHERE m.uid='$_G[uid]'");
 			$none = array();
-			foreach($_G['member'] as $k => $v) {
-				if(in_array($k, $fields, true) && !trim($v)) {
+			foreach($result as $k => $v) {
+				if(!trim($v)) {
 					$none[] = $fieldsnew[$k];
 				}
 			}
-			$all = count($fields);
-			$csc = intval(($all - count($none)) / $all * 100);
+			$csc = intval((count($fields) - count($none)) / count($fields) * 100);
 			return array($none, $csc);
 		} else {
 			return true;

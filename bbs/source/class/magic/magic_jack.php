@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: magic_jack.php 29373 2012-04-09 07:55:30Z chenmengshu $
+ *      $Id: magic_jack.php 13898 2010-11-30 02:22:52Z liulanbo $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -56,35 +56,36 @@ class magic_jack {
 
 	function usesubmit() {
 		global $_G;
-		if(empty($_GET['tid'])) {
+		if(empty($_G['gp_tid'])) {
 			showmessage(lang('magic/jack', 'jack_info_nonexistence'));
 		}
 
-		$thread = getpostinfo($_GET['tid'], 'tid', array('fid', 'authorid', 'subject', 'lastpost'));
+		$thread = getpostinfo($_G['gp_tid'], 'tid', array('fid', 'authorid', 'subject', 'lastpost'));
 		$this->_check($thread['fid']);
-		magicthreadmod($_GET['tid']);
+		magicthreadmod($_G['gp_tid']);
 
 		$this->parameters['expiration'] = $this->parameters['expiration'] ? intval($this->parameters['expiration']) : 1;
-		$magicnum = intval($_GET['magicnum']);
+		$magicnum = intval($_G['gp_magicnum']);
 		if(empty($magicnum) || $magicnum > $this->magic['num']) {
 			showmessage(lang('magic/jack', 'jack_num_not_enough'));
 		}
 		$expiration = ($thread['lastpost'] > TIMESTAMP ? $thread['lastpost'] : TIMESTAMP) + $this->parameters['expiration'] * $magicnum * 3600;
-		C::t('forum_thread')->update($_GET['tid'], array('lastpost' => $expiration));
+		DB::query("UPDATE ".DB::table('forum_thread')." SET lastpost='$expiration' WHERE tid='$_G[gp_tid]'");
+
 		usemagic($this->magic['magicid'], $this->magic['num'], $magicnum);
-		updatemagiclog($this->magic['magicid'], '2', $magicnum, '0', 0, 'tid', $_GET['tid']);
+		updatemagiclog($this->magic['magicid'], '2', $magicnum, '0', 0, 'tid', $_G['gp_tid']);
 
 		if($thread['authorid'] != $_G['uid']) {
-			notification_add($thread['authorid'], 'magic', lang('magic/jack', 'jack_notification'), array('tid' => $_GET['tid'], 'subject' => $thread['subject'], 'magicname' => $this->magic['name']));
+			notification_add($thread['authorid'], 'magic', lang('magic/jack', 'jack_notification'), array('tid' => $_G['gp_tid'], 'subject' => $thread['subject'], 'magicname' => $this->magic['name']));
 		}
-		showmessage(lang('magic/jack', 'jack_succeed'), dreferer(), array(), array('alert' => 'right', 'showdialog' => 1, 'locationtime' => true));
+		showmessage(lang('magic/jack', 'jack_succeed'), dreferer(), array(), array('showdialog' => 1, 'locationtime' => true));
 	}
 
 	function show() {
 		global $_G;
-		$tid = !empty($_GET['id']) ? dhtmlspecialchars($_GET['id']) : '';
+		$tid = !empty($_G['gp_id']) ? htmlspecialchars($_G['gp_id']) : '';
 		if($tid) {
-			$thread = getpostinfo($_GET['id'], 'tid', array('fid'));
+			$thread = getpostinfo($_G['gp_id'], 'tid', array('fid'));
 			$this->_check($thread['fid']);
 		}
 		$this->parameters['expiration'] = $this->parameters['expiration'] ? intval($this->parameters['expiration']) : 1;
@@ -97,8 +98,8 @@ class magic_jack {
 
 	function buy() {
 		global $_G;
-		if(!empty($_GET['id'])) {
-			$thread = getpostinfo($_GET['id'], 'tid', array('fid'));
+		if(!empty($_G['gp_id'])) {
+			$thread = getpostinfo($_G['gp_id'], 'tid', array('fid'));
 			$this->_check($thread['fid']);
 		}
 		$this->parameters['expiration'] = $this->parameters['expiration'] ? intval($this->parameters['expiration']) : 1;

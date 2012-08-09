@@ -4,23 +4,23 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: moderate_picture.php 25728 2011-11-21 03:52:01Z chenmengshu $
+ *      $Id: moderate_picture.php 25729 2011-11-21 03:52:24Z chenmengshu $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-if(!submitcheck('modsubmit') && !$_GET['fast']) {
+if(!submitcheck('modsubmit') && !$_G['gp_fast']) {
 
 	shownav('topic', $lang['moderate_pictures']);
 	showsubmenu('nav_moderate_posts', $submenu);
 
-	$select[$_GET['tpp']] = $_GET['tpp'] ? "selected='selected'" : '';
+	$select[$_G['gp_tpp']] = $_G['gp_tpp'] ? "selected='selected'" : '';
 	$tpp_options = "<option value='20' $select[20]>20</option><option value='50' $select[50]>50</option><option value='100' $select[100]>100</option>";
-	$tpp = !empty($_GET['tpp']) ? $_GET['tpp'] : '20';
+	$tpp = !empty($_G['gp_tpp']) ? $_G['gp_tpp'] : '20';
 	$start_limit = ($page - 1) * $tpp;
-	$dateline = $_GET['dateline'] ? $_GET['dateline'] : '604800';
+	$dateline = $_G['gp_dateline'] ? $_G['gp_dateline'] : '604800';
 	$dateline_options = '';
 	foreach(array('all', '604800', '2592000', '7776000') as $v) {
 		$selected = '';
@@ -30,7 +30,7 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 		$dateline_options .= "<option value=\"$v\" $selected>".cplang("dateline_$v");
 	}
 	$pic_status = 1;
-	if($_GET['filter'] == 'ignore') {
+	if($_G['gp_filter'] == 'ignore') {
 		$pic_status = 2;
 	}
 	showformheader("moderate&operation=pictures");
@@ -38,8 +38,8 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 
 	showtablerow('', array('width="60"', 'width="160"', 'width="60"'),
 		array(
-			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"$_GET[username]\" />",
-			cplang('moderate_title_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"$_GET[title]\" />",
+			cplang('username'), "<input size=\"15\" name=\"username\" type=\"text\" value=\"$_G[gp_username]\" />",
+			cplang('moderate_title_keyword'), "<input size=\"15\" name=\"title\" type=\"text\" value=\"$_G[gp_title]\" />",
 		)
 	);
 	showtablerow('', array('width="60"', 'width="160"', 'width="60"'),
@@ -56,23 +56,43 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 	showtablefooter();
 
 	$pagetmp = $page;
-	$modcount = C::t('common_moderate')->count_by_search_for_pic($moderatestatus, $_GET['username'], (($dateline &&  $dateline != 'all') ? (TIMESTAMP - $dateline) : null), $_GET['title']);
+	$sqlwhere = '';
+	if(!empty($_G['gp_username'])) {
+		$sqlwhere .= " AND p.username='{$_G['gp_username']}'";
+	}
+	if(!empty($dateline) && $dateline != 'all') {
+		$sqlwhere .= " AND p.dateline>'".(TIMESTAMP - $dateline)."'";
+	}
+	if(!empty($_G['gp_title'])) {
+		$sqlwhere .= " AND p.title LIKE '%{$_G['gp_title']}%'";
+	}
+	$modcount = DB::result_first("SELECT COUNT(*)
+		FROM ".DB::table('common_moderate')." m
+		LEFT JOIN ".DB::table('home_pic')." p ON p.picid=m.id
+		WHERE m.idtype='picid' AND m.status='$moderatestatus' $sqlwhere");
 	do {
 		$start_limit = ($pagetmp - 1) * $tpp;
-		$picarr = C::t('common_moderate')->fetch_all_by_search_for_pic($moderatestatus, $_GET['username'], (($dateline &&  $dateline != 'all') ? (TIMESTAMP - $dateline) : null), $_GET['title'], $start_limit, $tpp);
-		$pagetmp = $pagetmp - 1;
-	} while($pagetmp > 0 && empty($picarr));
+		$query = DB::query("SELECT p.picid, p.albumid, p.uid, p.username, p.title, p.dateline, p.filepath, p.thumb, p.remote, p.postip, a.albumname
+			FROM ".DB::table('common_moderate')." m
+			LEFT JOIN ".DB::table('home_pic')." p ON p.picid=m.id
+			LEFT JOIN ".DB::table('home_album')." a ON p.albumid=a.albumid
+			WHERE m.idtype='picid' AND m.status='$moderatestatus' $sqlwhere
+			ORDER BY m.dateline DESC
+			LIMIT $start_limit, $tpp");
+			$pagetmp = $pagetmp - 1;
+	} while($pagetmp > 0 && DB::num_rows($query) == 0);
 	$page = $pagetmp + 1;
-	$multipage = multi($modcount, $tpp, $page, ADMINSCRIPT."?action=moderate&operation=pictures&filter=$filter&dateline={$_GET['dateline']}&username={$_GET['username']}&title={$_GET['title']}&tpp=$tpp&showcensor=$showcensor");
+	$multipage = multi($modcount, $tpp, $page, ADMINSCRIPT."?action=moderate&operation=pictures&filter=$filter&dateline={$_G['gp_dateline']}&username={$_G['gp_username']}&title={$_G['gp_title']}&tpp=$tpp&showcensor=$showcensor");
 
 	echo '<p class="margintop marginbot"><a href="javascript:;" onclick="expandall();">'.cplang('moderate_all_expand').'</a> <a href="javascript:;" onclick="foldall();">'.cplang('moderate_all_fold').'</a></p>';
 
 	showtableheader();
+	require_once libfile('class/censor');
 	$censor = & discuz_censor::instance();
 	$censor->highlight = '#FF0000';
 	require_once libfile('function/misc');
 	require_once libfile('function/home');
-	foreach($picarr as $pic) {
+	while($pic = DB::fetch($query)) {
 		$pic['dateline'] = dgmdate($pic['dateline']);
 		$pic['title'] = $pic['title'] ? '<b>'.$pic['title'].'</b>' : '<i>'.$lang['nosubject'].'</i>';
 		if($showcensor) {
@@ -118,14 +138,12 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 			$moderation[$act][] = $picid;
 		}
 	}
-	if($moderation['validate']) {
-		$validates = C::t('home_pic')->update($moderation['validate'], array('status' => '0'));
-		$albumincrease = array();
-		foreach(C::t('home_pic')->fetch_all($moderation['validate']) as $pics) {
-			$albumincrease[$pics['albumid']]++;
-		}
-		foreach($albumincrease as $albumid=>$albuminc) {
-			C::t('home_album')->update_num_by_albumid($albumid, $albuminc);
+	if($validate_picids = dimplode($moderation['validate'])) {
+		DB::update('home_pic', array('status' => '0'), "picid IN ($validate_picids)");
+		$validates = DB::affected_rows();
+		foreach($moderation['validate'] as $picids) {
+			$albumid = DB::result_first("SELECT albumid FROM ".DB::table('home_pic')." WHERE picid='$picids'");
+			DB::query("UPDATE ".DB::table('home_album')." SET picnum=picnum+1 WHERE albumid='$albumid'", 'UNBUFFERED');
 		}
 		updatemoderate('picid', $moderation['validate'], 2);
 	}
@@ -137,16 +155,17 @@ if(!submitcheck('modsubmit') && !$_GET['fast']) {
 		updatemoderate('picid', $moderation['delete'], 2);
 	}
 
-	if($moderation['ignore']) {
-		$ignores = C::t('home_pic')->update($moderation['ignore'], array('status' => '2'));
+	if($ignore_picids = dimplode($moderation['ignore'])) {
+		DB::update('home_pic', array('status' => '2'), "picid IN ($ignore_picids)");
+		$ignores = DB::affected_rows();
 		updatemoderate('picid', $moderation['ignore'], 1);
 	}
 
-	if($_GET['fast']) {
-		echo callback_js($_GET['picid']);
+	if($_G['gp_fast']) {
+		echo callback_js($_G['gp_picid']);
 		exit;
 	} else {
-		cpmsg('moderate_pictures_succeed', "action=moderate&operation=pictures&page=$page&filter=$filter&dateline={$_GET['dateline']}&username={$_GET['username']}&title={$_GET['title']}&tpp={$_GET['tpp']}&showcensor=$showcensor", 'succeed', array('validates' => $validates, 'ignores' => $ignores, 'recycles' => $recycles, 'deletes' => $deletes));
+		cpmsg('moderate_pictures_succeed', "action=moderate&operation=pictures&page=$page&filter=$filter&dateline={$_G['gp_dateline']}&username={$_G['gp_username']}&title={$_G['gp_title']}&tpp={$_G['gp_tpp']}&showcensor=$showcensor", 'succeed', array('validates' => $validates, 'ignores' => $ignores, 'recycles' => $recycles, 'deletes' => $deletes));
 	}
 
 }

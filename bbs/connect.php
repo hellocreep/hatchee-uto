@@ -3,9 +3,10 @@
    [Discuz!] (C)2001-2009 Comsenz Inc.
    This is NOT a freeware, use is subject to license terms
 
-   $Id: connect.php 26424 2011-12-13 03:02:20Z zhouxiaobo $
+   $Id: connect.php 29182 2012-03-28 06:28:42Z liudongdong $
 */
 
+define('IN_CONNECT', 1);
 
 if($_GET['mod'] == 'register') {
 	$_GET['mod'] = 'connect';
@@ -20,12 +21,12 @@ define('CURSCRIPT', 'connect');
 require_once './source/class/class_core.php';
 require_once './source/function/function_home.php';
 
-$discuz = C::app();
+$discuz = & discuz_core::instance();
 
 $mod = $discuz->var['mod'];
 $discuz->init();
 
-if(!in_array($mod, array('config', 'login', 'feed', 'check', 'user'))) {
+if(!in_array($mod, array('config', 'login', 'feed', 'check'))) {
 	showmessage('undefined_action');
 }
 
@@ -36,6 +37,5 @@ if(!$_G['setting']['connect']['allow']) {
 define('CURMODULE', $mod);
 runhooks();
 
-$connectService = Cloud::loadClass('Service_Connect');
-require_once libfile('connect/'.$mod, 'plugin/qqconnect');
+require_once libfile('connect/'.$mod, 'module');
 ?>

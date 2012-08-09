@@ -4,15 +4,15 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: modcp_plugin.php 25246 2011-11-02 03:34:53Z zhangguosheng $
+ *      $Id: modcp_plugin.php 6752 2010-03-25 08:47:54Z cnteacher $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_MODCP')) {
 	exit('Access Denied');
 }
 
-$modtpl = $_GET['id'];
+$modtpl = $_G['gp_id'];
 
-include pluginmodule($_GET['id'], 'modcp_'.$op);
+include pluginmodule($_G['gp_id'], 'modcp_'.$op);
 
 ?>

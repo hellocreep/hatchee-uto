@@ -4,12 +4,8 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: class_portalcategory.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ *      $Id: class_portalcategory.php 22543 2011-05-12 03:47:53Z zhangguosheng $
  */
-
-if(!defined('IN_DISCUZ')) {
-	exit('Access Denied');
-}
 
 class portal_category {
 
@@ -39,11 +35,15 @@ class portal_category {
 	function _update_member_allowadmincp($uids) {
 		if(!empty($uids)) {
 			$userperms = array();
-			$userperms = C::t('portal_category_permission')->fetch_permission_by_uid($uids);
-			foreach(C::t('common_member')->fetch_all($uids, false, 0) as $uid => $v) {
+			$query = DB::query('SELECT uid, sum(allowpublish) as pb, sum(allowmanage) as mn FROM '.DB::table('portal_category_permission')." WHERE uid IN (".dimplode($uids).") GROUP BY uid");
+			while($v = DB::fetch($query)) {
+				$userperms[$v['uid']] = array('allowpublish'=>$v['pb'], 'allowmanage'=>$v['mn']);
+			}
+			$query = DB::query('SELECT uid,allowadmincp FROM '.DB::table('common_member')." WHERE uid IN (".dimplode($uids).")");
+			while($v = DB::fetch($query)) {
 				$v['allowadmincp'] = setstatus(3, empty($userperms[$v['uid']]['allowpublish']) ? 0 : 1, $v['allowadmincp']);
 				$v['allowadmincp'] = setstatus(2, empty($userperms[$v['uid']]['allowmanage']) ? 0 : 1, $v['allowadmincp']);
-				C::t('common_member')->update($uid, array('allowadmincp'=>$v['allowadmincp']));
+				DB::update('common_member', array('allowadmincp'=>$v['allowadmincp']), "uid='$v[uid]'");
 			}
 		}
 	}
@@ -54,7 +54,7 @@ class portal_category {
 		$uids = array_map('intval', $uids);
 		$uids = array_filter($uids);
 		if($uids) {
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid($catid, $uids, 0);
+			DB::delete('portal_category_permission', " catid='$catid' AND uid IN (".dimplode($uids).") AND inheritedcatid='0'");
 			$this->delete_inherited_perm_by_catid($catid, $catid, $uids);
 			$this->_update_member_allowadmincp($uids);
 		}
@@ -68,7 +68,9 @@ class portal_category {
 			$uids = is_array($uid) ? $uid : array($uid);
 			foreach($uids as $uid_) {
 				$uid_ = intval($uid_);
-				C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid($catids, $uid_, $upid ? $upid : true);
+				$where = empty($uid_) ? '' : " AND uid='$uid_'";
+				$where .= $upid ? " AND inheritedcatid='$upid'" : "AND inheritedcatid>'0'";
+				DB::delete('portal_category_permission', 'catid IN('.dimplode($catids).")$where");
 				if($uid_) {
 					$this->_update_member_allowadmincp(array($uid_));
 				}
@@ -93,20 +95,53 @@ class portal_category {
 		$catid = intval($catid);
 		$uid = intval($uid);
 		if($catid) {
-			$perms = C::t('portal_category_permission')->fetch_all_by_catid($catid, $uid);
+			$where = $uid ? " AND uid='$uid'" : '';
+			$query = DB::query("SELECT * FROM ".DB::table('portal_category_permission')." WHERE catid='$catid'$where");
+			while($value = DB::fetch($query)) {
+				$perms[] = $value;
+			}
 		}
 		return $perms;
 	}
 
+	function get_catids_by_uid($uid, $start = 0, $limit = 30){
+		$perms = array();
+		$uid = intval($uid);
+		$start = intval($start);
+		$limit = intval($limit);
+		if($catid) {
+			$query = DB::query("SELECT * FROM ".DB::table('portal_category_permission')." WHERE uid='$uid' LIMIT $start, $limit");
+			while($value = DB::fetch($query)) {
+				$perms[] = $value;
+			}
+		}
+		return $perms;
+	}
 
 	function _add_users_cats($users, $catids, $upid = 0) {
-		C::t('portal_category_permission')->insert_batch($users, $catids, $upid);
+		$perms = array();
+		if(!empty($users) && !empty($catids)){
+			if(!is_array($catids)) {
+				$catids = array($catids);
+			}
+			foreach($users as $user) {
+				$inheritedcatid = !empty($user['inheritedcatid']) ? $user['inheritedcatid'] : ($upid ? $upid : 0);
+				foreach ($catids as $catid) {
+					$perms[] = "('$catid','$user[uid]','$user[allowpublish]','$user[allowmanage]','$inheritedcatid')";
+					$inheritedcatid = empty($inheritedcatid) ? $catid : $inheritedcatid;
+				}
+			}
+			if($perms) {
+				DB::query('REPLACE INTO '.DB::table('portal_category_permission').' (catid,uid,allowpublish,allowmanage,inheritedcatid) VALUES '.implode(',', $perms));
+			}
+		}
 	}
 
 	function delete_perm_by_inheritedcatid($catid, $uids = array()) {
 		if($uids && !is_array($uids)) $uids = array($uids);
 		if($catid) {
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid(false, $uids, $catid);
+			$where = !empty($uids) ? ' uid IN('.dimplode($uids).') AND' : '';
+			DB::delete('portal_category_permission', "$where inheritedcatid='$catid'");
 			if($uids) {
 				$this->_update_member_allowadmincp($uids);
 			}
@@ -115,8 +150,8 @@ class portal_category {
 
 	function delete_allperm_by_catid($catid) {
 		if($catid) {
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid($catid);
-			C::t('portal_category_permission')->delete_by_catid_uid_inheritedcatid(false, false, $catid);
+			$catid = is_array($catid) ? $catid : array($catid);
+			DB::delete('portal_category_permission', ' catid IN('.dimplode($catid).")");
 		}
 	}
 	function get_subcatids_by_catid($catid) {

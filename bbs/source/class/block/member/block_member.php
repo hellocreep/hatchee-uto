@@ -4,13 +4,13 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_member.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ *      $Id: block_member.php 11788 2010-06-13 02:40:36Z xupeng $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class block_member extends discuz_block {
+class block_member {
 	var $setting = array();
 	function block_member() {
 		$this->setting = array(
@@ -139,7 +139,6 @@ class block_member extends discuz_block {
 	function fields() {
 		global $_G;
 		$fields = array(
-				'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
 				'url' => array('name' => lang('blockclass', 'blockclass_member_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
 				'title' => array('name' => lang('blockclass', 'blockclass_member_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
 				'avatar' => array('name' => lang('blockclass', 'blockclass_member_field_avatar'), 'formtype' => 'text', 'datatype' => 'string'),
@@ -178,11 +177,16 @@ class block_member extends discuz_block {
 		}
 		if($settings['groupid']) {
 			$settings['groupid']['value'][] = array(0, lang('portalcp', 'block_all_group'));
-			foreach(C::t('common_usergroup')->fetch_all_by_type(array('member', 'special')) as $value) {
+			$query = DB::query('SELECT groupid, grouptitle FROM '.DB::table('common_usergroup')." WHERE `type` IN ('member', 'special')");
+			while($value=DB::fetch($query)) {
 				$settings['groupid']['value'][] = array($value['groupid'], $value['grouptitle']);
 			}
 		}
 		return $settings;
+	}
+
+	function cookparameter($parameter) {
+		return $parameter;
 	}
 
 	function getdata($style, $parameter) {

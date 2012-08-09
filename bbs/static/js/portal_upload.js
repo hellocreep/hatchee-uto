@@ -1,8 +1,8 @@
 /*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
+	[Discuz!] (C)2001-2009 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
 
-	$Id: portal_upload.js 23838 2011-08-11 06:51:58Z monkey $
+	$Id: portal_upload.js 27926 2012-02-17 01:36:25Z svn_project_zhangjie $
 */
 
 var nowid = 0;
@@ -59,6 +59,9 @@ function insertAttach(id) {
 function deleteAttach(attachid, url) {
 	ajaxget(url);
 	$('attach_list_' + attachid).style.display = 'none';
+	if($('setconver' + attachid).checked) {
+		$('conver').value = '';
+	}
 }
 
 function setConver(attach) {

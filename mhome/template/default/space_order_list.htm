@@ -1,0 +1,13 @@
+<!--{template header}-->
+<div>
+	<h2 class="title"><img src="image/app/blog.gif" />订单</h2>
+	<ul>
+		<!--{loop $orderlist $list}-->
+			<li>
+				<span>{$list[uuid]}</span>
+				<h4><a href="space.php?uid=$space[uid]&do=order&id=$list[uuid]" target="_blank">{$list[title]}</a></h4>
+			</li>
+		<!--{/loop}-->
+	</ul>
+</div>
+<!--{template footer}-->

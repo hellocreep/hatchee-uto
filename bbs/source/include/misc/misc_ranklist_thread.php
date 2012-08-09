@@ -4,9 +4,9 @@ if(!defined('IN_DISCUZ')) {
 }
 
 $threadlist = '';
-$orderby = in_array($_GET['orderby'], array('thisweek', 'thismonth', 'today', 'all')) ? $_GET['orderby'] : '';
+$_GET['orderby'] = $orderby = in_array($_GET['orderby'], array('thisweek', 'thismonth', 'today', 'all')) ? $_GET['orderby'] : '';
 $navname = $_G['setting']['navs'][8]['navname'];
-switch($_GET['view']) {
+switch($_G['gp_view']) {
 	case 'replies':
 		$gettype = 'reply';
 		break;
@@ -22,9 +22,9 @@ switch($_GET['view']) {
 	case 'heats':
 		$gettype = 'heat';
 		break;
-	default: $_GET['view'] = 'replies';
+	default: $_G['gp_view'] = 'replies';
 }
-$view = $_GET['view'];
+$view = $_G['gp_view'];
 
 $threadlist = getranklistdata($type, $view, $orderby);
 $lastupdate = $_G['lastupdate'];

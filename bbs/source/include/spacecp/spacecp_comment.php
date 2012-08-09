@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: spacecp_comment.php 28261 2012-02-27 02:26:09Z zhengqingpeng $
+ *      $Id: spacecp_comment.php 20083 2011-02-14 02:48:58Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -37,18 +37,18 @@ if(submitcheck('commentsubmit', 0, $seccodecheck, $secqaacheck)) {
 
 	$id = intval($_POST['id']);
 	$idtype = $_POST['idtype'];
-	$message = getstr($_POST['message'], 0, 0, 0, 2);
+	$message = getstr($_POST['message'], 0, 1, 1, 2);
 	$cid = empty($_POST['cid'])?0:intval($_POST['cid']);
 
 	if(strlen($message) < 2) {
-		showmessage('content_is_too_short', '', array(), array());
+		showmessage('content_is_too_short', '', array(), array('return' => true));
 	}
 
 	require_once libfile('function/comment');
 	$cidarr = add_comment($message, $id, $idtype, $cid);
 
 	if($cidarr['cid'] != 0) {
-		showmessage($cidarr['msg'], dreferer(), $cidarr['magvalues'], $_GET['quickcomment'] ? array('msgtype' => 3, 'showmsg' => true) : array('showdialog' => 3, 'showmsg' => true, 'closetime' => true));
+		showmessage($cidarr['msg'], dreferer(), $cidarr['magvalues'], $_G['gp_quickcomment'] ? array('msgtype' => 3, 'showmsg' => true) : array('showdialog' => 3, 'showmsg' => true, 'closetime' => true));
 	} else {
 		showmessage('no_privilege_comment', '', array(), array('return' => true));
 	}
@@ -57,18 +57,19 @@ if(submitcheck('commentsubmit', 0, $seccodecheck, $secqaacheck)) {
 $cid = empty($_GET['cid'])?0:intval($_GET['cid']);
 
 if($_GET['op'] == 'edit') {
-	if($_G['adminid'] != 1 && $_GET['modcommentkey'] != modauthkey($_GET['cid'])) {
-		$authorid = intval($_G['uid']);
+	if($_G['adminid'] != 1 && $_G['gp_modcommentkey'] != modauthkey($_G['gp_cid'])) {
+		$sqladd = "AND authorid='$_G[uid]'";
 	} else {
-		$authorid = '';
+		$sqladd = '';
 	}
-	if(!$comment = C::t('home_comment')->fetch($cid, $authorid)) {
+	$query = DB::query("SELECT * FROM ".DB::table('home_comment')." WHERE cid='$cid' $sqladd");
+	if(!$comment = DB::fetch($query)) {
 		showmessage('no_privilege_comment_edit');
 	}
 
 	if(submitcheck('editsubmit')) {
 
-		$message = getstr($_POST['message'], 0, 0, 0, 2);
+		$message = getstr($_POST['message'], 0, 1, 1, 2);
 		if(strlen($message) < 2) showmessage('content_is_too_short');
 		$message = censor($message);
 		if(censormod($message)) {
@@ -79,7 +80,7 @@ if($_GET['op'] == 'edit') {
 		if($comment_status == 1) {
 			manage_addnotify('verifycommontes');
 		}
-		C::t('home_comment')->update($comment['cid'], array('message'=>$message, 'status'=>$comment_status));
+		DB::update('home_comment', array('message'=>$message, 'status'=>$comment_status), array('cid' => $comment['cid']));
 		showmessage('do_success', dreferer(), array('cid' => $comment['cid']), array('showdialog' => 1, 'showmsg' => true, 'closetime' => true));
 	}
 
@@ -98,7 +99,8 @@ if($_GET['op'] == 'edit') {
 
 } elseif($_GET['op'] == 'reply') {
 
-	if(!$comment = C::t('home_comment')->fetch($cid)) {
+	$query = DB::query("SELECT * FROM ".DB::table('home_comment')." WHERE cid='$cid'");
+	if(!$comment = DB::fetch($query)) {
 		showmessage('comments_do_not_exist');
 	}
 	if($comment['idtype'] == 'uid' && ($seccodecheck || $secqaacheck)) {

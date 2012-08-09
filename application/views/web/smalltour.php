@@ -71,7 +71,7 @@
 									</li>
 									<li>
 										<b>出发时间：</b>
-										<span>
+										<span class="h-color">
 											<?php if(isset($tour[0]->departure)): ?>
 												<?php echo $tour[0]->departure ;?>
 											<?php endif; ?>

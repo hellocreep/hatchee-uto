@@ -151,41 +151,41 @@
 						<h3>友途始终如一的理念</h3>
 						<ul>
 							<li>
-								<img src="assets/images/ziyou.png">
+								<i class="img01"></i>
 								<p>
 									与友途，自由永无极限，一路随时停车，任由你逗留某个钟情地。
 								</p>
 							</li>
 							<li>
-								<img src="assets/images/tiyan.png">
+								<i class="img02"></i>
 								<p>
 									与友途，感受最真实的世界，体验最原汁原味的四川。
 
 								</p>
 							</li>
 							<li>
-								<img src="assets/images/fenxiang.png">
+								<i class="img03"></i>
 								<p>
 									与五湖四海的朋友一起谈天说地，分享人生，瞬间成长。 
 
 								</p>
 							</li>
 							<li>
-								<img src="assets/images/shengtai.png">
+								<i class="img04"></i>
 								<p>
 									友途需要每个人一点点的爱来维护我们生活的这片土地.... 
 
 								</p>
 							</li>
 							<li>
-								<img src="assets/images/jiazhi.png">
+								<i class="img05"></i>
 								<p>
 									友途只做让你每每回忆起来感动的旅行，而不是奢华的高费用旅游。 
 
 								</p>
 							</li>
 							<li>
-								<img src="assets/images/fuwu.png">
+								<i class="img06"></i>
 								<p>
 									友途的360度管家式服务，全程一对一，让你的出行更简单，更快乐。 　
 
@@ -198,32 +198,32 @@
 						<h3>友途领队与小编</h3>
 						<ul>
 							<li>
-								<img src="assets/images/mudeng.png">
+								<i class="img01"></i>
 								<b>曾可（木灯）</b>
 								<span>友途领队</span>
 							</li>
 							<li>
-								<img src="assets/images/muya.png">
+								<i class="img02"></i>
 								<b>张磊（木雅）</b>
 								<span>友途领队</span>
 							</li>
 							<li>
-								<img src="assets/images/damao.png">
+								<i class="img03"></i>
 								<b>陈传敏（大猫）</b>
 								<span>友途领队</span>
 							</li>
 							<li>
-								<img src="assets/images/yezhu.png">
+								<i class="img04"></i>
 								<b>宋中伟（野猪）</b>
 								<span>友途领队</span>
 							</li>
 							<li>
-								<img src="assets/images/xiaoyuan.png">
+								<i class="img05"></i>
 								<b>袁辰恺（圆小胖）</b>
 								<span>友途小编</span>
 							</li>
 							<li>
-								<img src="assets/images/xiaoqi.png">
+								<i class="img06"></i>
 								<b>亓纯静</b>
 								<span>友途小编</span>
 							</li>
@@ -236,17 +236,17 @@
 					<div class="social clearfix">
 						<h3>关注友途， 关注不一样的旅行</h3>
 						<a class="mt" href="http://page.renren.com/601461125/index">
-							<img src="assets/images/renren.png">
+							<i class="img01"></i>
 							人人网<br>
 							友途旅行
 						</a>
 						<a href="http://weibo.com/utotrip">
-							<img src="assets/images/weibo.png">
+							<i class="img02"></i>
 							新浪微博<br>
 							友途旅行
 						</a>
 						<a href="http://1758863234.qzone.qq.com">
-							<img src="assets/images/qzone.png">
+							<i class="img03"></i>
 							QQ空间<br>
 							友途旅行
 						</a>

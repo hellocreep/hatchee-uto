@@ -529,6 +529,7 @@ $(function(){
 		}
 	});
 
+	// 主题旅行筛选
 	$('#tourtype').change(function(){
 		if($('#tourtype').val()=='')
 		{
@@ -538,7 +539,7 @@ $(function(){
 		{
 			window.location.href='themetour/customize.html';
 		}
-		else if($('#tourtype').val()=='1')
+		else if($('#tourtype').val()=='3')
 		{
 			window.location.href='themetour/free.html';
 		}

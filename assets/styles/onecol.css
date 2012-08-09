@@ -58,7 +58,10 @@
 	float: left;
 	clear: none;
 }
-
+.unit-first ul{
+	height: 300px;
+	overflow-y: scroll;
+}
 .guidezone .marqueen{
 	width: 4500px;
 }
@@ -80,6 +83,9 @@ table.infozone{
 }
 .placelist li:hover{
 	background: #eeeeee;
+}
+.placelist li label{
+	display: block;
 }
 .placelist li img{
 	width:100px;

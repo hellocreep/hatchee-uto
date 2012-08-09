@@ -145,6 +145,7 @@ var page_count = function( opts ){
 	var _step = 15;
 	$.ajax({
 		url: opts.url1,
+		data: { keywords:opts.keywords},
 		success: function( result ){
 			if( $('#list-title .badge').length == 0 ){
 				$( '#list-title' ).append( '<span class="badge">'+result+'</span>' );
@@ -325,10 +326,10 @@ var tour = {
 			if( result[i].tour_type == 2 ){
 				tour_type = "<span class='badge badge-tour-type badge-2'>公司</span>";
 			}
-			if( result[i].tour_type == 2 ){
+			if( result[i].tour_type == 3 ){
 				tour_type = "<span class='badge badge-tour-type badge-3'>自由</span>";
 			}
-			if( result[i].tour_type == 2 ){
+			if( result[i].tour_type == 4 ){
 				tour_type = "<span class='badge badge-tour-type badge-4'>纯玩</span>";
 			}
 
@@ -423,9 +424,56 @@ var tour = {
 		});
 	},
 	//TODO
-	search_tour: function(){
+	search_tour: function(result,keywords){
+		var tour_list = ' ';
+		var who_edit =' ';
+		var tour_type = '';
+		for( var i = 0; i<result.length; i++ ){
+			if( result[i].who_edit.length>0 ){
+				who_edit = "<span class='label label-warning' title='正在编辑'>"+result[i].who_edit+"</span>";
+			}else{
+				who_edit = '';
+			}
+			if( result[i].tour_type == 0 ){
+				tour_type = "<span class='badge badge-tour-type badge-0'>活动</span>";
+			}
+			if( result[i].tour_type == 1 ){
+				tour_type = "<span class='badge badge-tour-type badge-1'>定制</span>";
+			}
+			if( result[i].tour_type == 2 ){
+				tour_type = "<span class='badge badge-tour-type badge-2'>公司</span>";
+			}
+			if( result[i].tour_type == 2 ){
+				tour_type = "<span class='badge badge-tour-type badge-3'>自由</span>";
+			}
+			if( result[i].tour_type == 2 ){
+				tour_type = "<span class='badge badge-tour-type badge-4'>纯玩</span>";
+			}
 
-	}
+			tour_list += "<tr><td class='t_id'>"+result[i].Id+tour_type+"</td> \
+			<td class='t_name'>" +result[i].name+ "</td> \
+			<td class='t_price' rel='"+result[i].price+"'>"+result[i].price+"</td> \
+			<td>"+result[i].edit_time+"</td> \
+			<td><i class='icon-share'></i><a target='_blank' href='tourdetail/?tid="+result[i].Id+"'>预览</a> \
+			<i class='icon-pencil'></i><a href='tourmanage/edittour/?tid="+result[i].Id+"' class='edit-tour'>修改</a> \
+			<i class='icon-trash'></i><a class='del-tour' href='#'>删除</a>"+who_edit+"</td></tr>";
+		}
+		$( '#list-head' ).html( tour_list_tpl );
+		list_panel.html( tour_list );
+		loadings.hide();
+		tour.count_searchtour(keywords);
+		tour.del_tour();
+		tour.edit_price();
+		$( '.pagination' ).show();
+	},
+	count_searchtour: function(key){
+		page_count({
+			url1: 'tourmanage/seartourcount',
+			url2:  'tourmanage/seartour',
+			type: 'tour',
+			keywords:key
+		});
+	},
 
 }
 
@@ -707,8 +755,44 @@ var order = {
 		});
 	},
 	//TODO
-	search_order: function(){
-
+	search_order: function(result){
+		var order_list = ' ';
+		for( i = 0; i < result.length; i++ ){
+			var pay_info = '<span class="label label-warning">未付</span>';
+			var is_worked = '<span class="label label-important">未处理</span>';
+			if( result[i].status == 1 ){
+				pay_info = '<span class="label label-success">已付</span>';
+			}
+			if( result[i].status == 2 ){
+				pay_info = '<span class="label label-success">已发团</span>';
+			}
+			if( result[i].is_worked == 1 ){
+				is_worked =  '<span class="label label-success handle_time" data-original-title="'+result[i].handle_time+'">已处理</span>';
+			}
+			order_list += "<tr><td class='o_id'>"+result[i].id+"</td> \
+			<td class='o_uuid'>"+result[i].orderid+"</td> \
+			<td class='o_name'><a class='edit_member' data-toggle='modal' href='#edit-panel' rel='"+result[i].uid+"'>"+result[i].username+"</a></td> \
+			<td class='o_tour'><a target='_blank' href='tourdetail/?tid="+result[i].tid+"'>"+result[i].tourname+"</a></td> \
+			<td>"+result[i].ordertime+"</td> \
+			<td><i class='icon-pencil'></i><a href='ordermanage/editorder/?oid="+result[i].id+"&type=normal' class='edit-order'>查看</a> \
+			<i class='icon-trash'></i><a class='del-order' href='#'>删除</a>"+pay_info+is_worked+"</td></tr>";
+		}
+		$( '#list-head' ).html( order_list_tpl );
+		list_panel.html( order_list );
+		loadings.hide();
+		order.count_order();
+		order.del_order();
+		member.edit_member();
+		$( '.handle_time' ).tooltip();//处理订单时间
+		$( '.pagination' ).show();
+	},
+	count_searchorder: function(key){
+		page_count({
+			url1: 'tourmanage/seartourcount',
+			url2:  'tourmanage/seartour',
+			type: 'tour',
+			keywords:key
+		});
 	}
 }
 
@@ -770,7 +854,7 @@ var custom_order = {
 	},
 	//TODO
 	search_order: function(){
-
+		
 	}
 	
 }
@@ -957,7 +1041,7 @@ $(function(){
 				keywords: keywords
 			},
 			success: function(result){
-					tour.list_tour( result );
+					tour.search_tour( result,keywords );
 			}
 		});
 	})
@@ -1001,7 +1085,7 @@ $(function(){
 	$( '#order-manage' ).click(function( e ){
 		left_menu_post_list( e );
 		$( '#list-title' ).text( '常规订单管理' );
-		var tool_bar = '<div><input class="input-large search-query" type="text" placeholder="订单号"> \
+		var tool_bar = '<div><input type="hidden" class="ordertype" value="order"><input class="input-large search-query" type="text" placeholder="订单号"> \
 						<button class="btn" type="submit" id="search_order">查找</button></div>';
 		$( '#tool-bar' ).html( tool_bar );
 		$.ajax({
@@ -1014,11 +1098,12 @@ $(function(){
 			}
 		});
 	});
+
 	//定制旅行订单列表
 	$( '#custome-order-manage' ).click(function( e ){
 		left_menu_post_list( e );
 		$( '#list-title' ).text( '定制化旅行订单管理' );
-		var tool_bar = '<div><input class="input-large search-query" type="text" placeholder="订单号"> \
+		var tool_bar = '<div><input type="hidden" class="ordertype" value="customize"><input class="input-large search-query" type="text" placeholder="订单号"> \
 						<button class="btn" type="submit" id="search_order">查找</button></div>';
 		$( '#tool-bar' ).html( tool_bar );
 		$.ajax({
@@ -1031,7 +1116,30 @@ $(function(){
 			}
 		});
 	});
-
+  //查询订单
+  $('#search_order').live("click", function( e ){
+			var orderid=$('.search-query').val();
+			var types=$('.ordertype').val();
+			$.ajax({
+				url: 'ordermanage/searchorder',
+				data:{
+					orderid:orderid,
+					ordertype:types
+				},
+				success:function(result){
+						if(types=='order')
+						{
+							order.search_order(result);
+						}
+						else
+						{
+							custom_order.list_order( result );
+						}
+					$('.pagination').hide();
+					$('.badge').hide();
+				}
+			});
+	});
 	//标签列表
 	$( '.tags-manage' ).each(function(){
 		$( this ).click(function( e ){

@@ -4,7 +4,7 @@
 	$(function(){
 		$(".auth-top-tool").fancybox({
 		'width' : '100%',
-		'height' : '80%',
+		'height' : '95%',
 		'autoScale' : false,
 		'transitionIn' : 'none',
 		'transitionOut' : 'none',

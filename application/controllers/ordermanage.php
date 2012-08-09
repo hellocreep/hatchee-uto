@@ -255,6 +255,14 @@ class Ordermanage extends CI_Controller
 		$this->load->model('order');
 		$data['customize']=$this->order->getcustomize($id);
 	}
+	public function searchorder()
+	{
+		$id=$_POST['orderid'];
+		$type=$_POST['ordertype'];
+		$this->load->model('order');
+		$data=$this->order->search($id,$type);
+		echo json_encode($data);
+	}
 
 }
 

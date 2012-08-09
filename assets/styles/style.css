@@ -39,7 +39,9 @@ h1,h2,h3,h4,h5{
 	
 	font-family:'Microsoft YaHei','SimSun';
 }
-
+.h-color:{
+	color: #DF5031;
+}
 h1{
 	font-size:19px;
 	margin:0 0 16px;
@@ -173,6 +175,9 @@ img, div {
 }
 .header .call400 {
   border: 0 none;
+  background: url('../images/sprite_01.png') no-repeat -328px -1px;
+  width: 176px;
+  height: 100px;
   bottom: 11px;
   position: absolute;
   right: 0;
@@ -807,10 +812,38 @@ a.online img{
 .idea li{
 	padding: 0 10px;
 }
-.idea li img{
+.idea li i{
 	float: left;
 	margin: 0 5px 0 0;
+	width: 44px;
+	height: 42px;
+	background-image: url('../images/sprite_01.png');
+	background-repeat:no-repeat;
+
 }
+.idea li i.img01{
+	background-position: -1px -2px;
+}
+.idea li i.img02{
+	background-position: -49px -2px;
+}
+.idea li i.img03{
+	background-position: -97px -2px;
+}
+.idea li i.img04{
+	background-position: -145px -2px;
+}
+.idea li i.img05{
+	background-position: -193px -2px;
+}
+.idea li i.img06{
+	background-position: -241px -2px;
+}
+
+
+
+
+
 .leader{
 	padding-bottom: 10px;
 }
@@ -821,10 +854,36 @@ a.online img{
 	*float: none;
 	*height: 51px;
 }
-.leader li a{
-	float: right;
-	margin: 0 10px 0 0;
+
+.leader li i{
+	display: block;
+	float: left;
+	margin-right: 9px;
+	width: 42px;
+	height: 42px;
+	background-image: url('../images/sprite_01.png');
+	background-repeat:no-repeat;
 }
+.leader li i.img01{
+	background-position: -1px -51px;
+}
+.leader li i.img02{
+	background-position: -49px -51px;
+}
+.leader li i.img03{
+	background-position: -97px -51px;
+}
+.leader li i.img04{
+	background-position: -145px -51px;
+}
+.leader li i.img05{
+	background-position: -193px -51px;
+}
+.leader li i.img06{
+	background-position: -241px -51px;
+}
+
+
 .leader li img{
 	float: left;
 	margin:0 10px 0 0;
@@ -852,11 +911,26 @@ a.online img{
 	font-size: 10px;
 	font-family: "微软雅黑";
 }
+
 .social a.mt{
 	margin: 0 0 0 10px;
 }
 
-.social a img{
+.social a i{
+	display: block;
 	float: left;
+	background-image: url('../images/sprite_01.png');
+	background-repeat:no-repeat;
 	margin: 0 5px 0 0;
+	width: 30px;
+	height: 30px;
+}
+.social a i.img01{
+	background-position: -294px 0;
+}
+.social a i.img02{
+	background-position: -295px -32px;
+}
+.social a i.img03{
+	background-position: -294px -63px;
 }

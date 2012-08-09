@@ -56,7 +56,7 @@
 						<a href="<?php echo $sortday;?>">依天数</a> | <a href="<?php echo $sortprice;?>">依价格</a>
 						<?php if(!isset($screening)):?>
 						|<select name="tourtype" id="tourtype"><option value='' class='type' <?php echo $sortindex;?>>选择全部</option><option value="0"  class='type0' <?php echo $sortterm;?>>友途活动</option><option value="1"  class='type1' <?php echo $sortcustomize;?>>定制旅行</option><!--<option value="3"  class='type3' <?php echo $sortfree;?>>自由行</option>--><option value="4"  class='type4' <?php echo $sortgroup;?>>纯玩跟团</option></select>
-						<?php endif;?>
+					<?php endif;?>
 						
 					<div class="pagenate">
 							<!--<a>共<?php echo $count;?>页</a>
@@ -165,17 +165,14 @@
 									<?php if($tour[$i]['tour_type']=='0') :?>
 										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">友途活动</span>
 										
-											
-
-
 									<?php elseif($tour[$i]['tour_type']=='3') :?>
 										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">自由行</span>
 										
-										
 									<?php else :?>
-							
 										<span class="tags tags<?php echo$tour[$i]['tour_type']?>">纯玩跟团</span>
+
 									<?php endif ;?>
+
 									<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
 									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
 									<dl class="route-detail">
@@ -189,7 +186,7 @@
 										</dd>
 										<dd>
 											<span><b>出发时间：&nbsp;&nbsp;</b></span>
-											<div>
+											<div class="h-color">
 												<?php if(isset($tour[$i]['departure'])): ?>
 													<?php echo $tour[$i]['departure'] ;?>
 												<?php endif; ?>
@@ -207,9 +204,9 @@
 										</div>
 										</dd>
 
-										<dd>
+										<!--<dd>
 											<span class="promotion"><img src="assets/images/promotion100.png"></span>
-										</dd>
+										</dd>-->
 										<dd class="last">
 											<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 										</dd>

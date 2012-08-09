@@ -530,6 +530,7 @@ $(function(){
 		}
 	});
 
+	// 主题旅行筛选
 	$('#tourtype').change(function(){
 		if($('#tourtype').val()=='')
 		{

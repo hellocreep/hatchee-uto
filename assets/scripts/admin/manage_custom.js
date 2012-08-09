@@ -326,10 +326,10 @@ var tour = {
 			if( result[i].tour_type == 2 ){
 				tour_type = "<span class='badge badge-tour-type badge-2'>公司</span>";
 			}
-			if( result[i].tour_type == 2 ){
+			if( result[i].tour_type == 3 ){
 				tour_type = "<span class='badge badge-tour-type badge-3'>自由</span>";
 			}
-			if( result[i].tour_type == 2 ){
+			if( result[i].tour_type == 4 ){
 				tour_type = "<span class='badge badge-tour-type badge-4'>纯玩</span>";
 			}
 

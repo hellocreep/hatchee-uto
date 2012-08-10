@@ -707,18 +707,19 @@ a.online img{
 	float: left;
 }
 .col-playonly .li-lt img{
-	margin: 8px 0 0 0;
+	margin: 5px 0 0 0;
 }
 .col-playonly .li-mt{
-	width: 380px;
+	width: 430px;
 	float: left;
 	margin: 0 10px;
 }
 .col-playonly .li-rt{
-	width: 220px;
+	width: 170px;
 	float: right;
 }
 .li-rt i{
+	font-size: 14px;
 	color: #DF5031;
 	font-weight: bold;
 	font-style: normal;

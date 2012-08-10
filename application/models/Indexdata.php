@@ -54,11 +54,11 @@ class Indexdata extends CI_Model
 		$arrid=explode(',',$id);
 		for($i=0;$i<count($arrid);$i++)
 		{
-			$this->db->where('Id',$arrid[0]);
+			$this->db->where('Id',$arrid[$i]);
 			$this->db->where('tour_type','4');
 			$this->db->from('uto_tour');
 			$query=$this->db->get();
-			$res[]=$query->row_array();	
+			$res[$i]=$query->row_array();	
 		}
 		return $res;
 	}

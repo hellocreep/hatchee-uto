@@ -697,17 +697,35 @@ a.online img{
 .col-tour dd:hover{
 	background: #F8EFDA;
 }
+.col-playonly li{
+	border-bottom: 1px dashed #ddd;
+	display: block;
+	float: left;
+}
 .col-playonly .li-lt{
 	width: 50px;
 	float: left;
 }
+.col-playonly .li-lt img{
+	margin: 8px 0 0 0;
+}
 .col-playonly .li-mt{
 	width: 380px;
 	float: left;
+	margin: 0 10px;
 }
 .col-playonly .li-rt{
-	width: 240px;
-	float: left;
+	width: 220px;
+	float: right;
+}
+.li-rt i{
+	color: #DF5031;
+	font-weight: bold;
+	font-style: normal;
+	float: right;
+}
+.li-rt span{
+	float: right;
 }
 .col-theme ul{
 	float: left;

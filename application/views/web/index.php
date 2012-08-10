@@ -107,7 +107,7 @@
 									</p>
 								</div>
 								<div class="li-rt">
-									<i>￥2880</i>
+									<i>￥2880</i><br>
 									<span>每周二、周五成都出发</span>
 								</div>
 							</li>

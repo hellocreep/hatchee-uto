@@ -1,8 +1,8 @@
 /*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
+	[Discuz!] (C)2001-2009 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
 
-	$Id: common_extra.js 29415 2012-04-11 05:20:28Z zhangguosheng $
+	$Id: common_extra.js 27453 2012-02-01 06:54:54Z svn_project_zhangjie $
 */
 
 function _relatedlinks(rlinkmsgid) {
@@ -27,11 +27,7 @@ function _relatedlinks(rlinkmsgid) {
 	msg = msg.replace(/(^|>)([^<]+)(?=<|$)/ig, function($1, $2, $3) {
 		for(var j = 0; j < relatedlink.length; j++) {
 			if(relatedlink[j] && !relatedid[j]) {
-				if(relatedlink[j]['surl'] != '') {
-					var ra = '<a href="'+relatedlink[j]['surl']+'" target="_blank" class="relatedlink">'+relatedlink[j]['sname']+'</a>';
-				} else {
-					var ra = '<strong><font color="#FF0000">'+relatedlink[j]['sname']+'</font></strong>';
-				}
+				var ra = '<a href="'+relatedlink[j]['surl']+'" target="_blank" class="relatedlink">'+relatedlink[j]['sname']+'</a>';
 				var $rtmp = $3;
 				$3 = $3.replace(relatedlink[j]['sname'], ra);
 				if($3 != $rtmp) {
@@ -261,21 +257,16 @@ function _showselect(obj, inpid, t, rettype) {
 	}
 }
 
-function _zoom(obj, zimg, nocover, pn, showexif) {
+function _zoom(obj, zimg, nocover, pn) {
 	zimg = !zimg ? obj.src : zimg;
-	showexif = !parseInt(showexif) ? 0 : showexif;
 	if(!zoomstatus) {
 		window.open(zimg, '', '');
 		return;
 	}
 	if(!obj.id) obj.id = 'img_' + Math.random();
-	var faid = !obj.getAttribute('aid') ? 0 : obj.getAttribute('aid');
 	var menuid = 'imgzoom';
-	var menu = $(menuid);
 	var zoomid = menuid + '_zoom';
-	var imgtitle = !nocover && obj.title ? '<div class="imgzoom_title">' + obj.title + '</div>' +
-		(showexif ? '<div id="' + zoomid + '_exif" class="imgzoom_exif" onmouseover="this.className=\'imgzoom_exif imgzoom_exif_hover\'" onmouseout="this.className=\'imgzoom_exif\'"></div>' : '')
-		: '';
+	var imgtitle = !nocover && obj.title ? '<div class="ptn pbn">' + obj.title + '</div>' : '';
 	var cover = !nocover ? 1 : 0;
 	var pn = !pn ? 0 : 1;
 	var maxh = (document.documentElement.clientHeight ? document.documentElement.clientHeight : document.body.clientHeight) - 70;
@@ -287,31 +278,11 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 			var w = document.body.clientWidth * 0.95;
 			w = imgw > w ? w : imgw;
 			var h = w / r;
-			if(w < 100 & h < 100) {
-				$(menuid + '_waiting').style.display = 'none';
-				hideMenu();
-				return;
-			}
 			if(h > maxh) {
 				h = maxh;
 				w = h * r;
 			}
-			if($(menuid)) {
-				$(menuid).removeAttribute('top_');$(menuid).removeAttribute('left_');
-				clearTimeout($(menuid).getAttribute('timer'));
-			}
 			showimage(zimg, w, h, imgw, imgh);
-			if(showexif && faid) {
-				var x = new Ajax();
-				x.get('forum.php?mod=ajax&action=exif&aid=' + faid + '&inajax=1', function(s, x) {
-					if(s) {
-						$(zoomid + '_exif').style.display = '';
-						$(zoomid + '_exif').innerHTML = s;
-					} else {
-						$(zoomid + '_exif').style.display = 'none';
-					}
-				});
-			}
 		} else {
 			setTimeout(function () { loadCheck(loading); }, 100);
 		}
@@ -325,7 +296,7 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 				waiting.style.opacity = '0.8';
 				waiting.style.filter = 'alpha(opacity=80)';
 				waiting.style.position = 'absolute';
-				waiting.style.zIndex = '100000';
+				waiting.style.zIndex = 100000;
 				$('append_parent').appendChild(waiting);
 			}
 		}
@@ -353,9 +324,9 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 		$(menuid + '_zoomlayer').style.display = '';
 		$(menuid + '_img').style.width = 'auto';
 		$(menuid + '_img').style.height = 'auto';
-		$(menuid).style.width = (w < 300 ? 320 : w + 20) + 'px';
-		mheight = h + 63;
-		menu.style.height = mheight + 'px';
+		$(menuid).style.width = (w < 300 ? 300 : w + 20) + 'px';
+		mheight = h + 50;
+		$(menuid).style.height = mheight + 'px';
 		$(menuid + '_zoomlayer').style.height = (mheight < 120 ? 120 : mheight) + 'px';
 		$(menuid + '_img').innerHTML = '<img id="' + zoomid + '" src="' + zimg + '" width="' + w + '" height="' + h + '" w="' + imgw + '" h="' + imgh + '" />' + imgtitle;
 		if($(menuid + '_imglink')) {
@@ -364,108 +335,43 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 		setMenuPosition('', menuid, '00');
 		adjustpn(h);
 	};
-	var adjustTimer = 0;
-	var adjustTimerCount = 0;
-	var wheelDelta = 0;
-	var clientX = 0;
-	var clientY = 0;
 	var adjust = function(e, a) {
-		if(BROWSER.ie && BROWSER.ie<7) {
-		} else {
-			if(adjustTimerCount) {
-				adjustTimer = (function(){
-					return setTimeout(function () {
-						adjustTimerCount++;
-						adjust(e);
-					}, 20);
-					})();
-					$(menuid).setAttribute('timer', adjustTimer);
-				if(adjustTimerCount > 17) {
-					clearTimeout(adjustTimer);
-					adjustTimerCount = 0;
-					doane();
-				}
-			} else if(!a) {
-				adjustTimerCount = 1;
-				if(adjustTimer) {
-					clearTimeout(adjustTimer);
-					adjust(e, a);
-				} else {
-					adjust(e, a);
-				}
-				doane();
-			}
-		}
-		var ele = $(zoomid);
-		if(!ele) {
+		if(!$(zoomid)) {
 			return;
 		}
-		var imgw = ele.getAttribute('w');
-		var imgh = ele.getAttribute('h');
-
+		var imgw = $(zoomid).getAttribute('w');
+		var imgh = $(zoomid).getAttribute('h');
+		var imgwstep = imgw / 10;
+		var imghstep = imgh / 10;
 		if(!a) {
-			e = e || window.event;
-			try {
-				if(e.altKey || e.shiftKey || e.ctrlKey) return;
-			} catch (e) {
-				e = {'wheelDelta':wheelDelta, 'clientX':clientX, 'clientY':clientY};
-			}
-			var step = 0;
+			if(!e) e = window.event;
+			if(e.altKey || e.shiftKey || e.ctrlKey) return;
 			if(e.wheelDelta <= 0 || e.detail > 0) {
-				if(ele.width - 1 <= 200 || ele.height - 1 <= 200) {
-					clearTimeout(adjustTimer);
-					adjustTimerCount = 0;
+				if($(zoomid).width - imgwstep <= 200 || $(zoomid).height - imghstep <= 200) {
 					doane(e);return;
 				}
-				step = parseInt(imgw/ele.width)-4;
+				$(zoomid).width -= imgwstep;
+				$(zoomid).height -= imghstep;
 			} else {
-				if(ele.width + 1 >= imgw*40) {
-					clearTimeout(adjustTimer);
-					adjustTimerCount = 0;
+				if($(zoomid).width + imgwstep >= imgw) {
 					doane(e);return;
 				}
-				step = 4-parseInt(imgw/ele.width) || 2;
-			}
-			if(BROWSER.ie && BROWSER.ie<7) { step *= 5;}
-			wheelDelta = e.wheelDelta;
-			clientX = e.clientX;
-			clientY = e.clientY;
-			var ratio = 0;
-			if(imgw > imgh) {
-				ratio = step/ele.height;
-				ele.height += step;
-				ele.width = imgw*(ele.height/imgh);
-			} else if(imgw < imgh) {
-				ratio = step/ele.width;
-				ele.width += step;
-				ele.height = imgh*(ele.width/imgw);
-			}
-			if(BROWSER.ie && BROWSER.ie<7) {
-				setMenuPosition('', menuid, '00');
-			} else {
-				var menutop = parseFloat(menu.getAttribute('top_') || menu.style.top);
-				var menuleft = parseFloat(menu.getAttribute('left_') || menu.style.left);
-				var imgY = clientY - menutop - 39;
-				var imgX = clientX - menuleft - 10;
-				var newTop = (menutop - imgY*ratio) + 'px';
-				var newLeft = (menuleft - imgX*ratio) + 'px';
-				menu.style.top = newTop;
-				menu.style.left = newLeft;
-				menu.setAttribute('top_', newTop);
-				menu.setAttribute('left_', newLeft);
+				$(zoomid).width += imgwstep;
+				$(zoomid).height += imghstep;
 			}
 		} else {
-			ele.width = imgw;
-			ele.height = imgh;
+			$(zoomid).width = imgw;
+			$(zoomid).height = imgh;
 		}
-		menu.style.width = (parseInt(ele.width < 300 ? 300 : parseInt(ele.width)) + 20) + 'px';
-		var mheight = (parseInt(ele.height) + 50);
-		menu.style.height = mheight + 'px';
+		$(menuid).style.width = (parseInt($(zoomid).width < 300 ? 300 : parseInt($(zoomid).width)) + 20) + 'px';
+		mheight = (parseInt($(zoomid).height) + 50);
+		$(menuid).style.height = mheight + 'px';
 		$(menuid + '_zoomlayer').style.height = (mheight < 120 ? 120 : mheight) + 'px';
-		adjustpn(ele.height);
+		adjustpn($(zoomid).height);
+		setMenuPosition('', menuid, '00');
 		doane(e);
 	};
-	if(!menu && !pn) {
+	if(!$(menuid) && !pn) {
 		menu = document.createElement('div');
 		menu.id = menuid;
 		if(cover) {
@@ -499,9 +405,9 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 			}
 			if(authorcurrent !== '') {
 				paid = authorcurrent > 0 ? authorimgs[authorcurrent - 1] : authorimgs[authorlength - 1];
-				picpage += ' <div id="zimg_prev" onmouseover="dragMenuDisabled=true;this.style.backgroundPosition=\'0 50px\'" onmouseout="dragMenuDisabled=false;this.style.backgroundPosition=\'0 -100px\';" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_prev"><strong>上一张</strong></div> ';
+				picpage += ' <div id="zimg_prev" onmouseover="dragMenuDisabled=true;this.style.backgroundPosition=\'0 50px\'" onmouseout="dragMenuDisabled=false;this.style.backgroundPosition=\'0 -100px\';" onclick="zoom($(\'aimg_' + paid + '\'), $(\'aimg_' + paid + '\').getAttribute(\'zoomfile\'), 0, 1)" class="zimg_prev"><strong>上一张</strong></div> ';
 				paid = authorcurrent < authorlength - 1 ? authorimgs[authorcurrent + 1] : authorimgs[0];
-				picpage += ' <div id="zimg_next" onmouseover="dragMenuDisabled=true;this.style.backgroundPosition=\'100% 50px\'" onmouseout="dragMenuDisabled=false;this.style.backgroundPosition=\'100% -100px\';" onclick="_zoom_page(\'' + paid + '\', ' + (showexif ? 1 : 0) + ')" class="zimg_next"><strong>下一张</strong></div> ';
+				picpage += ' <div id="zimg_next" onmouseover="dragMenuDisabled=true;this.style.backgroundPosition=\'100% 50px\'" onmouseout="dragMenuDisabled=false;this.style.backgroundPosition=\'100% -100px\';" onclick="zoom($(\'aimg_' + paid + '\'), $(\'aimg_' + paid + '\').getAttribute(\'zoomfile\'), 0, 1)" class="zimg_next"><strong>下一张</strong></div> ';
 			}
 			if(picpage) {
 				$(menuid + '_picpage').innerHTML = picpage;
@@ -509,11 +415,6 @@ function _zoom(obj, zimg, nocover, pn, showexif) {
 		}
 	}
 	showMenu({'ctrlid':obj.id,'menuid':menuid,'duration':3,'pos':'00','cover':cover,'drag':menuid,'maxh':''});
-}
-
-function _zoom_page(paid, showexif) {
-	var imagesrc = $('aimg_' + paid).getAttribute('zoomfile') ? $('aimg_' + paid).getAttribute('zoomfile') : $('aimg_' + paid).getAttribute('file');
-	zoom($('aimg_' + paid), imagesrc, 0, 1, showexif ? 1 : 0);
 }
 
 function _switchTab(prefix, current, total, activeclass) {
@@ -922,13 +823,13 @@ function _showTip(ctrlobj) {
 	if(!$(menuid)) {
 		var div = document.createElement('div');
 		div.id = ctrlobj.id + '_menu';
-		div.className = 'tip tip_4';
+		div.className = 'tip tip_js';
 		div.style.display = 'none';
 		div.innerHTML = '<div class="tip_horn"></div><div class="tip_c">' + ctrlobj.getAttribute('tip') + '</div>';
 		$('append_parent').appendChild(div);
 	}
 	$(ctrlobj.id).onmouseout = function () { hideMenu('', 'prompt'); };
-	showMenu({'mtype':'prompt','ctrlid':ctrlobj.id,'pos':'12!','duration':2,'zindex':JSMENU['zIndex']['prompt']});
+	showMenu({'mtype':'prompt','ctrlid':ctrlobj.id,'pos':'210!','duration':2,'zindex':JSMENU['zIndex']['prompt']});
 }
 
 function _showPrompt(ctrlid, evt, msg, timeout) {
@@ -1134,20 +1035,6 @@ function _showCreditmenu() {
 		ajaxget($('extcreditmenu').href, 'extcreditmenu_menu', 'ajaxwaitid');
 	}
 	showMenu({'ctrlid':'extcreditmenu','ctrlclass':'a','duration':1});
-}
-
-function _showForummenu(fid) {
-	if(!$('fjump_menu')) {
-		fid = !fid ? 0 : fid;
-		menu = document.createElement('div');
-		menu.id = 'fjump_menu';
-		menu.style.display = 'none';
-		menu.className = 'p_pop';
-		menu.innerHTML = '<div class="p_opt"><img src="'+ IMGDIR + '/loading.gif" width="16" height="16" class="vm" /> 请稍候...</div>';
-		$('append_parent').appendChild(menu);
-		ajaxget('forum.php?mod=ajax&action=forumjump&jfid=' + fid, 'fjump_menu', 'ajaxwaitid');
-	}
-	showMenu({'ctrlid':'fjump','ctrlclass':'a','duration':2});
 }
 
 function _imageRotate(imgid, direct) {

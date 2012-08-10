@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: spacecp_index.php 26205 2011-12-05 10:09:32Z zhangguosheng $
+ *      $Id: spacecp_index.php 22814 2011-05-24 05:42:54Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -42,14 +42,14 @@ if ($op == 'start') {
 	ckstart($start, $perpage);
 
 	$albumlist = array();
-	$query = C::t('home_album')->fetch_all_by_uid($space['uid'], 'updatetime');
-	foreach($query as $value) {
+	$query = DB::query("SELECT * FROM ".DB::table('home_album')." WHERE uid='$space[uid]' ORDER BY updatetime DESC");
+	while ($value = DB::fetch($query)) {
 		if (!isset($_GET['albumid']) && empty($albumid)) $albumid = $value['albumid'];
 
 		$albumlist[$value['albumid']] = $value;
 	}
 
-	$count = C::t('home_pic')->check_albumpic(0, NULL, $space['uid']);
+	$count = getcount('home_pic', array('albumid'=>0, 'uid'=>$space['uid']));
 	$albumlist[0] = array(
 		'uid' => $space['uid'],
 		'albumid' => 0,
@@ -62,6 +62,7 @@ if ($op == 'start') {
 			showmessage('to_view_the_photo_does_not_exist');
 		}
 
+		$wheresql = "albumid='$albumid'";
 		$count = $albumlist[$albumid]['picnum'];
 	} else {
 		$wheresql = "albumid='0' AND uid='$space[uid]'";
@@ -69,14 +70,14 @@ if ($op == 'start') {
 
 	$list = array();
 	if($count) {
-		$query = C::t('home_pic')->fetch_all_by_albumid($albumid, $start, $perpage, 0, 0, 1, ($albumid > 0 ? 0 : $space['uid']));
-		foreach($query as $value) {
+		$query = DB::query("SELECT * FROM ".DB::table('home_pic')." WHERE $wheresql ORDER BY dateline DESC LIMIT $start,$perpage");
+		while ($value = DB::fetch($query)) {
 			$value['pic'] = pic_get($value['filepath'], 'album', $value['thumb'], $value['remote']);
 			$list[] = $value;
 		}
 	}
 
-	$_GET['ajaxtarget'] = empty($_GET['ajaxtarget']) ? 'diyimages' : $_GET['ajaxtarget'];
+	$_G['gp_ajaxtarget'] = empty($_G['gp_ajaxtarget']) ? 'diyimages' : $_G['gp_ajaxtarget'];
 	$multi = multi($count, $perpage, $page, "home.php?mod=spacecp&ac=index&op=image&albumid=$albumid");
 
 } elseif ($op == 'getblock') {
@@ -97,25 +98,25 @@ if ($op == 'start') {
 		space_merge($space,'field_home');
 		$userdiy = getuserdiydata($space);
 		$para = $userdiy['parameters'][$blockname];
-		$para['title'] = !isset($para['title']) ? $blockdata[$blockname] : $para['title'];
+		$para['title'] = !isset($para['title']) ? $blockdata[$blockname] : stripslashes($para['title']);
 	} else {
 		showmessage('the_block_is_not_available');
 	}
 } elseif ($op == 'editnv') {
 	space_merge($space,'field_home');
-	$blockposition = dunserialize($space['blockposition']);
+	$blockposition = unserialize($space['blockposition']);
 	$personalnv = !empty($blockposition) && isset($blockposition['nv']) ? $blockposition['nv'] : '';
 } elseif ($op == 'savespaceinfo') {
 	space_merge($space,'field_home');
 	if (submitcheck('savespaceinfosubmit')) {
 
-		$spacename = getstr($_POST['spacename'], 30);
-		$spacedescription = getstr($_POST['spacedescription'], 135);
+		$spacename = getstr($_POST['spacename'],30, 1, 1);
+		$spacedescription = getstr($_POST['spacedescription'],135, 1, 1);
 
 		$setarr = array();
 		$setarr['spacename'] = $spacename;
 		$setarr['spacedescription'] = $spacedescription;
-		C::t('common_member_field_home')->update($_G['uid'], $setarr);
+		DB::update('common_member_field_home', $setarr, "uid = {$_G['uid']}");
 
 		$space['spacename'] = $spacename;
 		$space['spacedescription'] = $spacedescription;
@@ -132,27 +133,27 @@ if ($op == 'start') {
 }
 if (submitcheck('blocksubmit')) {
 
-	$blockname = getstr($_GET['blockname'],15);
+	$blockname = getstr($_GET['blockname'],15,0,1);
 	if(check_ban_block($blockname, $space)) {
 		space_merge($space,'field_home');
-		$blockdata = dunserialize($space['blockposition']);
+		$blockdata = unserialize($space['blockposition']);
 
-		$title = getstr($_POST['blocktitle'],50);
+		$title = getstr($_POST['blocktitle'],50,1,1);
 		$blockdata['parameters'][$blockname]['title'] = $title;
 
 		if (in_array($blockname, array('block1', 'block2', 'block3', 'block4', 'block5'))) {
-			$content = censor(getstr($_POST['content'],1000,0,0,0,1));
-			$blockdata['parameters'][$blockname]['content'] = $content;
+			$content = censor(getstr($_POST['content'],1000,1,0,0,1));
+			$blockdata['parameters'][$blockname]['content'] = stripslashes($content);
 		} elseif($blockname == 'profile') {
-			$blockdata['parameters'][$blockname]['banavatar'] = in_array($_GET['avatar'], array('big', 'middle', 'small')) ? $_GET['avatar'] : 'middle';
+			$blockdata['parameters'][$blockname]['banavatar'] = in_array($_G['gp_avatar'], array('big', 'middle', 'small')) ? $_G['gp_avatar'] : 'middle';
 		} elseif($blockname == 'statistic') {
-			$blockdata['parameters'][$blockname]['bancredits'] = $_GET['credits'] ? 0 : 1;
-			$blockdata['parameters'][$blockname]['banfriends'] = $_GET['friends'] ? 0 : 1;
-			$blockdata['parameters'][$blockname]['banthreads'] = $_GET['threads'] ? 0 : 1;
-			$blockdata['parameters'][$blockname]['banblogs'] = $_GET['blogs'] ? 0 : 1;
-			$blockdata['parameters'][$blockname]['banalbums'] = $_GET['albums'] ? 0 : 1;
-			$blockdata['parameters'][$blockname]['bansharings'] = $_GET['sharings'] ? 0 : 1;
-			$blockdata['parameters'][$blockname]['banviews'] = $_GET['views'] ? 0 : 1;
+			$blockdata['parameters'][$blockname]['bancredits'] = $_G['gp_credits'] ? 0 : 1;
+			$blockdata['parameters'][$blockname]['banfriends'] = $_G['gp_friends'] ? 0 : 1;
+			$blockdata['parameters'][$blockname]['banthreads'] = $_G['gp_threads'] ? 0 : 1;
+			$blockdata['parameters'][$blockname]['banblogs'] = $_G['gp_blogs'] ? 0 : 1;
+			$blockdata['parameters'][$blockname]['banalbums'] = $_G['gp_albums'] ? 0 : 1;
+			$blockdata['parameters'][$blockname]['bansharings'] = $_G['gp_sharings'] ? 0 : 1;
+			$blockdata['parameters'][$blockname]['banviews'] = $_G['gp_views'] ? 0 : 1;
 		} elseif(in_array($blockname, array('personalinfo'))) {
 
 		} else {
@@ -163,14 +164,13 @@ if (submitcheck('blocksubmit')) {
 		}
 
 		if($blockname == 'blog') {
-			$blockdata['parameters'][$blockname]['showmessage'] = min(100000, abs(intval($_GET['showmessage'])));
+			$blockdata['parameters'][$blockname]['showmessage'] = min(100000, abs(intval($_G['gp_showmessage'])));
 		} elseif($blockname == 'myapp') {
-			$blockdata['parameters'][$blockname]['logotype'] = in_array($_GET['logotype'], array('logo', 'icon')) ? $_GET['logotype'] : 'logo';
+			$blockdata['parameters'][$blockname]['logotype'] = in_array($_G['gp_logotype'], array('logo', 'icon')) ? $_G['gp_logotype'] : 'logo';
 		}
 
-		$setarr = array();
-		$setarr['blockposition'] = serialize($blockdata);
-		C::t('common_member_field_home')->update($space['uid'], $setarr);
+		$setarr['blockposition'] = daddslashes(serialize($blockdata));
+		DB::update('common_member_field_home', $setarr, "uid = {$space['uid']}");
 
 		showmessage('do_success', 'portal.php?mod=spacecp&ac=index&op=getblock&blockname='.$blockname, array('blockname'=>$blockname));
 	} else {
@@ -181,21 +181,20 @@ if (submitcheck('blocksubmit')) {
 if (submitcheck('editnvsubmit')) {
 
 	$hidden = intval($_POST['nvhidden']);
-	$nv = array('index', 'feed', 'doing', 'blog', 'album', 'topic', 'share', 'friends', 'wall', 'profile', 'follow');
+	$nv = array('index', 'feed', 'doing', 'blog', 'album', 'topic', 'share', 'friends', 'wall', 'profile');
 	space_merge($space,'field_home');
-	$blockdata = dunserialize($space['blockposition']);
+	$blockdata = unserialize($space['blockposition']);
 
 	$personalnv = array();
 	$personalnv['nvhidden'] = $hidden;
 	foreach($nv as $value) {
 		$namevalue = trim($_POST[$value]);
-		$personalnv['items'][$value] = getstr($namevalue,15);
+		$personalnv['items'][$value] = getstr($namevalue,15,0,1);
 		$personalnv['banitems'][$value] = empty($_POST['ban'.$value]) ? 0 : 1;
 	}
 	$blockdata['nv'] = $personalnv;
-	$setarr = array();
-	$setarr['blockposition'] = serialize($blockdata);
-	C::t('common_member_field_home')->update($space['uid'], $setarr);
+	$setarr['blockposition'] = daddslashes(serialize($blockdata));
+	DB::update('common_member_field_home', $setarr, "uid = {$space['uid']}");
 
 	showmessage('do_success', 'portal.php?mod=spacecp&ac=index&op=getnv');
 
@@ -203,9 +202,10 @@ if (submitcheck('editnvsubmit')) {
 
 if (submitcheck('musicsubmit')) {
 
-	$blockname = getstr($_GET['blockname'],15);
+	$blockname = getstr($_GET['blockname'],15,0,1);
+	$_POST = dstripslashes($_POST);
 	space_merge($space,'field_home');
-	$blockdata = dunserialize($space['blockposition']);
+	$blockdata = unserialize($space['blockposition']);
 	if ($_POST['act'] == 'config') {
 		$config = array (
 				'showmod' => $_POST['showmod'],
@@ -219,7 +219,7 @@ if (submitcheck('musicsubmit')) {
 			  );
 		$blockdata['parameters']['music']['config'] = $config;
 
-		$blockdata['parameters']['music']['title']= getstr($_POST['blocktitle'],50);
+		$blockdata['parameters']['music']['title']= getstr($_POST['blocktitle'],50,1,1);
 
 	} elseif ($_POST['act'] == 'addmusic') {
 		$mp3url = $_POST['mp3url'];
@@ -259,9 +259,8 @@ if (submitcheck('musicsubmit')) {
 			  'fontcolor' => '#1F43FF',
 			);
 	}
-	$setarr = array();
-	$setarr['blockposition'] = serialize($blockdata);
-	C::t('common_member_field_home')->update($space['uid'], $setarr);
+	$setarr['blockposition'] = daddslashes(serialize($blockdata));
+	DB::update('common_member_field_home', $setarr, "uid = {$space['uid']}");
 	showmessage('do_success', 'home.php?mod=spacecp&ac=index&op=getblock&blockname='.$blockname, array('blockname'=>$blockname));
 }
 
@@ -271,13 +270,13 @@ if (submitcheck('diysubmit')) {
 
 	checksecurity($_POST['spacecss']);
 
-	$spacecss = $_POST['spacecss'];
+	$spacecss = dstripslashes($_POST['spacecss']);
 	$spacecss = preg_replace("/(\<|\>)/is", '', $spacecss);
 
-	$currentlayout = getstr($_POST['currentlayout'],5);
+	$currentlayout = getstr($_POST['currentlayout'],5, 1, 1);
 	$style = empty($_POST['style'])?'':preg_replace("/[^0-9a-z]/i", '', $_POST['style']);
 
-	$layoutdata = $_POST['layoutdata'];
+	$layoutdata = dstripslashes(getgpc('layoutdata', 'P'));
 	require_once libfile('class/xml');
 	$layoutdata = xml2array($layoutdata);
 	if (empty($layoutdata)) showmessage('space_data_format_invalid');
@@ -290,14 +289,14 @@ if (submitcheck('diysubmit')) {
 	}
 
 	space_merge($space, 'field_home');
-	$blockdata = dunserialize($space['blockposition']);
+	$blockdata = unserialize($space['blockposition']);
 	$blockdata['block'] = $layoutdata;
 	$blockdata['currentlayout'] = $currentlayout;
-	$setarr = array();
-	$setarr['spacecss'] = $spacecss;
-	$setarr['blockposition'] = serialize($blockdata);
+
+	$setarr['spacecss'] = daddslashes($spacecss);
+	$setarr['blockposition'] = daddslashes(serialize($blockdata));
 	$setarr['theme'] = $style;
-	C::t('common_member_field_home')->update($space['uid'], $setarr);
+	DB::update('common_member_field_home', $setarr, "uid = {$_G['uid']}");
 	showmessage('do_success','home.php?mod=space'.($_G['adminid'] == 1 && $_G['setting']['allowquickviewprofile'] ? '&view=admin' : ''));
 }
 

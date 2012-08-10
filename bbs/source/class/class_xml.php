@@ -4,12 +4,8 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: class_xml.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ *      $Id: class_xml.php 12943 2010-07-19 01:16:30Z monkey $
  */
-
-if(!defined('IN_DISCUZ')) {
-	exit('Access Denied');
-}
 
 function xml2array(&$xml, $isnormal = FALSE) {
 	$xml_parser = new XMLparse($isnormal);

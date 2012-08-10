@@ -11,7 +11,7 @@ application/config/database.php
 uploads/*
 bbs/*
 ucenter/*
-utohome/*
+mhome/*
 api/*
 include/*
 uc_client/*

@@ -8,10 +8,10 @@ define('UC_DBNAME', 'uto');
 define('UC_DBCHARSET', 'utf8');
 define('UC_DBTABLEPRE', '`uto`.uc_');
 define('UC_DBCONNECT', '0');
-define('UC_KEY', '0e35fVVK/AZa78tp9cUrnvtI0L8AZJnDAzIZ8tI');
+define('UC_KEY', 'c3edCJewd6FiKFYCvHN6FwIvpfAy4Nfh5bByjjA');
 define('UC_API', 'http://127.0.0.1/uto/ucenter');
 define('UC_CHARSET', 'utf-8');
-define('UC_IP', '127.0.0.1');
+define('UC_IP', '');
 define('UC_APPID', '1');
 define('UC_PPP', '20');
 

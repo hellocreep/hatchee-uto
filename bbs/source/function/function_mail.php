@@ -4,18 +4,18 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: function_mail.php 28969 2012-03-21 04:07:45Z zhangguosheng $
+ *      $Id: function_mail.php 26347 2011-12-09 08:19:04Z svn_project_zhangjie $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-set_time_limit(0);
+
 function sendmail($toemail, $subject, $message, $from = '') {
 	global $_G;
 	if(!is_array($_G['setting']['mail'])) {
-		$_G['setting']['mail'] = dunserialize($_G['setting']['mail']);
+		$_G['setting']['mail'] = unserialize($_G['setting']['mail']);
 	}
 	$_G['setting']['mail']['server'] = $_G['setting']['mail']['port'] = $_G['setting']['mail']['auth'] = $_G['setting']['mail']['from'] = $_G['setting']['mail']['auth_username'] = $_G['setting']['mail']['auth_password'] = '';
 	if($_G['setting']['mail']['mailsend'] != 1) {
@@ -150,13 +150,9 @@ EOT;
 			return false;
 		}
 
-		$timeoffset = $_G['setting']['timeoffset'];
-		if(function_exists('date_default_timezone_set')) {
-			@date_default_timezone_set('Etc/GMT'.($timeoffset > 0 ? '-' : '+').(abs($timeoffset)));
-		}
+		$headers .= 'Message-ID: <'.gmdate('YmdHs').'.'.substr(md5($email_message.microtime()), 0, 6).rand(100000, 999999).'@'.$_SERVER['HTTP_HOST'].">{$maildelimiter}";
 
-		$headers .= 'Message-ID: <'.date('YmdHs').'.'.substr(md5($email_message.microtime()), 0, 6).rand(100000, 999999).'@'.$_SERVER['HTTP_HOST'].">{$maildelimiter}";
-		fputs($fp, "Date: ".date('r')."\r\n");
+		fputs($fp, "Date: ".gmdate('r')."\r\n");
 		fputs($fp, "To: ".$email_to."\r\n");
 		fputs($fp, "Subject: ".$email_subject."\r\n");
 		fputs($fp, $headers."\r\n");
@@ -187,21 +183,20 @@ function sendmail_cron($toemail, $subject, $message) {
 
 	$toemail = addslashes($toemail);
 
-	$value = C::t('common_mailcron')->fetch_all_by_email($toemail, 0, 1);
-	$value = $value[0];
-	if($value) {
+	$query = DB::query("SELECT * FROM ".DB::table('common_mailcron')." WHERE email='$toemail' LIMIT 1");
+	if($value = DB::fetch($query)) {
 		$cid = $value['cid'];
 	} else {
-		$cid = C::t('common_mailcron')->insert(array('email' => $toemail), true);
+		$cid = DB::insert('common_mailcron', array('email'=>$toemail), 1);
 	}
 	$message = preg_replace("/href\=\"(?!http\:\/\/)(.+?)\"/i", 'href="'.$_G['siteurl'].'\\1"', $message);
 	$setarr = array(
 		'cid' => $cid,
-		'subject' => $subject,
-		'message' => $message,
+		'subject' => addslashes($subject),
+		'message' => addslashes($message),
 		'dateline' => $_G['timestamp']
 	);
-	C::t('common_mailqueue')->insert($setarr);
+	DB::insert('common_mailqueue', $setarr);
 
 	return true;
 }
@@ -212,7 +207,7 @@ function sendmail_touser($touid, $subject, $message, $mailtype='') {
 	if(empty($_G['setting']['sendmailday'])) return false;
 
 	require_once libfile('function/home');
-	$tospace = getuserbyuid($touid);
+	$tospace = getspace($touid);
 	if(empty($tospace['email'])) return false;
 
 	space_merge($tospace, 'field_home');
@@ -225,27 +220,22 @@ function sendmail_touser($touid, $subject, $message, $mailtype='') {
 		}
 		$sendtime = $tospace['lastsendmail'] + $acceptemail['frequency'];
 
-		$value = C::t('common_mailcron')->fetch_all_by_touid($touid, 0, 1);
-		$value = $value[0];
-		if($value) {
+		$query = DB::query("SELECT * FROM ".DB::table('common_mailcron')." WHERE touid='$touid' LIMIT 1");
+		if($value = DB::fetch($query)) {
 			$cid = $value['cid'];
 			if($value['sendtime'] < $sendtime) $sendtime = $value['sendtime'];
-			C::t('common_mailcron')->update($cid, array('email' => $tospace['email'], 'sendtime' => $sendtime));
+			DB::update('common_mailcron', array('email'=>addslashes($tospace['email']), 'sendtime'=>$sendtime), array('cid'=>$cid));
 		} else {
-			$cid = C::t('common_mailcron')->insert(array(
-				'touid' => $touid,
-				'email' => $tospace['email'],
-				'sendtime' => $sendtime,
-			), true);
+			$cid = DB::insert('common_mailcron', array('touid'=>$touid, 'email'=>addslashes($tospace['email']), 'sendtime'=>$sendtime), 1);
 		}
 		$message = preg_replace("/href\=\"(?!http\:\/\/)(.+?)\"/i", 'href="'.$_G['siteurl'].'\\1"', $message);
 		$setarr = array(
 			'cid' => $cid,
-			'subject' => $subject,
-			'message' => $message,
+			'subject' => addslashes($subject),
+			'message' => addslashes($message),
 			'dateline' => $_G['timestamp']
 		);
-		C::t('common_mailqueue')->insert($setarr);
+		DB::insert('common_mailqueue', $setarr);
 		return true;
 	}
 	return false;

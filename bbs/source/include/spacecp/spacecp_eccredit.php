@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: spacecp_eccredit.php 25246 2011-11-02 03:34:53Z zhangguosheng $
+ *      $Id: spacecp_eccredit.php 17427 2010-10-19 02:49:15Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,52 +13,60 @@ if(!defined('IN_DISCUZ')) {
 
 require_once libfile('function/ec_credit');
 
-if($_GET['op'] == 'list') {
+if($_G['gp_op'] == 'list') {
 
-	$from = !empty($_GET['from']) && in_array($_GET['from'], array('buyer', 'seller', 'myself')) ? $_GET['from'] : '';
-	$uid = !empty($_GET['uid']) ? intval($_GET['uid']) : $_G['uid'];
+	$from = !empty($_G['gp_from']) && in_array($_G['gp_from'], array('buyer', 'seller', 'myself')) ? $_G['gp_from'] : '';
+	$uid = !empty($_G['gp_uid']) ? intval($_G['gp_uid']) : $_G['uid'];
 
+	$sql = $from == 'myself' ? "tc.raterid='$uid'" : "tc.rateeid='$uid'";
+	$sql .= $from == 'buyer' ? ' AND tc.type=0' : ($from == 'seller' ? ' AND tc.type=1' : '');
 
-	$filter = !empty($_GET['filter']) ? $_GET['filter'] : '';
+	$filter = !empty($_G['gp_filter']) ? $_G['gp_filter'] : '';
 	switch($filter) {
 		case 'thisweek':
-			$dateline = intval($_G['timestamp'] - 604800);
+			$dateline = intval($_G[timestamp] - 604800);
+			$sql .= " AND tc.dateline>='$dateline'";
 			break;
 		case 'thismonth':
-			$dateline = intval($_G['timestamp'] - 2592000);
+			$dateline = intval($_G[timestamp] - 2592000);
+			$sql .= " AND tc.dateline>='$dateline'";
 			break;
 		case 'halfyear':
-			$dateline = intval($_G['timestamp'] - 15552000);
+			$dateline = intval($_G[timestamp] - 15552000);
+			$sql .= " AND tc.dateline>='$dateline'";
 			break;
 		case 'before':
-			$dateline = intval($_G['timestamp'] - 15552000);
+			$dateline = intval($_G[timestamp] - 15552000);
+			$sql .= " AND tc.dateline<'$dateline'";
 			break;
 		default:
-			$dateline = false;
+			$filter = '';
 	}
 
-	$level = !empty($_GET['level']) ? $_GET['level'] : '';
+	$level = !empty($level) ? $level : '';
 	switch($level) {
 		case 'good':
-			$score = 1;
+			$sql .= ' AND tc.score=1';
 			break;
 		case 'soso':
-			$score = 0;
+			$sql .= ' AND tc.score=0';
 			break;
 		case 'bad':
-			$score = -1;
+			$sql .= ' AND tc.score=-1';
 			break;
 		default:
-			$score = false;
+			$level = '';
 	}
 
-	$page = max(1, intval($_GET['page']));
+	$page = max(1, intval($_G['gp_page']));
 	$start_limit = ($page - 1) * 10;
-	$num = C::t('forum_tradecomment')->count_list($from, $uid, $dateline, $score);
+	$num = DB::result_first("SELECT COUNT(*) FROM ".DB::table('forum_tradecomment')." tc WHERE $sql");
 	$multipage = multi($num, 10, $page, "home.php?mod=spacecp&ac=list&uid=$uid".($from ? "&from=$from" : NULL).($filter ? "&filter=$filter" : NULL).($level ? "&level=$level" : NULL));
 
 	$comments = array();
-	foreach(C::t('forum_tradecomment')->fetch_all_list($from, $uid, $dateline, $score, $start_limit) as $comment) {
+	$query = DB::query("SELECT tc.*, tl.subject, tl.price, tl.credit FROM ".DB::table('forum_tradecomment')." tc LEFT JOIN ".DB::table('forum_tradelog')." tl USING(orderid) WHERE $sql ORDER BY tc.dateline DESC LIMIT $start_limit, 10");
+
+	while($comment = DB::fetch($query)) {
 		$comment['expiration'] = dgmdate($comment['dateline'] + 30 * 86400, 'u');
 		$comment['dbdateline'] = $comment['dateline'];
 		$comment['dateline'] = dgmdate($comment['dateline'], 'u');
@@ -68,11 +76,11 @@ if($_GET['op'] == 'list') {
 
 	include template('home/spacecp_ec_list');
 
-} elseif($_GET['op'] == 'rate' && ($orderid = $_GET['orderid']) && isset($_GET['type'])) {
+} elseif($_G['gp_op'] == 'rate' && ($orderid = $_G['gp_orderid']) && isset($_G['gp_type'])) {
 
 	require_once libfile('function/trade');
 
-	$type = intval($_GET['type']);
+	$type = intval($_G['gp_type']);
 	if(!$type) {
 		$raterid = 'buyerid';
 		$ratee = 'seller';
@@ -82,8 +90,8 @@ if($_GET['op'] == 'list') {
 		$ratee = 'buyer';
 		$rateeid = 'buyerid';
 	}
-	$order = C::t('forum_tradelog')->fetch($orderid);
-	if(!$order || $order[$raterid] != $_G['uid']) {
+	$order = DB::fetch_first("SELECT * FROM ".DB::table('forum_tradelog')." WHERE orderid='$orderid' AND $raterid='$_G[uid]'");
+	if(!$order) {
 		showmessage('eccredit_order_notfound');
 	} elseif($order['ratestatus'] == 3 || ($type == 0 && $order['ratestatus'] == 1) || ($type == 1 && $order['ratestatus'] == 2)) {
 		showmessage('eccredit_rate_repeat');
@@ -99,27 +107,17 @@ if($_GET['op'] == 'list') {
 
 	} else {
 
-		$score = intval($_GET['score']);
-		$message = cutstr(dhtmlspecialchars($_GET['message']), 200);
+		$score = intval($_G['gp_score']);
+		$message = cutstr(dhtmlspecialchars($_G['gp_message']), 200);
 		$level = $score == 1 ? 'good' : ($score == 0 ? 'soso' : 'bad');
 		$pid = intval($order['pid']);
 		$order = daddslashes($order, 1);
 
-		C::t('forum_tradecomment')->insert(array(
-		    'pid' => $pid,
-		    'orderid' => $orderid,
-		    'type' => $type,
-		    'raterid' => $_G['uid'],
-		    'rater' => $_G['username'],
-		    'ratee' => $order[$ratee],
-		    'rateeid' => $order[$rateeid],
-		    'score' => $score,
-		    'message' => $message,
-		    'dateline' => $_G['timestamp']
-		));
+		DB::query("INSERT INTO ".DB::table('forum_tradecomment')." (pid, orderid, type, raterid, rater, ratee, rateeid, score, message, dateline) VALUES ('$pid', '$orderid', '$type', '$_G[uid]', '$_G[username]', '$order[$ratee]', '$order[$rateeid]', '$score', '$message', '$_G[timestamp]')");
 
 		if(!$order['offline'] || $order['credit']) {
-			if(C::t('forum_tradecomment')->get_month_score($_G['uid'], $type, $order[$rateeid]) < $_G['setting']['ec_credit']['maxcreditspermonth']) {
+			$monthfirstday = mktime(0, 0, 0, date('m', TIMESTAMP), 1, date('Y', TIMESTAMP));
+			if(DB::result_first("SELECT COUNT(score) FROM ".DB::table('forum_tradecomment')." WHERE raterid='$_G[uid]' AND type='$type' AND dateline>='$monthfirstday' AND rateeid='$order[$rateeid]'") < $_G['setting']['ec_credit']['maxcreditspermonth']) {
 				updateusercredit($uid, $type ? 'sellercredit' : 'buyercredit', $level);
 			}
 		}
@@ -130,7 +128,7 @@ if($_GET['op'] == 'list') {
 			$ratestatus = $order['ratestatus'] == 1 ? 3 : 2;
 		}
 
-		C::t('forum_tradelog')->update($order['orderid'], array('ratestatus' => $ratestatus));
+		DB::query("UPDATE ".DB::table('forum_tradelog')." SET ratestatus='$ratestatus' WHERE orderid='$order[orderid]'");
 
 		if($ratestatus != 3) {
 			notification_add($order[$rateeid], 'goods', 'eccredit', array(
@@ -142,15 +140,15 @@ if($_GET['op'] == 'list') {
 
 	}
 
-} elseif($_GET['op'] == 'explain' && $_GET['id']) {
+} elseif($_G['gp_op'] == 'explain' && $_G['gp_id']) {
 
-	$id = intval($_GET['id']);
-	$ajaxmenuid = $_GET['ajaxmenuid'];
+	$id = intval($_G['gp_id']);
+	$ajaxmenuid = $_G['gp_ajaxmenuid'];
 	if(!submitcheck('explainsubmit', 1)) {
 		include template('home/spacecp_ec_explain');
 	} else {
-		$comment = C::t('forum_tradecomment')->fetch($id);
-		if(!$comment || $comment['rateeid'] != $_G['uid']) {
+		$comment = DB::fetch_first("SELECT explanation, dateline FROM ".DB::table('forum_tradecomment')." WHERE id='$id' AND rateeid='$_G[uid]'");
+		if(!$comment) {
 			showmessage('eccredit_nofound');
 		} elseif($comment['explanation']) {
 			showmessage('eccredit_reexplanation_repeat');
@@ -158,9 +156,9 @@ if($_GET['op'] == 'list') {
 			showmessage('eccredit_reexplanation_closed');
 		}
 
-		$explanation = cutstr(dhtmlspecialchars($_GET['explanation']), 200);
+		$explanation = cutstr(dhtmlspecialchars($_G['gp_explanation']), 200);
 
-		C::t('forum_tradecomment')->update($id, array('explanation' => $explanation));
+		DB::query("UPDATE ".DB::table('forum_tradecomment')." SET explanation='$explanation' WHERE id='$id'");
 
 		$language = lang('forum/misc');
 		showmessage($language['eccredit_explain'].'&#58; '.$explanation, '', array(), array('msgtype' => 3, 'showmsg' => 1));

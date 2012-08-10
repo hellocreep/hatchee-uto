@@ -30,12 +30,12 @@
 						<ul class="clearfix">
 							<?php foreach($customize as $cus):?>
 								<li>
-								<a href="aboutus/note?id=<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
-								<h5><a href="aboutus/note?id=<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>				
+								<a href="aboutus/note/<?php echo $cus['Id'];?>"><img src="<?php echo $cus['thumb'];?>" alt=""></a>
+								<h5><a href="aboutus/note/<?php echo $cus['Id'];?>"><?php echo $cus['title'];?></a></h5>				
 								<p>时间：<?php echo $cus['tour_time'];?><br>
 								地点：<?php echo $cus['route_intro'];?></p>
 								<!-- <?php echo mb_substr($cus['content'],0,50,'utf-8').'…';?> -->
-								<a class="detail" href="aboutus/note?id=<?php echo $cus['Id'];?>">活动详情</a>
+								<a class="detail" href="aboutus/note/<?php echo $cus['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>
 						</ul>
@@ -45,12 +45,12 @@
 						<ul class="clearfix">
 							<?php foreach($company as $c):?>
 								<li>
-								<a href="aboutus/note?id=<?php echo $c['Id'];?>"><img src="<?php echo $c['thumb'];?>" alt=""></a>
-								<h5><a href="aboutus/note?id=<?php echo $c['Id'];?>"><?php echo $c['title'];?></a></h5>								
+								<a href="aboutus/note/<?php echo $c['Id'];?>"><img src="<?php echo $c['thumb'];?>" alt=""></a>
+								<h5><a href="aboutus/note/<?php echo $c['Id'];?>"><?php echo $c['title'];?></a></h5>								
 								<p>公司名称：<?php echo $c['company'];?><br>
 								人数：<?php echo $c['people'];?></p>
 								<!-- <?php echo mb_substr($c['content'],0,50,'utf-8').'…';?> -->
-								<a class="detail" href="aboutus/note?id=<?php echo $c['Id'];?>">活动详情</a>
+								<a class="detail" href="aboutus/note/<?php echo $c['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>
 						</ul>
@@ -62,12 +62,12 @@
 						<ul class="clearfix">
 							<?php foreach($theme as $t):?>
 								<li>
-								<a href="aboutus/note?id=<?php echo $t['Id'];?>"><img src="<?php echo $t['thumb'];?>" alt=""></a>
-								<h5><a href="aboutus/note?id=<?php echo $t['Id'];?>"><?php echo $t['title'];?></a></h5>		
+								<a href="aboutus/note/<?php echo $t['Id'];?>"><img src="<?php echo $t['thumb'];?>" alt=""></a>
+								<h5><a href="aboutus/note/<?php echo $t['Id'];?>"><?php echo $t['title'];?></a></h5>		
 								<p>时间：<?php echo $t['tour_time'];?><br>
 								地点：<?php echo $t['route_intro'];?></p>
 								<!--<?php echo mb_substr($t['content'],0,50,'utf-8').'…';?>-->
-								<a class="detail" href="aboutus/note?id=<?php echo $t['Id'];?>">活动详情</a>
+								<a class="detail" href="aboutus/note/<?php echo $t['Id'];?>">活动详情</a>
 								</li>
 							<?php endforeach;?>
 						</ul>

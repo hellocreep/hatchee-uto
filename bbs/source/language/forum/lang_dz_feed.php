@@ -4,12 +4,8 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: lang_dz_feed.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ *      $Id: lang_dz_feed.php 20562 2011-02-28 02:11:17Z congyushuai $
  */
-
-if(!defined('IN_DISCUZ')) {
-	exit('Access Denied');
-}
 
 $lang = array
 (
@@ -54,7 +50,7 @@ $lang = array
 	'feed_announce_title' =>		'公告: {subject}',
 	'feed_announce_body' =>			'{message}',
 
-	'you' => '您',
+	'you' => '你',
 
 );
 

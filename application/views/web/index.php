@@ -49,10 +49,10 @@
 							</dt>
 							<?php foreach($term as $termtour):?>
 							<dd>
-								<a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><img src="<?php echo $termtour['thumbnail'];?>"></a>
-								<h4><a href="tourdetail/?tid=<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>
+								<a href="tourdetail/tour/<?php echo $termtour['Id']?>"><img src="<?php echo $termtour['thumbnail'];?>"></a>
+								<h4><a href="tourdetail/tour/<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>
 								<p>
-									<?php echo mb_substr(str_replace('<br>','',$termtour['intro']),0,40,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $termtour['Id']?>">更多</a>
+									<?php echo mb_substr(str_replace('<br>','',$termtour['intro']),0,40,'utf-8').'......';?><a href="tourdetail/tour/<?php echo $termtour['Id']?>">更多</a>
 									<br>
 									<b>旅行地区：</b> <?php echo str_replace(',','、',substr($termtour['destination'],0,-1));?>
 									<br>
@@ -70,7 +70,7 @@
 						<ul>
 							<?php foreach($theme as $themetour):?>
 								<li>
-								<a href="tourdetail/?tid=<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>">
+								<a href="tourdetail/tour/<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>">
 								<div>
 									<h4><?php echo $themetour['title'];?></h4>
 									<p>
@@ -91,7 +91,7 @@
 						<ul>
 							<?php foreach($company as $companytour):?>
 								<li>
-								<h4><a href="tourdetail/?tid=<?php echo $companytour['Id']?>"><?php echo $companytour['sub_name'];?></a></h4>
+								<h4><a href="tourdetail/tour/<?php echo $companytour['Id']?>"><?php echo $companytour['sub_name'];?></a></h4>
 								<p>
 									<?php echo str_replace('<br>','',mb_substr($companytour['intro'],0,50,'utf-8')).'......';?>
 								</p>
@@ -102,7 +102,7 @@
 						<dl>
 							<dt><h3>拓展活动</h3></dt>
 							<?php foreach($expand as $expandtour):?>
-								<dd><a href="expandtour/expand?id=<?php echo $expandtour['Id'];?>"><?php echo $expandtour['title'];?></a></dd>
+								<dd><a href="expandtour/expand/<?php echo $expandtour['Id'];?>"><?php echo $expandtour['title'];?></a></dd>
 							<?php endforeach;?>
 							<dd>
 								<img src="assets/images/tuozhan-small.jpg">
@@ -115,7 +115,7 @@
 						<ul>
 							<?php foreach($travel as $note):?>
 								<li>
-								<h4><a href="aboutus/note?id=<?php echo $note['Id'];?>"><?php echo $note['title'];?></a></h4>
+								<h4><a href="aboutus/note/<?php echo $note['Id'];?>"><?php echo $note['title'];?></a></h4>
 								<p>
 									<span>小编：<?php echo $note['editor'];?></span>
 									<span> 时间：<?php echo $note['tour_time'];?></span>
@@ -123,10 +123,10 @@
 								<?php if($note['images']!=''):?>
 									<?php $arr=explode(',',substr($note['images'],0,-1));?>
 										<?php foreach($arr as $img):?>
-											<a href="aboutus/note?id=<?php echo $note['Id'];?>"><img src="<?php echo $img;?>"></a>
+											<a href="aboutus/note/<?php echo $note['Id'];?>"><img src="<?php echo $img;?>"></a>
 										<?php endforeach;?>
 								<?php else:?>
-									<a href="aboutus/note?id=<?php echo $note['Id'];?>"><img src="<?php echo $note['thumb'];?>"></a>
+									<a href="aboutus/note/<?php echo $note['Id'];?>"><img src="<?php echo $note['thumb'];?>"></a>
 								<?php endif;?>
 								<p>
 								<?php echo mb_substr(preg_replace('~<img(.*?)>~s','',$note['content']),0,100,'utf-8').'......';?> 

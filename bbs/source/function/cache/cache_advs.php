@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: cache_advs.php 24386 2011-09-16 02:56:33Z monkey $
+ *      $Id: cache_advs.php 16698 2010-09-13 05:22:15Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +12,12 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_advs() {
-	$advlist = $data = array();
+	$data = array();
+	$query = DB::query("SELECT * FROM ".DB::table('common_advertisement')." WHERE available>'0' AND starttime<='".TIMESTAMP."' ORDER BY displayorder");
+
 	$data['code'] = $data['parameters'] = $data['evalcode'] = array();
-	foreach(C::t('common_advertisement')->fetch_all_old() as $adv) {
+	$advlist = array();
+	while($adv = DB::fetch($query)) {
 		foreach(explode("\t", $adv['targets']) as $target) {
 			$data['code'][$target][$adv['type']][$adv['advid']] = $adv['code'];
 		}
@@ -37,18 +40,24 @@ function build_cache_advs() {
 	}
 	updateadvtype();
 
-	savecache('advs', $data);
+	save_syscache('advs', $data);
 }
 
 function updateadvtype() {
 	global $_G;
 
+	$query = DB::query("SELECT type FROM ".DB::table('common_advertisement')." WHERE available>'0' AND starttime<='".TIMESTAMP."' ORDER BY displayorder");
 	$advtype = array();
-	foreach(C::t('common_advertisement')->fetch_all_old() as $row) {
+	while($row = DB::fetch($query)) {
 		$advtype[$row['type']] = 1;
 	}
 	$_G['setting']['advtype'] = $advtype = array_keys($advtype);
-	C::t('common_setting')->update('advtype', $advtype);
+	$advtype = addslashes(serialize($advtype));
+	if(!DB::result_first("SELECT count(*) FROM ".DB::table('common_setting')." WHERE skey='advtype'")) {
+		DB::query("INSERT INTO ".DB::table('common_setting')." SET skey='advtype', svalue='$advtype'");
+	} else {
+		DB::query("UPDATE ".DB::table('common_setting')." SET svalue='$advtype' WHERE skey='advtype'");
+	}
 }
 
 ?>

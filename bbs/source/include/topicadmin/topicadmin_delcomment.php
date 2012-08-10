@@ -4,22 +4,21 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: topicadmin_delcomment.php 25832 2011-11-24 01:11:51Z monkey $
+ *      $Id: topicadmin_delcomment.php 20099 2011-02-15 01:55:29Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-if(!$_G['group']['allowdelpost'] || empty($_GET['topiclist'])) {
+if(!$_G['group']['allowdelpost'] || empty($_G['gp_topiclist'])) {
 	showmessage('no_privilege_delcomment');
 }
 
 if(!submitcheck('modsubmit')) {
 
-	$commentid = $_GET['topiclist'][0];
-	$pid = C::t('forum_postcomment')->fetch($commentid);
-	$pid = $pid['pid'];
+	$commentid = $_G['gp_topiclist'][0];
+	$pid = DB::result_first("SELECT pid FROM ".DB::table('forum_postcomment')." WHERE id='$commentid'");
 	if(!$pid) {
 		showmessage('postcomment_not_found');
 	}
@@ -32,22 +31,24 @@ if(!submitcheck('modsubmit')) {
 	$reason = checkreasonpm();
 	$modaction = 'DCM';
 
-	$commentid = intval($_GET['topiclist']);
-	$postcomment = C::t('forum_postcomment')->fetch($commentid);
+	$commentid = intval($_G['gp_topiclist']);
+	$postcomment = DB::fetch_first("SELECT * FROM ".DB::table('forum_postcomment')." WHERE id='$commentid'");
 	if(!$postcomment) {
 		showmessage('postcomment_not_found');
 	}
-	C::t('forum_postcomment')->delete($commentid);
-	$result = C::t('forum_postcomment')->count_by_pid($postcomment['pid']);
+	DB::delete('forum_postcomment', "id='$commentid'");
+	$result = DB::result_first("SELECT count(*) FROM ".DB::table('forum_postcomment')." WHERE pid='$postcomment[pid]'");
 	if(!$result) {
-		C::t('forum_post')->update($_G['thread']['posttableid'], $postcomment['pid'], array('comment' => 0));
+		$posttable = $_G['forum_thread']['posttable'] ? $_G['forum_thread']['posttable'] : 'forum_post';
+		DB::update($posttable, array('comment' => 0), "pid='$postcomment[pid]'");
 	}
 	if(!$postcomment['rpid']) {
 		updatepostcredits('-', $postcomment['authorid'], 'reply', $_G['fid']);
 	}
 
+	$query = DB::query('SELECT comment FROM '.DB::table('forum_postcomment')." WHERE pid='$postcomment[pid]' AND score='1'");
 	$totalcomment = array();
-	foreach(C::t('forum_postcomment')->fetch_all_by_pid_score($postcomment['pid'], 1) as $comment) {
+	while($comment = DB::fetch($query)) {
 		if(strexists($comment['comment'], '<br />')) {
 			if(preg_match_all("/([^:]+?):\s<i>(\d+)<\/i>/", $comment['comment'], $a)) {
 				foreach($a[1] as $k => $itemk) {
@@ -62,16 +63,15 @@ if(!submitcheck('modsubmit')) {
 	}
 
 	if($totalv) {
-		C::t('forum_postcomment')->update_by_pid($postcomment['pid'], array('comment' => $totalv, 'dateline' => TIMESTAMP + 1), false, false, 0);
+		DB::update('forum_postcomment', array('comment' => $totalv, 'dateline' => TIMESTAMP + 1), "pid='$postcomment[pid]' AND authorid='0'");
 	} else {
-		C::t('forum_postcomment')->delete_by_pid($postcomment['pid'], false, 0);
+		DB::delete('forum_postcomment', "pid='$postcomment[pid]' AND authorid='0'");
 	}
-	C::t('forum_postcache')->delete($postcomment['pid']);
 
 	$resultarray = array(
 	'redirect'	=> "forum.php?mod=viewthread&tid=$_G[tid]&page=$page",
 	'reasonpm'	=> ($sendreasonpm ? array('data' => array($postcomment), 'var' => 'post', 'item' => 'reason_delete_comment') : array()),
-	'reasonvar'	=> array('tid' => $thread['tid'], 'pid' => $postcomment['pid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason),
+	'reasonvar'	=> array('tid' => $thread['tid'], 'pid' => $postcomment['pid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => stripslashes($reason)),
 	'modtids'	=> 0,
 	'modlog'	=> $thread
 	);

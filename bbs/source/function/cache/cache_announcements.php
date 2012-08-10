@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: cache_announcements.php 24152 2011-08-26 10:04:08Z zhangguosheng $
+ *      $Id: cache_announcements.php 16698 2010-09-13 05:22:15Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -12,9 +12,11 @@ if(!defined('IN_DISCUZ')) {
 }
 
 function build_cache_announcements() {
-	$data = C::t('forum_announcement')->fetch_all_by_date(TIMESTAMP);
+	$data = array();
+	$query = DB::query("SELECT id, subject, type, starttime, endtime, displayorder, groups, message FROM ".DB::table('forum_announcement')."
+		WHERE starttime<='".TIMESTAMP."' AND (endtime>='".TIMESTAMP."' OR endtime='0') ORDER BY displayorder, starttime DESC, id DESC");
 
-	foreach ($datarow as $data) {
+	while($datarow = DB::fetch($query)) {
 		if($datarow['type'] == 2) {
 			$datarow['pmid'] = $datarow['id'];
 			unset($datarow['id']);
@@ -25,7 +27,7 @@ function build_cache_announcements() {
 		$data[] = $datarow;
 	}
 
-	savecache('announcements', $data);
+	save_syscache('announcements', $data);
 }
 
 ?>

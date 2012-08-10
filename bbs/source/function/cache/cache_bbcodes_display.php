@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: cache_bbcodes_display.php 24599 2011-09-27 11:06:53Z zhengqingpeng $
+ *      $Id: cache_bbcodes_display.php 16693 2010-09-13 04:31:03Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,8 +13,10 @@ if(!defined('IN_DISCUZ')) {
 
 function build_cache_bbcodes_display() {
 	$data = array();
+	$query = DB::query("SELECT tag, icon, explanation, params, prompt, perm FROM ".DB::table('forum_bbcode')." WHERE available='2' AND icon!='' ORDER BY displayorder");
+
 	$i = 0;
-	foreach(C::t('forum_bbcode')->fetch_all_by_available_icon(2, true) as $bbcode) {
+	while($bbcode = DB::fetch($query)) {
 		$bbcode['perm'] = explode("\t", $bbcode['perm']);
 		if(in_array('', $bbcode['perm']) || !$bbcode['perm']) {
 			continue;
@@ -30,7 +32,7 @@ function build_cache_bbcodes_display() {
 		}
 	}
 
-	savecache('bbcodes_display', $data);
+	save_syscache('bbcodes_display', $data);
 }
 
 ?>

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: modcp_forumaccess.php 26544 2011-12-15 02:19:09Z chenmengshu $
+ *      $Id: modcp_forumaccess.php 17939 2010-11-08 06:09:39Z monkey $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_MODCP')) {
@@ -17,17 +17,17 @@ include_once(libfile('function/forumlist'));
 $forumlistall = forumselect(false, false, $_G['fid']);
 
 $adderror = $successed = 0;
-$new_user = isset($_GET['new_user']) ? trim($_GET['new_user']) : '';
+$new_user = isset($_G['gp_new_user']) ? trim($_G['gp_new_user']) : '';
 
 if($_G['fid'] && $_G['forum']['ismoderator'] && $new_user != '' && submitcheck('addsubmit')) {
-	$deleteaccess = isset($_GET['deleteaccess']) ? 1 : 0;
+	$deleteaccess = isset($_G['gp_deleteaccess']) ? 1 : 0;
 	foreach (array('view', 'post', 'reply', 'getattach', 'getimage', 'postattach', 'postimage') as $key) {
-		${'new_'.$key} = isset($_GET['new_'.$key]) ? intval($_GET['new_'.$key]) : '';
+		${'new_'.$key} = isset($_G['gp_new_'.$key]) ? intval($_G['gp_new_'.$key]) : '';
 	}
 
 	if($new_user != '') {
 
-		$user = C::t('common_member')->fetch_by_username($new_user);
+		$user = DB::fetch_first("SELECT uid, adminid FROM ".DB::table('common_member')." WHERE username='$new_user'");
 		$uid = $user['uid'];
 
 		if(empty($user)) {
@@ -36,8 +36,7 @@ if($_G['fid'] && $_G['forum']['ismoderator'] && $new_user != '' && submitcheck('
 			$adderror = 2;
 		} else {
 
-			$access = C::t('forum_access')->fetch_all_by_fid_uid($_G['fid'], $uid);
-			$access = $access[0];
+			$access = DB::fetch_first("SELECT * FROM ".DB::table('forum_access')." WHERE fid='$_G[fid]' AND uid='$uid'");
 
 			if($deleteaccess) {
 
@@ -64,12 +63,12 @@ if($_G['fid'] && $_G['forum']['ismoderator'] && $new_user != '' && submitcheck('
 
 				if(empty($access)) {
 					$successed = true;
-					$data = array('uid' => $uid, 'fid' => $_G['fid'], 'allowview' => $new_view, 'allowpost' => $new_post, 'allowreply' => $new_reply,
-						'allowgetattach' => $new_getattach, 'allowgetimage' => $new_getimage,
-						'allowpostattach' => $new_postattach, 'allowpostimage' => $new_postimage,
-						'adminuser' => $_G['uid'], 'dateline' => $_G['timestamp']);
-					C::t('forum_access')->insert($data);
-					C::t('common_member')->update($uid, array('accessmasks' => 1), 'UNBUFFERED');
+					DB::query("INSERT INTO ".DB::table('forum_access')." SET
+						uid='$uid', fid='$_G[fid]', allowview='$new_view', allowpost='$new_post', allowreply='$new_reply',
+						allowgetattach='$new_getattach', allowgetimage='$new_getimage',
+						allowpostattach='$new_postattach', allowpostimage='$new_postimage',
+						adminuser='$_G[uid]', dateline='$_G[timestamp]'");
+					DB::query("UPDATE ".DB::table('common_member')." SET accessmasks='1' WHERE uid='$uid'", 'UNBUFFERED');
 
 				} elseif($new_view == -1 && $access['allowview'] == 1 && $_G['adminid'] != 1) {
 					$adderror = 3;
@@ -84,12 +83,12 @@ if($_G['fid'] && $_G['forum']['ismoderator'] && $new_user != '' && submitcheck('
 						$new_postimage = $access['postimage'] == 1 ? 1 : $new_postimage;
 					}
 					$successed = true;
-					$data = array('allowview' => $new_view, 'allowpost' => $new_post, 'allowreply' => $new_reply,
-						'allowgetattach' => $new_getattach, 'allowgetimage' => $new_getimage,
-						'allowpostattach' => $new_postattach, 'allowpostimage' => $new_postimage,
-						'adminuser' => $_G['uid'], 'dateline' => $_G['timestamp']);
-					C::t('forum_access')->update_for_uid($uid, $_G['fid'], $data);
-					C::t('common_member')->update($uid, array('accessmasks' => 1), 'UNBUFFERED');
+					DB::query("UPDATE ".DB::table('forum_access')." SET
+						allowview='$new_view', allowpost='$new_post', allowreply='$new_reply',
+						allowgetattach='$new_getattach', allowgetimage='$new_getimage',
+						allowpostattach='$new_postattach', allowpostimage='$new_postimage',
+						adminuser='$_G[uid]', dateline='$_G[timestamp]' WHERE uid='$uid' AND fid='$_G[fid]'");
+					DB::query("UPDATE ".DB::table('common_member')." SET accessmasks='1' WHERE uid='$uid'", 'UNBUFFERED');
 
 				}
 			}
@@ -100,10 +99,13 @@ if($_G['fid'] && $_G['forum']['ismoderator'] && $new_user != '' && submitcheck('
 }
 
 $new_user = dhtmlspecialchars($new_user);
-$suser = isset($_GET['suser']) ? trim($_GET['suser']) : '';
+$fidadd = $useradd = '';
+$suser = isset($_G['gp_suser']) ? trim($_G['gp_suser']) : '';
 if(submitcheck('searchsubmit')) {
+	$fidadd = $_G['fid'] ? "AND fid='$_G[fid]'" : '';
 	if($suser != '') {
-		$suid = C::t('common_member')->fetch_uid_by_username($suser);
+		$suid = DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='$suser'");
+		$useradd = "AND uid='$suid'";
 	}
 }
 $suser = dhtmlspecialchars($suser);
@@ -112,15 +114,15 @@ $page = max(1, intval($_G['page']));
 $ppp = 10;
 $list = array('pagelink' => '', 'data' => array());
 
-if($num = C::t('forum_access')->fetch_all_by_fid_uid($_G['fid'], $suid, 1)) {
+if($num = DB::result_first("SELECT COUNT(*) FROM ".DB::table('forum_access')." WHERE 1=1 $fidadd $useradd")) {
 
 	$page = $page > ceil($num / $ppp) ? ceil($num / $ppp) : $page;
 	$start_limit = ($page - 1) * $ppp;
-	$list['pagelink'] = multi($num, $ppp, $page, "forum.php?mod=modcp&fid=$_G[fid]&action=$_GET[action]");
+	$list['pagelink'] = multi($num, $ppp, $page, "forum.php?mod=modcp&fid=$_G[fid]&action=$_G[gp_action]");
 
-	$query = C::t('forum_access')->fetch_all_by_fid_uid($_G['fid'], $suid, 0, $start_limit, $ppp);
+	$query = DB::query("SELECT * FROM ".DB::table('forum_access')." WHERE 1=1 $fidadd $useradd ORDER BY dateline DESC LIMIT $start_limit, $ppp");
 	$uidarray = array();
-	foreach($query as $access) {
+	while($access = DB::fetch($query)) {
 		$uidarray[$access['uid']] = $access['uid'];
 		$uidarray[$access['adminuser']] = $access['adminuser'];
 		$access['allowview'] = accessimg($access['allowview']);
@@ -137,15 +139,18 @@ if($num = C::t('forum_access')->fetch_all_by_fid_uid($_G['fid'], $suid, 1)) {
 
 	$users = array();
 	if($uids = dimplode($uidarray)) {
-		$users = C::t('common_member')->fetch_all_username_by_uid($uids);
+		$query = DB::query("SELECT uid, username FROM ".DB::table('common_member')." WHERE uid IN ($uids)");
+		while ($user = DB::fetch($query)) {
+			$users[$user['uid']] = $user['username'];
+		}
 	}
 }
 
 function delete_access($uid, $fid) {
-	C::t('forum_access')->delete_by_fid($fid, $uid);
-	$mask = C::t('forum_access')->count_by_uid($uid);
+	DB::query("DELETE FROM ".DB::table('forum_access')." WHERE uid='$uid' AND fid='$fid'");
+	$mask = DB::result_first("SELECT count(*) FROM ".DB::table('forum_access')." WHERE uid='$uid'");
 	if(!$mask) {
-		C::t('common_member')->update($uid, array('accessmasks' => ''), 'UNBUFFERED');
+		DB::query("UPDATE ".DB::table('common_member')." SET accessmasks='' WHERE uid='$uid'", 'UNBUFFERED');
 	}
 }
 

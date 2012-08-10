@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: forum_announcement.php 25246 2011-11-02 03:34:53Z zhangguosheng $
+ *      $Id: forum_announcement.php 20511 2011-02-25 02:59:51Z congyushuai $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,14 +13,14 @@ if(!defined('IN_DISCUZ')) {
 
 require_once libfile('function/discuzcode');
 
-$announcedata = C::t('forum_announcement')->fetch_all_by_date($_G['timestamp']);
+$query = DB::query("SELECT id, subject, groups, author, starttime, endtime, message, type FROM ".DB::table('forum_announcement')." WHERE type!=2 AND starttime<='$_G[timestamp]' AND (endtime='0' OR endtime>'$_G[timestamp]') ORDER BY displayorder, starttime DESC, id DESC");
 
-if(!count($announcedata)) {
+if(!DB::num_rows($query)) {
 	showmessage('announcement_nonexistence');
 }
 
 $announcelist = array();
-foreach ($announcedata as $announce) {
+while($announce = DB::fetch($query)) {
 	$announce['authorenc'] = rawurlencode($announce['author']);
 	$tmp = explode('.', dgmdate($announce['starttime'], 'Y.m'));
 	$months[$tmp[0].$tmp[1]] = $tmp;
@@ -33,7 +33,7 @@ foreach ($announcedata as $announce) {
 	$announce['message'] = nl2br(discuzcode($announce['message'], 0, 0, 1, 1, 1, 1, 1));
 	$announcelist[] = $announce;
 }
-$annid = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$annid = isset($_G['gp_id']) ? intval($_G['gp_id']) : 0;
 
 include template('forum/announcement');
 

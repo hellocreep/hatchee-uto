@@ -28,12 +28,8 @@ function showcolors() {
 }
 
 function setvalue(obj) {
-	if(varname) {
-		parent.$(varname).style.backgroundColor = setv;
-	}
-	if(varnamev) {
-		parent.$(varnamev).value = setv;
-	}
+	parent.$(varname).style.backgroundColor = setv;
+	parent.$(varnamev).value = setv;
 	if(fun) eval('parent.'+fun+'("'+setv+'")');
 }
 

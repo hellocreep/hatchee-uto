@@ -196,6 +196,7 @@ var arrMatch = {
 	imgInOut:"divInOut",
 	faceBox:"editFaceBox",
 	icoUrl:"createUrl",
+	icoImg:"createImg",
 	icoSwf:"createSwf",
 	icoPage:"createPage"
 }
@@ -549,10 +550,7 @@ function pageBreak(e, show) {
 		}
 		var insertText = title ? '[title='+title+']': '';
 		setCaret();
-		format("insertHTML", '<br /><strong>##########NextPage'+insertText+'##########</strong><br /><br />');
-		if(parent.showInnerNav && typeof parent.showInnerNav == 'function') {
-			parent.showInnerNav();
-		}
+		format("insertHTML", '###NextPage'+insertText+'###');
 		fHide($('createPage'));
 	} else {
 		if(gIsIE){
@@ -582,12 +580,10 @@ function changeEditType(flag, ev){
 		var switchMode = $("switchMode");
 		var sourceEditor = $("sourceEditor");
 		var dvHtmlLnk = $("dvHtmlLnk");
-		var dvToolbar = $('dvToolbar');
 		if(flag){
 			dvhtml.style.display = "";
 			dvtext.style.display = "none";
-			dvToolbar.className = 'toobar';
-
+			dvHtmlLnk.style.display = "none";
 			if(switchMode.checked){
 				sourceEditor.value = dvtext.value;
 				$('uchome-editstatus').value = 'code';
@@ -603,7 +599,7 @@ function changeEditType(flag, ev){
 			function sub1(){
 				dvhtml.style.display = "none";
 				dvtext.style.display = "";
-				dvToolbar.className = 'toobarmini';
+				dvHtmlLnk.style.display = "";
 				if(switchMode.checked){
 					dvtext.value = sourceEditor.value.unescapeHTML();
 				}else{
@@ -626,16 +622,6 @@ function changeEditType(flag, ev){
 		}
 	}catch(exp){
 
-	}
-}
-
-function changeEditFull(flag, ev) {
-	if(parent.changeEditFull) {
-		parent.changeEditFull(flag);
-		ev = ev || event;
-		var ele = ev.target || ev.srcElement;
-		ele.innerHTML = flag ? '返回' : '全屏';
-		ele.onclick = function() {changeEditFull(!flag, ev)};
 	}
 }
 String.prototype.stripTags = function(){

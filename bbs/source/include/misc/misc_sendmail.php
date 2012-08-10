@@ -4,14 +4,12 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: misc_sendmail.php 30849 2012-06-26 02:21:32Z zhangguosheng $
+ *      $Id: misc_sendmail.php 25626 2011-11-16 08:37:30Z svn_project_zhangjie $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-
-header('Content-Type: text/javascript');
 
 $pernum = 1;
 
@@ -26,7 +24,8 @@ touch($lockfile);
 @set_time_limit(0);
 
 $list = $sublist = $cids = $touids = array();
-foreach(C::t('common_mailcron')->fetch_all_by_sendtime($_G['timestamp'], 0, $pernum) as $value) {
+$query = DB::query("SELECT * FROM ".DB::table('common_mailcron')." WHERE sendtime<='$_G[timestamp]' ORDER BY sendtime LIMIT 0,$pernum");
+while ($value = DB::fetch($query)) {
 	if($value['touid']) $touids[$value['touid']] = $value['touid'];
 	$cids[] = $value['cid'];
 	$list[$value['cid']] = $value;
@@ -34,16 +33,17 @@ foreach(C::t('common_mailcron')->fetch_all_by_sendtime($_G['timestamp'], 0, $per
 
 if(empty($cids)) exit();
 
-foreach(C::t('common_mailqueue')->fetch_all_by_cid($cids) as $value) {
+$query = DB::query("SELECT * FROM ".DB::table('common_mailqueue')." WHERE cid IN (".dimplode($cids).")");
+while ($value = DB::fetch($query)) {
 	$sublist[$value['cid']][] = $value;
 }
 
 if($touids) {
-	C::t('common_member_status')->update($touids, array('lastsendmail' => TIMESTAMP), 'UNBUFFERED');
+	DB::query("UPDATE ".DB::table('common_member_status')." SET lastsendmail='$_G[timestamp]' WHERE uid IN (".dimplode($touids).")");
 }
 
-C::t('common_mailcron')->delete($cids);
-C::t('common_mailqueue')->delete_by_cid($cids);
+DB::query("DELETE FROM ".DB::table('common_mailcron')." WHERE cid IN (".dimplode($cids).")");
+DB::query("DELETE FROM ".DB::table('common_mailqueue')." WHERE cid IN (".dimplode($cids).")");
 
 require_once libfile('function/mail');
 

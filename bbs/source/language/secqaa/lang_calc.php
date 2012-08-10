@@ -4,12 +4,8 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: lang_calc.php 27449 2012-02-01 05:32:35Z zhangguosheng $
+ *      $Id: lang_calc.php 10395 2010-05-11 04:48:31Z monkey $
  */
-
-if(!defined('IN_DISCUZ')) {
-	exit('Access Denied');
-}
 
 $lang = array
 (

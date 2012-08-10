@@ -110,6 +110,7 @@ class Themetour extends CI_Controller
 		$data['sortcustomize']='';
 		$data['sortfree']='';
 		$data['sortgroup']='';
+		$data['sortterm']='';
 		$data['pagenow']=$page;
 		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
@@ -122,6 +123,7 @@ class Themetour extends CI_Controller
 		$data['dess']=$this->show->deslist();
 		$this->load->view('web/landingpage-theme',$data);		
 	}
+	//定制旅行
 	function customize()
 	{
 		$sorttype='1';
@@ -225,6 +227,7 @@ class Themetour extends CI_Controller
 		$data['sortcustomize']='selected=selected';
 		$data['sortfree']='';
 		$data['sortgroup']='';
+		$data['sortterm']='';
 		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();
@@ -236,6 +239,7 @@ class Themetour extends CI_Controller
 		$data['dess']=$this->show->deslist();
 		$this->load->view('web/landingpage-theme',$data);		
 	}
+	//自由行
 	function free()
 	{
 		$sorttype='3';
@@ -339,6 +343,7 @@ class Themetour extends CI_Controller
 		$data['sortcustomize']='';
 		$data['sortfree']='selected=selected';
 		$data['sortgroup']='';
+		$data['sortterm']='';
 		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();
@@ -350,6 +355,7 @@ class Themetour extends CI_Controller
 		$data['dess']=$this->show->deslist();
 		$this->load->view('web/landingpage-theme',$data);		
 	}
+	//纯玩跟团
 	function group()
 	{
 		$sorttype='4';
@@ -453,6 +459,7 @@ class Themetour extends CI_Controller
 		$data['sortcustomize']='';
 		$data['sortfree']='';
 		$data['sortgroup']='selected=selected';
+		$data['sortterm']='';
 		$this->load->library('cimarkdown');
 		$this->load->model('webpage');
 		$this->webpage=new webpage();
@@ -461,6 +468,122 @@ class Themetour extends CI_Controller
 		$data['dess']=$this->show->deslist();
 		$data['theme']=$this->show->themelist();
 		$data['tour']=$this->show->showthemetour($start,$per_page,$action,$sort,$sorttype);
+		$data['dess']=$this->show->deslist();
+		$this->load->view('web/landingpage-theme',$data);		
+	}
+	//友途活动线路
+	function term()
+	{
+		$sorttype='0';
+		$this->load->model('show');
+		$num=$this->show->totaltour('term',$sorttype);
+		$per_page=8;
+		$count=ceil($num/$per_page);
+		$page=$this->uri->segment(3);
+		if($page=='')
+		{
+			$page=1;
+		}
+		$action=$this->uri->segment(4);
+		$sort=$this->uri->segment(5);
+		if(isset($page) && $page!='')
+		{
+			$start=($page*$per_page)-$per_page;
+		}
+		else
+		{
+			$start=0;
+		}
+		
+		if(isset($action) &&$action!='')
+		{
+			$data['page']['first']='themetour/term/1/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/term/'.$count.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			if($page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if($page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='termtour/term/'.$i.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/term/'.$pagepre.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/term/'.$pagenext.'/'.$action.'/'.$sort.$this->config->item('url_suffix');
+		}
+		else
+		{
+			$data['page']['first']='themetour/term/1'.$this->config->item('url_suffix');
+			$data['page']['end']='themetour/term/'.$count.$this->config->item('url_suffix');
+			if(isset($page) && $page>1)
+			{
+				$pagepre=$page-1;
+			}
+			else
+			{
+				$pagepre=1;
+			}
+			if(isset($page) && $page<$count)
+			{
+				$pagenext=$page+1;
+			}
+			else
+			{
+				$pagenext=$count;
+			}
+			for($i=1;$i<=$count;$i++)
+			{
+				$data['page']['plist'][$i]='themetour/term/'.$i.$this->config->item('url_suffix');
+			}
+			$data['page']['pre']='themetour/term/'.$pagepre.$this->config->item('url_suffix');
+			$data['page']['next']='themetour/term/'.$pagenext.$this->config->item('url_suffix');
+		}
+		if(isset($sort) && $sort!='')
+		{
+			if($sort=='asc')
+			{
+				$data['sortday']='themetour/term/1/days/desc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/term/1/price/desc'.$this->config->item('url_suffix');
+			}
+			else
+			{
+				$data['sortday']='themetour/term/1/days/asc'.$this->config->item('url_suffix');
+				$data['sortprice']='themetour/term/1/price/asc'.$this->config->item('url_suffix');
+			}
+		}
+		else
+		{
+			$data['sortday']='themetour/term/1/days/asc'.$this->config->item('url_suffix');
+			$data['sortprice']='themetour/term/1/price/asc'.$this->config->item('url_suffix');
+			$sort='asc';
+		}
+
+		$data['count']=$count;
+		$data['pagenow']=$page;
+		$data['sortindex']='';
+		$data['sortcustomize']='';
+		$data['sortfree']='';
+		$data['sortgroup']='';
+		$data['sortterm']='selected=selected';
+		$this->load->library('cimarkdown');
+		$this->load->model('webpage');
+		$this->webpage=new webpage();
+		$type="theme_tour";
+		$data['webinfo'] = $this->webpage->getpage($type);
+		$data['dess']=$this->show->deslist();
+		$data['theme']=$this->show->themelist();
+		$data['tour']=$this->show->showtermtour($start,$per_page,$action,$sort);
 		$data['dess']=$this->show->deslist();
 		$this->load->view('web/landingpage-theme',$data);		
 	}

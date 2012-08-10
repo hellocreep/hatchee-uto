@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: spacecp_pm.php 30849 2012-06-26 02:21:32Z zhangguosheng $
+ *      $Id: spacecp_pm.php 27369 2012-01-18 10:29:12Z svn_project_zhangjie $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -27,13 +27,11 @@ loaducenter();
 
 if($_GET['op'] == 'checknewpm') {
 
-	header('Content-Type: text/javascript');
-
 	if($_G['uid'] && !getstatus($_G['member']['newpm'], 1)) {
 		$ucnewpm = intval(uc_pm_checknew($_G['uid']));
 		$newpm = setstatus(1, $ucnewpm ? 1 : 0, $_G['member']['newpm']);
 		if($_G['member']['newpm'] != $newpm) {
-			C::t('common_member')->update($_G['uid'], array('newpm' => $newpm));
+			DB::query("UPDATE ".DB::table('common_member')." SET newpm='$newpm' WHERE uid='$_G[uid]'");
 		}
 	}
 	dsetcookie('checkpm', 1, 30);
@@ -58,9 +56,9 @@ if($_GET['op'] == 'checknewpm') {
 
 } elseif($_GET['op'] == 'showmsg') {
 
-	$msgonly = empty($_GET['msgonly']) ? 0 : intval($_GET['msgonly']);
-	$touid = empty($_GET['touid']) ? 0: intval($_GET['touid']);
-	$daterange = empty($_GET['daterange']) ? 1 : intval($_GET['daterange']);
+	$msgonly = empty($_G['gp_msgonly']) ? 0 : intval($_G['gp_msgonly']);
+	$touid = empty($_G['gp_touid']) ? 0: intval($_G['gp_touid']);
+	$daterange = empty($_G['gp_daterange']) ? 1 : intval($_G['gp_daterange']);
 	$result = uc_pm_view($_G['uid'], 0, $touid, $daterange, 0, 0, 0, 0);
 	$msglist = array();
 	$msguser = $messageappend = '';
@@ -73,32 +71,32 @@ if($_GET['op'] == 'checknewpm') {
 		$msglist[$daykey][$key] = $value;
 	}
 	if($touid && empty($msguser)) {
-		$member = getuserbyuid($touid);
+		$member = DB::fetch_first("SELECT username FROM ".DB::table('common_member')." WHERE uid='$touid' LIMIT 1");
 		$msguser = $member['username'];
 	}
 	if(!$msgonly) {
-		$online = C::app()->session->fetch_by_uid($touid) !== false ? 1 : 0;
+		$online = DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('common_session')." b WHERE uid='$touid'"),0);
 		if($_G['member']['newpm']) {
 			$newpm = setstatus(1, 0, $_G['member']['newpm']);
-			C::t('common_member')->update($_G['uid'], array('newpm' => $newpm));
+			DB::update('common_member', array('newpm' => $newpm), array('uid' => $_G['uid']));
 			uc_pm_ignore($_G['uid']);
 		}
 	}
-	if(!empty($_GET['tradeid'])) {
-		$trade = C::t('forum_trade')->fetch_goods(0, $_GET['tradeid']);
+	if(!empty($_G['gp_tradeid'])) {
+		$trade = DB::fetch_first("SELECT tid, subject, pid FROM ".DB::table('forum_trade')." WHERE pid='$_G[gp_tradeid]'");
 		if($trade) {
-			$messageappend = dhtmlspecialchars('[url='.$_G['siteurl'].'forum.php?mod=viewthread&tid='.$trade['tid'].'&do=tradeinfo&pid='.$trade['pid'].'][b]'.$trade['subject'].'[/b][/url]');
+			$messageappend = htmlspecialchars('[url='.$_G['siteurl'].'forum.php?mod=viewthread&tid='.$trade['tid'].'&do=tradeinfo&pid='.$trade['pid'].'][b]'.$trade['subject'].'[/b][/url]');
 		}
-	} elseif(!empty($_GET['commentid'])) {
-		$comment = C::t('forum_postcomment')->fetch($_GET['commentid']);
+	} elseif(!empty($_G['gp_commentid'])) {
+		$comment = DB::fetch_first("SELECT comment, tid, pid FROM ".DB::table('forum_postcomment')." WHERE id='$_G[gp_commentid]'");
 		if($comment) {
 			$comment['comment'] = str_replace(array('[b]', '[/b]', '[/color]'), array(''), preg_replace("/\[color=([#\w]+?)\]/i", '', strip_tags($comment['comment'])));
-			$messageappend = dhtmlspecialchars('[url='.$_G['siteurl'].'forum.php?mod=redirect&goto=findpost&pid='.$comment['pid'].'&ptid='.$comment['tid'].'][b]'.lang('spacecp', 'pm_comment').'[/b][/url][quote]'.$comment['comment'].'[/quote]');
+			$messageappend = htmlspecialchars('[url='.$_G['siteurl'].'forum.php?mod=redirect&goto=findpost&pid='.$comment['pid'].'&ptid='.$comment['tid'].'][b]'.lang('spacecp', 'pm_comment').'[/b][/url][quote]'.$comment['comment'].'[/quote]');
 		}
-	} elseif(!empty($_GET['tid']) && !empty($_GET['pid'])) {
-		$thread = C::t('forum_thread')->fetch($_GET['tid']);
+	} elseif(!empty($_G['gp_tid']) && !empty($_G['gp_pid'])) {
+		$thread = DB::fetch_first("SELECT tid, subject FROM ".DB::table('forum_thread')." WHERE tid='".intval($_G[gp_tid])."'");
 		if($thread) {
-			$messageappend = dhtmlspecialchars('[url='.$_G['siteurl'].'forum.php?mod=redirect&goto=findpost&pid='.intval($_GET['pid']).'&ptid='.$thread['tid'].'][b]'.lang('spacecp', 'pm_thread_about', array('subject' => $thread['subject'])).'[/b][/url]');
+			$messageappend = htmlspecialchars('[url='.$_G['siteurl'].'forum.php?mod=redirect&goto=findpost&pid='.intval($_G['gp_pid']).'&ptid='.$thread['tid'].'][b]'.lang('spacecp', 'pm_thread_about', array('subject' => $thread['subject'])).'[/b][/url]');
 		}
 	}
 
@@ -110,11 +108,11 @@ if($_GET['op'] == 'checknewpm') {
 
 } elseif($_GET['op'] == 'delete') {
 
-	$gpmid = is_array($_GET['deletepm_gpmid']) ? $_GET['deletepm_gpmid'] : 0;
-	$deluid = is_array($_GET['deletepm_deluid']) ? $_GET['deletepm_deluid'] : 0;
-	$delpmid = is_array($_GET['deletepm_pmid']) ? $_GET['deletepm_pmid'] : 0;
-	$delplid = is_array($_GET['deletepm_delplid']) ? $_GET['deletepm_delplid'] : 0;
-	$quitplid = is_array($_GET['deletepm_quitplid']) ? $_GET['deletepm_quitplid'] : 0;
+	$gpmid = is_array($_G['gp_deletepm_gpmid']) ? $_G['gp_deletepm_gpmid'] : 0;
+	$deluid = is_array($_G['gp_deletepm_deluid']) ? $_G['gp_deletepm_deluid'] : 0;
+	$delpmid = is_array($_G['gp_deletepm_pmid']) ? $_G['gp_deletepm_pmid'] : 0;
+	$delplid = is_array($_G['gp_deletepm_delplid']) ? $_G['gp_deletepm_delplid'] : 0;
+	$quitplid = is_array($_G['gp_deletepm_quitplid']) ? $_G['gp_deletepm_quitplid'] : 0;
 
 	if(empty($gpmid) && empty($deluid) && empty($delpmid) && empty($delplid) && empty($quitplid)) {
 		showmessage('delete_pm_error_option');
@@ -124,7 +122,7 @@ if($_GET['op'] == 'checknewpm') {
 		$flag = true;
 
 		if(!empty($gpmid)) {
-			$return = C::t('common_member_grouppm')->update($_G['uid'], $gpmid, array('status' => -1));
+			$return = DB::update('common_member_grouppm', array('status' => -1), "gpmid IN (".dimplode($gpmid).") AND uid='$_G[uid]'");
 			$returnurl = 'home.php?mod=space&do=pm&filter=announcepm';
 			if(!$return) {
 				$flag = false;
@@ -196,6 +194,7 @@ if($_GET['op'] == 'checknewpm') {
 		$type = intval($_POST['type']);
 		$coef = 1;
 		if(!empty($users)) {
+			$users = daddslashes(dstripslashes($users));
 			$coef = count($users);
 		}
 
@@ -220,7 +219,8 @@ if($_GET['op'] == 'checknewpm') {
 		$return = 0;
 		if($touid || $pmid) {
 			if($touid) {
-				if(($value = getuserbyuid($touid))) {
+				$query = DB::query("SELECT uid, username, onlyacceptfriendpm FROM ".DB::table('common_member')." WHERE uid='$touid'");
+				if($value = DB::fetch($query)) {
 					$value['onlyacceptfriendpm'] = $value['onlyacceptfriendpm'] ? $value['onlyacceptfriendpm'] : ($_G['setting']['onlyacceptfriendpm'] ? 1 : 2);
 					if($_G['group']['allowsendallpm'] || $value['onlyacceptfriendpm'] == 2 || ($value['onlyacceptfriendpm'] == 1 && friend_check($touid))) {
 						$return = sendpm($touid, $subject, $message, '', 0, 0, $type);
@@ -237,9 +237,10 @@ if($_GET['op'] == 'checknewpm') {
 		} elseif($users) {
 			$newusers = $uidsarr = $membersarr = array();
 			if($users) {
-				$membersarr = C::t('common_member')->fetch_all_by_username($users);
-				foreach($membersarr as $aUsername=>$aUser) {
-					$uidsarr[] = $aUser['uid'];
+				$query = DB::query('SELECT uid, username, onlyacceptfriendpm FROM '.DB::table('common_member')." WHERE username IN (".dimplode($users).')');
+				while($value = DB::fetch($query)) {
+					$uidsarr[] = $value['uid'];
+					$membersarr[$value['uid']] = daddslashes($value);
 				}
 			}
 			if(empty($membersarr)) {
@@ -279,7 +280,7 @@ if($_GET['op'] == 'checknewpm') {
 			include_once libfile('function/stat');
 			updatestat('sendpm', 0, $coef);
 
-			C::t('common_member_status')->update($_G['uid'], array('lastpost' => TIMESTAMP));
+			DB::query("UPDATE ".DB::table('common_member_status')." SET lastpost='$_G[timestamp]' WHERE uid='$_G[uid]'");
 			!($_G['group']['exempt'] & 1) && updatecreditbyaction('sendpm', 0, array(), '', $coef);
 			if(!empty($newusers)) {
 				if($type == 1) {
@@ -297,8 +298,8 @@ if($_GET['op'] == 'checknewpm') {
 
 			}
 		} else {
-			if(in_array($return, range(-16, -1))) {
-				showmessage('message_can_not_send_'.abs($return));
+			if(in_array($return, range(-15, -1))) {
+				showmessage('message_can_not_send_'.abs($return), '', array(), array('return' => true));
 			} else {
 				showmessage('message_can_not_send', '', array(), array('return' => true));
 			}
@@ -308,7 +309,7 @@ if($_GET['op'] == 'checknewpm') {
 } elseif($_GET['op'] == 'ignore') {
 
 	if(submitcheck('ignoresubmit')) {
-		$single = intval($_GET['single']);
+		$single = intval($_G['gp_single']);
 		if($single) {
 			uc_pm_blackls_add($_G['uid'], $_POST['ignoreuser']);
 			showmessage('do_success', dreferer(), array(), array('showdialog'=>1, 'showmsg' => true, 'closetime' => true));
@@ -321,14 +322,14 @@ if($_GET['op'] == 'checknewpm') {
 } elseif($_GET['op'] == 'setting') {
 
 	if(submitcheck('settingsubmit')) {
-		if(!(intval($_GET['onlyacceptfriendpm']) && intval($_GET['onlyacceptfriendpm']) == $_GET['onlyacceptfriendpm'])) {
+		if(!(intval($_G['gp_onlyacceptfriendpm']) && intval($_G['gp_onlyacceptfriendpm']) == $_G['gp_onlyacceptfriendpm'])) {
 			showmessage('pm_onlyacceptfriend_error', 'home.php?mod=space&do=pm&subop=setting');
 		}
 
 		uc_pm_blackls_set($_G['uid'], $_POST['ignorelist']);
-		$setarr['onlyacceptfriendpm'] = $_GET['onlyacceptfriendpm'];
+		$setarr['onlyacceptfriendpm'] = $_G['gp_onlyacceptfriendpm'];
 
-		C::t('common_member')->update($_G['uid'], $setarr);
+		DB::update('common_member', $setarr, array('uid' => $_G['uid']));
 
 		showmessage('do_success_pm', 'home.php?mod=space&do=pm&subop=setting');
 	}
@@ -375,7 +376,8 @@ if($_GET['op'] == 'checknewpm') {
 	}
 
 	if(submitcheck('pmignoresubmit')) {
-		uc_pm_blackls_add($_G['uid'], addslashes($username));
+		$username = stripslashes($username);
+		uc_pm_blackls_add($_G['uid'], $username);
 		showmessage('do_success', dreferer(), array(), array('showdialog'=>1, 'showmsg' => true, 'closetime' => true));
 	}
 
@@ -395,7 +397,13 @@ if($_GET['op'] == 'checknewpm') {
 	$memberusername = trim($_GET['memberusername']);
 	$members = array();
 	if($memberusername) {
-		$members = C::t('common_member')->fetch_all_by_username(explode(',', $memberusername));
+		$query = DB::query("SELECT uid, username, onlyacceptfriendpm FROM ".DB::table('common_member')." WHERE username IN (".dimplode(explode(',', $memberusername)).")");
+		while($member = DB::fetch($query)) {
+			if(!$member['uid']) {
+				continue;
+			}
+			$members[] = $member;
+		}
 	}
 	if(empty($members)) {
 		showmessage('pm_appendkmember_error_nopm');
@@ -433,7 +441,7 @@ if($_GET['op'] == 'checknewpm') {
 	$plids = trim($_GET['plids']);
 	if($gpmids) {
 		$gpmidarr = explode(',', $gpmids);
-		C::t('common_member_grouppm')->update_to_read_by_unread($_G['uid'], $gpmidarr);
+		DB::query("UPDATE ".DB::table('common_member_grouppm')." SET status=1 WHERE uid='".$_G['uid']."' AND gpmid IN (".dimplode($gpmidarr).") AND status=0");
 	}
 	if($plids) {
 		$plidarr = explode(',', $plids);
@@ -512,10 +520,9 @@ if($_GET['op'] == 'checknewpm') {
 	}
 	$friends = array();
 	if($space['friendnum']) {
-		$query = C::t('home_friend')->fetch_all_by_uid($_G['uid'], 0, 100, true);
-		foreach($query as $value) {
-			$value['uid'] = $value['fuid'];
-			$value['username'] = daddslashes($value['fusername']);
+		$query = DB::query("SELECT fuid AS uid, fusername AS username FROM ".DB::table('home_friend')." WHERE uid='$_G[uid]' ORDER BY num DESC, dateline DESC LIMIT 0,100");
+		while ($value = DB::fetch($query)) {
+			$value['username'] = daddslashes($value['username']);
 			$friends[] = $value;
 		}
 	}

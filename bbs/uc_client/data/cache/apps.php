@@ -10,30 +10,43 @@ $_CACHE['apps'] = array (
     'viewprourl' => '',
     'apifilename' => 'uc.php',
     'charset' => '',
+    'dbcharset' => '',
     'synlogin' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-    ),
     'recvnote' => '1',
+    'extra' => false,
+    'tagtemplates' => '<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="template"><![CDATA[]]></item>
+</root>',
+    'allowips' => '',
   ),
   2 => 
   array (
     'appid' => '2',
     'type' => 'UCHOME',
     'name' => '个人家园',
-    'url' => 'http://127.0.0.1/uto/utohome',
-    'ip' => '127.0.0.1',
+    'url' => 'http://127.0.0.1/uto/mhome',
+    'ip' => '',
     'viewprourl' => '',
     'apifilename' => 'uc.php',
     'charset' => 'utf-8',
+    'dbcharset' => 'utf8',
     'synlogin' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-      'extraurl' => '			',
-    ),
     'recvnote' => '1',
+    'extra' => false,
+    'tagtemplates' => '<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="template"><![CDATA[<a href="{url}" target="_blank">{subject}</a>]]></item>
+	<item id="fields">
+		<item id="subject"><![CDATA[日志标题]]></item>
+		<item id="uid"><![CDATA[用户 ID]]></item>
+		<item id="username"><![CDATA[用户名]]></item>
+		<item id="dateline"><![CDATA[日期]]></item>
+		<item id="spaceurl"><![CDATA[空间地址]]></item>
+		<item id="url"><![CDATA[日志地址]]></item>
+	</item>
+</root>',
+    'allowips' => '',
   ),
   3 => 
   array (
@@ -41,16 +54,27 @@ $_CACHE['apps'] = array (
     'type' => 'DISCUZX',
     'name' => '论坛',
     'url' => 'http://127.0.0.1/uto/bbs',
-    'ip' => '127.0.0.1',
+    'ip' => '',
     'viewprourl' => '',
     'apifilename' => 'uc.php',
-    'charset' => '',
+    'charset' => 'utf-8',
+    'dbcharset' => 'utf8',
     'synlogin' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-      'extraurl' => '			',
-    ),
     'recvnote' => '1',
+    'extra' => false,
+    'tagtemplates' => '<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<item id="template"><![CDATA[<a href="{url}" target="_blank">{subject}</a>]]></item>
+	<item id="fields">
+		<item id="subject"><![CDATA[标题]]></item>
+		<item id="uid"><![CDATA[用户 ID]]></item>
+		<item id="username"><![CDATA[发帖者]]></item>
+		<item id="dateline"><![CDATA[日期]]></item>
+		<item id="url"><![CDATA[主题地址]]></item>
+	</item>
+</root>',
+    'allowips' => '',
   ),
 );
+
+?>

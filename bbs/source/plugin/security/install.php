@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: install.php 29568 2012-04-19 03:39:25Z songlixin $
+ *      $Id: install.php 29198 2012-03-28 08:38:03Z songlixin $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `pre_security_evilpost` (
   PRIMARY KEY (`pid`),
   KEY `type` (`tid`,`type`),
   KEY `operateresult` (`operateresult`,`createtime`)
-) ENGINE=MyISAM;
+) TYPE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS `pre_security_eviluser` (
   `uid` int(10) unsigned NOT NULL COMMENT '用户ID',
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `pre_security_eviluser` (
   `isreported` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否已经上报',
   PRIMARY KEY (`uid`),
   KEY `operateresult` (`operateresult`,`createtime`)
-) ENGINE=MyISAM;
+) TYPE=MyISAM;
 
 CREATE TABLE IF NOT EXISTS `pre_security_failedlog` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
@@ -55,46 +55,12 @@ CREATE TABLE IF NOT EXISTS `pre_security_failedlog` (
   PRIMARY KEY (`id`),
   KEY `pid` (`pid`),
   KEY `uid` (`uid`)
-) ENGINE=MyISAM;
+) TYPE=MyISAM;
 
 EOF;
 
 runquery($sql);
 
-if (file_exists(DISCUZ_ROOT . './source/include/cron/cron_security_daily.php')) {
-	$count = C::t('common_cron')->count();
-	$oldData = C::t('common_cron')->range(0, $count);
-	$newCron = true;
-	foreach ($oldData as $value) {
-		if ($value['filename'] == 'cron_security_daily.php') {
-			$newCron = false;
-			$cronId = $value['cronid'];
-			break;
-		}
-	}
-	if ($newCron) {
-		$data = array(
-			'available' => 1,
-			'type' => 'user',
-			'name' => $installlang['cron'],
-			'filename' => 'cron_security_daily.php',
-			'weekday' => -1,
-			'day' => -1,
-			'hour' => 2,
-			'minute' => 0,
-		);
-		$cronId = C::t('common_cron')->insert($data, true, false, false);
-	} else {
-		C::t('common_cron')->update($cronId, array(
-			'available' => 1,
-			'weekday' => -1,
-			'day' => -1,
-			'hour' => 2,
-			'minute' => 0,
-		));
-	}
-	updatecache('setting');
-	discuz_cron::run($cronId);
-}
-
 $finish = true;
+
+?>

@@ -1,5 +1,5 @@
 RewriteEngine on
-RewriteCond $1 !^(index\.php|sitemap.inc.php|sitemap.php|sitemap.xml|siguniang.php|gongga.php|ucenter|admpubfile.html|uc_client|api|include|utohome|bbs|config.inc.php|assets|styles|uploads|thumbnails|images|scripts|css|lib|robots\.txt)
+RewriteCond $1 !^(index\.php|sitemap.inc.php|sitemap.php|weibodemo|xwb|xwb.php|sitemap.xml|siguniang.php|gongga.php|ucenter|admpubfile.html|uc_client|api|include|mhome|bbs|config.inc.php|assets|styles|uploads|thumbnails|images|scripts|css|lib|robots\.txt)
 RewriteRule ^(.*)$ /uto/index.php/$1 [L]
 RewriteRule ^sitemap.xml$ sitemap.php?target=google [L]
 RewriteRule ^tourdetail/?tid=([0-9]+)$ tourdetail/$1.html

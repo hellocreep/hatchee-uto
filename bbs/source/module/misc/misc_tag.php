@@ -4,41 +4,36 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: misc_tag.php 28214 2012-02-24 06:38:56Z zhengqingpeng $
+ *      $Id: misc_tag.php 18220 2010-11-17 02:38:38Z liulanbo $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-$id = intval($_GET['id']);
-$type = trim($_GET['type']);
-$name = trim($_GET['name']);
-$page = intval($_GET['page']);
-if($type == 'countitem') {
-	$num = 0;
-	if($id) {
-		$num = C::t('common_tagitem')->count_by_tagid($id);
-	}
-	include_once template('tag/tag');
-	exit();
-}
+$id = intval($_G['gp_id']);
+$type = trim($_G['gp_type']);
+$name = trim($_G['gp_name']);
+$page = intval($_G['gp_page']);
+
 $taglang = lang('tag/template', 'tag');
 if($id || $name) {
 
 	$tpp = 20;
 	$page = max(1, intval($page));
 	$start_limit = ($page - 1) * $tpp;
+	$where = $twhere = '';
 	if($id) {
-		$tag = C::t('common_tag')->fetch_info($id);
+		$where = $twhere = " tagid='$id'";
 	} else {
 		if(!preg_match('/^([\x7f-\xff_-]|\w|\s)+$/', $name) || strlen($name) > 20) {
 			showmessage('parameters_error');
 		}
 		$name = addslashes($name);
-		$tag = C::t('common_tag')->fetch_info(0, $name);
+		$twhere = " tagname='$name'";
 	}
 
+	$tag = DB::fetch_first("SELECT tagid,tagname,status FROM ".DB::table('common_tag')." WHERE 1 AND $twhere");
 	if($tag['status'] == 1) {
 		showmessage('tag_closed');
 	}
@@ -49,6 +44,7 @@ if($id || $name) {
 	$metakeywords = $tagname ? $taglang.' - '.$tagname : $taglang;
 	$metadescription = $tagname ? $taglang.' - '.$tagname : $taglang;
 
+	$where = $where ? $where : " tagid='$id'";;
 
 	$showtype = '';
 	$count = '';
@@ -57,10 +53,10 @@ if($id || $name) {
 	if($type == 'thread') {
 		$showtype = 'thread';
 		$tidarray = $threadlist = array();
-		$count = C::t('common_tagitem')->select($id, 0, 'tid', '', '', 0, 0, 0, 1);
+		$count = DB::result_first("SELECT count(*) FROM ".DB::table('common_tagitem')." WHERE idtype='tid' AND $where");
 		if($count) {
-			$query = C::t('common_tagitem')->select($id, 0, 'tid', '', '', $start_limit, $tpp);
-			foreach($query as $result) {
+			$query = DB::query("SELECT itemid FROM ".DB::table('common_tagitem')." WHERE idtype='tid' AND $where LIMIT $start_limit, $tpp");
+			while($result = DB::fetch($query)) {
 				$tidarray[$result['itemid']] = $result['itemid'];
 			}
 			$threadlist = getthreadsbytids($tidarray);
@@ -69,10 +65,10 @@ if($id || $name) {
 	} elseif($type == 'blog') {
 		$showtype = 'blog';
 		$blogidarray = $bloglist = array();
-		$count = C::t('common_tagitem')->select($id, 0, 'blogid', '', '', 0, 0, 0, 1);
+		$count = DB::result_first("SELECT count(*) FROM ".DB::table('common_tagitem')." WHERE idtype='blogid' AND $where");
 		if($count) {
-			$query = C::t('common_tagitem')->select($id, 0, 'blogid', '', '', $start_limit, $tpp);
-			foreach($query as $result) {
+			$query = DB::query("SELECT itemid FROM ".DB::table('common_tagitem')." WHERE idtype='blogid' AND $where LIMIT $start_limit, $tpp");
+			while($result = DB::fetch($query)) {
 				$blogidarray[$result['itemid']] = $result['itemid'];
 			}
 			$bloglist = getblogbyid($blogidarray);
@@ -83,20 +79,18 @@ if($id || $name) {
 		$shownum = 20;
 
 		$tidarray = $threadlist = array();
-		$query = C::t('common_tagitem')->select($id, 0, 'tid', '', '', $shownum);
-		foreach($query as $result) {
+		$query = DB::query("SELECT itemid FROM ".DB::table('common_tagitem')." WHERE idtype='tid' AND $where LIMIT $shownum");
+		while($result = DB::fetch($query)) {
 			$tidarray[$result['itemid']] = $result['itemid'];
 		}
 		$threadlist = getthreadsbytids($tidarray);
 
-		if(helper_access::check_module('blog')) {
-			$blogidarray = $bloglist = array();
-			$query = C::t('common_tagitem')->select($id, 0, 'blogid', '', '', $shownum);
-			foreach($query as $result) {
-				$blogidarray[$result['itemid']] = $result['itemid'];
-			}
-			$bloglist = getblogbyid($blogidarray);
+		$blogidarray = $bloglist = array();
+		$query = DB::query("SELECT itemid FROM ".DB::table('common_tagitem')." WHERE idtype='blogid' AND $where LIMIT $shownum");
+		while($result = DB::fetch($query)) {
+			$blogidarray[$result['itemid']] = $result['itemid'];
 		}
+		$bloglist = getblogbyid($blogidarray);
 
 	}
 
@@ -106,8 +100,8 @@ if($id || $name) {
 	$navtitle = $metakeywords = $metadescription = $taglang;
 	$viewthreadtags = 100;
 	$tagarray = array();
-	$query = C::t('common_tag')->fetch_all_by_status(0, '', $viewthreadtags);
-	foreach($query as $result) {
+	$query = DB::query("SELECT tagid,tagname FROM ".DB::table('common_tag')." WHERE status=0 ORDER BY tagid DESC LIMIT $viewthreadtags");
+	while($result =	DB::fetch($query)) {
 		$tagarray[] = $result;
 	}
 	include_once template('tag/tag');
@@ -120,20 +114,12 @@ function getthreadsbytids($tidarray) {
 	if(!empty($tidarray)) {
 		loadcache('forums');
 		include_once libfile('function_misc', 'function');
-		$fids = array();
-		foreach(C::t('forum_thread')->fetch_all_by_tid($tidarray) as $result) {
+		$query = DB::query("SELECT t.*,f.name FROM ".DB::table('forum_thread')." t LEFT JOIN ".DB::table('forum_forum')." f ON f.fid=t.fid WHERE t.tid IN (".dimplode($tidarray).")  ORDER BY t.lastpost DESC");
+		while($result = DB::fetch($query)) {
 			if(!isset($_G['cache']['forums'][$result['fid']]['name'])) {
-				$fids[$result['fid']] = $result['tid'];
-			} else {
-				$result['name'] = $_G['cache']['forums'][$result['fid']]['name'];
+				$_G['cache']['forums'][$result['fid']]['name'] = $result['name'];
 			}
-			$threadlist[$result['tid']] = procthread($result);
-		}
-		if(!empty($fids)) {
-			foreach(C::t('forum_forum')->fetch_all_by_fid(array_keys($fids)) as $fid => $forum) {
-				$_G['cache']['forums'][$fid]['forumname'] = $forum['name'];
-				$threadlist[$fids[$fid]]['forumname'] = $forum['name'];
-			}
+			$threadlist[] = procthread($result);
 		}
 	}
 	return $threadlist;
@@ -144,14 +130,11 @@ function getblogbyid($blogidarray) {
 
 	$bloglist = array();
 	if(!empty($blogidarray)) {
-		$data_blog = C::t('home_blog')->fetch_all($blogidarray, 'dateline', 'DESC');
-		$data_blogfield = C::t('home_blogfield')->fetch_all($blogidarray);
-
+		$query = DB::query("SELECT bf.*, b.* FROM ".DB::table('home_blog')." b LEFT JOIN ".DB::table('home_blogfield')." bf ON bf.blogid=b.blogid WHERE b.blogid IN (".dimplode($blogidarray).") ORDER BY b.dateline DESC");
 		require_once libfile('function/spacecp');
 		require_once libfile('function/home');
 		$classarr = array();
-		foreach($data_blog as $curblogid => $result) {
-			$result = array_merge($result, (array)$data_blogfield[$curblogid]);
+		while($result = DB::fetch($query)) {
 			$result['dateline'] = dgmdate($result['dateline']);
 			$classarr = getclassarr($result['uid']);
 			$result['classname'] = $classarr[$result[classid]]['classname'];

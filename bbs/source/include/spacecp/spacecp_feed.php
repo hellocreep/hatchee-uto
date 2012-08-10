@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: spacecp_feed.php 24613 2011-09-28 05:07:03Z chenmengshu $
+ *      $Id: spacecp_feed.php 20083 2011-02-14 02:48:58Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -16,7 +16,8 @@ $page = empty($_GET['page'])?0:intval($_GET['page']);
 if($page<1) $page=1;
 
 if($feedid) {
-	if(!$feed = C::t('home_feed')->fetch('', '', '', $feedid)) {
+	$query = DB::query("SELECT * FROM ".DB::table('home_feed')." WHERE feedid='$feedid'");
+	if(!$feed = DB::fetch($query)) {
 		showmessage('feed_no_found');
 	}
 }
@@ -102,10 +103,13 @@ if($_GET['op'] == 'delete') {
 		$start = ($page-1)*$perpage;
 
 		ckstart($start, $perpage);
-		$count = C::t('home_comment')->count_by_id_idtype($feed['id'], $feed['idtype']);
+		$count = getcount('home_comment', array('id'=>$feed['id'], 'idtype'=>$feed['idtype']));
 		if($count) {
-			$query = C::t('home_comment')->fetch_all_by_id_idtype($feed['id'], $feed['idtype'], $start, $perpage);
-			foreach($query as $value) {
+			$query = DB::query("SELECT * FROM ".DB::table('home_comment')."
+				WHERE id='$feed[id]' AND idtype='$feed[idtype]'
+				ORDER BY dateline
+				LIMIT $start,$perpage");
+			while ($value = DB::fetch($query)) {
 				$list[] = $value;
 			}
 			$multi = multi($count, $perpage, $page, "home.php?mod=spacecp&ac=feed&op=getcomment&feedid=$feedid");

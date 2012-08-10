@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: spacecp_poke.php 27023 2011-12-30 06:39:45Z svn_project_zhangjie $
+ *      $Id: spacecp_poke.php 20203 2011-02-17 07:14:41Z zhengqingpeng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -28,9 +28,9 @@ if($op == 'send' || $op == 'reply') {
 	$tospace = array();
 
 	if($uid) {
-		$tospace = getuserbyuid($uid);
+		$tospace = getspace($uid);
 	} elseif ($_POST['username']) {
-		$tospace = C::t('common_member')->fetch_uid_by_username($_POST['username']);
+		$tospace = DB::fetch_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='$_POST[username]' LIMIT 1");
 	}
 
 	if($tospace && isblacklist($tospace['uid'])) {
@@ -42,7 +42,7 @@ if($op == 'send' || $op == 'reply') {
 			showmessage('space_does_not_exist');
 		}
 
-		$notetext = getstr($_POST['note'], 150);
+		$notetext = getstr($_POST['note'], 150, 1, 1);
 		$notetext = censor($notetext);
 		$setarr = array(
 			'pokeuid' => $uid+$_G['uid'],
@@ -52,25 +52,25 @@ if($op == 'send' || $op == 'reply') {
 			'dateline' => $_G['timestamp'],
 			'iconid' => intval($_POST['iconid'])
 		);
-		C::t('home_pokearchive')->insert($setarr);
+		DB::insert('home_pokearchive', $setarr);
 
 		$setarr = array(
 			'uid' => $uid,
 			'fromuid' => $_G['uid'],
 			'fromusername' => $_G['username'],
-			'note' => getstr($_POST['note'], 150),
+			'note' => getstr($_POST['note'], 150, 1, 1),
 			'dateline' => $_G['timestamp'],
 			'iconid' => intval($_POST['iconid'])
 		);
 
-		C::t('home_poke')->insert($setarr, false, true);
+		DB::insert('home_poke', $setarr, 0, true);
 
 		require_once libfile('function/friend');
 		friend_addnum($tospace['uid']);
 
 		if($op == 'reply') {
-			C::t('home_poke')->delete_by_uid_fromuid($_G['uid'], $uid);
-			C::t('common_member')->increase($_G['uid'], array('newprompt' => -1));
+			DB::query("DELETE FROM ".DB::table('home_poke')." WHERE uid='$_G[uid]' AND fromuid='$uid'");
+			DB::query("UPDATE ".DB::table('common_member')." SET newprompt=newprompt-'1' WHERE uid='$_G[uid]'");
 		}
 		updatecreditbyaction('poke', 0, array(), $uid);
 
@@ -97,16 +97,16 @@ if($op == 'send' || $op == 'reply') {
 		include_once libfile('function/stat');
 		updatestat('poke');
 
-		showmessage('poke_success', dreferer(), array('username' => $tospace['username'], 'uid' => $uid, 'from' => $_GET['from']), array('showdialog'=>1, 'showmsg' => true, 'closetime' => true));
+		showmessage('poke_success', dreferer(), array('username' => $tospace['username'], 'uid' => $uid, 'from' => $_G['gp_from']), array('showdialog'=>1, 'showmsg' => true, 'closetime' => true));
 
 	}
 
 } elseif($op == 'ignore') {
 	if(submitcheck('ignoresubmit')) {
 		$where = empty($uid)?'':"AND fromuid='$uid'";
-		C::t('home_poke')->delete_by_uid_fromuid($_G['uid'], $uid);
+		DB::query("DELETE FROM ".DB::table('home_poke')." WHERE uid='$_G[uid]' $where");
 
-		showmessage('has_been_hailed_overlooked', '', array('uid' => $uid, 'from' => $_GET['from']), array('showdialog'=>1, 'showmsg' => true, 'closetime' => true, 'alert' => 'right'));
+		showmessage('has_been_hailed_overlooked', '', array('uid' => $uid, 'from' => $_G['gp_from']), array('showdialog'=>1, 'showmsg' => true, 'closetime' => 0));
 	}
 
 } elseif($op == 'view') {
@@ -114,7 +114,8 @@ if($op == 'send' || $op == 'reply') {
 	$_GET['uid'] = intval($_GET['uid']);
 
 	$list = array();
-	foreach(C::t('home_poke')->fetch_all_by_uid_fromuid($space['uid'], $_GET['uid']) as $value) {
+	$query = DB::query("SELECT * FROM ".DB::table('home_poke')." WHERE uid='$space[uid]' AND fromuid='$_GET[uid]'");
+	if($value = DB::fetch($query)) {
 		$pokeuid = $value['uid']+$value['fromuid'];
 
 		$value['uid'] = $value['fromuid'];
@@ -123,7 +124,8 @@ if($op == 'send' || $op == 'reply') {
 		require_once libfile('function/friend');
 		$value['isfriend'] = $value['uid']==$space['uid'] || friend_check($value['uid']) ? 1 : 0;
 
-		foreach(C::t('home_pokearchive')->fetch_all_by_pokeuid($pokeuid) as $subvalue) {
+		$subquery = DB::query("SELECT * FROM ".DB::table('home_pokearchive')." WHERE pokeuid='$pokeuid' ORDER BY dateline");
+		while ($subvalue = DB::fetch($subquery)) {
 			$list[$subvalue['pid']] = $subvalue;
 		}
 
@@ -140,9 +142,10 @@ if($op == 'send' || $op == 'reply') {
 	ckstart($start, $perpage);
 
 	$fuids = $list = array();
-	$count = C::t('home_poke')->count_by_uid($space['uid']);
+	$count = DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('home_poke')." WHERE uid='$space[uid]'"), 0);
 	if($count) {
-		foreach(C::t('home_poke')->fetch_all_by_uid($space['uid'], $start, $perpage) as $value) {
+		$query = DB::query("SELECT * FROM ".DB::table('home_poke')." WHERE uid='$space[uid]' ORDER BY dateline DESC LIMIT $start,$perpage");
+		while ($value = DB::fetch($query)) {
 			$value['uid'] = $value['fromuid'];
 			$value['username'] = $value['fromusername'];
 

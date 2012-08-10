@@ -4,14 +4,12 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: home_task.php 27146 2012-01-06 09:34:49Z monkey $
+ *      $Id: home_task.php 21217 2011-03-18 10:01:16Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-
-$_G['disabledwidthauto'] = 0;
 
 require_once libfile('function/spacecp');
 
@@ -23,7 +21,7 @@ require_once libfile('class/task');
 $tasklib = & task::instance();
 
 $_G['mnid'] = 'mn_common';
-$id = intval($_GET['id']);
+$id = intval($_G['gp_id']);
 $do = empty($_GET['do']) ? '' : $_GET['do'];
 
 if(empty($_G['uid'])) {
@@ -34,11 +32,11 @@ $navtitle = lang('core', 'title_task');
 
 if(empty($do)) {
 
-	$_GET['item'] = empty($_GET['item']) ? 'new' : $_GET['item'];
-	$actives = array($_GET['item'] => ' class="a"');
-	$tasklist = $tasklib->tasklist($_GET['item']);
+	$_G['gp_item'] = empty($_G['gp_item']) ? 'new' : $_G['gp_item'];
+	$actives = array($_G['gp_item'] => ' class="a"');
+	$tasklist = $tasklib->tasklist($_G['gp_item']);
 	$listdata = $tasklib->listdata;
-	if($_GET['item'] == 'doing' && empty($tasklist)) {
+	if($_G['gp_item'] == 'doing' && empty($tasklist)) {
 		dsetcookie('taskdoing_'.$_G['uid']);
 	}
 
@@ -112,7 +110,7 @@ include template('home/space_task');
 
 function cleartaskstatus() {
 	global $_G;
-	if(!C::t('common_mytask')->count($_G['uid'], false, 0)) {
+	if(!DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_mytask')." WHERE uid='$_G[uid]' AND status='0'")) {
 		dsetcookie('taskdoing_'.$_G['uid']);
 	}
 }

@@ -14,19 +14,14 @@ $_config['db']['1']['tablepre'] = 'bbs_';
 $_config['db']['common']['slave_except_table'] = '';
 
 // --------------------------  CONFIG MEMORY  --------------------------- //
-$_config['memory']['prefix'] = 'esKUDw_';
-$_config['memory']['redis']['server'] = '';
-$_config['memory']['redis']['port'] = 6379;
-$_config['memory']['redis']['pconnect'] = 1;
-$_config['memory']['redis']['timeout'] = '0';
-$_config['memory']['redis']['serializer'] = 1;
+$_config['memory']['prefix'] = 'lmdNr6_';
+$_config['memory']['eaccelerator'] = 1;
+$_config['memory']['apc'] = 1;
+$_config['memory']['xcache'] = 1;
 $_config['memory']['memcache']['server'] = '';
 $_config['memory']['memcache']['port'] = 11211;
 $_config['memory']['memcache']['pconnect'] = 1;
 $_config['memory']['memcache']['timeout'] = 1;
-$_config['memory']['apc'] = 1;
-$_config['memory']['xcache'] = 1;
-$_config['memory']['eaccelerator'] = 1;
 
 // --------------------------  CONFIG SERVER  --------------------------- //
 $_config['server']['id'] = 1;
@@ -50,12 +45,12 @@ $_config['output']['ajaxvalidate'] = '0';
 $_config['output']['iecompatible'] = '0';
 
 // --------------------------  CONFIG COOKIE  --------------------------- //
-$_config['cookie']['cookiepre'] = '9LAW_';
+$_config['cookie']['cookiepre'] = 'uchome_';
 $_config['cookie']['cookiedomain'] = '';
 $_config['cookie']['cookiepath'] = '/';
 
 // -------------------------  CONFIG SECURITY  -------------------------- //
-$_config['security']['authkey'] = '832811ijEM87QiQ6';
+$_config['security']['authkey'] = '832811klQJkaD4K0';
 $_config['security']['urlxssdefend'] = 1;
 $_config['security']['attackevasive'] = '0';
 $_config['security']['querysafe']['status'] = 1;
@@ -84,7 +79,7 @@ $_config['security']['querysafe']['afullnote'] = '0';
 $_config['admincp']['founder'] = '1';
 $_config['admincp']['forcesecques'] = '0';
 $_config['admincp']['checkip'] = 1;
-$_config['admincp']['runquery'] = '0';
+$_config['admincp']['runquery'] = 1;
 $_config['admincp']['dbimport'] = 1;
 
 // --------------------------  CONFIG REMOTE  --------------------------- //
@@ -92,9 +87,6 @@ $_config['remote']['on'] = '0';
 $_config['remote']['dir'] = 'remote';
 $_config['remote']['appkey'] = '62cf0b3c3e6a4c9468e7216839721d8e';
 $_config['remote']['cron'] = '0';
-
-// ---------------------------  CONFIG INPUT  --------------------------- //
-$_config['input']['compatible'] = 1;
 
 
 // -------------------  THE END  -------------------- //

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: function_userapp.php 25756 2011-11-22 02:47:45Z zhangguosheng $
+ *      $Id: function_userapp.php 16978 2010-09-17 09:46:14Z zhengqingpeng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -34,8 +34,8 @@ function _my_get_friends($uid) {
 	$var = "my_get_friends_$uid";
 	if(!isset($_G[$var])) {
 		$_G[$var] = array();
-		$query = C::t('home_friend')->fetch_all($uid);
-		foreach($query as $value) {
+		$query = DB::query("SELECT fuid FROM ".DB::table('home_friend')." WHERE uid='$uid'");
+		while ($value = DB::fetch($query)) {
 			$_G[$var][] = $value['fuid'];
 		}
 	}
@@ -43,8 +43,16 @@ function _my_get_friends($uid) {
 }
 
 function _my_get_name($uid) {
-	$member = getuserbyuid($uid);
-	return $member ? $member['username'] : '';
+	global $_G;
+
+	$var = "my_get_name_$uid";
+	if(!isset($_G[$var])) {
+		$query = DB::query("SELECT username FROM ".DB::table('common_member')." WHERE uid='$uid'");
+		if($value = DB::fetch($query)) {
+			$_G[$var] = $value['username'];
+		}
+	}
+	return $_G[$var];
 }
 
 function _my_get_profilepic($uid, $size='small') {
@@ -57,8 +65,8 @@ function _my_are_friends($uid1, $uid2) {
 	$var = "my_are_friends_{$uid1}_{$uid2}";
 	if(!isset($_G[$var])) {
 		$_G[$var] = false;
-		$query = C::t('home_friend')->fetch_all_by_uid_fuid($uid1, $uid2);
-		foreach($query as $value) {
+		$query = DB::query("SELECT uid FROM ".DB::table('home_friend')." WHERE uid='$uid1' AND fuid='$uid2' LIMIT 1");
+		if($value = DB::fetch($query)) {
 			$_G[$var] = true;
 		}
 	}
@@ -71,7 +79,8 @@ function _my_user_is_added_app($uid, $appid) {
 	$var = "my_user_is_added_app_{$uid}_{$appid}";
 	if(!isset($_G[$var])) {
 		$_G[$var] = false;
-		if($value = C::t('home_userapp')->fetch_by_uid_appid($uid, $appid)) {
+		$query = DB::query("SELECT uid FROM ".DB::table('home_userapp')." WHERE uid='$uid' AND appid='$appid' LIMIT 1");
+		if($value = DB::fetch($query)) {
 			$_G[$var] = true;
 		}
 	}
@@ -93,7 +102,8 @@ function _my_get_app_position($appid) {
 	$var = "my_get_app_position_{$appid}";
 	if(!isset($_G[$var])) {
 		$_G[$var] = 'wide';
-		if($value = C::t('common_myapp')->fetch($appid)) {
+		$query = DB::query("SELECT narrow FROM ".DB::table('common_myapp')." WHERE appid='$appid' LIMIT 1");
+		if($value = DB::fetch($query)) {
 			if($value['narrow']) $_G[$var] = 'narrow';
 		}
 	}

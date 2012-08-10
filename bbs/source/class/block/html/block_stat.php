@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_stat.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ *      $Id: block_blank.php 6757 2010-03-25 09:01:29Z cnteacher $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -118,7 +118,6 @@ class block_stat extends commonblock_html {
 	}
 
 	function getdata($style, $parameter) {
-		$parameter = $this->cookparameter($parameter);
 		global $_G;
 		if(in_array('posts', $parameter['option']) || in_array('bbsnewposts', $parameter['option'])) {
 			$sql = "SELECT sum(f.posts) AS posts, sum(f.todayposts) AS todayposts FROM ".DB::table('forum_forum')." f WHERE f.status='1'";
@@ -157,7 +156,7 @@ class block_stat extends commonblock_html {
 			$html .= "<th$class><p>".intval($postdata[0]).'</p>'.(!empty($parameter['bbslastposts_title']) ? $parameter['bbslastposts_title'] : lang('block/stat', 'stat_bbslastposts')).'</th>';
 		}
 		if(in_array('onlinemembers', $parameter['option'])) {
-			$num = !empty($_G['cookie']['onlineusernum']) ? intval($_G['cookie']['onlineusernum']) : C::app()->session->count();
+			$num = !empty($_G['cookie']['onlineusernum']) ? intval($_G['cookie']['onlineusernum']) : DB::result_first("SELECT count(*) FROM ".DB::table('common_session'));
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['onlinemembers_title']) ? $parameter['onlinemembers_title'] : lang('block/stat', 'stat_onlinemembers')).'</th>';
 		}
@@ -169,27 +168,27 @@ class block_stat extends commonblock_html {
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['maxmembers_title']) ? $parameter['maxmembers_title'] : lang('block/stat', 'stat_maxmembers')).'</th>';
 		}
 		if(in_array('doings', $parameter['option'])) {
-			$num = C::t('home_doing')->count();
+			$num = DB::result_first('SELECT COUNT(*) FROM '.DB::table('home_doing'));
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['doings_title']) ? $parameter['doings_title'] : lang('block/stat', 'stat_doings')).'</th>';
 		}
 		if(in_array('blogs', $parameter['option'])) {
-			$num = C::t('home_blog')->count();
+			$num = DB::result_first('SELECT COUNT(*) FROM '.DB::table('home_blog'));
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['blogs_title']) ? $parameter['blogs_title'] : lang('block/stat', 'stat_blogs')).'</th>';
 		}
 		if(in_array('albums', $parameter['option'])) {
-			$num = C::t('home_album')->count();
+			$num = DB::result_first('SELECT COUNT(*) FROM '.DB::table('home_album'));
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['albums_title']) ? $parameter['albums_title'] : lang('block/stat', 'stat_albums')).'</th>';
 		}
 		if(in_array('pics', $parameter['option'])) {
-			$num = C::t('home_pic')->count();
+			$num = DB::result_first('SELECT COUNT(*) FROM '.DB::table('home_pic'));
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['pics_title']) ? $parameter['pics_title'] : lang('block/stat', 'stat_pics')).'</th>';
 		}
 		if(in_array('shares', $parameter['option'])) {
-			$num = C::t('home_share')->count();
+			$num = DB::result_first('SELECT COUNT(*) FROM '.DB::table('home_share'));
 			$class = ($index-- == 0) ? ' class="bbn"' : '';
 			$html .= "<th$class><p>".intval($num).'</p>'.(!empty($parameter['shares_title']) ? $parameter['shares_title'] : lang('block/stat', 'stat_shares')).'</th>';
 		}

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: class_member.php 30840 2012-06-25 09:12:00Z zhangjie $
+ *      $Id: class_member.php 25292 2011-11-03 10:14:21Z zhangguosheng $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -20,11 +20,11 @@ class logging_ctl {
 
 	function logging_more($questionexist) {
 		global $_G;
-		if(empty($_GET['lssubmit'])) {
+		if(empty($_G['gp_lssubmit'])) {
 			return;
 		}
-		$auth = authcode($_GET['username']."\t".$_GET['password']."\t".($questionexist ? 1 : 0), 'ENCODE');
-		$js = '<script type="text/javascript">showWindow(\'login\', \'member.php?mod=logging&action=login&auth='.rawurlencode($auth).'&referer='.rawurlencode(dreferer()).(!empty($_GET['cookietime']) ? '&cookietime=1' : '').'\')</script>';
+		$auth = authcode($_G['gp_username']."\t".$_G['gp_password']."\t".($questionexist ? 1 : 0), 'ENCODE');
+		$js = '<script type="text/javascript">showWindow(\'login\', \'member.php?mod=logging&action=login&auth='.rawurlencode($auth).'&referer='.rawurlencode(dreferer()).(!empty($_G['gp_cookietime']) ? '&cookietime=1' : '').'\')</script>';
 		showmessage('location_login', '', array('type' => 1), array('extrajs' => $js));
 	}
 
@@ -37,34 +37,34 @@ class logging_ctl {
 			showmessage('login_succeed', $referer ? $referer : './', $param, array('showdialog' => 1, 'locationtime' => true, 'extrajs' => $ucsynlogin));
 		}
 
-		$from_connect = $this->setting['connect']['allow'] && !empty($_GET['from']) ? 1 : 0;
+		$from_connect = $this->setting['connect']['allow'] && !empty($_G['gp_from']) ? 1 : 0;
 		$seccodecheck = $from_connect ? false : $this->setting['seccodestatus'] & 2;
-		$seccodestatus = !empty($_GET['lssubmit']) ? false : $seccodecheck;
+		$seccodestatus = !empty($_G['gp_lssubmit']) ? false : $seccodecheck;
 		$invite = getinvite();
 
 		if(!submitcheck('loginsubmit', 1, $seccodestatus)) {
 
 			$auth = '';
-			$username = !empty($_G['cookie']['loginuser']) ? dhtmlspecialchars($_G['cookie']['loginuser']) : '';
+			$username = !empty($_G['cookie']['loginuser']) ? htmlspecialchars($_G['cookie']['loginuser']) : '';
 
-			if(!empty($_GET['auth'])) {
-				list($username, $password, $questionexist) = explode("\t", authcode($_GET['auth'], 'DECODE'));
-				$username = dhtmlspecialchars($username);
+			if(!empty($_G['gp_auth'])) {
+				list($username, $password, $questionexist) = explode("\t", authcode($_G['gp_auth'], 'DECODE'));
+				$username = htmlspecialchars($username);
 				if($username && $password) {
-					$auth = dhtmlspecialchars($_GET['auth']);
+					$auth = htmlspecialchars($_G['gp_auth']);
 				} else {
 					$auth = '';
 				}
 			}
 
-			$cookietimecheck = !empty($_G['cookie']['cookietime']) || !empty($_GET['cookietime']) ? 'checked="checked"' : '';
+			$cookietimecheck = !empty($_G['cookie']['cookietime']) || !empty($_G['gp_cookietime']) ? 'checked="checked"' : '';
 
 			if($seccodecheck) {
 				$seccode = random(6, 1) + $seccode{0} * 1000000;
 			}
 
-			if($this->extrafile && file_exists($this->extrafile)) {
-				require_once $this->extrafile;
+			if($this->extrafile && file_exists(libfile('member/'.$this->extrafile, 'module'))) {
+				require_once libfile('member/'.$this->extrafile, 'module');
 			}
 
 			$navtitle = lang('core', 'title_login');
@@ -72,26 +72,27 @@ class logging_ctl {
 
 		} else {
 
-			if(!empty($_GET['auth'])) {
-				list($_GET['username'], $_GET['password']) = daddslashes(explode("\t", authcode($_GET['auth'], 'DECODE')));
+			if(!empty($_G['gp_auth'])) {
+				list($_G['gp_username'], $_G['gp_password']) = daddslashes(explode("\t", authcode($_G['gp_auth'], 'DECODE')));
 			}
 
-			if(!($_G['member_loginperm'] = logincheck($_GET['username']))) {
+			if(!($_G['member_loginperm'] = logincheck($_G['gp_username']))) {
 				showmessage('login_strike');
 			}
-			if($_GET['fastloginfield']) {
-				$_GET['loginfield'] = $_GET['fastloginfield'];
+			if($_G['gp_fastloginfield']) {
+				$_G['gp_loginfield'] = $_G['gp_fastloginfield'];
 			}
 			$_G['uid'] = $_G['member']['uid'] = 0;
 			$_G['username'] = $_G['member']['username'] = $_G['member']['password'] = '';
-			if(!$_GET['password'] || $_GET['password'] != addslashes($_GET['password'])) {
+			if(!$_G['gp_password'] || $_G['gp_password'] != addslashes($_G['gp_password'])) {
 				showmessage('profile_passwd_illegal');
 			}
-			$result = userlogin($_GET['username'], $_GET['password'], $_GET['questionid'], $_GET['answer'], $this->setting['autoidselect'] ? 'auto' : $_GET['loginfield'], $_G['clientip']);
+			$result = userlogin($_G['gp_username'], $_G['gp_password'], $_G['gp_questionid'], $_G['gp_answer'], $this->setting['autoidselect'] ? 'auto' : $_G['gp_loginfield']);
 			$uid = $result['ucresult']['uid'];
 
-			if(!empty($_GET['lssubmit']) && ($result['ucresult']['uid'] == -3 || $seccodecheck && $result['status'] > 0)) {
-				$_GET['username'] = $result['ucresult']['username'];
+			if(!empty($_G['gp_lssubmit']) && ($result['ucresult']['uid'] == -3 || $seccodecheck && $result['status'] > 0)) {
+				$_G['gp_username'] = $result['ucresult']['username'];
+				$_G['gp_password'] = stripslashes($_G['gp_password']);
 				$this->logging_more($result['ucresult']['uid'] == -3);
 			}
 
@@ -100,31 +101,63 @@ class logging_ctl {
 					$auth = authcode($result['ucresult']['username']."\t".FORMHASH, 'ENCODE');
 					showmessage('location_activation', 'member.php?mod='.$this->setting['regname'].'&action=activation&auth='.rawurlencode($auth).'&referer='.rawurlencode(dreferer()), array(), array('location' => true));
 				} else {
+					$result = daddslashes($result);
 					$init_arr = explode(',', $this->setting['initcredits']);
-					$groupid = $this->setting['regverify'] ? 8 : $this->setting['newusergroupid'];
-
-					C::t('common_member')->insert($uid, $result['ucresult']['username'], md5(random(10)), $result['ucresult']['email'], $_G['clientip'], $groupid, $init_arr);
-					$result['member'] = getuserbyuid($uid);
+					DB::insert('common_member', array(
+						'uid' => $uid,
+						'username' => $result['ucresult']['username'],
+						'password' => md5(random(10)),
+						'email' => $result['ucresult']['email'],
+						'adminid' => 0,
+						'groupid' => $this->setting['regverify'] ? 8 : $this->setting['newusergroupid'],
+						'regdate' => TIMESTAMP,
+						'credits' => $init_arr[0],
+						'timeoffset' => 9999
+					));
+					DB::insert('common_member_status', array(
+						'uid' => $uid,
+						'regip' => $_G['clientip'],
+						'lastip' => $_G['clientip'],
+						'lastvisit' => TIMESTAMP,
+						'lastactivity' => TIMESTAMP,
+						'lastpost' => 0,
+						'lastsendmail' => 0
+					));
+					DB::insert('common_member_profile', array('uid' => $uid));
+					DB::insert('common_member_field_forum', array('uid' => $uid));
+					DB::insert('common_member_field_home', array('uid' => $uid));
+					DB::insert('common_member_count', array(
+						'uid' => $uid,
+						'extcredits1' => $init_arr[1],
+						'extcredits2' => $init_arr[2],
+						'extcredits3' => $init_arr[3],
+						'extcredits4' => $init_arr[4],
+						'extcredits5' => $init_arr[5],
+						'extcredits6' => $init_arr[6],
+						'extcredits7' => $init_arr[7],
+						'extcredits8' => $init_arr[8]
+					));
+					manyoulog('user', $uid, 'add');
+					$result['member'] = DB::fetch_first("SELECT * FROM ".DB::table('common_member')." WHERE uid='$uid'");
 					$result['status'] = 1;
 				}
 			}
 
 			if($result['status'] > 0) {
 
-				if($this->extrafile && file_exists($this->extrafile)) {
-					require_once $this->extrafile;
+				if($this->extrafile && file_exists(libfile('member/'.$this->extrafile, 'module'))) {
+					require_once libfile('member/'.$this->extrafile, 'module');
 				}
 
-				setloginstatus($result['member'], $_GET['cookietime'] ? 2592000 : 0);
-				checkfollowfeed();
+				setloginstatus($result['member'], $_G['gp_cookietime'] ? 2592000 : 0);
 
-				C::t('common_member_status')->update($_G['uid'], array('lastip' => $_G['clientip'], 'lastvisit' =>TIMESTAMP, 'lastactivity' => TIMESTAMP));
+				DB::query("UPDATE ".DB::table('common_member_status')." SET lastip='".$_G['clientip']."', lastvisit='".time()."', lastactivity='".TIMESTAMP."' WHERE uid='$_G[uid]'");
 				$ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
 
 				if($invite['id']) {
-					$result = C::t('common_invite')->count_by_uid_fuid($invite['uid'], $uid);
+					$result = DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_invite')." WHERE uid='$invite[uid]' AND fuid='$uid'");
 					if(!$result) {
-						C::t('common_invite')->update($invite['id'], array('fuid'=>$uid, 'fusername'=>$_G['username']));
+						DB::update("common_invite", array('fuid'=>$uid, 'fusername'=>$_G['username']), array('id'=>$invite['id']));
 						updatestat('invite');
 					} else {
 						$invite = array();
@@ -152,15 +185,14 @@ class logging_ctl {
 					'locationtime' => true,
 					'extrajs' => $ucsynlogin
 				);
-
 				$loginmessage = $_G['groupid'] == 8 ? 'login_succeed_inactive_member' : 'login_succeed';
 
 				$location = $invite || $_G['groupid'] == 8 ? 'home.php?mod=space&do=home' : dreferer();
-				if(empty($_GET['handlekey']) || !empty($_GET['lssubmit'])) {
+				if(empty($_G['gp_handlekey']) || !empty($_G['gp_lssubmit'])) {
 					if(defined('IN_MOBILE')) {
 						showmessage('location_login_succeed_mobile', $location, array('username' => $result['ucresult']['username']), array('location' => true));
 					} else {
-						if(!empty($_GET['lssubmit'])) {
+						if(!empty($_G['gp_lssubmit'])) {
 							if(!$ucsynlogin) {
 								$extra['location'] = true;
 							}
@@ -177,7 +209,6 @@ class logging_ctl {
 										'$(\'main_succeed\').style.display = \'\';'.
 										'$(\'succeedlocation\').innerHTML = \''.lang('message', $loginmessage, $param).'\';</script>'.$ucsynlogin,
 									'striptags' => false,
-									'showdialog' => true
 								)
 							);
 						}
@@ -186,23 +217,17 @@ class logging_ctl {
 					showmessage($loginmessage, $location, $param, $extra);
 				}
 			} else {
-				$password = preg_replace("/^(.{".round(strlen($_GET['password']) / 4)."})(.+?)(.{".round(strlen($_GET['password']) / 6)."})$/s", "\\1***\\3", $_GET['password']);
+				$password = preg_replace("/^(.{".round(strlen($_G['gp_password']) / 4)."})(.+?)(.{".round(strlen($_G['gp_password']) / 6)."})$/s", "\\1***\\3", $_G['gp_password']);
 				$errorlog = dhtmlspecialchars(
 					TIMESTAMP."\t".
-					($result['ucresult']['username'] ? $result['ucresult']['username'] : $_GET['username'])."\t".
+					($result['ucresult']['username'] ? $result['ucresult']['username'] : dstripslashes($_G['gp_username']))."\t".
 					$password."\t".
-					"Ques #".intval($_GET['questionid'])."\t".
+					"Ques #".intval($_G['gp_questionid'])."\t".
 					$_G['clientip']);
 				writelog('illegallog', $errorlog);
-				loginfailed($_GET['username']);
-				$fmsg = $result['ucresult']['uid'] == '-3' ? (empty($_GET['questionid']) || $answer == '' ? 'login_question_empty' : 'login_question_invalid') : 'login_invalid';
-				if($_G['member_loginperm'] > 1) {
-					showmessage($fmsg, '', array('loginperm' => $_G['member_loginperm'] - 1));
-				} elseif($_G['member_loginperm'] == -1) {
-					showmessage('login_password_invalid');
-				} else {
-					showmessage('login_strike');
-				}
+				loginfailed($_G['gp_username']);
+				$fmsg = $result['ucresult']['uid'] == '-3' ? (empty($_G['gp_questionid']) || $answer == '' ? 'login_question_empty' : 'login_question_invalid') : 'login_invalid';
+				showmessage($fmsg, '', array('loginperm' => $_G['member_loginperm']));
 			}
 
 		}
@@ -214,7 +239,7 @@ class logging_ctl {
 
 		$ucsynlogout = $this->setting['allowsynlogin'] ? uc_user_synlogout() : '';
 
-		if($_GET['formhash'] != $_G['formhash']) {
+		if($_G['gp_formhash'] != $_G['formhash']) {
 			showmessage('logout_succeed', dreferer(), array('formhash' => FORMHASH, 'ucsynlogout' => $ucsynlogout));
 		}
 
@@ -236,7 +261,7 @@ class register_ctl {
 	function register_ctl() {
 		global $_G;
 		if($_G['setting']['bbclosed']) {
-			if(($_GET['action'] != 'activation' && !$_GET['activationauth']) || !$_G['setting']['closedallowactivation'] ) {
+			if(($_G['gp_action'] != 'activation' && !$_G['gp_activationauth']) || !$_G['setting']['closedallowactivation'] ) {
 				showmessage('register_disable', NULL, array(), array('login' => 1));
 			}
 		}
@@ -253,10 +278,10 @@ class register_ctl {
 	function on_register() {
 		global $_G;
 
-		$_GET['username'] = $_GET[''.$this->setting['reginput']['username']];
-		$_GET['password'] = $_GET[''.$this->setting['reginput']['password']];
-		$_GET['password2'] = $_GET[''.$this->setting['reginput']['password2']];
-		$_GET['email'] = $_GET[''.$this->setting['reginput']['email']];
+		$_G['gp_username'] = $_G['gp_'.$this->setting['reginput']['username']];
+		$_G['gp_password'] = $_G['gp_'.$this->setting['reginput']['password']];
+		$_G['gp_password2'] = $_G['gp_'.$this->setting['reginput']['password2']];
+		$_G['gp_email'] = $_G['gp_'.$this->setting['reginput']['email']];
 
 		if($_G['uid']) {
 			$ucsynlogin = $this->setting['allowsynlogin'] ? uc_user_synlogin($_G['uid']) : '';
@@ -266,7 +291,7 @@ class register_ctl {
 			}
 			showmessage('login_succeed', $url_forward ? $url_forward : './', array('username' => $_G['member']['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']), array('extrajs' => $ucsynlogin));
 		} elseif(!$this->setting['regclosed'] && (!$this->setting['regstatus'] || !$this->setting['ucactivation'])) {
-			if($_GET['action'] == 'activation' || $_GET['activationauth']) {
+			if($_G['gp_action'] == 'activation' || $_G['gp_activationauth']) {
 				if(!$this->setting['ucactivation'] && !$this->setting['closedallowactivation']) {
 					showmessage('register_disable_activation');
 				}
@@ -344,100 +369,66 @@ class register_ctl {
 		$seccodecheck = $this->setting['seccodestatus'] & 1;
 		$secqaacheck = $this->setting['secqaa']['status'] & 1;
 		$fromuid = !empty($_G['cookie']['promotion']) && $this->setting['creditspolicy']['promotion_register'] ? intval($_G['cookie']['promotion']) : 0;
-		$username = isset($_GET['username']) ? $_GET['username'] : '';
+		$username = isset($_G['gp_username']) ? $_G['gp_username'] : '';
 		$bbrulehash = $bbrules ? substr(md5(FORMHASH), 0, 8) : '';
-		$auth = $_GET['auth'];
+		$auth = $_G['gp_auth'];
 
 		if(!$invitestatus) {
 			$invite = getinvite();
 		}
-		$sendurl = $this->setting['sendregisterurl'] ? true : false;
-		if($sendurl) {
-			if(!empty($_GET['hash'])) {
-				$hash = explode("\t", authcode($_GET['hash'], 'DECODE', $_G['config']['security']['authkey']));
-				if(is_array($hash) && isemail($hash[0]) && TIMESTAMP - $hash[1] < 259200) {
-					$sendurl = false;
-				}
-			}
-		}
 
 		if(!submitcheck('regsubmit', 0, $seccodecheck, $secqaacheck)) {
 
-			if(!$sendurl) {
-				if($_GET['action'] == 'activation') {
-					$auth = explode("\t", authcode($auth, 'DECODE'));
-					if(FORMHASH != $auth[1]) {
-						showmessage('register_activation_invalid', 'member.php?mod=logging&action=login');
-					}
-					$username = $auth[0];
-					$activationauth = authcode("$auth[0]\t".FORMHASH, 'ENCODE');
+			if($_G['gp_action'] == 'activation') {
+				$auth = explode("\t", authcode($auth, 'DECODE'));
+				if(FORMHASH != $auth[1]) {
+					showmessage('register_activation_invalid', 'member.php?mod=logging&action=login');
 				}
+				$username = $auth[0];
+				$activationauth = authcode("$auth[0]\t".FORMHASH, 'ENCODE');
+			}
 
-				if($fromuid) {
-					$member = getuserbyuid($fromuid);
-					if(!empty($member)) {
-						$fromuser = dhtmlspecialchars($member['username']);
-					} else {
-						dsetcookie('promotion');
-					}
-				}
-
-				if($_GET['action'] == 'activation') {
-					$auth = dhtmlspecialchars($auth);
-				}
-
-				if($seccodecheck) {
-					$seccode = random(6, 1);
-				}
-
-				$username = dhtmlspecialchars($username);
-
-				$htmls = $settings = array();
-				foreach($_G['cache']['fields_register'] as $field) {
-					$fieldid = $field['fieldid'];
-					$html = profile_setting($fieldid, array(), false, false, true);
-					if($html) {
-						$settings[$fieldid] = $_G['cache']['profilesetting'][$fieldid];
-						$htmls[$fieldid] = $html;
-					}
-				}
-
-				$navtitle = $this->setting['reglinkname'];
-
-				if($this->extrafile && file_exists($this->extrafile)) {
-					require_once $this->extrafile;
+			if($fromuid) {
+				$query = DB::query("SELECT username FROM ".DB::table('common_member')." WHERE uid='$fromuid'");
+				if(DB::num_rows($query)) {
+					$fromuser = dhtmlspecialchars(DB::result($query, 0));
+				} else {
+					dsetcookie('promotion');
 				}
 			}
+
 			$bbrulestxt = nl2br("\n$bbrulestxt\n\n");
+			if($_G['gp_action'] == 'activation') {
+				$auth = dhtmlspecialchars($auth);
+			}
+
+			if($seccodecheck) {
+				$seccode = random(6, 1);
+			}
+
+			$username = dhtmlspecialchars($username);
+
+			$htmls = $settings = array();
+			foreach($_G['cache']['fields_register'] as $field) {
+				$fieldid = $field['fieldid'];
+				$html = profile_setting($fieldid, array(), false, false, true);
+				if($html) {
+					$settings[$fieldid] = $_G['cache']['profilesetting'][$fieldid];
+					$htmls[$fieldid] = $html;
+				}
+			}
+
+			$navtitle = $this->setting['reglinkname'];
+
+			if($this->extrafile && file_exists(libfile('member/'.$this->extrafile, 'module'))) {
+				require_once libfile('member/'.$this->extrafile, 'module');
+			}
+
 			$dreferer = dreferer();
 
 			include template($this->template);
 
 		} else {
-
-			if($sendurl) {
-				checkemail($_GET['email']);
-				$hashstr = urlencode(authcode("$_GET[email]\t$_G[timestamp]", 'ENCODE', $_G['config']['security']['authkey']));
-				$registerurl = "{$_G[siteurl]}member.php?mod=".$this->setting['regname']."&amp;hash={$hashstr}&amp;email={$_GET[email]}";
-				$email_register_message = lang('email', 'email_register_message', array(
-					'bbname' => $this->setting['bbname'],
-					'siteurl' => $_G['siteurl'],
-					'url' => $registerurl
-				));
-				if(!sendmail("$_GET[email] <$_GET[email]>", lang('email', 'email_register_subject'), $email_register_message)) {
-					runlog('sendmail', "$_GET[email] sendmail failed.");
-				}
-				showmessage('register_email_send_succeed', dreferer(), array('bbname' => $this->setting['bbname']), array('showdialog' => true, 'msgtype' => 3, 'closetime' => 10));
-			}
-			$emailstatus = 0;
-			if($this->setting['sendregisterurl'] && !$sendurl) {
-				$_GET['email'] = strtolower($hash[0]);
-				$this->setting['regverify'] = $this->setting['regverify'] == 1 ? 0 : $this->setting['regverify'];
-				if(!$this->setting['regverify']) {
-					$groupinfo['groupid'] = $this->setting['newusergroupid'];
-				}
-				$emailstatus = 1;
-			}
 
 			if($this->setting['regstatus'] == 2 && empty($invite) && !$invitestatus) {
 				showmessage('not_open_registration_invite');
@@ -448,9 +439,9 @@ class register_ctl {
 			}
 
 			$activation = array();
-			if(isset($_GET['activationauth'])) {
-				$activationauth = explode("\t", authcode($_GET['activationauth'], 'DECODE'));
-				if($activationauth[1] == FORMHASH && !($activation = uc_get_user($activationauth[0]))) {
+			if(isset($_G['gp_activationauth'])) {
+				$activationauth = explode("\t", authcode($_G['gp_activationauth'], 'DECODE'));
+				if($activationauth[1] == FORMHASH && !($activation = daddslashes(uc_get_user($activationauth[0]), 1))) {
 					showmessage('register_activation_invalid', 'member.php?mod=logging&action=login');
 				}
 			}
@@ -462,46 +453,24 @@ class register_ctl {
 				} elseif($usernamelen > 15) {
 					showmessage('profile_username_toolong');
 				}
-				if(uc_get_user(addslashes($username)) && !C::t('common_member')->fetch_uid_by_username($username) && !C::t('common_member_archive')->fetch_uid_by_username($username)) {
+				$username = addslashes(trim(dstripslashes($username)));
+				if(uc_get_user($username) && !DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE username='$username'")) {
 					if($_G['inajax']) {
 						showmessage('profile_username_duplicate');
 					} else {
-						showmessage('register_activation_message', 'member.php?mod=logging&action=login', array('username' => $username));
+						showmessage('register_activation_message', 'member.php?mod=logging&action=login', array('username' => stripslashes($username)));
 					}
 				}
-				if($this->setting['pwlength']) {
-					if(strlen($_GET['password']) < $this->setting['pwlength']) {
-						showmessage('profile_password_tooshort', '', array('pwlength' => $this->setting['pwlength']));
-					}
-				}
-				if($this->setting['strongpw']) {
-					$strongpw_str = array();
-					if(in_array(1, $this->setting['strongpw']) && !preg_match("/\d+/", $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_1');
-					}
-					if(in_array(2, $this->setting['strongpw']) && !preg_match("/[a-z]+/", $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_2');
-					}
-					if(in_array(3, $this->setting['strongpw']) && !preg_match("/[A-Z]+/", $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_3');
-					}
-					if(in_array(4, $this->setting['strongpw']) && !preg_match("/[^a-zA-z0-9]+/", $_GET['password'])) {
-						$strongpw_str[] = lang('member/template', 'strongpw_4');
-					}
-					if($strongpw_str) {
-						showmessage(lang('member/template', 'password_weak').implode(',', $strongpw_str));
-					}
-				}
-				$email = strtolower(trim($_GET['email']));
+				$email = trim($_G['gp_email']);
 				if(empty($this->setting['ignorepassword'])) {
-					if($_GET['password'] !== $_GET['password2']) {
+					if($_G['gp_password'] !== $_G['gp_password2']) {
 						showmessage('profile_passwd_notmatch');
 					}
 
-					if(!$_GET['password'] || $_GET['password'] != addslashes($_GET['password'])) {
+					if(!$_G['gp_password'] || $_G['gp_password'] != addslashes($_G['gp_password'])) {
 						showmessage('profile_passwd_illegal');
 					}
-					$password = $_GET['password'];
+					$password = $_G['gp_password'];
 				} else {
 					$password = md5(random(10));
 				}
@@ -513,7 +482,7 @@ class register_ctl {
 				showmessage('profile_username_protect');
 			}
 
-			if($this->setting['regverify'] == 2 && !trim($_GET['regmessage'])) {
+			if($this->setting['regverify'] == 2 && !trim($_G['gp_regmessage'])) {
 				showmessage('profile_required_info_invalid');
 			}
 
@@ -532,22 +501,23 @@ class register_ctl {
 			}
 
 			if($this->setting['regctrl']) {
-				if(C::t('common_regip')->count_by_ip_dateline($ctrlip, $_G['timestamp']-$this->setting['regctrl']*3600)) {
+				$query = DB::query("SELECT ip FROM ".DB::table('common_regip')." WHERE ip LIKE '$ctrlip' AND count='-1' AND dateline>$_G[timestamp]-'".$this->setting['regctrl']."'*3600 LIMIT 1");
+				if(DB::num_rows($query)) {
 					showmessage('register_ctrl', NULL, array('regctrl' => $this->setting['regctrl']));
 				}
 			}
 
-			$setregip = null;
+			$regipsql = '';
 			if($this->setting['regfloodctrl']) {
-				$regip = C::t('common_regip')->fetch_by_ip_dateline($_G['clientip'], $_G['timestamp']-86400);
-				if($regip) {
-					if($regip['count'] >= $this->setting['regfloodctrl']) {
+				if($regattempts = DB::result_first("SELECT count FROM ".DB::table('common_regip')." WHERE ip='$_G[clientip]' AND count>'0' AND dateline>'$_G[timestamp]'-86400")) {
+					if($regattempts >= $this->setting['regfloodctrl']) {
 						showmessage('register_flood_ctrl', NULL, array('regfloodctrl' => $this->setting['regfloodctrl']));
 					} else {
-						$setregip = 1;
+						$regipsql = "UPDATE ".DB::table('common_regip')." SET count=count+1 WHERE ip='$_G[clientip]' AND count>'0'";
 					}
 				} else {
-					$setregip = 2;
+					$regipsql = "INSERT INTO ".DB::table('common_regip')." (ip, count, dateline)
+						VALUES ('$_G[clientip]', '1', '$_G[timestamp]')";
 				}
 			}
 
@@ -557,7 +527,7 @@ class register_ctl {
 					break;
 				}
 				$field_key = $field['fieldid'];
-				$field_val = $_GET[''.$field_key];
+				$field_val = $_G['gp_'.$field_key];
 				if($field['formtype'] == 'file' && !empty($_FILES[$field_key]) && $_FILES[$field_key]['error'] == 0) {
 					$field_val = true;
 				}
@@ -580,7 +550,7 @@ class register_ctl {
 			}
 
 			if(!$activation) {
-				$uid = uc_user_register(addslashes($username), $password, $email, $questionid, $answer, $_G['clientip']);
+				$uid = uc_user_register($username, $password, $email, $questionid, $answer, $_G['clientip']);
 
 				if($uid <= 0) {
 					if($uid == -1) {
@@ -603,7 +573,7 @@ class register_ctl {
 				list($uid, $username, $email) = $activation;
 			}
 			$_G['username'] = $username;
-			if(getuserbyuid($uid, 1)) {
+			if(DB::result_first("SELECT uid FROM ".DB::table('common_member')." WHERE uid='$uid'")) {
 				if(!$activation) {
 					uc_user_delete($uid);
 				}
@@ -621,6 +591,7 @@ class register_ctl {
 			}
 
 			if($_FILES) {
+				require_once libfile('class/upload');
 				$upload = new discuz_upload();
 
 				foreach($_FILES as $key => $file) {
@@ -649,68 +620,99 @@ class register_ctl {
 				}
 			}
 
-			if($setregip !== null) {
-				if($setregip == 1) {
-					C::t('common_regip')->update_count_by_ip($_G['clientip']);
-				} else {
-					C::t('common_regip')->insert(array('ip' => $_G['clientip'], 'count' => 1, 'dateline' => $_G['timestamp']));
-				}
+			if($regipsql) {
+				DB::query($regipsql);
 			}
 
 			if($invite && $this->setting['inviteconfig']['invitegroupid']) {
 				$groupinfo['groupid'] = $this->setting['inviteconfig']['invitegroupid'];
 			}
 
-			$init_arr = array('credits' => explode(',', $this->setting['initcredits']), 'profile'=>$profile, 'emailstatus' => $emailstatus);
+			$init_arr = explode(',', $this->setting['initcredits']);
+			$userdata = array(
+				'uid' => $uid,
+				'username' => $username,
+				'password' => $password,
+				'email' => $email,
+				'adminid' => 0,
+				'groupid' => $groupinfo['groupid'],
+				'regdate' => TIMESTAMP,
+				'credits' => $init_arr[0],
+				'timeoffset' => 9999
+			);
+			$status_data = array(
+				'uid' => $uid,
+				'regip' => $_G['clientip'],
+				'lastip' => $_G['clientip'],
+				'lastvisit' => TIMESTAMP,
+				'lastactivity' => TIMESTAMP,
+				'lastpost' => 0,
+				'lastsendmail' => 0,
+			);
+			$profile['uid'] = $uid;
+			$field_forum['uid'] = $uid;
+			$field_home['uid'] = $uid;
 
-			C::t('common_member')->insert($uid, $username, $password, $email, $_G['clientip'], $groupinfo['groupid'], $init_arr);
-			if($emailstatus) {
-				updatecreditbyaction('realemail', $uid);
+			if($this->extrafile && file_exists(libfile('member/'.$this->extrafile, 'module'))) {
+				require_once libfile('member/'.$this->extrafile, 'module');
 			}
+
+			DB::insert('common_member', $userdata);
+			DB::insert('common_member_status', $status_data);
+			DB::insert('common_member_profile', $profile);
+			DB::insert('common_member_field_forum', $field_forum);
+			DB::insert('common_member_field_home', $field_home);
+
 			if($verifyarr) {
 				$setverify = array(
 					'uid' => $uid,
 					'username' => $username,
 					'verifytype' => '0',
-					'field' => serialize($verifyarr),
+					'field' => daddslashes(serialize($verifyarr)),
 					'dateline' => TIMESTAMP,
 				);
-				C::t('common_member_verify_info')->insert($setverify);
-				C::t('common_member_verify')->insert(array('uid' => $uid));
+				DB::insert('common_member_verify_info', $setverify);
+				DB::insert('common_member_verify', array('uid' => $uid));
 			}
 
-			require_once libfile('cache/userstats', 'function');
-			build_cache_userstats();
+			$count_data = array(
+				'uid' => $uid,
+				'extcredits1' => $init_arr[1],
+				'extcredits2' => $init_arr[2],
+				'extcredits3' => $init_arr[3],
+				'extcredits4' => $init_arr[4],
+				'extcredits5' => $init_arr[5],
+				'extcredits6' => $init_arr[6],
+				'extcredits7' => $init_arr[7],
+				'extcredits8' => $init_arr[8]
+			);
+			DB::insert('common_member_count', $count_data);
+			DB::insert('common_setting', array('skey' => 'lastmember', 'svalue' => $username), false, true);
+			manyoulog('user', $uid, 'add');
 
-			if($this->extrafile && file_exists($this->extrafile)) {
-				require_once $this->extrafile;
-			}
+			$totalmembers = DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_member'));
+			$userstats = array('totalmembers' => $totalmembers, 'newsetuser' => stripslashes($username));
+
+			save_syscache('userstats', $userstats);
 
 			if($this->setting['regctrl'] || $this->setting['regfloodctrl']) {
-				C::t('common_regip')->delete_by_dateline($_G['timestamp']-($this->setting['regctrl'] > 72 ? $this->setting['regctrl'] : 72)*3600);
+				DB::query("DELETE FROM ".DB::table('common_regip')." WHERE dateline<='$_G[timestamp]'-".($this->setting['regctrl'] > 72 ? $this->setting['regctrl'] : 72)."*3600", 'UNBUFFERED');
 				if($this->setting['regctrl']) {
-					C::t('common_regip')->insert(array('ip' => $_G['clientip'], 'count' => -1, 'dateline' => $_G['timestamp']));
+					DB::query("INSERT INTO ".DB::table('common_regip')." (ip, count, dateline)
+						VALUES ('$_G[clientip]', '-1', '$_G[timestamp]')");
 				}
 			}
 
-			$regmessage = dhtmlspecialchars($_GET['regmessage']);
+			$regmessage = dhtmlspecialchars($_G['gp_regmessage']);
 			if($this->setting['regverify'] == 2) {
-				C::t('common_member_validate')->insert(array(
-					'uid' => $uid,
-					'submitdate' => $_G['timestamp'],
-					'moddate' => 0,
-					'admin' => '',
-					'submittimes' => 1,
-					'status' => 0,
-					'message' => $regmessage,
-					'remark' => '',
-				), false, true);
+				DB::query("REPLACE INTO ".DB::table('common_member_validate')." (uid, submitdate, moddate, admin, submittimes, status, message, remark)
+					VALUES ('$uid', '$_G[timestamp]', '0', '', '1', '0', '$regmessage', '')");
 				manage_addnotify('verifyuser');
 			}
 
 			setloginstatus(array(
 				'uid' => $uid,
-				'username' => $_G['username'],
+				'username' => dstripslashes($_G['username']),
 				'password' => $password,
 				'groupid' => $groupinfo['groupid'],
 			), 0);
@@ -718,9 +720,9 @@ class register_ctl {
 			updatestat('register');
 
 			if($invite['id']) {
-				$result = C::t('common_invite')->count_by_uid_fuid($invite['uid'], $uid);
+				$result = DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_invite')." WHERE uid='$invite[uid]' AND fuid='$uid'");
 				if(!$result) {
-					C::t('common_invite')->update($invite['id'], array('fuid'=>$uid, 'fusername'=>$_G['username'], 'regdateline' => $_G['timestamp'], 'status' => 2));
+					DB::update("common_invite", array('fuid'=>$uid, 'fusername'=>$_G['username'], 'regdateline' => $_G['timestamp'], 'status' => 2), array('id'=>$invite['id']));
 					updatestat('invite');
 				} else {
 					$invite = array();
@@ -749,17 +751,17 @@ class register_ctl {
 			}
 
 			if($welcomemsg && !empty($welcomemsgtxt)) {
-				$welcomemsgtitle = replacesitevar($welcomemsgtitle);
-				$welcomemsgtxt = replacesitevar($welcomemsgtxt);
+				$welcomemsgtitle = addslashes(replacesitevar($welcomemsgtitle));
+				$welcomemsgtxt = addslashes(replacesitevar($welcomemsgtxt));
 				if($welcomemsg == 1) {
 					$welcomemsgtxt = nl2br(str_replace(':', '&#58;', $welcomemsgtxt));
-					notification_add($uid, 'system', $welcomemsgtxt, array('from_id' => 0, 'from_idtype' => 'welcomemsg'), 1);
+					notification_add($uid, 'system', $welcomemsgtxt, array(), 1);
 				} elseif($welcomemsg == 2) {
 					sendmail_cron($email, $welcomemsgtitle, $welcomemsgtxt);
 				} elseif($welcomemsg == 3) {
 					sendmail_cron($email, $welcomemsgtitle, $welcomemsgtxt);
 					$welcomemsgtxt = nl2br(str_replace(':', '&#58;', $welcomemsgtxt));
-					notification_add($uid, 'system', $welcomemsgtxt, array('from_id' => 0, 'from_idtype' => 'welcomemsg'), 1);
+					notification_add($uid, 'system', $welcomemsgtxt, array(), 1);
 				}
 			}
 
@@ -771,13 +773,17 @@ class register_ctl {
 			dsetcookie('activationauth', '');
 			dsetcookie('invite_auth', '');
 
-			$url_forward = dreferer();
-			$refreshtime = 3000;
+			loadcache('setting', true);
+			$_G['setting']['lastmember'] = stripslashes($username);
+			$settingnew = $_G['setting'];
+			$settingnew['pluginhooks'] = array();
+			save_syscache('setting', $settingnew);
+
 			switch($this->setting['regverify']) {
 				case 1:
 					$idstring = random(6);
 					$authstr = $this->setting['regverify'] == 1 ? "$_G[timestamp]\t2\t$idstring" : '';
-					C::t('common_member_field_forum')->update($_G['uid'], array('authstr' => $authstr));
+					DB::query("UPDATE ".DB::table('common_member_field_forum')." SET authstr='$authstr' WHERE uid='$_G[uid]'");
 					$verifyurl = "{$_G[siteurl]}member.php?mod=activate&amp;uid={$_G[uid]}&amp;id=$idstring";
 					$email_verify_message = lang('email', 'email_verify_message', array(
 						'username' => $_G['member']['username'],
@@ -785,20 +791,20 @@ class register_ctl {
 						'siteurl' => $_G['siteurl'],
 						'url' => $verifyurl
 					));
-					if(!sendmail("$username <$email>", lang('email', 'email_verify_subject'), $email_verify_message)) {
-						runlog('sendmail', "$email sendmail failed.");
-					}
+					sendmail("$username <$email>", lang('email', 'email_verify_subject'), $email_verify_message);
 					$message = 'register_email_verify';
 					$locationmessage = 'register_email_verify_location';
-					$refreshtime = 10000;
+					$url_forward = dreferer();
 					break;
 				case 2:
 					$message = 'register_manual_verify';
 					$locationmessage = 'register_manual_verify_location';
+					$url_forward = $_G['setting']['homestatus'] ? 'home.php?mod=space&do=home' : 'home.php?mod=spacecp';
 					break;
 				default:
 					$message = 'register_succeed';
 					$locationmessage = 'register_succeed_location';
+					$url_forward = dreferer();
 					break;
 			}
 			$param = array('bbname' => $this->setting['bbname'], 'username' => $_G['username'], 'usergroup' => $_G['group']['grouptitle'], 'uid' => $_G['uid']);
@@ -809,7 +815,7 @@ class register_ctl {
 			$extra = array(
 				'showid' => 'succeedmessage',
 				'extrajs' => '<script type="text/javascript">'.
-					'setTimeout("window.location.href =\''.$href.'\';", '.$refreshtime.');'.
+					'setTimeout("window.location.href =\''.$href.'\';", 3000);'.
 					'$(\'succeedmessage_href\').href = \''.$href.'\';'.
 					'$(\'main_message\').style.display = \'none\';'.
 					'$(\'main_succeed\').style.display = \'\';'.
@@ -819,115 +825,12 @@ class register_ctl {
 			);
 			showmessage($message, $url_forward, $param, $extra);
 		}
+
+
+
+
 	}
 
 }
 
-class crime_action_ctl {
-
-	var $actions = array('all', 'crime_delpost', 'crime_warnpost', 'crime_banpost', 'crime_banspeak', 'crime_banvisit', 'crime_banstatus', 'crime_avatar', 'crime_sightml', 'crime_customstatus');
-
-	function crime_action_ctl() {}
-
-	function &instance() {
-		static $object;
-		if(empty($object)) {
-			$object = new crime_action_ctl();
-		}
-		return $object;
-	}
-
-	function recordaction($uid, $action, $reason) {
-		global $_G;
-
-		$uid = intval($uid);
-		$key = array_search($action, $this->actions);
-		if($key === FALSE) {
-			return false;
-		}
-		$insert = array(
-			'uid' => $uid,
-			'operatorid' => $_G['uid'],
-			'operator' => $_G['username'],
-			'action' => $key,
-			'reason' => $reason,
-			'dateline' => $_G['timestamp']
-		);
-		C::t('common_member_crime')->insert($insert);
-		return true;
-	}
-
-	function getactionlist($uid) {
-		$uid = intval($uid);
-		$clist = array();
-		foreach(C::t('common_member_crime')->fetch_all_by_uid($uid) as $c) {
-			$c['action'] = $this->actions[$c['action']];
-			$clist[] = $c;
-		}
-		return $clist;
-	}
-
-	function getcount($uid, $action) {
-		$uid = intval($uid);
-		$key = array_search($action, $this->actions);
-		if($key === FALSE) {
-			return 0;
-		}
-		return C::t('common_member_crime')->count_by_uid_action($uid, $key);
-	}
-
-	function search($action, $username, $operator, $startime, $endtime, $reason, $start, $limit) {
-		$action = intval($action);
-		$operator = daddslashes(trim($operator));
-		$starttime = $starttime ? strtotime($starttime) : 0;
-		$endtime = $endtime ? (strtotime($endtime) + 3600 * 24) : 0;
-		$reason = daddslashes(trim($reason));
-		$start = intval($start);
-		$limit = intval($limit);
-
-		if(!empty($username)) {
-			$uid = C::t('common_member')->fetch_uid_by_username($username);
-			$wheresql[] = "uid='$uid'";
-		}
-
-		if($action) {
-			$wheresql[] = "action='$action'";
-		}
-		if($operator) {
-			$wheresql[] = "operator='$operator'";
-		}
-		if($starttime) {
-			$wheresql[] = "dateline>='$starttime'";
-		}
-		if($endtime) {
-			$wheresql[] = "dateline<='$endtime'";
-		}
-		if($reason) {
-			$wheresql[] = "reason LIKE '%$reason%'";
-		}
-
-		if($wheresql) {
-			$wheresql = 'WHERE '.implode(' AND ', $wheresql);
-		} else {
-			$wheresql = '';
-		}
-		$clist = array();
-		$count = C::t('common_member_crime')->count_by_where($wheresql);
-
-		if($count) {
-			$uids = array();
-			foreach(C::t('common_member_crime')->fetch_all_by_where($wheresql, $start, $limit) as $crime) {
-				$crime['action'] = $this->actions[$crime['action']];
-				$clist[] = $crime;
-				$uids[$crime['uid']] = $crime['uid'];
-			}
-			$members = C::t('common_member')->fetch_all($uids, false, 0);
-			foreach($clist as $key => $crime) {
-				$crime['username'] = $members[$crime['uid']]['username'];
-				$clist[$key] = $crime;
-			}
-		}
-		return array($count, $clist);
-	}
-}
 ?>

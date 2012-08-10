@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: moderate_member.php 27999 2012-02-20 09:39:40Z monkey $
+ *      $Id: moderate_member.php 20814 2011-03-04 08:03:12Z liulanbo $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -16,33 +16,37 @@ $do = empty($do) ? 'mod' : $do;
 if($do == 'mod') {
 
 	if(!submitcheck('modsubmit')) {
-		$count = C::t('common_member_validate')->fetch_all_status_by_count();
+		$query = DB::query("SELECT status, COUNT(*) AS count FROM ".DB::table('common_member_validate')." GROUP BY status");
+		while($num = DB::fetch($query)) {
+			$count[$num['status']] = $num['count'];
+		}
 
-		$sendemail = isset($_GET['sendemail']) ? $_GET['sendemail'] : 0;
+		$sendemail = isset($_G['gp_sendemail']) ? $_G['gp_sendemail'] : 0;
 		$checksendemail = $sendemail ? 'checked' : '';
 
 		$start_limit = ($page - 1) * $_G['setting']['memberperpage'];
 
-		$validatenum = C::t('common_member_validate')->count_by_status(0);
+		$validatenum = DB::result(DB::query("SELECT COUNT(*) FROM ".DB::table('common_member_validate')." WHERE status='0'"), 0);
 		$members = '';
 		if($validatenum) {
 			$multipage = multi($validatenum, $_G['setting']['memberperpage'], $page, ADMINSCRIPT.'?action=moderate&operation=members&sendemail='.$sendemail);
-			$vuids = array();
+			$vuids = '0';
 			loadcache('fields_register');
 			require_once libfile('function/profile');
-			$allvalidate = C::t('common_member_validate')->fetch_all_invalidate($start_limit, $_G['setting']['memberperpage']);
-			$uids = array_keys($allvalidate);
-			$allmember = C::t('common_member')->fetch_all($uids, false, 0);
-			$allmemberstatus = C::t('common_member_status')->fetch_all($uids, false, 0);
-			$allmemberprofile = C::t('common_member_profile')->fetch_all($uids, false, 0);
-			foreach($allvalidate as $uid => $member) {
-				$member = array_merge((array)$member, (array)$allmember[$uid], (array)$allmemberstatus[$uid], (array)$allmemberprofile[$uid]);
+			$query = DB::query("SELECT mp.*, mvi.field, m.uid, m.username, m.groupid, m.email, m.regdate, ms.regip, v.message, v.submittimes, v.submitdate, v.moddate, v.admin, v.remark, v.uid as vuid
+				FROM ".DB::table('common_member_validate')." v
+				LEFT JOIN ".DB::table('common_member')." m ON v.uid=m.uid
+				LEFT JOIN ".DB::table('common_member_status')." ms ON m.uid=ms.uid
+				LEFT JOIN ".DB::table('common_member_profile')." mp ON m.uid=mp.uid
+				LEFT JOIN ".DB::table('common_member_verify_info')." mvi ON mvi.uid=m.uid AND mvi.verifytype='0'
+				WHERE v.status='0' ORDER BY v.submitdate DESC LIMIT $start_limit, ".$_G['setting']['memberperpage']);
+			while($member = DB::fetch($query)) {
 				if($member['groupid'] != 8) {
-					$vuids[$uid] = $uid;
+					$vuids .= ','.$member['vuid'];
 					continue;
 				}
 
-				$fields = !empty($member['field']) ? dunserialize($member['field']) : array();
+				$fields = !empty($member['field']) ? unserialize($member['field']) : array();
 				$str = '';
 				foreach($_G['cache']['fields_register'] as $field) {
 					if(!$field['available'] || in_array($field['fieldid'], array('uid', 'constellation', 'zodiac', 'birthmonth', 'birthyear', 'birthprovince', 'birthdist', 'birthcommunity', 'resideprovince', 'residedist', 'residecommunity'))) {
@@ -67,7 +71,7 @@ if($do == 'mod') {
 					"$lang[moderate_members_mod_time]: $member[moddate]</td><td><textarea rows=\"4\" id=\"remark[$member[uid]]\" name=\"remark[$member[uid]]\" style=\"width: 95%; word-break: break-all\">$member[remark]</textarea></td></tr>\n";
 			}
 			if($vuids) {
-				C::t('common_member_validate')->delete($vuids);
+				DB::query("DELETE FROM ".DB::table('common_member_validate')." WHERE uid IN ($vuids)", 'UNBUFFERED');
 			}
 		}
 		shownav('user', 'nav_modmembers');
@@ -154,61 +158,64 @@ EOT;
 
 		$moderation = array('invalidate' => array(), 'validate' => array(), 'delete' => array(), 'ignore' => array());
 
-		$uids = array();
+		$uids = 0;
 		$uidsql = '';
-		if(!$_GET['apply_all']) {
-			if(is_array($_GET['modtype'])) {
-				foreach($_GET['modtype'] as $uid => $act) {
+		if(!$_G['gp_apply_all']) {
+			if(is_array($_G['gp_modtype'])) {
+				foreach($_G['gp_modtype'] as $uid => $act) {
 					$uid = intval($uid);
-					$uids[$uid] = $uid;
-					$moderation[$act][$uid] = $uid;
+					$uids .= ','.$uid;
+					$moderation[$act][] = $uid;
 				}
-				$uidsql = 'v.uid IN ('.dimplode($uids).') AND';
+				$uidsql = "v.uid IN ($uids) AND";
 			}
 		}
 
 		$members = array();
-
-		$allmembervalidate = $uids ? C::t('common_member_validate')->fetch_all($uids) : C::t('common_member_validate')->range();
-		foreach(C::t('common_member')->fetch_all(array_keys($allmembervalidate), false, 0) as $uid => $member) {
-			if($member['groupid'] == 8) {
-				$members[$uid] = $member;
+		$uidarray = array(0);
+		$query = DB::query("SELECT v.*, m.uid, m.username, m.email, m.regdate FROM ".DB::table('common_member_validate')." v, ".DB::table('common_member')." m
+			WHERE $uidsql m.uid=v.uid AND m.groupid='8'");
+		while($member = DB::fetch($query)) {
+			$members[$member['uid']] = $member;
+			$uidarray[] = $member['uid'];
+			if($_G['gp_apply_all']) {
+				$uids .= ','.$member['uid'];
+				$moderation[$_G[gp_apply_all]][] = $member['uid'];
 			}
 		}
-		$alluids = array_keys($members);
-		if($_GET['apply_all']) {
-			$moderation[$_GET['apply_all']] = array_merge($alluids, $moderation[$_GET['apply_all']]);
-		}
-		if(!empty($members)) {
+		if(is_array($uidarray) && !empty($uidarray)) {
+			$uids = implode(',', $uidarray);
 			$numdeleted = $numinvalidated = $numvalidated = 0;
 
 			if(!empty($moderation['delete']) && is_array($moderation['delete'])) {
-				$deluids = array_intersect($moderation['delete'], $alluids);
-				$numdeleted = count($deluids);
+				$deleteuids = '\''.implode('\',\'', $moderation['delete']).'\'';
+				DB::query("DELETE FROM ".DB::table('common_member')." WHERE uid IN ($deleteuids) AND uid IN ($uids)");
+				$numdeleted = DB::affected_rows();
 
-				C::t('common_member')->delete_no_validate($deluids);
+				DB::query("DELETE FROM ".DB::table('common_member_field_forum')." WHERE uid IN ($deleteuids) AND uid IN ($uids)");
+				DB::query("DELETE FROM ".DB::table('common_member_validate')." WHERE uid IN ($deleteuids) AND uid IN ($uids)");
 
 				loaducenter();
-				uc_user_delete($deluids);
+				uc_user_delete($moderation['delete']);
 			} else {
 				$moderation['delete'] = array();
 			}
 
 			if(!empty($moderation['validate']) && is_array($moderation['validate'])) {
+				$newgroupid = DB::result_first("SELECT groupid FROM ".DB::table('common_usergroup')." WHERE creditshigher<=0 AND 0<creditslower LIMIT 1");
+				$validateuids = '\''.implode('\',\'', $moderation['validate']).'\'';
+				DB::query("UPDATE ".DB::table('common_member')." SET adminid='0', groupid='$newgroupid' WHERE uid IN ($validateuids) AND uid IN ($uids)");
+				$numvalidated = DB::affected_rows();
 
-				$validateuids = array_intersect($moderation['validate'], $alluids);
-				C::t('common_member')->update($validateuids, array('adminid' => 0, 'groupid' => $_G['setting']['newusergroupid']));
-				$numvalidated = count($validateuids);
-				C::t('common_member_validate')->delete($validateuids);
+				DB::query("DELETE FROM ".DB::table('common_member_validate')." WHERE uid IN ($validateuids) AND uid IN ($uids)");
 			} else {
 				$moderation['validate'] = array();
 			}
 
 			if(!empty($moderation['invalidate']) && is_array($moderation['invalidate'])) {
-				$invalidateuids = array_intersect($moderation['invalidate'], $alluids);
-				$numinvalidated = count($invalidateuids);
-				foreach($invalidateuids as $uid) {
-					C::t('common_member_validate')->update($uid, array('moddate' => $_G['timestamp'], 'admin' => $_G['username'], 'status' => '1', 'remark' => dhtmlspecialchars($_GET['remark'][$uid])));
+				foreach($moderation['invalidate'] as $uid) {
+					$numinvalidated++;
+					DB::query("UPDATE ".DB::table('common_member_validate')." SET moddate='$_G[timestamp]', admin='$_G[username]', status='1', remark='".dhtmlspecialchars($_G['gp_remark'][$uid])."' WHERE uid='$uid' AND uid IN ($uids)");
 				}
 			} else {
 				$moderation['invalidate'] = array();
@@ -216,13 +223,13 @@ EOT;
 
 			foreach(array('validate', 'invalidate') as $o) {
 				foreach($moderation[$o] as $uid) {
-					if($_GET['remark'][$uid]) {
+					if($_G['gp_remark'][$uid]) {
 						switch($o) {
 							case 'validate':
-								notification_add($uid, 'mod_member', 'member_moderate_validate', array('remark' => $_GET['remark'][$uid]));
+								notification_add($uid, 'mod_member', 'member_moderate_validate', array('remark' => $_G['gp_remark'][$uid]));
 								break;
 							case 'invalidate':
-								notification_add($uid, 'mod_member', 'member_moderate_invalidate', array('remark' => $_GET['remark'][$uid]));
+								notification_add($uid, 'mod_member', 'member_moderate_invalidate', array('remark' => $_G['gp_remark'][$uid]));
 								break;
 						}
 					} else {
@@ -238,7 +245,7 @@ EOT;
 				}
 			}
 
-			if($_GET['sendemail']) {
+			if($_G['gp_sendemail']) {
 				if(!function_exists('sendmail')) {
 					include libfile('function/mail');
 				}
@@ -250,7 +257,7 @@ EOT;
 							$member['submitdate'] = dgmdate($member['submitdate']);
 							$member['moddate'] = dgmdate(TIMESTAMP);
 							$member['operation'] = $o;
-							$member['remark'] = $_GET['remark'][$uid] ? dhtmlspecialchars($_GET['remark'][$uid]) : $lang['none'];
+							$member['remark'] = $_G['gp_remark'][$uid] ? dhtmlspecialchars($_G['gp_remark'][$uid]) : $lang['none'];
 							$moderate_member_message = lang('email', 'moderate_member_message', array(
 								'username' => $member['username'],
 								'bbname' => $_G['setting']['bbname'],
@@ -265,9 +272,7 @@ EOT;
 								'siteurl' => $_G['siteurl'],
 							));
 
-							if(!sendmail("$member[username] <$member[email]>", lang('email', 'moderate_member_subject'), $moderate_member_message)) {
-								runlog('sendmail', "$member[email] sendmail failed.");
-							}
+							sendmail("$member[username] <$member[email]>", lang('email', 'moderate_member_subject'), $moderate_member_message);
 						}
 					}
 				}
@@ -299,13 +304,30 @@ EOT;
 
 	} else {
 
-		$uids = C::t('common_member_validate')->fetch_all_validate_uid($_GET['submitmore'], $_GET['regbefore'], $_GET['modbefore'], $_GET['regip']);
-		if((!$membernum = count($uids))) {
+		$sql = "m.groupid='8'";
+		$sql .= $_G['gp_submitmore'] ? " AND v.submittimes>'{$_G['gp_submitmore']}'" : '';
+		$sql .= $_G['gp_regbefore'] ? " AND m.regdate<'".(TIMESTAMP - $_G['gp_regbefore'] * 86400)."'" : '';
+		$sql .= $_G['gp_modbefore'] ? " AND v.moddate<'".(TIMESTAMP - $_G['gp_modbefore'] * 86400)."'" : '';
+		$sql .= $_G['gp_regip'] ? " AND m.regip LIKE '{$_G['gp_regip']}%'" : '';
+
+		$query = DB::query("SELECT v.uid FROM ".DB::table('common_member_validate')." v, ".DB::table('common_member')." m
+			WHERE $sql AND m.uid=v.uid");
+
+		if(!$membernum = DB::num_rows($query)) {
 			cpmsg('members_search_noresults', '', 'error');
-		} elseif(!$_GET['confirmed']) {
-			cpmsg('members_delete_confirm', "action=moderate&operation=members&do=del&submitmore=".rawurlencode($_GET['submitmore'])."&regbefore=".rawurlencode($_GET['regbefore'])."&regip=".rawurlencode($_GET['regip'])."&prunesubmit=yes", 'form', array('membernum' => $membernum));
+		} elseif(!$_G['gp_confirmed']) {
+			cpmsg('members_delete_confirm', "action=moderate&operation=members&do=del&submitmore=".rawurlencode($_G['gp_submitmore'])."&regbefore=".rawurlencode($_G['gp_regbefore'])."&regip=".rawurlencode($_G['gp_regip'])."&prunesubmit=yes", 'form', array('membernum' => $membernum));
 		} else {
-			$numdeleted = C::t('common_member')->delete_no_validate(array_keys($uids));
+			$uids = 0;
+			while($member = DB::fetch($query)) {
+				$uids .= ','.$member['uid'];
+			}
+
+			DB::query("DELETE FROM ".DB::table('common_member')." WHERE uid IN ($uids)");
+			$numdeleted = DB::affected_rows();
+
+			DB::query("DELETE FROM ".DB::table('common_member_field_forum')." WHERE uid IN ($uids)");
+			DB::query("DELETE FROM ".DB::table('common_member_validate')." WHERE uid IN ($uids)");
 
 			cpmsg('members_delete_succeed', '', 'succeed', array('numdeleted' => $numdeleted));
 		}

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: notify_invite.php 29236 2012-03-30 05:34:47Z chenmengshu $
+ *      $Id: notify_credit.php 10986 2010-05-19 05:41:21Z monkey $
  */
 
 define('IN_API', true);
@@ -13,40 +13,33 @@ define('CURSCRIPT', 'api');
 require '../../source/class/class_core.php';
 require '../../source/function/function_forum.php';
 
-$discuz = C::app();
+$discuz = & discuz_core::instance();
 $discuz->init();
 
-$apitype = empty($_GET['attach']) || !preg_match('/^[a-z0-9]+$/i', $_GET['attach']) ? 'alipay' : $_GET['attach'];
+$apitype = empty($_G['gp_attach']) || !preg_match('/^[a-z0-9]+$/i', $_G['gp_attach']) ? 'alipay' : $_G['gp_attach'];
 require_once DISCUZ_ROOT.'./api/trade/api_'.$apitype.'.php';
 $PHP_SELF = $_SERVER['PHP_SELF'];
-$_G['siteurl'] = dhtmlspecialchars('http://'.$_SERVER['HTTP_HOST'].preg_replace("/\/+(api\/trade)?\/*$/i", '', substr($PHP_SELF, 0, strrpos($PHP_SELF, '/'))).'/');
+$_G['siteurl'] = htmlspecialchars('http://'.$_SERVER['HTTP_HOST'].preg_replace("/\/+(api\/trade)?\/*$/i", '', substr($PHP_SELF, 0, strrpos($PHP_SELF, '/'))).'/');
 $notifydata = trade_notifycheck('invite');
 if($notifydata['validator']) {
 	$orderid = $notifydata['order_no'];
 	$postprice = $notifydata['price'];
-	$order = C::t('forum_order')->fetch($orderid);
+	$order = DB::fetch_first("SELECT * FROM ".DB::table('forum_order')."  WHERE orderid='$orderid'");
 	if($order && floatval($postprice) == floatval($order['price']) && ($apitype == 'tenpay' || $_G['setting']['ec_account'] == $_REQUEST['seller_email'])) {
 
 		if($order['status'] == 1) {
-			C::t('forum_order')->update($orderid, array('status' => '2', 'buyer' => "$notifydata[trade_no]\t$apitype", 'confirmdate' => $_G['timestamp']));
+			DB::query("UPDATE ".DB::table('forum_order')." SET status='2', buyer='$notifydata[trade_no]\t$apitype', confirmdate='$_G[timestamp]' WHERE orderid='$orderid'");
 			$codes = $codetext = array();
 			$dateline = TIMESTAMP;
 			for($i=0; $i<$order['amount']; $i++) {
 				$code = strtolower(random(6));
 				$codetext[] = $code;
 				$codes[] = "('0', '$code', '$dateline', '".($_G['group']['maxinviteday']?($_G['timestamp']+$_G['group']['maxinviteday']*24*3600):$_G['timestamp']+86400*10)."', '$order[email]', '$_G[clientip]', '$orderid')";
-				$invitedata = array(
-							'uid' => 0,
-							'code' => $code,
-							'dateline' => $dateline,
-							'endtime' => $_G['group']['maxinviteday'] ? ($_G['timestamp']+$_G['group']['maxinviteday']*24*3600) : $_G['timestamp']+86400*10,
-							'email' => $order['email'],
-							'inviteip' => $_G['clientip'],
-							'orderid' => $orderid
-						);
-				C::t('common_invite')->insert($invitedata);
 			}
-			C::t('forum_order')->delete_by_submitdate($_G['timestamp']-60*86400);
+			if($codes) {
+				DB::query("INSERT INTO ".DB::table('common_invite')." (uid, code, dateline, endtime, email, inviteip, orderid) VALUES ".implode(',', $codes));
+			}
+			DB::query("DELETE FROM ".DB::table('forum_order')." WHERE submitdate<'$_G[timestamp]'-60*86400");
 
 			$submitdate = dgmdate($order['submitdate']);
 			$confirmdate = dgmdate(TIMESTAMP);
@@ -60,9 +53,7 @@ if($notifydata['validator']) {
 				'siteurl' => $_G['siteurl'],
 				'bbname' => $_G['setting']['bbname'],
 			));
-			if(!sendmail($order['email'], $add_member_subject, $add_member_message)) {
-				runlog('sendmail', "$order[email] sendmail failed.");
-			}
+			sendmail($order['email'], $add_member_subject, $add_member_message);
 		}
 
 	}

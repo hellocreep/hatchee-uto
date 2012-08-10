@@ -1,8 +1,8 @@
 /*
-	[Discuz!] (C)2001-2099 Comsenz Inc.
+	[Discuz!] (C)2001-2009 Comsenz Inc.
 	This is NOT a freeware, use is subject to license terms
 
-	$Id: home.js 30720 2012-06-14 03:42:20Z zhengqingpeng $
+	$Id: home.js 27046 2011-12-31 03:20:15Z svn_project_zhangjie $
 */
 
 var note_step = 0;
@@ -642,10 +642,6 @@ function comment_edit(cid) {
 	var x = new Ajax();
 	x.get('home.php?mod=misc&ac=ajax&op=comment&inajax=1&cid='+ cid, function(s){
 		obj.innerHTML = s;
-		var elems = selector('dd[class~=magicflicker]');
-		for(var i=0; i<elems.length; i++){
-			magicColor(elems[i]);
-		}
 	});
 }
 function comment_delete(cid) {
@@ -773,6 +769,13 @@ function mtag_join(tagid, result) {
 	}
 }
 
+function picView(albumid) {
+	if(albumid == 'none') {
+		$('albumpic_body').innerHTML = '';
+	} else {
+		ajaxget('home.php?mod=misc&ac=ajax&op=album&id='+albumid+'&ajaxdiv=albumpic_body', 'albumpic_body');
+	}
+}
 function resend_mail(mid) {
 	if(mid) {
 		var obj = $('sendmail_'+ mid +'_li');
@@ -1156,8 +1159,4 @@ function checkSynSignature() {
 		$('syn_signature').className = 'syn_signature_check';
 		$('to_signhtml').value = '1';
 	}
-}
-
-function searchpostbyusername(keyword, srchuname) {
-	window.location.href = 'search.php?mod=forum&srchtxt=' + keyword + '&srchuname=' + srchuname + '&searchsubmit=yes';
 }

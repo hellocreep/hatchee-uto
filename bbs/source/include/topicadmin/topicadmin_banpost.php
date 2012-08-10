@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: topicadmin_banpost.php 26578 2011-12-15 10:10:18Z yangli $
+ *      $Id: topicadmin_banpost.php 20099 2011-02-15 01:55:29Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,7 +15,7 @@ if(!$_G['group']['allowbanpost']) {
 	showmessage('no_privilege_banpost');
 }
 
-$topiclist = $_GET['topiclist'];
+$topiclist = $_G['gp_topiclist'];
 $modpostsnum = count($topiclist);
 if(!($banpids = dimplode($topiclist))) {
 	showmessage('admin_banpost_invalid');
@@ -23,18 +23,14 @@ if(!($banpids = dimplode($topiclist))) {
 	showmessage('admin_nopermission');
 }
 
-$posts = $authors = array();
+$posts = array();
 $banstatus = 0;
-foreach(C::t('forum_post')->fetch_all('tid:'.$_G['tid'], $topiclist) as $post) {
-	if($post['tid'] != $_G['tid']) {
-		continue;
-	}
+$posttable = getposttablebytid($_G['tid']);
+$query = DB::query("SELECT pid, first, authorid, status, dateline, message FROM ".DB::table($posttable)." WHERE pid IN ($banpids) AND tid='$_G[tid]'");
+while($post = DB::fetch($query)) {
 	$banstatus = ($post['status'] & 1) || $banstatus;
-	$authors[$post['authorid']] = 1;
 	$posts[] = $post;
 }
-
-$authorcount = count(array_keys($authors));
 
 if(!submitcheck('modsubmit')) {
 
@@ -45,32 +41,24 @@ if(!submitcheck('modsubmit')) {
 
 	$banstatus ? $checkunban = 'checked="checked"' : $checkban = 'checked="checked"';
 
-	if($modpostsnum == 1 || $authorcount == 1) {
-		include_once libfile('function/member');
-		$crimenum = crime('getcount', $posts[0]['authorid'], 'crime_banpost');
-		$crimeauthor = $posts[0]['author'];
-	}
-
 	include template('forum/topicadmin_action');
 
 } else {
 
-	$banned = intval($_GET['banned']);
+	$banned = intval($_G['gp_banned']);
 	$modaction = $banned ? 'BNP' : 'UBN';
 
 	$reason = checkreasonpm();
 
-	include_once libfile('function/member');
-
 	$pids = $comma = '';
 	foreach($posts as $k => $post) {
 		if($banned) {
-			C::t('forum_postcomment')->delete_by_rpid($post['pid']);
-			C::t('forum_post')->increase_status_by_pid('tid:'.$_G['tid'], $post['pid'], 1, '|', true);
-			crime('recordaction', $post['authorid'], 'crime_banpost', lang('forum/misc', 'crime_postreason', array('reason' => $reason, 'tid' => $_G['tid'], 'pid' => $post['pid'])));
-
+			my_post_log('ban', array('pid' => $post['pid'], 'uid' => $post['authorid']));
+			DB::delete('forum_postcomment', "rpid='$post[pid]'");
+			DB::query("UPDATE ".DB::table($posttable)." SET status=status|1 WHERE pid='$post[pid]'", 'UNBUFFERED');
 		} else {
-			C::t('forum_post')->increase_status_by_pid('tid:'.$_G['tid'], $post['pid'], 1, '^', true);
+			my_post_log('unban', array('pid' => $post['pid'], 'uid' => $post['authorid']));
+			DB::query("UPDATE ".DB::table($posttable)." SET status=status^1 WHERE pid='$post[pid]' AND status=status|1", 'UNBUFFERED');
 		}
 		$pids .= $comma.$post['pid'];
 		$comma = ',';
@@ -79,7 +67,7 @@ if(!submitcheck('modsubmit')) {
 	$resultarray = array(
 	'redirect'	=> "forum.php?mod=viewthread&tid=$_G[tid]&page=$page",
 	'reasonpm'	=> ($sendreasonpm ? array('data' => $posts, 'var' => 'post', 'item' => 'reason_ban_post') : array()),
-	'reasonvar'	=> array('tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => $reason),
+	'reasonvar'	=> array('tid' => $thread['tid'], 'subject' => $thread['subject'], 'modaction' => $modaction, 'reason' => stripslashes($reason)),
 	'modtids'	=> 0,
 	'modlog'	=> $thread
 	);

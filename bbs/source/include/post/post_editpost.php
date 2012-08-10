@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: post_editpost.php 30607 2012-06-06 06:31:41Z liulanbo $
+ *      $Id: post_editpost.php 29004 2012-03-22 04:04:58Z chenmengshu $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -13,24 +13,20 @@ if(!defined('IN_DISCUZ')) {
 if(($special == 1 && !$_G['group']['allowpostpoll']) || ($special == 2 && !$_G['group']['allowposttrade']) || ($special == 3 && !$_G['group']['allowpostreward']) || ($special == 4 && !$_G['group']['allowpostactivity']) || ($special == 5 && !$_G['group']['allowpostdebate'])) {
 	showmessage('group_nopermission', NULL, array('grouptitle' => $_G['group']['grouptitle']), array('login' => 1));
 }
-$orig = C::t('forum_post')->fetch('tid:'.$_G['tid'], $pid, false);
-if($orig && $orig['fid'] == $_G['fid'] && $orig['tid'] == $_G['tid']) {
-	$user = getuserbyuid($orig['authorid']);
-	$orig['adminid'] = $user['adminid'];
-} else {
-	$orig = array();
-}
+$posttable = getposttablebytid($_G['tid']);
+$orig = DB::fetch_first("SELECT m.adminid, p.first, p.authorid, p.author, p.dateline, p.anonymous, p.invisible, p.htmlon FROM ".DB::table($posttable)." p
+	LEFT JOIN ".DB::table('common_member')." m ON m.uid=p.authorid
+	WHERE pid='$pid' AND tid='$_G[tid]' AND fid='$_G[fid]'");
 
 if($_G['setting']['magicstatus']) {
-	$magiclog = C::t('forum_threadmod')->fetch_by_tid_magicid($_G['tid'], 10);
-	$magicid = $magiclog['magicid'];
+	$magicid = DB::result_first("SELECT magicid FROM ".DB::table('forum_threadmod')." WHERE tid='$_G[tid]' AND magicid='10'");
 	$_G['group']['allowanonymous'] = $_G['group']['allowanonymous'] || $magicid ? 1 : $_G['group']['allowanonymous'];
 }
 
 $isfirstpost = $orig['first'] ? 1 : 0;
 $isorigauthor = $_G['uid'] && $_G['uid'] == $orig['authorid'];
-$isanonymous = ($_G['group']['allowanonymous'] || $orig['anonymous']) && getgpc('isanonymous') ? 1 : 0;
-$audit = $orig['invisible'] == -2 || $thread['displayorder'] == -2 ? $_GET['audit'] : 0;
+$isanonymous = $_G['group']['allowanonymous'] && getgpc('isanonymous') ? 1 : 0;
+$audit = $orig['invisible'] == -2 || $thread['displayorder'] == -2 ? $_G['gp_audit'] : 0;
 
 if(empty($orig)) {
 	showmessage('post_nonexistence');
@@ -46,8 +42,8 @@ if(empty($orig)) {
 $thread['pricedisplay'] = $thread['price'] == -1 ? 0 : $thread['price'];
 
 if($special == 5) {
-	$debate = array_merge($thread, daddslashes(C::t('forum_debate')->fetch($_G['tid'])));
-	$firststand = C::t('forum_debatepost')->get_firststand($_G['tid'], $_G['uid']);
+	$debate = array_merge($thread, daddslashes(DB::fetch_first("SELECT * FROM ".DB::table('forum_debate')." WHERE tid='$_G[tid]'"), 1));
+	$firststand = DB::result_first("SELECT stand FROM ".DB::table('forum_debatepost')." WHERE tid='$_G[tid]' AND uid='$_G[uid]' AND stand>'0' ORDER BY dateline LIMIT 1");
 
 	if(!$isfirstpost && $debate['endtime'] && $debate['endtime'] < TIMESTAMP && !$_G['forum']['ismoderator']) {
 		showmessage('debate_end');
@@ -59,9 +55,10 @@ if($special == 5) {
 
 $rushreply = getstatus($thread['status'], 3);
 
+$savepostposition = getstatus($thread['status'], 1);
 
 if($isfirstpost && $isorigauthor && $_G['group']['allowreplycredit']) {
-	if($replycredit_rule = C::t('forum_replycredit')->fetch($_G['tid'])) {
+	if($replycredit_rule = DB::fetch_first("SELECT * FROM ".DB::table('forum_replycredit')." WHERE tid = '$_G[tid]' LIMIT 1")) {
 		if($thread['replycredit']) {
 			$replycredit_rule['lasttimes'] = $thread['replycredit'] / $replycredit_rule['extcredits'];
 		}
@@ -74,10 +71,7 @@ if(!submitcheck('editsubmit')) {
 	$thread['hiddenreplies'] = getstatus($thread['status'], 2);
 
 
-	$postinfo = C::t('forum_post')->fetch('tid:'.$_G['tid'], $pid);
-	if($postinfo['fid'] != $_G['fid'] || $postinfo['tid'] != $_G['tid']) {
-		$postinfo = array();
-	}
+	$postinfo = DB::fetch_first("SELECT * FROM ".DB::table($posttable)." WHERE pid='$pid' AND tid='$_G[tid]' AND fid='$_G[fid]'");
 
 	$usesigcheck = $postinfo['usesig'] ? 'checked="checked"' : '';
 	$urloffcheck = $postinfo['parseurloff'] ? 'checked="checked"' : '';
@@ -106,10 +100,7 @@ if(!submitcheck('editsubmit')) {
 		$allownoticeauthor = getstatus($thread['status'], 6);
 
 		if($rushreply) {
-			$postinfo['rush'] = C::t('forum_threadrush')->fetch($_G['tid']);
-			if($postinfo['rush']['creditlimit'] == -996) {
-				$postinfo['rush']['creditlimit'] = '';
-			}
+			$postinfo['rush'] = DB::fetch_first("SELECT * FROM ".DB::table('forum_threadrush')." WHERE tid='$_G[tid]'");
 			$postinfo['rush']['stopfloor'] = $postinfo['rush']['stopfloor'] ? $postinfo['rush']['stopfloor'] : '';
 			$postinfo['rush']['starttimefrom'] = $postinfo['rush']['starttimefrom'] ? dgmdate($postinfo['rush']['starttimefrom'], 'Y-m-d H:i') : '';
 			$postinfo['rush']['starttimeto'] = $postinfo['rush']['starttimeto'] ? dgmdate($postinfo['rush']['starttimeto'], 'Y-m-d H:i') : '';
@@ -129,46 +120,38 @@ if(!submitcheck('editsubmit')) {
 		$thread['freecharge'] = $_G['setting']['maxchargespan'] && TIMESTAMP - $thread['dateline'] >= $_G['setting']['maxchargespan'] * 3600 ? 1 : 0;
 		$freechargehours = !$thread['freecharge'] ? $_G['setting']['maxchargespan'] - intval((TIMESTAMP - $thread['dateline']) / 3600) : 0;
 		if($thread['special'] == 1 && ($_G['group']['alloweditpoll'] || $thread['authorid'] == $_G['uid'])) {
-			$pollinfo = C::t('forum_poll')->fetch($_G['tid']);
-			$query = C::t('forum_polloption')->fetch_all_by_tid($_G['tid']);
-			foreach($query as $temppoll) {
-				$poll['multiple'] = $pollinfo['multiple'];
-				$poll['visible'] = $pollinfo['visible'];
-				$poll['maxchoices'] = $pollinfo['maxchoices'];
-				$poll['expiration'] = $pollinfo['expiration'];
-				$poll['overt'] = $pollinfo['overt'];
+			$query = DB::query("SELECT polloptionid, displayorder, polloption, multiple, visible, maxchoices, expiration, overt FROM ".DB::table('forum_polloption')." AS polloptions LEFT JOIN ".DB::table('forum_poll')." AS polls ON polloptions.tid=polls.tid WHERE polls.tid ='$_G[tid]' ORDER BY displayorder");
+			while($temppoll = DB::fetch($query)) {
+				$poll['multiple'] = $temppoll['multiple'];
+				$poll['visible'] = $temppoll['visible'];
+				$poll['maxchoices'] = $temppoll['maxchoices'];
+				$poll['expiration'] = $temppoll['expiration'];
+				$poll['overt'] = $temppoll['overt'];
 				$poll['polloptionid'][] = $temppoll['polloptionid'];
 				$poll['displayorder'][] = $temppoll['displayorder'];
-				$poll['polloption'][] = $temppoll['polloption'];
+				$poll['polloption'][] = dstripslashes($temppoll['polloption']);
 			}
 		} elseif($thread['special'] == 3) {
 			$rewardprice = $thread['price'];
 		} elseif($thread['special'] == 4) {
 			$activitytypelist = $_G['setting']['activitytype'] ? explode("\n", trim($_G['setting']['activitytype'])) : '';
-			$activity = C::t('forum_activity')->fetch($_G['tid']);
+			$activity = DB::fetch_first("SELECT * FROM ".DB::table('forum_activity')." WHERE tid='$_G[tid]'");
 			$activity['starttimefrom'] = dgmdate($activity['starttimefrom'], 'Y-m-d H:i');
 			$activity['starttimeto'] = $activity['starttimeto'] ? dgmdate($activity['starttimeto'], 'Y-m-d H:i') : '';
 			$activity['expiration'] = $activity['expiration'] ? dgmdate($activity['expiration'], 'Y-m-d H:i') : '';
-			$activity['ufield'] = $activity['ufield'] ? dunserialize($activity['ufield']) : array();
+			$activity['ufield'] = $activity['ufield'] ? unserialize($activity['ufield']) : array();
 			if($activity['ufield']['extfield']) {
 				$activity['ufield']['extfield'] = implode("\n", $activity['ufield']['extfield']);
 			}
 		} elseif($thread['special'] == 5 ) {
 			$debate['endtime'] = $debate['endtime'] ? dgmdate($debate['endtime'], 'Y-m-d H:i') : '';
 		}
-		if ($_G['group']['allowsetpublishdate']) {
-			loadcache('cronpublish');
-			$cron_publish_ids = dunserialize(getglobal('cache/cronpublish'));
-			if (in_array($_G['tid'], $cron_publish_ids)) {
-				$cronpublish = 1;
-				$cronpublishdate = dgmdate($thread['dateline'], "dt");
-			}
-		}
 	}
 
 	if($thread['special'] == 2 && ($thread['authorid'] == $_G['uid'] && $_G['group']['allowposttrade'] || $_G['group']['allowedittrade'])) {
-		$trade = C::t('forum_trade')->fetch_goods(0, $pid);
-		if($trade) {
+		$query = DB::query("SELECT * FROM ".DB::table('forum_trade')." WHERE pid='$pid'");
+		if(DB::num_rows($query)) {
+			$trade = DB::fetch($query);
 			$trade['expiration'] = $trade['expiration'] ? date('Y-m-d', $trade['expiration']) : '';
 			$trade['costprice'] = $trade['costprice'] > 0 ? $trade['costprice'] : '';
 			$trade['message'] = dhtmlspecialchars($trade['message']);
@@ -260,26 +243,26 @@ if(!submitcheck('editsubmit')) {
 
 } else {
 
-	$redirecturl = "forum.php?mod=viewthread&tid=$_G[tid]&page=$_GET[page]&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : '')."#pid$pid";
+	$redirecturl = "forum.php?mod=viewthread&tid=$_G[tid]&page=$_G[gp_page]&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : '')."#pid$pid";
 
-	if(empty($_GET['delete'])) {
+	if(empty($_G['gp_delete'])) {
 
 		if($post_invalid = checkpost($subject, $message, $isfirstpost && ($special || $sortid))) {
 			showmessage($post_invalid, '', array('minpostsize' => $_G['setting']['minpostsize'], 'maxpostsize' => $_G['setting']['maxpostsize']));
 		}
-		$threadupdatearr = array();
+
 		if(!$isorigauthor && !$_G['group']['allowanonymous']) {
 			if($orig['anonymous'] && !$isanonymous) {
 				$isanonymous = 0;
-				$threadupdatearr['author'] = $orig['author'];
-				$anonymousadd = 0;
+				$authoradd = ', author=\''.addslashes($orig['author']).'\'';
+				$anonymousadd = ', anonymous=\'0\'';
 			} else {
 				$isanonymous = $orig['anonymous'];
-				$anonymousadd = '';
+				$authoradd = $anonymousadd = '';
 			}
 		} else {
-			$threadupdatearr['author'] = $isanonymous ? '' : $orig['author'];
-			$anonymousadd = $isanonymous;
+			$authoradd = ', author=\''.($isanonymous ? '' : addslashes($orig['author'])).'\'';
+			$anonymousadd = ", anonymous='$isanonymous'";
 		}
 
 		if($isfirstpost) {
@@ -297,38 +280,17 @@ if(!submitcheck('editsubmit')) {
 				$typeid = $thread['typeid'];
 			}
 			$sortid = isset($_G['forum']['threadsorts']['types'][$sortid]) ? $sortid : 0;
-			$typeexpiration = intval($_GET['typeexpiration']);
+			$typeexpiration = intval($_G['gp_typeexpiration']);
 
 			if(!$typeid && $_G['forum']['threadtypes']['required'] && !$thread['special']) {
 				showmessage('post_type_isnull');
 			}
 
-			$publishdate = null;
-			if ($_G['group']['allowsetpublishdate'] && $thread['displayorder'] == -4) {
-				loadcache('cronpublish');
-				$cron_publish_ids = dunserialize($_G['cache']['cronpublish']);
-				if (!$_GET['cronpublish'] && in_array($_G['tid'], $cron_publish_ids)) {
-					unset($cron_publish_ids[$_G['tid']]);
-					$cron_publish_ids = serialize($cron_publish_ids);
-					savecache('cronpublish', $cron_publish_ids);
-				} elseif ($_GET['cronpublish'] && $_GET['cronpublishdate']) {
-					$threadupdatearr['dateline'] = $publishdate = strtotime($_GET['cronpublishdate']);
-					$_GET['save'] = 1;
-					if (!in_array($_G['tid'], $cron_publish_ids)) {
-						$cron_publish_ids[$_G['tid']] = $_G['tid'];
-						$cron_publish_ids = serialize($cron_publish_ids);
-						savecache('cronpublish', $cron_publish_ids);
-					}
-				}
-			}
-
-
-
-			$readperm = $_G['group']['allowsetreadperm'] ? intval($readperm) : ($isorigauthor ? 0 : 'ignore');
+			$readperm = $_G['group']['allowsetreadperm'] ? intval($readperm) : ($isorigauthor ? 0 : 'readperm');
 			if($thread['special'] == 3) {
-				$price = $isorigauthor ? ($thread['price'] > 0 && $thread['price'] != $_GET['rewardprice'] ? $_GET['rewardprice'] : 0) : $thread['price'];
+				$price = $isorigauthor ? ($thread['price'] > 0 && $thread['price'] != $_G['gp_rewardprice'] ? $_G['gp_rewardprice'] : 0) : $thread['price'];
 			} else {
-				$price = intval($_GET['price']);
+				$price = intval($_G['gp_price']);
 				$price = $thread['price'] < 0 && !$thread['special']
 					?($isorigauthor || !$price ? -1 : $price)
 					:($_G['group']['maxprice'] ? ($price <= $_G['group']['maxprice'] ? ($price > 0 ? $price : 0) : $_G['group']['maxprice']) : ($isorigauthor ? $price : $thread['price']));
@@ -338,14 +300,15 @@ if(!submitcheck('editsubmit')) {
 				}
 			}
 
-			if($thread['special'] == 1 && ($_G['group']['alloweditpoll'] || $isorigauthor) && !empty($_GET['polls'])) {
+			$polladd = '';
+			if($thread['special'] == 1 && ($_G['group']['alloweditpoll'] || $isorigauthor) && !empty($_G['gp_polls'])) {
 				$pollarray = '';
-				foreach($_GET['polloption'] as $key => $val) {
+				foreach($_G['gp_polloption'] as $key => $val) {
 					if(trim($val) === '') {
-						unset($_GET['polloption'][$key]);
+						unset($_G['gp_polloption'][$key]);
 					}
 				}
-				$pollarray['options'] = $_GET['polloption'];
+				$pollarray['options'] = $_G['gp_polloption'];
 				if($pollarray['options']) {
 					if(count($pollarray['options']) > $_G['setting']['maxpolloptions']) {
 						showmessage('post_poll_option_toomany', '', array('maxpolloptions' => $_G['setting']['maxpolloptions']));
@@ -353,28 +316,28 @@ if(!submitcheck('editsubmit')) {
 					foreach($pollarray['options'] as $key => $value) {
 						$pollarray['options'][$key] = censor($pollarray['options'][$key]);
 						if(!trim($value)) {
-							C::t('forum_polloption')->delete_safe_tid($_G['tid'], $key);
+							DB::query("DELETE FROM ".DB::table('forum_polloption')." WHERE polloptionid='$key' AND tid='$_G[tid]'");
 							unset($pollarray['options'][$key]);
 						}
 					}
-					$threadupdatearr['special'] = 1;
-					foreach($_GET['displayorder'] as $key => $value) {
+					$polladd = ', special=\'1\'';
+					foreach($_G['gp_displayorder'] as $key => $value) {
 						if(preg_match("/^-?\d*$/", $value)) {
 							$pollarray['displayorder'][$key] = $value;
 						}
 					}
 					$curpolloption = count($pollarray['options']);
-					$pollarray['maxchoices'] = empty($_GET['maxchoices']) ? 0 : ($_GET['maxchoices'] > $curpolloption ? $curpolloption : $_GET['maxchoices']);
-					$pollarray['multiple'] = empty($_GET['maxchoices']) || $_GET['maxchoices'] == 1 ? 0 : 1;
-					$pollarray['visible'] = empty($_GET['visibilitypoll']);
-					$pollarray['expiration'] = $_GET['expiration'];
-					$pollarray['overt'] = !empty($_GET['overt']);
-					foreach($_GET['polloptionid'] as $key => $value) {
+					$pollarray['maxchoices'] = empty($_G['gp_maxchoices']) ? 0 : ($_G['gp_maxchoices'] > $curpolloption ? $curpolloption : $_G['gp_maxchoices']);
+					$pollarray['multiple'] = empty($_G['gp_maxchoices']) || $_G['gp_maxchoices'] == 1 ? 0 : 1;
+					$pollarray['visible'] = empty($_G['gp_visibilitypoll']);
+					$pollarray['expiration'] = $_G['gp_expiration'];
+					$pollarray['overt'] = !empty($_G['gp_overt']);
+					foreach($_G['gp_polloptionid'] as $key => $value) {
 						if(!preg_match("/^\d*$/", $value)) {
 							showmessage('submit_invalid');
 						}
 					}
-					$expiration = intval($_GET['expiration']);
+					$expiration = intval($_G['gp_expiration']);
 					if($close) {
 						$pollarray['expiration'] = TIMESTAMP;
 					} elseif($expiration) {
@@ -385,43 +348,42 @@ if(!submitcheck('editsubmit')) {
 						}
 					}
 					$optid = '';
-					$query = C::t('forum_polloption')->fetch_all_by_tid($_G['tid']);
-					foreach($query as $tempoptid) {
+					$query = DB::query("SELECT polloptionid FROM ".DB::table('forum_polloption')." WHERE tid='$_G[tid]'");
+					while($tempoptid = DB::fetch($query)) {
 						$optid[] = $tempoptid['polloptionid'];
 					}
 					foreach($pollarray['options'] as $key => $value) {
 						$value = dhtmlspecialchars(trim($value));
-						if(in_array($_GET['polloptionid'][$key], $optid)) {
+						if(in_array($_G['gp_polloptionid'][$key], $optid)) {
 							if($_G['group']['alloweditpoll']) {
-								C::t('forum_polloption')->update_safe_tid($_GET['polloptionid'][$key], $_G['tid'], $pollarray['displayorder'][$key], $value);
+								DB::query("UPDATE ".DB::table('forum_polloption')." SET displayorder='".$pollarray['displayorder'][$key]."', polloption='$value' WHERE polloptionid='".$_G['gp_polloptionid'][$key]."' AND tid='$_G[tid]'");
 							} else {
-								C::t('forum_polloption')->update_safe_tid($_GET['polloptionid'][$key], $_G['tid'], $pollarray['displayorder'][$key]);
+								DB::query("UPDATE ".DB::table('forum_polloption')." SET displayorder='".$pollarray['displayorder'][$key]."' WHERE polloptionid='".$_G['gp_polloptionid'][$key]."' AND tid='$_G[tid]'");
 							}
 						} else {
-							C::t('forum_polloption')->insert(array('tid' => $_G['tid'], 'displayorder' => $pollarray['displayorder'][$key], 'polloption' => $value));
+							DB::query("INSERT INTO ".DB::table('forum_polloption')." (tid, displayorder, polloption) VALUES ('$_G[tid]', '".$pollarray['displayorder'][$key]."', '$value')");
 						}
 					}
 					$polloptionpreview = '';
-					$query = C::t('forum_polloption')->fetch_all_by_tid($_G['tid'], 1, 2);
-					foreach($query as $option) {
+					$query = DB::query("SELECT polloption FROM ".DB::table('forum_polloption')." WHERE tid='$_G[tid]' ORDER BY displayorder LIMIT 2");
+					while($option = DB::fetch($query)) {
 						$polloptvalue = preg_replace("/\[url=(https?){1}:\/\/([^\[\"']+?)\](.+?)\[\/url\]/i", "<a href=\"\\1://\\2\" target=\"_blank\">\\3</a>", $option['polloption']);
 						$polloptionpreview .= $polloptvalue."\t";
 					}
 
 					$polloptionpreview = daddslashes($polloptionpreview);
 
-					$data = array('multiple' => $pollarray['multiple'], 'visible' => $pollarray['visible'], 'maxchoices' => $pollarray['maxchoices'], 'expiration' => $pollarray['expiration'], 'overt' => $pollarray['overt'], 'pollpreview' => $polloptionpreview);
-					C::t('forum_poll')->update($_G['tid'], $data);
+					DB::query("UPDATE ".DB::table('forum_poll')." SET multiple='$pollarray[multiple]', visible='$pollarray[visible]', maxchoices='$pollarray[maxchoices]', expiration='$pollarray[expiration]', overt='$pollarray[overt]', pollpreview='$polloptionpreview' WHERE tid='$_G[tid]'", 'UNBUFFERED');
 				} else {
-					$threadupdatearr['special'] = 0;
-					C::t('forum_poll')->delete($_G['tid']);
-					C::t('forum_polloption')->delete_safe_tid($_G['tid']);
+					$polladd = ', special=\'0\'';
+					DB::query("DELETE FROM ".DB::table('forum_poll')." WHERE tid='$_G[tid]'");
+					DB::query("DELETE FROM ".DB::table('forum_polloption')." WHERE tid='$_G[tid]'");
 				}
 
 			} elseif($thread['special'] == 3 && $isorigauthor) {
 
-				$rewardprice = intval($_GET['rewardprice']);
-				if($thread['price'] > 0 && $thread['price'] != $_GET['rewardprice']) {
+				$rewardprice = intval($_G['gp_rewardprice']);
+				if($thread['price'] > 0 && $thread['price'] != $_G['gp_rewardprice']) {
 					if($rewardprice <= 0){
 						showmessage('reward_credits_invalid');
 					}
@@ -436,7 +398,7 @@ if(!submitcheck('editsubmit')) {
 					$realprice = ceil($thread['price'] + $thread['price'] * $_G['setting']['creditstax']);
 
 					updatemembercount($thread['authorid'], array($_G['setting']['creditstransextra'][2] => -$addprice));
-					C::t('common_credit_log')->update_by_uid_operation_relatedid($thread['authorid'], 'RTC', $_G['tid'], array('extcredits'.$_G['setting']['creditstransextra'][2] => $realprice));
+					DB::update('common_credit_log', array('extcredits'.$_G['setting']['creditstransextra'][2] => $realprice), array('uid' => $thread['authorid'], 'operation' => 'RTC', 'relatedid' => $_G['tid']));
 				}
 
 				if(!$_G['forum']['ismoderator']) {
@@ -449,36 +411,36 @@ if(!submitcheck('editsubmit')) {
 
 			} elseif($thread['special'] == 4 && $_G['group']['allowpostactivity']) {
 
-				$activitytime = intval($_GET['activitytime']);
-				if(empty($_GET['starttimefrom'][$activitytime])) {
+				$activitytime = intval($_G['gp_activitytime']);
+				if(empty($_G['gp_starttimefrom'][$activitytime])) {
 					showmessage('activity_fromtime_please');
-				} elseif(strtotime($_GET['starttimefrom'][$activitytime]) === -1 || @strtotime($_GET['starttimefrom'][$activitytime]) === FALSE) {
+				} elseif(strtotime($_G['gp_starttimefrom'][$activitytime]) === -1 || @strtotime($_G['gp_starttimefrom'][$activitytime]) === FALSE) {
 					showmessage('activity_fromtime_error');
-				} elseif($activitytime && ((@strtotime($_GET['starttimefrom']) > @strtotime($_GET['starttimeto']) || !$_GET['starttimeto']))) {
+				} elseif($activitytime && ((@strtotime($_G['gp_starttimefrom']) > @strtotime($_G['gp_starttimeto']) || !$_G['gp_starttimeto']))) {
 					showmessage('activity_fromtime_error');
-				} elseif(!trim($_GET['activityclass'])) {
+				} elseif(!trim($_G['gp_activityclass'])) {
 					showmessage('activity_sort_please');
-				} elseif(!trim($_GET['activityplace'])) {
+				} elseif(!trim($_G['gp_activityplace'])) {
 					showmessage('activity_address_please');
-				} elseif(trim($_GET['activityexpiration']) && (@strtotime($_GET['activityexpiration']) === -1 || @strtotime($_GET['activityexpiration']) === FALSE)) {
+				} elseif(trim($_G['gp_activityexpiration']) && (@strtotime($_G['gp_activityexpiration']) === -1 || @strtotime($_G['gp_activityexpiration']) === FALSE)) {
 					showmessage('activity_totime_error');
 				}
 
 				$activity = array();
-				$activity['class'] = censor(dhtmlspecialchars(trim($_GET['activityclass'])));
-				$activity['starttimefrom'] = @strtotime($_GET['starttimefrom'][$activitytime]);
-				$activity['starttimeto'] = $activitytime ? @strtotime($_GET['starttimeto']) : 0;
-				$activity['place'] = censor(dhtmlspecialchars(trim($_GET['activityplace'])));
-				$activity['cost'] = intval($_GET['cost']);
-				$activity['gender'] = intval($_GET['gender']);
-				$activity['number'] = intval($_GET['activitynumber']);
-				if($_GET['activityexpiration']) {
-					$activity['expiration'] = @strtotime($_GET['activityexpiration']);
+				$activity['class'] = censor(dhtmlspecialchars(trim($_G['gp_activityclass'])));
+				$activity['starttimefrom'] = @strtotime($_G['gp_starttimefrom'][$activitytime]);
+				$activity['starttimeto'] = $activitytime ? @strtotime($_G['gp_starttimeto']) : 0;
+				$activity['place'] = censor(dhtmlspecialchars(trim($_G['gp_activityplace'])));
+				$activity['cost'] = intval($_G['gp_cost']);
+				$activity['gender'] = intval($_G['gp_gender']);
+				$activity['number'] = intval($_G['gp_activitynumber']);
+				if($_G['gp_activityexpiration']) {
+					$activity['expiration'] = @strtotime($_G['gp_activityexpiration']);
 				} else {
 					$activity['expiration'] = 0;
 				}
-				$extfield = $_GET['extfield'];
-				$extfield = explode("\n", $_GET['extfield']);
+				$extfield = $_G['gp_extfield'];
+				$extfield = explode("\n", $_G['gp_extfield']);
 				foreach($extfield as $key => $value) {
 					$extfield[$key] = censor(trim($value));
 					if($extfield[$key] === '' || is_numeric($extfield[$key])) {
@@ -489,29 +451,28 @@ if(!submitcheck('editsubmit')) {
 				if(count($extfield) > $_G['setting']['activityextnum']) {
 					showmessage('post_activity_extfield_toomany', '', array('maxextfield' => $_G['setting']['activityextnum']));
 				}
-				$activity['ufield'] = array('userfield' => $_GET['userfield'], 'extfield' => $extfield);
+				$activity['ufield'] = array('userfield' => $_G['gp_userfield'], 'extfield' => $extfield);
 				$activity['ufield'] = serialize($activity['ufield']);
-				if(intval($_GET['activitycredit']) > 0) {
-					$activity['credit'] = intval($_GET['activitycredit']);
+				if(intval($_G['gp_activitycredit']) > 0) {
+					$activity['credit'] = intval($_G['gp_activitycredit']);
 				}
-				$data = array('cost' => $activity['cost'], 'starttimefrom' => $activity['starttimefrom'], 'starttimeto' => $activity['starttimeto'], 'place' => $activity['place'], 'class' => $activity['class'], 'gender' => $activity['gender'], 'number' => $activity['number'], 'expiration' => $activity['expiration'], 'ufield' => $activity['ufield'], 'credit' => $activity['credit']);
-				C::t('forum_activity')->update($_G['tid'], $data);
+				DB::query("UPDATE ".DB::table('forum_activity')." SET cost='$activity[cost]', starttimefrom='$activity[starttimefrom]', starttimeto='$activity[starttimeto]', place='$activity[place]', class='$activity[class]', gender='$activity[gender]', number='$activity[number]', expiration='$activity[expiration]', ufield='$activity[ufield]', credit='$activity[credit]' WHERE tid='$_G[tid]'", 'UNBUFFERED');
 
 			} elseif($thread['special'] == 5 && $_G['group']['allowpostdebate']) {
 
-				if(empty($_GET['affirmpoint']) || empty($_GET['negapoint'])) {
+				if(empty($_G['gp_affirmpoint']) || empty($_G['gp_negapoint'])) {
 					showmessage('debate_position_nofound');
-				} elseif(!empty($_GET['endtime']) && (!($endtime = @strtotime($_GET['endtime'])) || $endtime < TIMESTAMP)) {
+				} elseif(!empty($_G['gp_endtime']) && (!($endtime = @strtotime($_G['gp_endtime'])) || $endtime < TIMESTAMP)) {
 					showmessage('debate_endtime_invalid');
-				} elseif(!empty($_GET['umpire'])) {
-					if(!C::t('common_member')->fetch_uid_by_username($_GET['umpire'])) {
-						$_GET['umpire'] = dhtmlspecialchars($_GET['umpire']);
+				} elseif(!empty($_G['gp_umpire'])) {
+					if(!DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_member')." WHERE username='$_G[gp_umpire]'")) {
+						$_G['gp_umpire'] = dhtmlspecialchars($_G['gp_umpire']);
 						showmessage('debate_umpire_invalid');
 					}
 				}
-				$affirmpoint = censor(dhtmlspecialchars($_GET['affirmpoint']));
-				$negapoint = censor(dhtmlspecialchars($_GET['negapoint']));
-				C::t('forum_debate')->update($_G['tid'], array('affirmpoint' => $affirmpoint, 'negapoint' => $negapoint, 'endtime' => $endtime, 'umpire' => $_GET['umpire']));
+				$affirmpoint = censor(dhtmlspecialchars($_G['gp_affirmpoint']));
+				$negapoint = censor(dhtmlspecialchars($_G['gp_negapoint']));
+				DB::query("UPDATE ".DB::table('forum_debate')." SET affirmpoint='$affirmpoint', negapoint='$negapoint', endtime='$endtime', umpire='$_G[gp_umpire]' WHERE tid='$_G[tid]'");
 
 			} elseif($specialextra) {
 
@@ -525,7 +486,7 @@ if(!submitcheck('editsubmit')) {
 
 			$_G['forum_optiondata'] = array();
 			if($_G['forum']['threadsorts']['types'][$sortid] && $_G['forum_checkoption']) {
-				$_G['forum_optiondata'] = threadsort_validator($_GET['typeoption'], $pid);
+				$_G['forum_optiondata'] = threadsort_validator($_G['gp_typeoption'], $pid);
 			}
 
 			$threadimageaid = 0;
@@ -534,14 +495,13 @@ if(!submitcheck('editsubmit')) {
 			if($_G['forum']['threadsorts']['types'][$sortid] && $_G['forum_optiondata'] && is_array($_G['forum_optiondata'])) {
 				$sql = $separator = $filedname = $valuelist = '';
 				foreach($_G['forum_optiondata'] as $optionid => $value) {
-					$value = censor($value);
 					if($_G['forum_optionlist'][$optionid]['type'] == 'image') {
 						$identifier = $_G['forum_optionlist'][$optionid]['identifier'];
-						$newsortaid = intval($_GET['typeoption'][$identifier]['aid']);
-						if($newsortaid && $_GET['oldsortaid'][$identifier] && $newsortaid != $_GET['oldsortaid'][$identifier]) {
-							$attach = C::t('forum_attachment_n')->fetch('tid:'.$_G['tid'], $_GET['oldsortaid'][$identifier]);
-							C::t('forum_attachment')->delete($_GET['oldsortaid'][$identifier]);
-							C::t('forum_attachment_n')->delete('tid:'.$_G['tid'], $_GET['oldsortaid'][$identifier]);
+						$newsortaid = intval($_G['gp_typeoption'][$identifier]['aid']);
+						if($newsortaid && $newsortaid != $_G['gp_oldsortaid'][$identifier]) {
+							$attach = DB::fetch_first("SELECT attachment, thumb, remote, aid FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE aid='{$_G['gp_oldsortaid'][$identifier]}'");
+							DB::query("DELETE FROM ".DB::table('forum_attachment')." WHERE aid='{$_G['gp_oldsortaid'][$identifier]}'");
+							DB::query("DELETE FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE aid='{$_G['gp_oldsortaid'][$identifier]}'");
 							dunlink($attach);
 							$threadimageaid = $newsortaid;
 							convertunusedattach($newsortaid, $_G['tid'], $pid);
@@ -556,31 +516,31 @@ if(!submitcheck('editsubmit')) {
 						$sql .= $separator.$_G['forum_optionlist'][$optionid]['identifier']."='$value'";
 						$separator = ' ,';
 					}
-					C::t('forum_typeoptionvar')->update_by_tid($_G['tid'], array('value' => $value, 'sortid' => $sortid), false, false, $optionid);
+					DB::query("UPDATE ".DB::table('forum_typeoptionvar')." SET value='$value', sortid='$sortid' WHERE tid='$_G[tid]' AND optionid='$optionid'");
 				}
 
 				if($typeexpiration) {
-					C::t('forum_typeoptionvar')->update_by_tid($_G['tid'], array('expiration' => (TIMESTAMP + $typeexpiration)), false, false, null, $sortid);
+					DB::query("UPDATE ".DB::table('forum_typeoptionvar')." SET expiration='".(TIMESTAMP + $typeexpiration)."' WHERE tid='$_G[tid]' AND sortid='$sortid'");
 				}
 
 				if($sql || ($filedname && $valuelist)) {
-					if(C::t('forum_optionvalue')->fetch_all_tid($sortid, "WHERE tid='$_G[tid]'")) {
+					if(DB::result_first("SELECT tid FROM ".DB::table('forum_optionvalue')."$sortid WHERE tid='$_G[tid]'")) {
 						if($sql) {
-							C::t('forum_optionvalue')->update($sortid, $_G['tid'], $_G['fid'], $sql);
+							DB::query("UPDATE ".DB::table('forum_optionvalue')."$sortid SET $sql WHERE tid='$_G[tid]' AND fid='$_G[fid]'");
 						}
 					} elseif($filedname && $valuelist) {
-						C::t('forum_optionvalue')->insert($sortid, "($filedname, tid, fid) VALUES ($valuelist, '$_G[tid]', '$_G[fid]')");
+						DB::query("INSERT INTO ".DB::table('forum_optionvalue')."$sortid ($filedname, tid, fid) VALUES ($valuelist, '$_G[tid]', '$_G[fid]')");
 					}
 				}
 			}
 
-			$thread['status'] = setstatus(4, $_GET['ordertype'], $thread['status']);
+			$thread['status'] = setstatus(4, $_G['gp_ordertype'], $thread['status']);
 
-			$thread['status'] = setstatus(2, $_GET['hiddenreplies'], $thread['status']);
+			$thread['status'] = setstatus(2, $_G['gp_hiddenreplies'], $thread['status']);
 
-			$thread['status'] = setstatus(6, $_GET['allownoticeauthor'] ? 1 : 0, $thread['status']);
+			$thread['status'] = setstatus(6, $_G['gp_allownoticeauthor'] ? 1 : 0, $thread['status']);
 
-			$displayorder = empty($_GET['save']) ? ($thread['displayorder'] == -4 ? 0 : $thread['displayorder']) : -4;
+			$displayorder = empty($_G['gp_save']) ? ($thread['displayorder'] == -4 ? 0 : $thread['displayorder']) : -4;
 
 			if($isorigauthor && $_G['group']['allowreplycredit']) {
 				$_POST['replycredit_extcredits'] = intval($_POST['replycredit_extcredits']);
@@ -609,87 +569,56 @@ if(!submitcheck('editsubmit')) {
 					}
 				} elseif(($_POST['replycredit_extcredits'] == 0 || $_POST['replycredit_times'] == 0) && $thread['replycredit'] > 0) {
 					$replycredit = 0;
-					C::t('forum_replycredit')->delete($_G['tid']);
+					DB::query("DELETE FROM ".DB::table('forum_replycredit')." WHERE tid = '{$_G['tid']}'");
 					updatemembercount($thread['authorid'], array($replycredit_rule['extcreditstype'] => $thread['replycredit']), 1, 'RCB', $_G['tid']);
-					$threadupdatearr['replycredit'] = 0;
+					$replycreditadd = ", replycredit = '0'";
 				} else {
 					$replycredit = $thread['replycredit'];
 				}
 				if($replycredit) {
-					$threadupdatearr['replycredit'] = $replycredit;
-					$replydata = array(
-							'tid' => $_G['tid'],
-							'extcredits' => $_POST['replycredit_extcredits'],
-							'extcreditstype' => $replycredit_rule['extcreditstype'],
-							'times' => $_POST['replycredit_times'],
-							'membertimes' => $_POST['replycredit_membertimes'],
-							'random' => $_POST['replycredit_random']
-						);
-					C::t('forum_replycredit')->insert($replydata, false, true);
+					$replycreditadd = ", replycredit = '$replycredit'";
+					DB::query("REPLACE INTO ".DB::table('forum_replycredit')."(tid, extcredits, extcreditstype, times, membertimes, random)VALUES('$_G[tid]', '$_POST[replycredit_extcredits]', '$replycredit_rule[extcreditstype]', '$_POST[replycredit_times]', '$_POST[replycredit_membertimes]', '$_POST[replycredit_random]')");
 				}
 			}
 
+			$closedadd = '';
 			if($rushreply) {
-				$_GET['rushreplyfrom'] = strtotime($_GET['rushreplyfrom']);
-				$_GET['rushreplyto'] = strtotime($_GET['rushreplyto']);
-				$_GET['rewardfloor'] = trim($_GET['rewardfloor']);
-				$_GET['stopfloor'] = intval($_GET['stopfloor']);
-				$_GET['creditlimit'] = $_GET['creditlimit'] == '' ? '-996' : intval($_GET['creditlimit']);
-				if($_GET['rushreplyfrom'] > $_GET['rushreplyto'] && !empty($_GET['rushreplyto'])) {
+				$_G['gp_rushreplyfrom'] = strtotime($_G['gp_rushreplyfrom']);
+				$_G['gp_rushreplyto'] = strtotime($_G['gp_rushreplyto']);
+				$_G['gp_rewardfloor'] = trim($_G['gp_rewardfloor']);
+				$_G['gp_stopfloor'] = intval($_G['gp_stopfloor']);
+				if($_G['gp_rushreplyfrom'] > $_G['gp_rushreplyto'] && !empty($_G['gp_rushreplyto'])) {
 					showmessage('post_rushreply_timewrong');
 				}
-				$maxposition = C::t('forum_post')->fetch_maxposition_by_tid($thread['posttableid'], $_G['tid']);
-				if($thread['closed'] == 1 && ((!$_GET['rushreplyfrom'] && !$_GET['rushreplyto']) || ($_GET['rushreplyfrom'] < $_G['timestamp'] && $_GET['rushreplyto'] > $_G['timestamp']) || (!$_GET['rushreplyfrom'] && $_GET['rushreplyto'] > $_G['timestamp']) || ($_GET['stopfloor'] && $_GET['stopfloor'] > $maxposition) )) {
-					$threadupdatearr['closed'] = 0;
-				} elseif($thread['closed'] == 0 && (($_GET['rushreplyfrom'] && $_GET['rushreplyfrom'] > $_G['timestamp']) || ($_GET['rushreplyto'] && $_GET['rushreplyto'] && $_GET['rushreplyto'] < $_G['timestamp']) || ($_GET['stopfloor'] && $_GET['stopfloor'] <= $maxposition) )) {
-					$threadupdatearr['closed'] = 1;
+				$maxposition = DB::result_first("SELECT position FROM ".DB::table('forum_postposition')." WHERE tid = '{$_G['tid']}' ORDER BY position DESC LIMIT 1");
+				if($thread['closed'] == 1 && ((!$_G['gp_rushreplyfrom'] && !$_G['gp_rushreplyto']) || ($_G['gp_rushreplyfrom'] < $_G['timestamp'] && $_G['gp_rushreplyto'] > $_G['timestamp']) || (!$_G['gp_rushreplyfrom'] && $_G['gp_rushreplyto'] > $_G['timestamp']) || ($_G['gp_stopfloor'] && $_G['gp_stopfloor'] > $maxposition) )) {
+					$closedadd = " , closed = '0'";
+				} elseif($thread['closed'] == 0 && (($_G['gp_rushreplyfrom'] && $_G['gp_rushreplyfrom'] > $_G['timestamp']) || ($_G['gp_rushreplyto'] && $_G['gp_rushreplyto'] && $_G['gp_rushreplyto'] < $_G['timestamp']) || ($_G['gp_stopfloor'] && $_G['gp_stopfloor'] <= $maxposition) )) {
+					$closedadd = " , closed = '1'";
 				}
-				if(!empty($_GET['rewardfloor']) && !empty($_GET['stopfloor'])) {
-					$floors = explode(',', $_GET['rewardfloor']);
+				if(!empty($_G['gp_rewardfloor']) && !empty($_G['gp_stopfloor'])) {
+					$floors = explode(',', $_G['gp_rewardfloor']);
 					if(!empty($floors)) {
 						foreach($floors AS $key => $floor) {
 							if(strpos($floor, '*') === false) {
 								if(intval($floor) == 0) {
 									unset($floors[$key]);
-								} elseif($floor > $_GET['stopfloor']) {
+								} elseif($floor > $_G['gp_stopfloor']) {
 									unset($floors[$key]);
 								}
 							}
 						}
 					}
-					$_GET['rewardfloor'] = implode(',', $floors);
+					$_G['gp_rewardfloor'] = implode(',', $floors);
 				}
-				$rushdata = array('stopfloor' => $_GET['stopfloor'], 'starttimefrom' => $_GET['rushreplyfrom'], 'starttimeto' => $_GET['rushreplyto'], 'rewardfloor' => $_GET['rewardfloor'], 'creditlimit' => $_GET['creditlimit']);
-				C::t('forum_threadrush')->update($_G['tid'], $rushdata);
+				DB::query("UPDATE ".DB::table('forum_threadrush')." SET stopfloor='$_G[gp_stopfloor]', starttimefrom='$_G[gp_rushreplyfrom]', starttimeto='$_G[gp_rushreplyto]', rewardfloor='$_G[gp_rewardfloor]' WHERE tid='$_G[tid]'", 'UNBUFFERED');
 			}
-			$threadupdatearr['typeid'] = $typeid;
-			$threadupdatearr['sortid'] = $sortid;
-			$threadupdatearr['subject'] = $subject;
-			if($readperm != 'ignore') {
-				$threadupdatearr['readperm'] = $readperm;
-			}
-			$threadupdatearr['price'] = $price;
-			$threadupdatearr['status'] = $thread['status'];
-			if($_G['forum_auditstatuson'] && $audit == 1) {
-				$threadupdatearr['displayorder'] = 0;
-				$threadupdatearr['moderated'] = 1;
-			} else {
-				$threadupdatearr['displayorder'] = $displayorder;
-			}
-			C::t('forum_thread')->update($_G['tid'], $threadupdatearr, true);
 
-			if($_G['tid'] > 1) {
-				if($_G['thread']['closed'] > 1) {
-					C::t('forum_thread')->update($_G['thread']['closed'], array('subject' => $subject), true);
-				} elseif(empty($_G['thread']['isgroup'])) {
-					$threadclosed = C::t('forum_threadclosed')->fetch($_G['tid']);
-					if($threadclosed['redirect']) {
-						C::t('forum_thread')->update($threadclosed['redirect'], array('subject' => $subject), true);
-					}
-				}
-			}
-			$class_tag = new tag();
-			$tagstr = $class_tag->update_field($_GET['tags'], $_G['tid'], 'tid', $_G['thread']);
+			DB::query("UPDATE ".DB::table('forum_thread')." SET typeid='$typeid', sortid='$sortid', subject='$subject', readperm='$readperm', price='$price' $closedadd $authoradd $polladd $replycreditadd".($_G['forum_auditstatuson'] && $audit == 1 ? ",displayorder='0', moderated='1'" : ",displayorder='$displayorder'").", status='$thread[status]' WHERE tid='$_G[tid]'", 'UNBUFFERED');
+
+			$thread['closed'] > 1 && DB::query("UPDATE ".DB::table('forum_thread')." SET subject='$subject' WHERE tid='$thread[closed]'", 'UNBUFFERED');
+
+			$tagstr = modthreadtag($_G['gp_tags'], $_G['tid']);
 
 		} else {
 
@@ -699,86 +628,39 @@ if(!submitcheck('editsubmit')) {
 
 		}
 
-		$htmlon = $_G['group']['allowhtml'] && !empty($_GET['htmlon']) ? 1 : 0;
+		$htmlon = $_G['group']['allowhtml'] && !empty($_G['gp_htmlon']) ? 1 : 0;
 
 		if($_G['setting']['editedby'] && (TIMESTAMP - $orig['dateline']) > 60 && $_G['adminid'] != 1) {
 			$editor = $isanonymous && $isorigauthor ? lang('forum/misc', 'anonymous') : $_G['username'];
 			$edittime = dgmdate(TIMESTAMP);
-			$message = lang('forum/misc', $htmlon ? 'post_edithtml' : (!$_G['forum']['allowbbcode'] || $_GET['bbcodeoff'] ? 'post_editnobbcode' : 'post_edit'), array('editor' => $editor, 'edittime' => $edittime)) . $message;
+			$message = lang('forum/misc', $htmlon ? 'post_edithtml' : (!$_G['forum']['allowbbcode'] || $_G['gp_bbcodeoff'] ? 'post_editnobbcode' : 'post_edit'), array('editor' => $editor, 'edittime' => $edittime)) . $message;
 		}
 
-		if($_G['group']['allowat']) {
-			$atlist = $atlist_tmp = $ateduids = array();
-			$atnum = $maxselect = 0;
-			foreach(C::t('home_notification')->fetch_all_by_authorid_fromid($_G['uid'], $_G['tid'], 'at') as $row) {
-				$atnum ++;
-				$ateduids[$row[uid]] = $row['uid'];
-			}
-			$maxselect = $_G['group']['allowat'] - $atnum;
-			preg_match_all("/@([^\r\n]*?)\s/i", $message.' ', $atlist_tmp);
-			$atlist_tmp = array_slice(array_unique($atlist_tmp[1]), 0, $_G['group']['allowat']);
-			if($maxselect > 0 && !empty($atlist_tmp)) {
-				if(empty($_G['setting']['at_anyone'])) {
-					foreach(C::t('home_follow')->fetch_all_by_uid_fusername($_G['uid'], $atlist_tmp) as $row) {
-						if(!in_array($row['followuid'], $ateduids)) {
-							$atlist[$row[followuid]] = $row['fusername'];
-						}
-						if(count($atlist) == $maxselect) {
-							break;
-						}
-					}
-					if(count($atlist) < $maxselect) {
-						$query = C::t('home_friend')->fetch_all_by_uid_username($_G['uid'], $atlist_tmp);
-						foreach($query as $row) {
-							if(!in_array($row['followuid'], $ateduids)) {
-								$atlist[$row[fuid]] = $row['fusername'];
-							}
-						}
-					}
-				} else {
-					foreach(C::t('common_member')->fetch_all_by_username($atlist_tmp) as $row) {
-						if(!in_array($row['uid'], $ateduids)) {
-							$atlist[$row[uid]] = $row['username'];
-						}
-						if(count($atlist) == $maxselect) {
-							break;
-						}
-					}
-				}
-				if($atlist) {
-					foreach($atlist as $atuid => $atusername) {
-						$atsearch[] = "/@$atusername /i";
-						$atreplace[] = "[url=home.php?mod=space&uid=$atuid]@{$atusername}[/url] ";
-					}
-					$message = preg_replace($atsearch, $atreplace, $message.' ', 1);
-				}
-			}
-		}
-		$bbcodeoff = checkbbcodes($message, !empty($_GET['bbcodeoff']));
-		$smileyoff = checksmilies($message, !empty($_GET['smileyoff']));
+		$bbcodeoff = checkbbcodes($message, !empty($_G['gp_bbcodeoff']));
+		$smileyoff = checksmilies($message, !empty($_G['gp_smileyoff']));
 		$tagoff = $isfirstpost ? !empty($tagoff) : 0;
-		$attachupdate = !empty($_GET['delattachop']) || ($_G['group']['allowpostattach'] || $_G['group']['allowpostimage']) && ($_GET['attachnew'] || $special == 2 && $_GET['tradeaid'] || $special == 4 && $_GET['activityaid'] || $isfirstpost && $sortid);
+		$attachupdate = !empty($_G['gp_delattachop']) || ($_G['group']['allowpostattach'] || $_G['group']['allowpostimage']) && ($_G['gp_attachnew'] || $special == 2 && $_G['gp_tradeaid'] || $special == 4 && $_G['gp_activityaid'] || $isfirstpost && $sortid);
 
 		if($attachupdate) {
-			updateattach($thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $_G['tid'], $pid, $_GET['attachnew'], $_GET['attachupdate'], $orig['authorid']);
+			updateattach($thread['displayorder'] == -4 || $_G['forum_auditstatuson'], $_G['tid'], $pid, $_G['gp_attachnew'], $_G['gp_attachupdate'], $orig['authorid']);
 		}
 
 		if($special == 2 && $_G['group']['allowposttrade']) {
 
-			if($trade = C::t('forum_trade')->fetch_goods($_G['tid'], $pid)) {
-				$seller = empty($_GET['paymethod']) && $_GET['seller'] ? censor(dhtmlspecialchars(trim($_GET['seller']))) : '';
-				$item_name = censor(dhtmlspecialchars(trim($_GET['item_name'])));
-				$item_price = floatval($_GET['item_price']);
-				$item_credit = intval($_GET['item_credit']);
-				$item_locus = censor(dhtmlspecialchars(trim($_GET['item_locus'])));
-				$item_number = intval($_GET['item_number']);
-				$item_quality = intval($_GET['item_quality']);
-				$item_transport = intval($_GET['item_transport']);
-				$postage_mail = intval($_GET['postage_mail']);
-				$postage_express = intval(trim($_GET['postage_express']));
-				$postage_ems = intval($_GET['postage_ems']);
-				$item_type = intval($_GET['item_type']);
-				$item_costprice = floatval($_GET['item_costprice']);
+			if($trade = DB::fetch_first("SELECT * FROM ".DB::table('forum_trade')." WHERE tid='$_G[tid]' AND pid='$pid'")) {
+				$seller = empty($_G['gp_paymethod']) && $_G['gp_seller'] ? censor(dhtmlspecialchars(trim($_G['gp_seller']))) : '';
+				$item_name = censor(dhtmlspecialchars(trim($_G['gp_item_name'])));
+				$item_price = floatval($_G['gp_item_price']);
+				$item_credit = intval($_G['gp_item_credit']);
+				$item_locus = censor(dhtmlspecialchars(trim($_G['gp_item_locus'])));
+				$item_number = intval($_G['gp_item_number']);
+				$item_quality = intval($_G['gp_item_quality']);
+				$item_transport = intval($_G['gp_item_transport']);
+				$postage_mail = intval($_G['gp_postage_mail']);
+				$postage_express = intval(trim($_G['gp_postage_express']));
+				$postage_ems = intval($_G['gp_postage_ems']);
+				$item_type = intval($_G['gp_item_type']);
+				$item_costprice = floatval($_G['gp_item_costprice']);
 
 				if(!trim($item_name)) {
 					showmessage('trade_please_name');
@@ -796,19 +678,19 @@ if(!submitcheck('editsubmit')) {
 					showmessage('tread_please_number');
 				}
 
-				if($trade['aid'] && $_GET['tradeaid'] && $trade['aid'] != $_GET['tradeaid']) {
-					$attach = C::t('forum_attachment_n')->fetch('tid:'.$_G['tid'], $trade['aid']);
-					C::t('forum_attachment')->delete($trade['aid']);
-					C::t('forum_attachment_n')->delete('tid:'.$_G['tid'], $trade['aid']);
+				if($trade['aid'] != $_G['gp_tradeaid']) {
+					$attach = DB::fetch_first("SELECT attachment, thumb, remote, aid FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE aid='$trade[aid]'");
+					DB::query("DELETE FROM ".DB::table('forum_attachment')." WHERE aid='$trade[aid]'");
+					DB::query("DELETE FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE aid='$trade[aid]'");
 					dunlink($attach);
-					$threadimageaid = $_GET['tradeaid'];
-					convertunusedattach($_GET['tradeaid'], $_G['tid'], $pid);
+					$threadimageaid = $_G['gp_tradeaid'];
+					convertunusedattach($_G['gp_tradeaid'], $_G['tid'], $pid);
 				}
 
-				$expiration = $_GET['item_expiration'] ? @strtotime($_GET['item_expiration']) : 0;
-				$closed = $expiration > 0 && @strtotime($_GET['item_expiration']) < TIMESTAMP ? 1 : $closed;
+				$expiration = $_G['gp_item_expiration'] ? @strtotime($_G['gp_item_expiration']) : 0;
+				$closed = $expiration > 0 && @strtotime($_G['gp_item_expiration']) < TIMESTAMP ? 1 : $closed;
 
-				switch($_GET['transport']) {
+				switch($_G['gp_transport']) {
 					case 'seller':$item_transport = 1;break;
 					case 'buyer':$item_transport = 2;break;
 					case 'virtual':$item_transport = 3;break;
@@ -818,11 +700,12 @@ if(!submitcheck('editsubmit')) {
 					$item_price = $postage_mail = $postage_express = $postage_ems = '';
 				}
 
-				$data = array('aid' => $_GET['tradeaid'], 'account' => $seller, 'tenpayaccount' => $_GET['tenpay_account'], 'subject' => $item_name, 'price' => $item_price, 'amount' => $item_number, 'quality' => $item_quality, 'locus' => $item_locus, 'transport' => $item_transport, 'ordinaryfee' => $postage_mail, 'expressfee' => $postage_express, 'emsfee' => $postage_ems, 'itemtype' => $item_type, 'expiration' => $expiration, 'closed' => $closed, 'costprice' => $item_costprice, 'credit' => $item_credit, 'costcredit' => $_GET['item_costcredit']);
-				C::t('forum_trade')->update($_G['tid'], $pid, $data);
-				if(!empty($_GET['infloat'])) {
-					$viewpid = C::t('forum_post')->fetch_threadpost_by_tid_invisible($_G['tid']);
-					$viewpid = $viewpid['pid'];
+				DB::query("UPDATE ".DB::table('forum_trade')." SET aid='$_G[gp_tradeaid]', account='$seller', tenpayaccount='$_G[gp_tenpay_account]', subject='$item_name', price='$item_price', amount='$item_number', quality='$item_quality', locus='$item_locus',
+					transport='$item_transport', ordinaryfee='$postage_mail', expressfee='$postage_express', emsfee='$postage_ems', itemtype='$item_type', expiration='$expiration', closed='$closed',
+					costprice='$item_costprice', credit='$item_credit', costcredit='$_G[gp_item_costcredit]' WHERE tid='$_G[tid]' AND pid='$pid'", 'UNBUFFERED');
+
+				if(!empty($_G['gp_infloat'])) {
+					$viewpid = DB::result_first("SELECT pid FROM ".DB::table($posttable)." WHERE tid='$_G[tid]' AND first='1' LIMIT 1");
 					$redirecturl = "forum.php?mod=viewthread&tid=$_G[tid]&viewpid=$viewpid#pid$viewpid";
 				} else {
 					$redirecturl = "forum.php?mod=viewthread&do=tradeinfo&tid=$_G[tid]&pid=$pid";
@@ -832,24 +715,23 @@ if(!submitcheck('editsubmit')) {
 		}
 
 		if($special == 4 && $isfirstpost && $_G['group']['allowpostactivity']) {
-			$activity = C::t('forum_activity')->fetch($_G['tid']);
-			$activityaid = $activity['aid'];
-			if($activityaid && $activityaid != $_GET['activityaid']) {
-				$attach = C::t('forum_attachment_n')->fetch('tid:'.$_G['tid'], $activityaid);
-				C::t('forum_attachment')->delete($activityaid);
-				C::t('forum_attachment_n')->delete('tid:'.$_G['tid'], $activityaid);
+			$activityaid = DB::result_first("SELECT aid FROM ".DB::table('forum_activity')." WHERE tid='$_G[tid]'");
+			if($activityaid && $activityaid != $_G['gp_activityaid']) {
+				$attach = DB::fetch_first("SELECT attachment, thumb, remote, aid FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE aid='$activityaid'");
+				DB::query("DELETE FROM ".DB::table('forum_attachment')." WHERE aid='$activityaid'");
+				DB::query("DELETE FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE aid='$activityaid'");
 				dunlink($attach);
 			}
-			if($_GET['activityaid']) {
-				$threadimageaid = $_GET['activityaid'];
-				convertunusedattach($_GET['activityaid'], $_G['tid'], $pid);
-				C::t('forum_activity')->update($_G['tid'], array('aid' => $_GET['activityaid']));
+			if($_G['gp_activityaid']) {
+				$threadimageaid = $_G['gp_activityaid'];
+				convertunusedattach($_G['gp_activityaid'], $_G['tid'], $pid);
+				DB::query("UPDATE ".DB::table('forum_activity')." SET aid='$_G[gp_activityaid]' WHERE tid='$_G[tid]'");
 			}
 		}
 
 		if($isfirstpost && $attachupdate) {
 			if(!$threadimageaid) {
-				$threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$_G['tid'], 'pid', $pid);
+				$threadimage = DB::fetch_first("SELECT aid, attachment, remote FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE pid='$pid' AND isimage IN ('1', '-1') ORDER BY width DESC LIMIT 1");
 				$threadimageaid = $threadimage['aid'];
 			}
 
@@ -857,16 +739,17 @@ if(!submitcheck('editsubmit')) {
 				if(empty($thread['cover'])) {
 					setthreadcover($pid, 0, $threadimageaid);
 				} else {
-					setthreadcover($pid, $_G['tid'], 0, 1);
+					setthreadcover($pid, $_G['tid'], 0);
 				}
 			}
 
 			if($threadimageaid) {
 				if(!$threadimage) {
-					$threadimage = C::t('forum_attachment_n')->fetch_max_image('tid:'.$_G['tid'], 'tid', $_G['tid']);
+					$threadimage = DB::fetch_first("SELECT attachment, remote FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE tid='$_G[tid]' AND isimage IN ('1', '-1') ORDER BY width DESC LIMIT 1");
 				}
-				C::t('forum_threadimage')->delete_by_tid($_G['tid']);
-				C::t('forum_threadimage')->insert(array(
+				DB::delete('forum_threadimage', "tid='$_G[tid]'");
+				$threadimage = daddslashes($threadimage);
+				DB::insert('forum_threadimage', array(
 					'tid' => $_G['tid'],
 					'attachment' => $threadimage['attachment'],
 					'remote' => $threadimage['remote'],
@@ -880,7 +763,7 @@ if(!submitcheck('editsubmit')) {
 		}
 
 		if($_G['forum_auditstatuson'] && $audit == 1) {
-			C::t('forum_post')->update($thread['posttableid'], $pid, array('status' => 4), false, false, null, -2, null, 0);
+			DB::query("UPDATE ".DB::table(getposttable($thread['posttableid']))." SET status='4' WHERE pid='$pid' AND status='0' AND invisible='-2'");
 			updatepostcredits('+', $orig['authorid'], ($isfirstpost ? 'post' : 'reply'), $_G['fid']);
 			updatemodworks('MOD', 1);
 			updatemodlog($_G['tid'], 'MOD');
@@ -889,81 +772,68 @@ if(!submitcheck('editsubmit')) {
 		$displayorder = $pinvisible = 0;
 		if($isfirstpost) {
 			$displayorder = $modnewthreads ? -2 : $thread['displayorder'];
-			$pinvisible = $modnewthreads ? -2 : (empty($_GET['save']) ? 0 : -3);
+			$pinvisible = $modnewthreads ? -2 : (empty($_G['gp_save']) ? 0 : -3);
+			if($thread['displayorder'] == -4 && empty($_G['gp_save'])) {
+				DB::query("UPDATE ".DB::table($posttable)." SET dateline='$_G[timestamp]', invisible='0' WHERE tid='$thread[tid]'");
+				DB::query("UPDATE ".DB::table('forum_thread')." SET dateline='$_G[timestamp]', lastpost='$_G[timestamp]' WHERE tid='$thread[tid]'");
+				$posts = $thread['replies'] + 1;
+				if($thread['replies']) {
+					$dateline = $_G['timestamp'];
+					$query = DB::query("SELECT pid FROM ".DB::table($posttable)." WHERE tid='$thread[tid]' AND first='0'");
+					while($post = DB::fetch($query)) {
+						$dateline++;
+						DB::query("UPDATE ".DB::table($posttable)." SET dateline='$dateline' WHERE pid='$post[pid]'");
+						my_post_log('update', array('pid' => $post['pid']));
+						updatepostcredits('+', $_G['uid'], 'reply', $_G['fid']);
+					}
+				}
+				my_thread_log('update', array('tid' => $thread['tid']));
+				updatepostcredits('+', $_G['uid'], 'post', $_G['fid']);
+				$attachcount = DB::result_first("SELECT COUNT(*) FROM ".DB::table('forum_attachment')." WHERE tid='$thread[tid]'");
+				updatecreditbyaction('postattach', $_G['uid'], array(), '', $attachcount, 1, $_G['fid']);
+				if($_G['forum']['status'] == 3) {
+					DB::query("UPDATE ".DB::table('forum_groupuser')." SET threads=threads+1, lastupdate='".TIMESTAMP."' WHERE uid='$_G[uid]' AND fid='$_G[fid]'");
+				}
+				DB::query("UPDATE ".DB::table('forum_forum')." SET threads=threads+1, posts=posts+'".$posts."', todayposts=todayposts+'".$posts."' WHERE fid='$_G[fid]'", 'UNBUFFERED');
+			}
 		} else {
 			$pinvisible = $modnewreplies ? -2 : ($thread['displayorder'] == -4 ? -3 : 0);
 		}
 
 		$message = preg_replace('/\[attachimg\](\d+)\[\/attachimg\]/is', '[attach]\1[/attach]', $message);
-		$parseurloff = !empty($_GET['parseurloff']);
-		$setarr = array(
-			'message' => $message,
-			'usesig' => $_GET['usesig'],
-			'htmlon' => $htmlon,
-			'bbcodeoff' => $bbcodeoff,
-			'parseurloff' => $parseurloff,
-			'smileyoff' => $smileyoff,
-			'subject' => $subject,
-			'tags' => $tagstr
-		);
-		if($anonymousadd !== '') {
-			$setarr['anonymous'] = $anonymousadd;
-		}
-		if($publishdate) {
-			$setarr['dateline'] = $publishdate;
-		}
-		if($_G['forum_auditstatuson'] && $audit == 1) {
-			$setarr['invisible'] = 0;
-		} else {
-			$setarr['invisible'] = $pinvisible;
-		}
-		C::t('forum_post')->update('tid:'.$_G['tid'], $pid, $setarr);
-		if($_G['group']['allowat'] && $atlist) {
-			foreach($atlist as $atuid => $atusername) {
-				notification_add($atuid, 'at', 'at_message', array('from_id' => $_G['tid'], 'from_idtype' => 'at', 'buyerid' => $_G['uid'], 'buyer' => $_G['username'], 'tid' => $_G['tid'], 'subject' => $thread['subject'], 'pid' => $pid, 'message' => messagecutstr($message, 150)));
-			}
-			set_atlist_cookie(array_keys($atlist));
-		}
+		$parseurloff = !empty($_G['gp_parseurloff']);
+		DB::query("UPDATE ".DB::table($posttable)." SET message='$message', usesig='$_G[gp_usesig]', htmlon='$htmlon', bbcodeoff='$bbcodeoff', parseurloff='$parseurloff',
+			smileyoff='$smileyoff', subject='$subject' $anonymousadd ".($_G['forum_auditstatuson'] && $audit == 1 ? ",invisible='0'" : ", invisible='$pinvisible'")." , tags='".$tagstr."'  WHERE pid='$pid'");
+
 		$_G['forum']['lastpost'] = explode("\t", $_G['forum']['lastpost']);
 
 		if($orig['dateline'] == $_G['forum']['lastpost'][2] && ($orig['author'] == $_G['forum']['lastpost'][3] || ($_G['forum']['lastpost'][3] == '' && $orig['anonymous']))) {
-			$lastpost = "$_G[tid]\t".($isfirstpost ? $subject : $thread['subject'])."\t$orig[dateline]\t".($isanonymous ? '' : $orig['author']);
-			C::t('forum_forum')->update($_G['fid'], array('lastpost' => $lastpost));
-
+			$lastpost = "$_G[tid]\t".($isfirstpost ? $subject : addslashes($thread['subject']))."\t$orig[dateline]\t".($isanonymous ? '' : addslashes($orig['author']));
+			DB::query("UPDATE ".DB::table('forum_forum')." SET lastpost='$lastpost' WHERE fid='$_G[fid]'", 'UNBUFFERED');
 		}
 
 		if(!$_G['forum_auditstatuson'] || $audit != 1) {
 			if($isfirstpost && $modnewthreads) {
-				C::t('forum_thread')->update($_G['tid'], array('displayorder' => -2));
+				DB::query("UPDATE ".DB::table('forum_thread')." SET displayorder='-2' WHERE tid='$_G[tid]'");
 				manage_addnotify('verifythread');
 			} elseif(!$isfirstpost && $modnewreplies) {
-				C::t('forum_thread')->increase($_G['tid'], array('replies' => -1));
+				DB::query("UPDATE ".DB::table('forum_thread')." SET replies=replies-'1' WHERE tid='$_G[tid]'");
 				manage_addnotify('verifypost');
 			}
 			if($modnewreplies || $modnewthreads) {
-				C::t('forum_forum')->update($_G['fid'], array('modworks' => '1'));
+
+				DB::update('forum_forum', array('modworks' => '1'), "fid='{$_G['fid']}'");
 			}
 		}
-		if($isfirstpost) {
-			require_once libfile('function/discuzcode');
-			require_once libfile('function/followcode');
-			$feed = C::t('forum_threadpreview')->fetch($_G['tid']);
-			if($feed) {
-				C::t('forum_threadpreview')->update($_G['tid'], array('content' => followcode($message, $_G['tid'], $pid, 1000)));
-			}
-		}
+
 		if($thread['lastpost'] == $orig['dateline'] && ((!$orig['anonymous'] && $thread['lastposter'] == $orig['author']) || ($orig['anonymous'] && $thread['lastposter'] == '')) && $orig['anonymous'] != $isanonymous) {
-			C::t('forum_thread')->update($_G['tid'], array('lastposter' => $isanonymous ? '' : $orig['author']), true);
+			DB::query("UPDATE ".DB::table('forum_thread')." SET lastposter='".($isanonymous ? '' : addslashes($orig['author']))."' WHERE tid='$_G[tid]'", 'UNBUFFERED');
 		}
 
 		if(!$isorigauthor) {
 			updatemodworks('EDT', 1);
 			require_once libfile('function/misc');
 			modlog($thread, 'EDT');
-		}
-
-		if($isfirstpost && $thread['displayorder'] == -4 && empty($_GET['save'])) {
-			threadpubsave($thread['tid']);
 		}
 
 	} else {
@@ -992,24 +862,23 @@ if(!submitcheck('editsubmit')) {
 
 		if($thread['special'] == 3 && $isfirstpost) {
 			updatemembercount($orig['authorid'], array($_G['setting']['creditstransextra'][2] => $thread['price']));
-			C::t('common_credit_log')->delete_by_uid_operation_relatedid($thread['authorid'], 'RTC', $_G['tid']);
+			DB::delete('common_credit_log', array('uid' => $thread['authorid'], 'operation' => 'RTC', 'relatedid' => $_G['tid']));
 		}
 
 		if($thread['replycredit'] && $isfirstpost && !$isanonymous) {
 			updatemembercount($orig['authorid'], array($replycredit_rule['extcreditstype'] => $thread['replycredit']), true, 'RCB', $_G['tid']);
-			C::t('forum_replycredit')->delete($_G['tid']);
+			DB::delete('forum_replycredit', array('tid' => $_G['tid']));
 		} elseif (!$isfirstpost && !$isanonymous) {
-			$postreplycredit = C::t('forum_post')->fetch('tid:'.$_G['tid'], $pid);
-			$postreplycredit = $postreplycredit['replycredit'];
-			if($postreplycredit) {
-				C::t('forum_post')->update('tid:'.$_G['tid'], $pid, array('replycredit' => 0));
+			if($postreplycredit = DB::result_first("SELECT replycredit FROM ".DB::table($posttable)." WHERE pid = '$pid' LIMIT 1")) {
+				DB::query("UPDATE ".DB::table($posttable)." SET replycredit = 0 WHERE pid = '$pid' LIMIT 1");
 				updatemembercount($orig['authorid'], array($replycredit_rule['extcreditstype'] => '-'.$postreplycredit));
 			}
 		}
 
 
 		$thread_attachment = $post_attachment = 0;
-		foreach(C::t('forum_attachment_n')->fetch_all_by_id('tid:'.$_G['tid'], 'tid', $_G['tid']) as $attach) {
+		$query = DB::query("SELECT pid, attachment, thumb, remote, aid FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE tid='$_G[tid]'");
+		while($attach = DB::fetch($query)) {
 			if($attach['pid'] == $pid) {
 				if($thread['displayorder'] >= 0) {
 					$post_attachment++;
@@ -1021,50 +890,44 @@ if(!submitcheck('editsubmit')) {
 		}
 
 		if($post_attachment) {
-			C::t('forum_attachment')->delete_by_id('pid', $pid);
+			DB::query("DELETE FROM ".DB::table('forum_attachment')." WHERE pid='$pid'", 'UNBUFFEREED');
 			DB::query("DELETE FROM ".DB::table(getattachtablebytid($_G['tid']))." WHERE pid='$pid'", 'UNBUFFEREED');
 			updatecreditbyaction('postattach', $orig['authorid'], array(),  '', -$post_attachment);
 		}
 
-		C::t('forum_post')->delete('tid:'.$_G['tid'], $pid);
-		C::t('forum_postcomment')->delete_by_rpid($pid);
+		DB::query("DELETE FROM ".DB::table($posttable)." WHERE pid='$pid'");
+		DB::delete('forum_postcomment', "rpid='$pid'");
 		if($thread['special'] == 2) {
-			C::t('forum_trade')->delete_by_id_idtype($pid, 'pid');
+			DB::query("DELETE FROM ".DB::table('forum_trade')." WHERE pid='$pid'");
 		}
-		$forumcounter = array();
+
 		if($isfirstpost) {
-			$forumcounter['threads'] = $forumcounter['posts'] = -1;
-			$tablearray = array('forum_relatedthread', 'forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll');
+			$forumadd = 'threads=threads-\'1\', posts=posts-\'1\'';
+			$tablearray = array('forum_threadmod', 'forum_relatedthread', 'forum_thread', 'forum_debate', 'forum_debatepost', 'forum_polloption', 'forum_poll', 'forum_typeoptionvar');
 			foreach ($tablearray as $table) {
 				DB::query("DELETE FROM ".DB::table($table)." WHERE tid='$_G[tid]'", 'UNBUFFERED');
 			}
-			C::t('forum_thread')->delete_by_tid($_G['tid']);
-			C::t('common_moderate')->delete($_G['tid'], 'tid');
-			C::t('forum_threadmod')->delete_by_tid($_G['tid']);
-			C::t('forum_typeoptionvar')->delete_by_tid($_G['tid']);
 			if($_G['setting']['globalstick'] && in_array($thread['displayorder'], array(2, 3))) {
 				require_once libfile('function/cache');
 				updatecache('globalstick');
 			}
 		} else {
-			$forumcounter['posts'] = -1;
-			$lastpost = C::t('forum_post')->fetch_visiblepost_by_tid('tid:'.$_G['tid'], $_G['tid'], 0, 1);
+			$savepostposition && DB::query("DELETE FROM ".DB::table('forum_postposition')." WHERE pid='$pid'");
+			$forumadd = 'posts=posts-\'1\'';
+			$query = DB::query("SELECT author, dateline, anonymous FROM ".DB::table($posttable)." WHERE tid='$_G[tid]' AND invisible='0' ORDER BY dateline DESC LIMIT 1");
+			$lastpost = DB::fetch($query);
 			$lastpost['author'] = !$lastpost['anonymous'] ? addslashes($lastpost['author']) : '';
-			$updatefieldarr = array(
-				'replies' => -1,
-				'attachment' => array($thread_attachment),
-				'lastposter' => array($lastpost['author']),
-				'lastpost' => array($lastpost['dateline'])
-			);
-			C::t('forum_thread')->increase($_G['tid'], $updatefieldarr);
+			DB::query("UPDATE ".DB::table('forum_thread')." SET replies=replies-'1', attachment='$thread_attachment', lastposter='$lastpost[author]', lastpost='$lastpost[dateline]' WHERE tid='$_G[tid]'", 'UNBUFFERED');
 		}
 
 		$_G['forum']['lastpost'] = explode("\t", $_G['forum']['lastpost']);
 		if($orig['dateline'] == $_G['forum']['lastpost'][2] && ($orig['author'] == $_G['forum']['lastpost'][3] || ($_G['forum']['lastpost'][3] == '' && $orig['anonymous']))) {
-			$lastthread = C::t('forum_thread')->fetch_by_fid_displayorder($_G['fid']);
-			C::t('forum_forum')->update($_G['fid'], array('lastpost' => "$lastthread[tid]\t$lastthread[subject]\t$lastthread[lastpost]\t$lastthread[lastposter]"));
+			$lastthread = daddslashes(DB::fetch_first("SELECT tid, subject, lastpost, lastposter FROM ".DB::table('forum_thread')."
+				WHERE fid='$_G[fid]' AND displayorder>='0' ORDER BY lastpost DESC LIMIT 1"), 1);
+			$forumadd .= ", lastpost='$lastthread[tid]\t$lastthread[subject]\t$lastthread[lastpost]\t$lastthread[lastposter]'";
 		}
-		C::t('forum_forum')->update_forum_counter($_G['fid'], $forumcounter['threads'], $forumcounter['posts']);
+
+		DB::query("UPDATE ".DB::table('forum_forum')." SET $forumadd WHERE fid='$_G[fid]'", 'UNBUFFERED');
 
 	}
 
@@ -1092,23 +955,26 @@ if(!submitcheck('editsubmit')) {
 			showmessage('auditstatuson_succeed', $redirecturl, $param);
 		} else {
 			updatemoderate($isfirstpost ? 'tid' : 'pid', $isfirstpost ? $_G['tid'] : $pid);
-			showmessage('audit_edit_succeed', '', $param, array('alert' => 'right'));
+			showmessage('audit_edit_succeed', '', $param);
 		}
 	} else {
-		if(!empty($_GET['delete']) && $isfirstpost) {
+		if(!empty($_G['gp_delete']) && $isfirstpost) {
+			my_thread_log('delete', array('tid' => $_G['tid']));
 			showmessage('post_edit_delete_succeed', "forum.php?mod=forumdisplay&fid=$_G[fid]", $param);
-		} elseif(!empty($_GET['delete'])) {
-			showmessage('post_edit_delete_succeed', "forum.php?mod=viewthread&tid=$_G[tid]&page=$_GET[page]&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : ''), $param);
+		} elseif(!empty($_G['gp_delete'])) {
+			my_post_log('delete', array('pid' => $pid));
+			showmessage('post_edit_delete_succeed', "forum.php?mod=viewthread&tid=$_G[tid]&page=$_G[gp_page]&extra=$extra".($vid && $isfirstpost ? "&vid=$vid" : ''), $param);
 		} else {
 			if($isfirstpost && $modnewthreads) {
-				C::t('forum_post')->update($thread['posttableid'], $pid, array('status' => 4), false, false, null, -2, null, 0);
 				updatemoderate('tid', $_G['tid']);
 				showmessage('edit_newthread_mod_succeed', $redirecturl, $param);
 			} elseif(!$isfirstpost && $modnewreplies) {
-				C::t('forum_post')->update($thread['posttableid'], $pid, array('status' => 4), false, false, null, -2, null, 0);
 				updatemoderate('pid', $pid);
 				showmessage('edit_reply_mod_succeed', "forum.php?mod=forumdisplay&fid=$_G[fid]", $param);
 			} else {
+				if($pinvisible != -3) {
+					my_post_log('update', array('pid' => $pid));
+				}
 				showmessage('post_edit_succeed', $redirecturl, $param);
 			}
 		}

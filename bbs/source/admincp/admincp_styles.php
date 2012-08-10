@@ -4,39 +4,39 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: admincp_styles.php 30450 2012-05-29 08:17:06Z chenmengshu $
+ *      $Id: admincp_styles.php 28030 2012-02-21 05:43:34Z monkey $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
 	exit('Access Denied');
 }
 
-if(!empty($_GET['preview'])) {
+if(!empty($_G['gp_preview'])) {
 	loadcache('style_'.$_GET['styleid']);
 	$_G['style'] = $_G['cache']['style_'.$_GET['styleid']];
 	include template('common/preview', $_G['style']['templateid'], $_G['style']['tpldir']);
 	exit;
 }
 
-require_once libfile('function/cloudaddons');
-
-$scrolltop = $_GET['scrolltop'];
-$anchor = $_GET['anchor'];
-$namenew = $_GET['namenew'];
-$defaultnew = $_GET['defaultnew'];
-$newname = $_GET['newname'];
-$id = $_GET['id'];
+$scrolltop = $_G['gp_scrolltop'];
+$anchor = $_G['gp_anchor'];
+$namenew = $_G['gp_namenew'];
+$availablenew = $_G['gp_availablenew'];
+$defaultnew = $_G['gp_defaultnew'];
+$newname = $_G['gp_newname'];
+$id = $_G['gp_id'];
 
 $operation = empty($operation) ? 'admin' : $operation;
 
 if($operation == 'export' && $id) {
-	$stylearray = C::t('common_style')->fetch_by_styleid($id);
+	$stylearray = DB::fetch_first("SELECT s.name, s.templateid, t.name AS tplname, t.directory, t.copyright FROM ".DB::table('common_style')." s LEFT JOIN ".DB::table('common_template')." t ON t.templateid=s.templateid WHERE styleid='$id'");
 	if(!$stylearray) {
 		cpheader();
 		cpmsg('styles_export_invalid', '', 'error');
 	}
 
-	foreach(C::t('common_stylevar')->fetch_all_by_styleid($id) as $style) {
+	$query = DB::query("SELECT * FROM ".DB::table('common_stylevar')." WHERE styleid='$id'");
+	while($style = DB::fetch($query)) {
 		$stylearray['style'][$style['variable']] = $style['substitute'];
 	}
 
@@ -101,18 +101,14 @@ $predefinedvars = array('available' => array(), 'boardimg' => array(), 'imgdir' 
 
 if($operation == 'admin') {
 
-	$sarray = $tpldirs = $addonids = array();
-	foreach(C::t('common_style')->fetch_all_data(true) as $row) {
-		if(preg_match('/^.?\/template\/([a-z]+[a-z0-9_]*)$/', $row['directory'], $a) && $a[1] != 'default') {
-			if(!in_array($a[1].'.template', $addonids)) {
-				$addonids[$row['styleid']] = $a[1].'.template';
-			}
-		}
+	$query = DB::query("SELECT s.styleid, s.available, s.name, t.name AS tplname, t.directory, t.copyright FROM ".DB::table('common_style')." s LEFT JOIN ".DB::table('common_template')." t ON t.templateid=s.templateid ORDER BY s.available desc, s.styleid");
+	$sarray = $tpldirs = array();
+	while($row = DB::fetch($query)) {
 		$sarray[$row['styleid']] = $row;
 		$tpldirs[] = realpath($row['directory']);
 	}
 
-	$defaultid = C::t('common_setting')->fetch('styleid');
+	$defaultid = DB::result_first("SELECT svalue FROM ".DB::table('common_setting')." WHERE skey='styleid'");
 
 	if(!submitcheck('stylesubmit')) {
 		$narray = array();
@@ -149,7 +145,6 @@ if($operation == 'admin') {
 
 		$stylelist = '';
 		$i = 0;
-		$updatestring = array();
 		foreach($sarray as $id => $style) {
 			$style['name'] = dhtmlspecialchars($style['name']);
 			$isdefault = $id == $defaultid ? 'checked' : '';
@@ -157,18 +152,11 @@ if($operation == 'admin') {
 			$preview = file_exists($style['directory'].'/preview.jpg') ? $style['directory'].'/preview.jpg' : './static/image/admincp/stylepreview.gif';
 			$previewlarge = file_exists($style['directory'].'/preview_large.jpg') ? $style['directory'].'/preview_large.jpg' : '';
 			$styleicons = isset($styleicons[$id]) ? $styleicons[$id] : '';
-			if($addonids[$style['styleid']]) {
-				if(!isset($updatestring[$addonids[$style['styleid']]])) {
-					$updatestring[$addonids[$style['styleid']]] = "<p id=\"update_".$addonids[$style['styleid']]."\"></p>";
-				} else {
-					$updatestring[$addonids[$style['styleid']]] = '';
-				}
-			}
 			$stylelist .= ($i == 0 ? '<tr>' : '').
-				'<td width="33%"><table cellspacing="0" cellpadding="0" style="margin-left: 10px; width: 200px;"><tr><td style="width: 120px; text-align: center; border-top: none;">'.
-				($id > 0 ? "<p style=\"margin-bottom: 2px;\">&nbsp;<img ".($previewlarge ? 'style="cursor:pointer" title="'.$lang['preview_large'].'" onclick="zoom(this, \''.$previewlarge.'\', 1)" ' : '')."src=\"$preview\" alt=\"$lang[preview]\"/></p>
+				'<td width="33%" '.($available ? 'style="background: #F2F9FD"' : '').'><table cellspacing="0" cellpadding="0" style="margin-left: 10px; width: 200px;"><tr><td style="width: 120px; text-align: center; border-top: none;">'.
+				($id > 0 ? "<p style=\"margin-bottom: 2px;\">&nbsp;</p><img ".($previewlarge ? 'style="cursor:pointer" title="'.$lang['preview_large'].'" onclick="zoom(this, \''.$previewlarge.'\', 1)" ' : '')."src=\"$preview\" alt=\"$lang[preview]\"/></a>
 				<p style=\"margin: 2px 0\"><input type=\"text\" class=\"txt\" name=\"namenew[$id]\" value=\"$style[name]\" size=\"30\" style=\"margin-right:0; width: 80px;\"></p>
-				<p class=\"lightfont\">$style[tplname]</p>".$updatestring[$addonids[$style['styleid']]]."</td><td style=\"padding-top: 17px; width: 80px; border-top: none; vertical-align: top;\">
+				<p class=\"lightfont\">($style[tplname])</p></td><td style=\"padding-top: 17px; width: 80px; border-top: none; vertical-align: top;\">
 				<p style=\"margin: 2px 0\"><label>$lang[default] <input type=\"radio\" class=\"radio\" name=\"defaultnew\" value=\"$id\" $isdefault /></label></p>
 				<p style=\"margin: 2px 0\"><label>$lang[styles_uninstall] ".($isdefault ? '<input class="checkbox" type="checkbox" disabled="disabled" />' : '<input class="checkbox" type="checkbox" name="delete[]" value="'.$id.'" />')."</label></p>
 				<p style=\"margin: 8px 0 2px\"><a href=\"".ADMINSCRIPT."?action=styles&operation=edit&id=$id\">$lang[edit]</a></p>
@@ -196,7 +184,7 @@ if($operation == 'admin') {
 			array('admin', 'styles', '1'),
 			array('import', 'styles&operation=import', '0'),
 			array('cloudaddons_style_link', 'cloudaddons')
-		), '<a href="'.ADMINSCRIPT.'?action=styles&operation=upgradecheck" class="bold" style="float:right;padding-right:40px;">'.$lang['plugins_validator'].'</a>');
+		));
 		showtips('styles_admin_tips');
 		showformheader('styles');
 		showhiddenfields(array('updatecsscache' => 0));
@@ -204,34 +192,14 @@ if($operation == 'admin') {
 		echo $stylelist;
 		showtablefooter();
 		showtableheader();
-		echo '<tr><td>'.$lang['add_new'].'</td><td><input type="text" class="txt" name="newname" size="18">&nbsp;<a href="'.ADMINSCRIPT.'?action=cloudaddons">'.cplang('cloudaddons_style_link').'</a>';
-		echo '</td><td colspan="5">&nbsp;</td></tr>';
+		echo '<tr><td>'.$lang['add_new'].'</td><td><input type="text" class="txt" name="newname" size="18"></td><td colspan="5">&nbsp;</td></tr>';
 		showsubmit('stylesubmit', 'submit', 'del', '<input onclick="this.form.updatecsscache.value=1" type="submit" class="btn" name="stylesubmit" value="'.cplang('styles_csscache_update').'">');
 		showtablefooter();
 		showformfooter();
 
-		if(empty($_G['cookie']['addoncheck_template'])) {
-			$checkresult = dunserialize(cloudaddons_upgradecheck($addonids));
-			savecache('addoncheck_template', $checkresult);
-			dsetcookie('addoncheck_template', 1, 3600);
-		} else {
-			loadcache('addoncheck_template');
-			$checkresult = $_G['cache']['addoncheck_template'];
-		}
-		$newvers = '';
-		foreach($checkresult as $addonid => $value) {
-			list($return, $newver) = explode(':', $value);
-			if($newver) {
-				$newvers .= "if($('update_$addonid')) $('update_$addonid').innerHTML=' <a href=\"".ADMINSCRIPT."?action=cloudaddons&id=$addonid\"><font color=\"red\">(".cplang('styles_find_newversion')." $newver)</font></a>';";
-			}
-		}
-		if($newvers) {
-			echo '<script type="text/javascript">'.$newvers.'</script>';
-		}
-
 	} else {
 
-		if($_GET['updatecsscache']) {
+		if($_G['gp_updatecsscache']) {
 			updatecache(array('setting', 'styles'));
 			loadcache('style_default', true);
 			updatecache('updatediytemplate');
@@ -245,27 +213,23 @@ if($operation == 'admin') {
 			cpmsg('csscache_update', 'action=styles', 'succeed');
 		} else {
 
-			if(is_numeric($_GET['defaultnew']) && $defaultid != $_GET['defaultnew'] && isset($sarray[$_GET['defaultnew']])) {
-				$defaultid = $_GET['defaultnew'];
-				C::t('common_setting')->update('styleid', $defaultid);
+			if(is_numeric($_G['gp_defaultnew']) && $defaultid != $_G['gp_defaultnew'] && isset($sarray[$_G['gp_defaultnew']])) {
+				$defaultid = $_G['gp_defaultnew'];
+				DB::query("UPDATE ".DB::table('common_setting')." SET svalue='$defaultid' WHERE skey='styleid'");
 			}
 
-			if(isset($_GET['namenew'])) {
-				foreach($sarray as $id => $old) {
-					$namenew[$id] = trim($_GET['namenew'][$id]);
-					if($namenew[$id] != $old['name']) {
-						C::t('common_style')->update($id, array('name' => $namenew[$id]));
-					}
+			$availablenew[$defaultid] = 1;
+
+			foreach($sarray as $id => $old) {
+				$namenew[$id] = trim($_G['gp_namenew'][$id]);
+				$availablenew[$id] = $_G['gp_availablenew'][$id] ? 1 : 0;
+				if($namenew[$id] != $old['name'] || $availablenew[$id] != $old['available']) {
+					DB::query("UPDATE ".DB::table('common_style')." SET name='$namenew[$id]', available='$availablenew[$id]' WHERE styleid='$id'");
 				}
 			}
 
-			$delete = $_GET['delete'];
+			$delete = $_G['gp_delete'];
 			if(!empty($delete) && is_array($delete)) {
-				if(!$_GET['confirmed']) {
-					$deletestr = '&delete[]='.implode('&delete[]=', $delete);
-					cpmsg('styles_delete_confirm', 'action=styles'.$deletestr.'&confirmed=yes&stylesubmit=true', 'form');
-				}
-				dsetcookie('uninstallreason', $_GET['uninstallreason'] ? '|'.implode('|', $_GET['uninstallreason']).'|' : '');
 				$did = array();
 				foreach($delete as $id) {
 					$id = intval($id);
@@ -275,31 +239,35 @@ if($operation == 'admin') {
 						$did[] = intval($id);
 					}
 				}
-				if($did) {
+				if($did && ($ids = dimplode($did))) {
+					$query = DB::query("SELECT templateid FROM ".DB::table('common_style')."");
 					$tplids = array();
-					foreach(C::t('common_style')->fetch_all_data() as $style) {
+					while($style = DB::fetch($query)) {
 						$tplids[$style['templateid']] = $style['templateid'];
 					}
-					C::t('common_style')->delete($did);
-					C::t('common_stylevar')->delete_by_styleid($did);
-					C::t('forum_forum')->update_styleid($did);
-					foreach(C::t('common_style')->fetch_all_data() as $style) {
+					DB::query("DELETE FROM ".DB::table('common_style')." WHERE styleid IN ($ids)");
+					DB::query("DELETE FROM ".DB::table('common_stylevar')." WHERE styleid IN ($ids)");
+					DB::query("UPDATE ".DB::table('forum_forum')." SET styleid='0' WHERE styleid IN ($ids)");
+					$query = DB::query("SELECT templateid FROM ".DB::table('common_style')."");
+					while($style = DB::fetch($query)) {
 						unset($tplids[$style['templateid']]);
 					}
 					if($tplids) {
-						foreach(C::t('common_template')->fetch_all($tplids) as $tpl) {
+						require_once libfile('function/cloudaddons');
+						$query = DB::query("SELECT directory FROM ".DB::table('common_template')." WHERE templateid IN (".dimplode($tplids).")");
+						while($tpl = DB::fetch($query)) {
 							cloudaddons_uninstall(basename($tpl['directory']).'.template', $tpl['directory']);
 						}
-						C::t('common_template')->delete($tplids);
+						DB::query("DELETE FROM ".DB::table('common_template')." WHERE templateid IN (".dimplode($tplids).")");
 					}
 				}
 			}
 
-			if($_GET['newname']) {
-				$styleidnew = C::t('common_style')->insert(array('name' => $_GET['newname'], 'templateid' => 1), true);
+			if($_G['gp_newname']) {
+				$styleidnew = DB::insert('common_style', array('name' => $_G['gp_newname'], 'templateid' => 1), 1);
 				foreach(array_keys($predefinedvars) as $variable) {
 					$substitute = isset($predefinedvars[$variable][2]) ? $predefinedvars[$variable][2] : '';
-					C::t('common_stylevar')->insert(array('styleid' => $styleidnew, 'variable' => $_GET['variable'], 'substitute' => $substitute));
+					DB::insert('common_stylevar', array('styleid' => $styleidnew, 'variable' => $_G['gp_variable'], 'substitute' => $substitute));
 				}
 			}
 
@@ -313,14 +281,14 @@ if($operation == 'admin') {
 
 } elseif($operation == 'import') {
 
-	if(!submitcheck('importsubmit') && !isset($_GET['dir'])) {
+	if(!submitcheck('importsubmit') && !isset($_G['gp_dir'])) {
 
 		shownav('style', 'styles_admin');
 		showsubmenu('styles_admin', array(
 			array('admin', 'styles', '0'),
 			array('import', 'styles&operation=import', '1'),
 			array('cloudaddons_style_link', 'cloudaddons')
-		), '<a href="'.ADMINSCRIPT.'?action=styles&operation=upgradecheck" class="bold" style="float:right;padding-right:40px;">'.$lang['plugins_validator'].'</a>');
+		));
 		showformheader('styles&operation=import', 'enctype');
 		showtableheader('styles_import');
 		showimportdata();
@@ -332,29 +300,28 @@ if($operation == 'admin') {
 	} else {
 
 		require_once libfile('function/importdata');
-		$restore = !empty($_GET['restore']) ? $_GET['restore'] : 0;
+		$restore = !empty($_G['gp_restore']) ? $_G['gp_restore'] : 0;
 		if($restore) {
-			$style = C::t('common_style')->fetch_by_styleid($restore);
-			$_GET['dir'] = $style['directory'];
+			$_G['gp_dir'] = DB::result_first("SELECT t.directory FROM ".DB::table('common_style')." s LEFT JOIN ".DB::table('common_template')." t ON t.templateid=s.templateid WHERE s.styleid='$restore'");
 		}
-		if(!empty($_GET['dir'])) {
-			$renamed = import_styles(1, $_GET['dir'], $restore);
+		if(!empty($_G['gp_dir'])) {
+			$renamed = import_styles(1, $_G['gp_dir'], $restore);
 		} else {
-			$renamed = import_styles($_GET['ignoreversion'], $_GET['dir']);
+			$renamed = import_styles($_G['gp_ignoreversion'], $_G['gp_dir']);
 		}
-
-		dsetcookie('addoncheck_template', '', -1);
-		cpmsg(!empty($_GET['dir']) ? (!$restore ? 'styles_install_succeed' : 'styles_restore_succeed') : ($renamed ? 'styles_import_succeed_renamed' : 'styles_import_succeed'), 'action=styles', 'succeed');
+		cpmsg(!empty($_G['gp_dir']) ? (!$restore ? 'styles_install_succeed' : 'styles_restore_succeed') : ($renamed ? 'styles_import_succeed_renamed' : 'styles_import_succeed'), 'action=styles', 'succeed');
 	}
 
 } elseif($operation == 'copy') {
 
-	$style = C::t('common_style')->fetch($id);
+	$style = DB::fetch_first("SELECT * FROM ".DB::table('common_style')." WHERE styleid='$id'");
 	$style['name'] .= '_'.random(4);
-	$styleidnew = C::t('common_style')->insert(array('name' => $style['name'], 'available' => $style['available'], 'templateid' => $style['templateid']), true);
+	$styleidnew = DB::insert('common_style', array('name' => $style['name'], 'available' => $style['available'], 'templateid' => $style['templateid']), 1);
 
-	foreach(C::t('common_stylevar')->fetch_all_by_styleid($id) as $stylevar) {
-		C::t('common_stylevar')->insert(array('styleid' => $styleidnew, 'variable' => $stylevar['variable'], 'substitute' => $stylevar['substitute']));
+	$query = DB::query("SELECT * FROM ".DB::table('common_stylevar')." WHERE styleid='$id'");
+	while($stylevar = DB::fetch($query)) {
+		$stylevar['substitute'] = addslashes($stylevar['substitute']);
+		DB::insert('common_stylevar', array('styleid' => $styleidnew, 'variable' => $stylevar['variable'], 'substitute' => $stylevar['substitute']));
 	}
 
 	updatecache(array('setting', 'styles'));
@@ -366,14 +333,17 @@ if($operation == 'admin') {
 
 		if(empty($id)) {
 			$stylelist = "<select name=\"id\" style=\"width: 150px\">\n";
-			foreach(C::t('common_style')->fetch_all_data() as $style) {
+			$query = DB::query("SELECT styleid, name FROM ".DB::table('common_style')."");
+			while($style = DB::fetch($query)) {
 				$stylelist .= "<option value=\"$style[styleid]\">$style[name]</option>\n";
 			}
 			$stylelist .= '</select>';
 			cpmsg('styles_nonexistence', 'action=styles&operation=edit'.(!empty($highlight) ? "&highlight=$highlight" : ''), 'form', array(), $stylelist);
 		}
 
-		$style = C::t('common_style')->fetch_by_styleid($id);
+		$style = DB::fetch_first("SELECT s.name, s.templateid, s.extstyle, t.directory FROM ".DB::table('common_style')." s
+			LEFT JOIN ".DB::table('common_template')." t ON s.templateid=t.templateid
+			WHERE s.styleid='$id'");
 		if(!$style) {
 			cpmsg('style_not_found', '', 'error');
 		}
@@ -398,7 +368,8 @@ if($operation == 'admin') {
 
 		$stylecustom = '';
 		$stylestuff = $existvars = array();
-		foreach(C::t('common_stylevar')->fetch_all_by_styleid($id) as $stylevar) {
+		$query = DB::query("SELECT * FROM ".DB::table('common_stylevar')." WHERE styleid='$id'");
+		while($stylevar = DB::fetch($query)) {
 			if(array_key_exists($stylevar['variable'], $predefinedvars)) {
 				$stylestuff[$stylevar['variable']] = array('id' => $stylevar['stylevarid'], 'subst' => $stylevar['substitute']);
 				$existvars[] = $stylevar['variable'];
@@ -413,23 +384,25 @@ if($operation == 'admin') {
 		if($diffvars = array_diff(array_keys($predefinedvars), $existvars)) {
 			foreach($diffvars as $variable) {
 				$stylestuff[$variable] = array(
-					'id' => C::t('common_stylevar')->insert(array('styleid' => $id, 'variable' => $variable, 'substitute' => ''), true),
+					'id' => DB::insert('common_stylevar', array('styleid' => $id, 'variable' => $variable, 'substitute' => ''), 1),
 					'subst' => ''
 				);
 			}
 		}
 
 		$tplselect = array();
-		foreach(C::t('common_template')->fetch_all_data() as $template) {
+		$query = DB::query("SELECT templateid, name FROM ".DB::table('common_template')."");
+		while($template = DB::fetch($query)) {
 			$tplselect[] = array($template['templateid'], $template['name']);
 		}
 
 		$smileytypes = array();
-		foreach(C::t('forum_imagetype')->fetch_all_available() as $type) {
+		$query = DB::query("SELECT typeid, name FROM ".DB::table('forum_imagetype')." WHERE available='1'");
+		while($type = DB::fetch($query)) {
 			$smileytypes[] = array($type['typeid'], $type['name']);
 		}
 
-		$adv = !empty($_GET['adv']) ? 1 : 0;
+		$adv = !empty($_G['gp_adv']) ? 1 : 0;
 
 		shownav('style', 'styles_edit');
 
@@ -538,26 +511,27 @@ function imgpre_switch(id) {
 
 	} else {
 
-		$templateidnew = $_GET['templateidnew'];
-		$stylevar = $_GET['stylevar'];
-		$stylevarbgimg = $_GET['stylevarbgimg'];
-		$stylevarbgextra = $_GET['stylevarbgextra'];
-		if(!in_array($_GET['defaultextstylenew'], $_GET['extstylenew'])) {
-			$_GET['extstylenew'][] = $_GET['defaultextstylenew'];
+		$templateidnew = $_G['gp_templateidnew'];
+		$stylevar = $_G['gp_stylevar'];
+		$copyids = $_G['gp_copyids'];
+		$stylevarbgimg = $_G['gp_stylevarbgimg'];
+		$stylevarbgextra = $_G['gp_stylevarbgextra'];
+		if(!in_array($_G['gp_defaultextstylenew'], $_G['gp_extstylenew'])) {
+			$_G['gp_extstylenew'][] = $_G['gp_defaultextstylenew'];
 		}
-		$extstylenew = implode("\t", $_GET['extstylenew']).'|'.$_GET['defaultextstylenew'];
+		$extstylenew = implode("\t", $_G['gp_extstylenew']).'|'.$_G['gp_defaultextstylenew'];
 
-		if($_GET['newcvar'] && $_GET['newcsubst']) {
-			if(C::t('common_stylevar')->check_duplicate($id, $_GET['newcvar'])) {
+		if($_G['gp_newcvar'] && $_G['gp_newcsubst']) {
+			if(DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_stylevar')." WHERE styleid='$id' AND variable='$_G[gp_newcvar]'")) {
 				cpmsg('styles_edit_variable_duplicate', '', 'error');
-			} elseif(!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/", $_GET['newcvar'])) {
+			} elseif(!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/", $_G['gp_newcvar'])) {
 				cpmsg('styles_edit_variable_illegal', '', 'error');
 			}
-			$newcvar = strtolower($_GET['newcvar']);
-			C::t('common_stylevar')->insert(array('styleid' => $id, 'variable' => $newcvar, 'substitute' => $_GET['newcsubst']));
+			$newcvar = strtolower($_G['gp_newcvar']);
+			DB::insert('common_stylevar', array('styleid' => $id, 'variable' => $newcvar, 'substitute' => $_G['gp_newcsubst']));
 		}
 
-		C::t('common_style')->update($id, array('name' => $namenew, 'templateid' => $templateidnew, 'extstyle' => $extstylenew));
+		DB::query("UPDATE ".DB::table('common_style')." SET name='$namenew', templateid='$templateidnew', extstyle='$extstylenew' WHERE styleid='$id'");
 		foreach($stylevar as $varid => $substitute) {
 			if(!empty($stylevarbgimg[$varid])) {
 				$substitute .= ' '.$stylevarbgimg[$varid];
@@ -565,13 +539,16 @@ function imgpre_switch(id) {
 					$substitute .= ' '.$stylevarbgextra[$varid];
 				}
 			}
-			$substitute = @dhtmlspecialchars($substitute);
-			$stylevarids = array($varid);
-			C::t('common_stylevar')->update_substitute_by_styleid($substitute, $id, $stylevarids);
+			$substitute = @htmlspecialchars($substitute);
+			$stylevarids = "'$varid'";
+			if(!empty($copyids[$varid])) {
+				$stylevarids .= ','.dimplode($copyids[$varid]);
+			}
+			DB::query("UPDATE ".DB::table('common_stylevar')." SET substitute='$substitute' WHERE stylevarid IN ($stylevarids) AND styleid='$id'");
 		}
 
-		if($_GET['delete']) {
-			C::t('common_stylevar')->delete_by_styleid($id, $_GET['delete']);
+		if($ids = dimplode($_G['gp_delete'])) {
+			DB::query("DELETE FROM ".DB::table('common_stylevar')." WHERE stylevarid IN ($ids) AND styleid='$id'");
 		}
 
 		updatecache(array('setting', 'styles'));
@@ -587,60 +564,6 @@ function imgpre_switch(id) {
 
 	}
 
-} elseif($operation == 'upgradecheck') {
-	$templatearray = C::t('common_template')->fetch_all_data();
-	if(!$templatearray) {
-		cpmsg('plugin_not_found', '', 'error');
-	} else {
-		$addonids = $result = $errarray = $newarray = array();
-		foreach($templatearray as $k => $row) {
-			if(preg_match('/^.?\/template\/([a-z]+[a-z0-9_]*)$/', $row['directory'], $a) && $a[1] != 'default') {
-				$addonids[$k] = $a[1].'.template';
-			}
-		}
-		$checkresult = dunserialize(cloudaddons_upgradecheck($addonids));
-		foreach($addonids as $k => $addonid) {
-			if(isset($checkresult[$addonid])) {
-				list($return, $newver) = explode(':', $checkresult[$addonid]);
-				$result[$addonid]['result'] = $return;
-				$result[$addonid]['id'] = $k;
-				if($newver) {
-					$result[$addonid]['newver'] = $newver;
-				}
-			}
-		}
-	}
-	foreach($result as $id => $row) {
-		if($row['result'] == 0) {
-			$errarray[] = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&id='.$id.'" target="_blank">'.$templatearray[$row['id']]['name'].'</a>';
-		} elseif($row['result'] == 2) {
-			$newarray[] = '<a href="'.ADMINSCRIPT.'?action=cloudaddons&id='.$id.'" target="_blank">'.$templatearray[$row['id']]['name'].($row['newver'] ? ' -> '.$row['newver'] : '').'</a>';
-		}
-	}
-	if(!$newarray && !$errarray) {
-		cpmsg('styles_validator_noupdate', '', 'error');
-	} else {
-		shownav('style', 'styles_admin');
-		showsubmenu('styles_admin', array(
-			array('admin', 'styles', '0'),
-			array('import', 'styles&operation=import', '0'),
-			array('cloudaddons_style_link', 'cloudaddons')
-		), '<a href="'.ADMINSCRIPT.'?action=styles&operation=upgradecheck" class="bold" style="float:right;padding-right:40px;">'.$lang['plugins_validator'].'</a>');
-		showtableheader();
-		if($newarray) {
-			showtitle('styles_validator_newversion');
-			foreach($newarray as $row) {
-				showtablerow('class="hover"', array(), array($row));
-			}
-		}
-		if($errarray) {
-			showtitle('styles_validator_error');
-			foreach($errarray as $row) {
-				showtablerow('class="hover"', array(), array($row));
-			}
-		}
-		showtablefooter();
-	}
 }
 
 ?>

@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: function_blog.php 29276 2012-03-31 08:23:41Z svn_project_zhangjie $
+ *      $Id: function_blog.php 21502 2011-03-29 04:59:16Z svn_project_zhangjie $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -22,7 +22,7 @@ function blog_post($POST, $olds=array()) {
 		$_G['username'] = addslashes($olds['username']);
 	}
 
-	$POST['subject'] = getstr(trim($POST['subject']), 80);
+	$POST['subject'] = getstr(trim($POST['subject']), 80, 1, 1);
 	$POST['subject'] = censor($POST['subject']);
 	if(strlen($POST['subject'])<1) $POST['subject'] = dgmdate($_G['timestamp'], 'Y-m-d');
 	$POST['friend'] = intval($POST['friend']);
@@ -32,7 +32,10 @@ function blog_post($POST, $olds=array()) {
 		$uids = array();
 		$names = empty($_POST['target_names'])?array():explode(',', preg_replace("/(\s+)/s", ',', $_POST['target_names']));
 		if($names) {
-			$uids = C::t('common_member')->fetch_all_uid_by_username($names);
+			$query = DB::query("SELECT uid FROM ".DB::table('common_member')." WHERE username IN (".dimplode($names).")");
+			while ($value = DB::fetch($query)) {
+				$uids[] = $value['uid'];
+			}
 		}
 		if(empty($uids)) {
 			$POST['friend'] = 3;
@@ -51,15 +54,15 @@ function blog_post($POST, $olds=array()) {
 	}
 
 	$POST['tag'] = dhtmlspecialchars(trim($POST['tag']));
-	$POST['tag'] = getstr($POST['tag'], 500);
+	$POST['tag'] = getstr($POST['tag'], 500, 1, 1);
 	$POST['tag'] = censor($POST['tag']);
 
 	if($_G['mobile']) {
-		$POST['message'] = getstr($POST['message'], 0, 0, 0, 1);
+		$POST['message'] = getstr($POST['message'], 0, 1, 0, 1);
 		$POST['message'] = censor($POST['message']);
 	} else {
 		$POST['message'] = checkhtml($POST['message']);
-		$POST['message'] = getstr($POST['message'], 0, 0, 0, 0, 1);
+		$POST['message'] = getstr($POST['message'], 0, 1, 0, 0, 1);
 		$POST['message'] = censor($POST['message']);
 		$POST['message'] = preg_replace(array(
 			"/\<div\>\<\/div\>/i",
@@ -79,19 +82,19 @@ function blog_post($POST, $olds=array()) {
 	if(empty($olds['classid']) || $POST['classid'] != $olds['classid']) {
 		if(!empty($POST['classid']) && substr($POST['classid'], 0, 4) == 'new:') {
 			$classname = dhtmlspecialchars(trim(substr($POST['classid'], 4)));
-			$classname = getstr($classname);
+			$classname = getstr($classname, 0, 1, 1);
 			$classname = censor($classname);
 			if(empty($classname)) {
 				$classid = 0;
 			} else {
-				$classid = C::t('home_class')->fetch_classid_by_uid_classname($_G['uid'], $classname);
+				$classid = DB::result(DB::query("SELECT classid FROM ".DB::table('home_class')." WHERE uid='$_G[uid]' AND classname='$classname'"));
 				if(empty($classid)) {
 					$setarr = array(
 						'classname' => $classname,
 						'uid' => $_G['uid'],
 						'dateline' => $_G['timestamp']
 					);
-					$classid = C::t('home_class')->insert($setarr, true);
+					$classid = DB::insert('home_class', $setarr, 1);
 				}
 			}
 		} else {
@@ -102,8 +105,7 @@ function blog_post($POST, $olds=array()) {
 		$classid = $olds['classid'];
 	}
 	if($classid && empty($classname)) {
-		$query = C::t('home_class')->fetch($classid);
-		$classname = ($query['uid'] == $_G['uid']) ? $query['classname'] : '';
+		$classname = DB::result(DB::query("SELECT classname FROM ".DB::table('home_class')." WHERE classid='$classid' AND uid='$_G[uid]'"));
 		if(empty($classname)) $classid = 0;
 	}
 
@@ -122,14 +124,13 @@ function blog_post($POST, $olds=array()) {
 	$uploads = array();
 	if(!empty($POST['picids'])) {
 		$picids = array_keys($POST['picids']);
-		$query = C::t('home_pic')->fetch_all_by_uid($_G['uid'], 0, 0, $picids);
-		foreach($query as $value) {
+		$query = DB::query("SELECT * FROM ".DB::table('home_pic')." WHERE picid IN (".dimplode($picids).") AND uid='$_G[uid]'");
+		while ($value = DB::fetch($query)) {
 			if(empty($titlepic) && $value['thumb']) {
 				$titlepic = getimgthumbname($value['filepath']);
 				$blogarr['picflag'] = $value['remote']?2:1;
 			}
-			$picurl = pic_get($value['filepath'], 'album', $value['thumb'], $value['remote'], 0);
-			$uploads[md5($picurl)] = $value;
+			$uploads[$POST['picids'][$value['picid']]] = $value;
 		}
 		if(empty($titlepic) && $value) {
 			$titlepic = $value['filepath'];
@@ -138,26 +139,19 @@ function blog_post($POST, $olds=array()) {
 	}
 
 	if($uploads) {
-		$albumid = 0;
-		if($POST['savealbumid'] < 0 && !empty($POST['newalbum'])) {
-			$albumname = addslashes(dhtmlspecialchars(trim($POST['newalbum'])));
-			if(empty($albumname)) $albumname = dgmdate($_G['timestamp'],'Ymd');
-			$albumarr = array('albumname' => $albumname);
-			$albumid = album_creat($albumarr);
-		} else {
-			$albumid = $POST['savealbumid'] < 0 ? 0 : intval($POST['savealbumid']);
-		}
-		if($albumid) {
-			C::t('home_pic')->update_for_uid($_G['uid'], $picids, array('albumid' => $albumid));
-			album_update_pic($albumid);
-		}
-		preg_match_all("/\s*\<img src=\"(.+?)\".*?\>\s*/is", $message, $mathes);
+		preg_match_all("/\[imgid\=(\d+)\]/i", $message, $mathes);
 		if(!empty($mathes[1])) {
+			$searchs = $replaces = array();
 			foreach ($mathes[1] as $key => $value) {
-				$urlmd5 = md5($value);
-				if(!empty($uploads[$urlmd5])) {
-					unset($uploads[$urlmd5]);
+				if(!empty($uploads[$value])) {
+					$picurl = pic_get($uploads[$value]['filepath'], 'album', $uploads[$value]['thumb'], $uploads[$value]['remote'], 0);
+					$searchs[] = "[imgid=$value]";
+					$replaces[] = "<img src=\"$picurl\">";
+					unset($uploads[$value]);
 				}
+			}
+			if($searchs) {
+				$message = str_replace($searchs, $replaces, $message);
 			}
 		}
 		foreach ($uploads as $value) {
@@ -171,6 +165,7 @@ function blog_post($POST, $olds=array()) {
 		return false;
 	}
 
+	$message = addslashes($message);
 
 	if(checkperm('manageblog')) {
 		$blogarr['hot'] = intval($POST['hot']);
@@ -180,15 +175,15 @@ function blog_post($POST, $olds=array()) {
 
 		if($blogarr['catid'] != $olds['catid']) {
 			if($olds['catid']) {
-				C::t('home_blog_category')->update_num_by_catid(-1, $olds['catid'], true, true);
+				DB::query("UPDATE ".DB::table('home_blog_category')." SET num=num-1 WHERE catid='$olds[catid]' AND num>0");
 			}
 			if($blogarr['catid']) {
-				C::t('home_blog_category')->update_num_by_catid(1, $blogarr['catid']);
+				DB::query("UPDATE ".DB::table('home_blog_category')." SET num=num+1 WHERE catid='$blogarr[catid]'");
 			}
 		}
 
 		$blogid = $olds['blogid'];
-		C::t('home_blog')->update($blogid, $blogarr);
+		DB::update('home_blog', $blogarr, array('blogid'=>$blogid));
 
 		$fuids = array();
 
@@ -197,21 +192,21 @@ function blog_post($POST, $olds=array()) {
 	} else {
 
 		if($blogarr['catid']) {
-			C::t('home_blog_category')->update_num_by_catid(1, $blogarr['catid']);
+			DB::query("UPDATE ".DB::table('home_blog_category')." SET num=num+1 WHERE catid='$blogarr[catid]'");
 		}
 
 		$blogarr['uid'] = $_G['uid'];
 		$blogarr['username'] = $_G['username'];
 		$blogarr['dateline'] = empty($POST['dateline'])?$_G['timestamp']:$POST['dateline'];
-		$blogid = C::t('home_blog')->insert($blogarr, true);
+		$blogid = DB::insert('home_blog', $blogarr, 1);
 
-		C::t('common_member_status')->update($_G['uid'], array('lastpost' => $_G['timestamp']));
-		C::t('common_member_field_home')->update($_G['uid'], array('recentnote'=>$POST['subject']));
+		DB::update('common_member_status', array('lastpost' => $_G['timestamp']), array('uid' => $_G['uid']));
+		DB::update('common_member_field_home', array('recentnote'=>$POST['subject']), array('uid'=>$_G['uid']));
 	}
 
 	$blogarr['blogid'] = $blogid;
-	$class_tag = new tag();
-	$POST['tag'] = $olds ? $class_tag->update_field($POST['tag'], $blogid, 'blogid') : $class_tag->add_tag($POST['tag'], $blogid, 'blogid');
+
+	$POST['tag'] = $olds ? modblogtag($POST['tag'], $blogid) : addblogtag($POST['tag'], $blogid);
 	$fieldarr = array(
 		'message' => $message,
 		'postip' => $_G['clientip'],
@@ -224,11 +219,11 @@ function blog_post($POST, $olds=array()) {
 	}
 
 	if($olds) {
-		C::t('home_blogfield')->update($blogid, $fieldarr);
+		DB::update('home_blogfield', $fieldarr, array('blogid'=>$blogid));
 	} else {
 		$fieldarr['blogid'] = $blogid;
 		$fieldarr['uid'] = $blogarr['uid'];
-		C::t('home_blogfield')->insert($fieldarr);
+		DB::insert('home_blogfield', $fieldarr);
 	}
 
 	if($isself && !$olds && $blog_status == 0) {
@@ -252,6 +247,7 @@ function blog_post($POST, $olds=array()) {
 }
 
 function checkhtml($html) {
+	$html = dstripslashes($html);
 	if(!checkperm('allowhtml')) {
 
 		preg_match_all("/\<([^\<]+)\>/is", $html, $ms);
@@ -291,6 +287,7 @@ function checkhtml($html) {
 		}
 		$html = str_replace($searchs, $replaces, $html);
 	}
+	$html = addslashes($html);
 
 	return $html;
 }
@@ -317,7 +314,7 @@ function blog_flash($swf_url, $type='') {
 			<embed autostart="false" src="'.$swf_url.'" type="audio/x-pn-realaudio-plugin" width="'.$width.'" height="'.$height.'" controls="controlpanel" console="cons"></embed>
 			</object>';
 	} elseif ($type == 'mp3') {
-		$swf_url = urlencode(str_replace('&amp;', '&', $swf_url));
+		$swf_url = urlencode($swf_url);
 		$html = '<object id="audioplayer_SHAREID" height="24" width="290" data="'.STATICURL.'image/common/player.swf" type="application/x-shockwave-flash">
 			<param value="'.STATICURL.'image/common/player.swf" name="movie"/>
 			<param value="autostart=yes&bg=0xCDDFF3&leftbg=0x357DCE&lefticon=0xF2F2F2&rightbg=0xF06A51&rightbghover=0xAF2910&righticon=0xF2F2F2&righticonhover=0xFFFFFF&text=0x357DCE&slider=0x357DCE&track=0xFFFFFF&border=0xFFFFFF&loader=0xAF2910&soundFile='.$swf_url.'" name="FlashVars"/>

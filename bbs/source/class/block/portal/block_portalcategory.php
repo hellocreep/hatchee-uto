@@ -4,13 +4,13 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_portalcategory.php 29236 2012-03-30 05:34:47Z chenmengshu $
+ *      $Id: block_portalcategory.php 9038 2010-04-26 07:56:28Z xupeng $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class block_portalcategory extends discuz_block {
+class block_portalcategory {
 	var $setting = array();
 	function block_portalcategory() {
 		$this->setting = array(
@@ -46,7 +46,6 @@ class block_portalcategory extends discuz_block {
 
 	function fields() {
 		return array(
-				'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
 				'url' => array('name' => lang('blockclass', 'blockclass_category_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
 				'title' => array('name' => lang('blockclass', 'blockclass_category_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
 				'articles' => array('name' => lang('blockclass', 'blockclass_category_field_articles'), 'formtype' => 'text', 'datatype' => 'int'),
@@ -98,6 +97,10 @@ class block_portalcategory extends discuz_block {
 		return $settings;
 	}
 
+	function cookparameter($parameter) {
+		return $parameter;
+	}
+
 	function getdata($style, $parameter) {
 		global $_G;
 
@@ -127,7 +130,7 @@ class block_portalcategory extends discuz_block {
 			$list[] = array(
 				'id' => $data['catid'],
 				'idtype' => 'catid',
-				'title' => dhtmlspecialchars($data['catname']),
+				'title' => htmlspecialchars($data['catname']),
 				'url' => $_G['cache']['portalcategory'][$data['catid']]['caturl'],
 				'pic' => '',
 				'picflag' => '0',

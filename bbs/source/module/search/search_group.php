@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: search_group.php 30188 2012-05-16 03:25:14Z chenmengshu $
+ *      $Id: search_group.php 26486 2011-12-14 02:20:03Z liulanbo $
  */
 
 if(!defined('IN_DISCUZ')) {
@@ -15,6 +15,9 @@ define('NOROBOT', TRUE);
 require_once libfile('function/home');
 require_once libfile('function/post');
 
+if(!$_G['setting']['groupstatus']) {
+	showmessage('group_status_off');
+}
 if(!$_G['setting']['search']['group']['status']) {
 	showmessage('search_group_closed');
 }
@@ -30,13 +33,13 @@ $srchmod = 5;
 $cachelife_time = 300;		// Life span for cache of searching in specified range of time
 $cachelife_text = 3600;		// Life span for cache of text searching
 
-$srchtype = empty($_GET['srchtype']) ? '' : trim($_GET['srchtype']);
-$searchid = isset($_GET['searchid']) ? intval($_GET['searchid']) : 0;
+$srchtype = empty($_G['gp_srchtype']) ? '' : trim($_G['gp_srchtype']);
+$searchid = isset($_G['gp_searchid']) ? intval($_G['gp_searchid']) : 0;
 
-$srchtxt = $_GET['srchtxt'];
-$srchfid = intval($_GET['srchfid']);
-$viewgroup = intval($_GET['viewgroup']);
-$keyword = isset($srchtxt) ? dhtmlspecialchars(trim($srchtxt)) : '';
+$srchtxt = $_G['gp_srchtxt'];
+$srchfid = intval($_G['gp_srchfid']);
+$viewgroup = intval($_G['gp_viewgroup']);
+$keyword = isset($srchtxt) ? htmlspecialchars(trim($srchtxt)) : '';
 
 if(!submitcheck('searchsubmit', 1)) {
 
@@ -44,38 +47,33 @@ if(!submitcheck('searchsubmit', 1)) {
 
 } else {
 
-	$orderby = in_array($_GET['orderby'], array('dateline', 'replies', 'views')) ? $_GET['orderby'] : 'lastpost';
-	$ascdesc = isset($_GET['ascdesc']) && $_GET['ascdesc'] == 'asc' ? 'asc' : 'desc';
+	$orderby = in_array($_G['gp_orderby'], array('dateline', 'replies', 'views')) ? $_G['gp_orderby'] : 'lastpost';
+	$ascdesc = isset($_G['gp_ascdesc']) && $_G['gp_ascdesc'] == 'asc' ? 'asc' : 'desc';
 
 	if(!empty($searchid)) {
 
 		require_once libfile('function/group');
 
-		$page = max(1, intval($_GET['page']));
+		$page = max(1, intval($_G['gp_page']));
 		$start_limit = ($page - 1) * $_G['tpp'];
 
-		$index = C::t('common_searchindex')->fetch_by_searchid_srchmod($searchid, $srchmod);
+		$index = DB::fetch_first("SELECT searchstring, keywords, num, ids FROM ".DB::table('common_searchindex')." WHERE searchid='$searchid' AND srchmod='$srchmod'");
 		if(!$index) {
 			showmessage('search_id_invalid');
 		}
 
-		$keyword = dhtmlspecialchars($index['keywords']);
+		$keyword = htmlspecialchars($index['keywords']);
 		$keyword = $keyword != '' ? str_replace('+', ' ', $keyword) : '';
 
 		$index['keywords'] = rawurlencode($index['keywords']);
-		$index['ids'] = dunserialize($index['ids']);
+		$index['ids'] = unserialize($index['ids']);
 		$searchstring = explode('|', $index['searchstring']);
 		$srchfid = $searchstring[2];
 		$threadlist = $grouplist = $posttables = array();
 		if($index['ids']['thread'] && ($searchstring[2] || empty($viewgroup))) {
 			require_once libfile('function/misc');
-			$threads = C::t('forum_thread')->fetch_all_by_tid_fid_displayorder(explode(',', $index['ids']['thread']), null, 0, $orderby, $start_limit, $_G['tpp'], '>=', $ascdesc);
-			foreach($threads as $value) {
-				$fids[$value['fid']] = $value['fid'];
-			}
-			$forums = C::t('forum_forum')->fetch_all_name_by_fid($fids);
-			foreach($threads as $thread) {
-				$thread['forumname'] = $forums[$thread['fid']]['name'];
+			$query = DB::query("SELECT t.*, f.name AS forumname FROM ".DB::table('forum_thread')." t LEFT JOIN ".DB::table('forum_forum')." f ON t.fid=f.fid WHERE t.tid IN ({$index[ids][thread]}) AND t.displayorder>='0' ORDER BY $orderby $ascdesc LIMIT $start_limit, $_G[tpp]");
+			while($thread = DB::fetch($query)) {
 				$thread['subject'] = bat_highlight($thread['subject'], $keyword);
 				$thread['realtid'] = $thread['tid'];
 				$threadlist[$thread['tid']] = procthread($thread);
@@ -83,7 +81,8 @@ if(!submitcheck('searchsubmit', 1)) {
 			}
 			if($threadlist) {
 				foreach($posttables as $tableid => $tids) {
-					foreach(C::t('forum_post')->fetch_all_by_tid($tableid, $tids, true, '', 0, 0, 1) as $post) {
+					$query = DB::query("SELECT tid, message FROM ".DB::table(getposttable($tableid))." WHERE tid IN (".dimplode($tids).") AND first='1'");
+					while($post = DB::fetch($query)) {
 						$threadlist[$post['tid']]['message'] = bat_highlight(messagecutstr($post['message'], 200), $keyword);
 					}
 				}
@@ -94,13 +93,8 @@ if(!submitcheck('searchsubmit', 1)) {
 			if(empty($viewgroup)) {
 				$index['ids']['group'] = implode(',', array_slice(explode(',', $index['ids']['group']), 0, 9));
 			}
-			if($viewgroup) {
-				$query = C::t('forum_forum')->fetch_all_info_by_fids(explode(',', $index['ids']['group']), 3, $_G['tpp'], 0, 0, 0, 0, 'sub', $start_limit);
-			} else {
-				$query = C::t('forum_forum')->fetch_all_info_by_fids(explode(',', $index['ids']['group']), 3, 0, 0, 0, 0, 0, 'sub');
-			}
-
-			foreach($query as $group) {
+			$query = DB::query("SELECT f.*, ff.description, ff.membernum, ff.icon, ff.gviewperm, ff.jointype, ff.dateline FROM ".DB::table('forum_forum')." f LEFT JOIN ".DB::table('forum_forumfield')." ff ON f.fid=ff.fid WHERE f.fid IN ({$index[ids][group]}) AND f.status='3' AND `type`='sub'".($viewgroup ? " LIMIT $start_limit, $_G[tpp]" : ''));
+			while($group = DB::fetch($query)) {
 				$group['icon'] = get_groupimg($group['icon'], 'icon');
 				$group['name'] = bat_highlight($group['name'], $keyword);
 				$group['description'] = bat_highlight($group['description'], $keyword);
@@ -120,12 +114,19 @@ if(!submitcheck('searchsubmit', 1)) {
 
 	} else {
 
-		$srchuname = isset($_GET['srchuname']) ? trim($_GET['srchuname']) : '';
+		$srchuname = isset($_G['gp_srchuname']) ? trim($_G['gp_srchuname']) : '';
 
 		$searchstring = 'group|title|'.$srchfid.'|'.addslashes($srchtxt);
 		$searchindex = array('id' => 0, 'dateline' => '0');
 
-		foreach(C::t('common_searchindex')->fetch_all_search($_G['setting']['search']['group']['searchctrl'], $_G['clientip'], $_G['uid'], $_G['timestamp'], $searchstring, $srchmod) as $index) {
+		$query = DB::query("SELECT searchid, dateline,
+			('".$_G['setting']['search']['group']['searchctrl']."'<>'0' AND ".(empty($_G['uid']) ? "useip='$_G[clientip]'" : "uid='$_G[uid]'")." AND $_G[timestamp]-dateline<'".$_G['setting']['search']['group']['searchctrl']."') AS flood,
+			(searchstring='$searchstring' AND expiration>'$_G[timestamp]') AS indexvalid
+			FROM ".DB::table('common_searchindex')."
+			WHERE srchmod='$srchmod' AND ('".$_G['setting']['search']['group']['searchctrl']."'<>'0' AND ".(empty($_G['uid']) ? "useip='$_G[clientip]'" : "uid='$_G[uid]'")." AND $_G[timestamp]-dateline<".$_G['setting']['search']['group']['searchctrl'].") OR (searchstring='$searchstring' AND expiration>'$_G[timestamp]')
+			ORDER BY flood");
+
+		while($index = DB::fetch($query)) {
 			if($index['indexvalid'] && $index['dateline'] > $searchindex['dateline']) {
 				$searchindex = array('id' => $index['searchid'], 'dateline' => $index['dateline']);
 				break;
@@ -147,7 +148,7 @@ if(!submitcheck('searchsubmit', 1)) {
 			}
 
 			if($_G['adminid'] != '1' && $_G['setting']['search']['group']['maxspm']) {
-				if(C::t('common_searchindex')->count_by_dateline($_G['timestamp'], $srchmod) >= $_G['setting']['search']['group']['maxspm']) {
+				if((DB::result_first("SELECT COUNT(*) FROM ".DB::table('common_searchindex')." WHERE srchmod='$srchmod' AND dateline>'$_G[timestamp]'-60")) >= $_G['setting']['search']['group']['maxspm']) {
 					showmessage('search_toomany', 'search.php?mod=group', array('maxspm' => $_G['setting']['search']['group']['maxspm']));
 				}
 			}
@@ -156,22 +157,19 @@ if(!submitcheck('searchsubmit', 1)) {
 			$_G['setting']['search']['group']['maxsearchresults'] = $_G['setting']['search']['group']['maxsearchresults'] ? intval($_G['setting']['search']['group']['maxsearchresults']) : 500;
 			list($srchtxt, $srchtxtsql) = searchkey($keyword, "subject LIKE '%{text}%'", true);
 
-			$threads = C::t('forum_thread')->fetch_all_by_tid_fid(0, $srchfid, 1, '', $keyword, $_G['setting']['search']['group']['maxsearchresults']);
-			foreach($threads as $value) {
-				$fids[$value['fid']] = $value['fid'];
-			}
-			$forums = C::t('forum_forum')->fetch_all_by_fid($fids);
-			foreach($threads as $thread) {
-				if($forums[$value['fid']]['status'] == 3) {
+			$query = DB::query("SELECT t.tid, f.status FROM ".DB::table('forum_thread')." t LEFT JOIN ".DB::table('forum_forum')." f ON t.fid=f.fid WHERE ".($srchfid ? "t.fid='$srchfid' AND ": '')."t.isgroup='1' $srchtxtsql ORDER BY tid DESC LIMIT ".$_G['setting']['search']['group']['maxsearchresults']);
+			while($thread = DB::fetch($query)) {
+				if($thread['status'] == 3) {
 					$tids .= ','.$thread['tid'];
 					$tnum++;
 				}
 			}
+			DB::free_result($query);
 
 			if(!$srchfid) {
 				$srchtxtsql = str_replace('subject LIKE', 'name LIKE', $srchtxtsql);
-				$query = C::t('forum_forum')->fetch_all_fid_for_group(0, $_G['setting']['search']['group']['maxsearchresults'], 1, $srchtxtsql);
-				foreach($query as $group) {
+				$query = DB::query("SELECT fid FROM ".DB::table('forum_forum')." WHERE `type`='sub' AND status='3' $srchtxtsql LIMIT ".$_G['setting']['search']['group']['maxsearchresults']);
+				while($group = DB::fetch($query)) {
 					$ids .= ','.$group['fid'];
 					$num++;
 				}
@@ -180,17 +178,9 @@ if(!submitcheck('searchsubmit', 1)) {
 			$keywords = str_replace('%', '+', $srchtxt);
 			$expiration = TIMESTAMP + $cachelife_text;
 
-			$searchid = C::t('common_searchindex')->insert(array(
-				'srchmod' => $srchmod,
-				'keywords' => $keywords,
-				'searchstring' => $searchstring,
-				'useip' => $_G['clientip'],
-				'uid' => $_G['uid'],
-				'dateline' => $_G['timestamp'],
-				'expiration' => $expiration,
-				'num' => $tnum,
-				'ids' => serialize($allids)
-			), true);
+			DB::query("INSERT INTO ".DB::table('common_searchindex')." (srchmod, keywords, searchstring, useip, uid, dateline, expiration, num, ids)
+					VALUES ('$srchmod', '$keywords', '$searchstring', '$_G[clientip]', '$_G[uid]', '$_G[timestamp]', '$expiration', '$tnum', '".serialize($allids)."')");
+			$searchid = DB::insert_id();
 
 			!($_G['group']['exempt'] & 2) && updatecreditbyaction('search');
 		}

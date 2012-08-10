@@ -19,15 +19,12 @@
 
 <!--{elseif $op == 'album'}-->
 
-	<table cellspacing="0" cellpadding="0" width="100%" class="imgl">
+	<table cellspacing="0" cellpadding="0" width="100%">
 		<tr>
-			<!--{eval $i = 0;}-->
 			<!--{loop $piclist $key $value}-->
-			<!--{eval $i++;}-->
-			<td valign="bottom" id="image_td_$value[picid]" width="20%"><img src="$value[pic]" alt="" width="90" onclick="insertImage('$value[bigpic]');" class="cur1" /></td>
-			<!--{if ($key+1)%5==0 && count($piclist) != $key+1}--></tr><tr><!--{/if}-->
+			<td><img src="$value[pic]" alt="" width="60" onclick="insertImage('$value[bigpic]');" class="cur1" /></td>
+			<!--{if $key%5==4}--></tr><tr><!--{/if}-->
 			<!--{/loop}-->
-			<!--{if ($imgpad = $i % 5) > 0}--><!--{echo str_repeat('<td></td>', 5 - $imgpad);}--><!--{/if}-->
 		</tr>
 	</table>
 	<!--{if $multi}--><div class="pgs cl mtm">$multi</div><!--{/if}-->
@@ -50,8 +47,6 @@
 
 <!--{elseif $op == 'district'}-->
 $html
-<!--{elseif $op == 'createalbum'}-->
-$albumid
 <!--{/if}-->
 
 <!--{template common/footer}-->

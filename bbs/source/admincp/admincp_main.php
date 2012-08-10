@@ -4,7 +4,7 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: admincp_main.php 29260 2012-03-31 04:22:59Z svn_project_zhangjie $
+ *      $Id: admincp_main.php 29171 2012-03-28 02:59:31Z monkey $
  */
 
 if(!defined('IN_DISCUZ') || !defined('IN_ADMINCP')) {
@@ -20,45 +20,10 @@ $title = cplang('admincp_title');
 $header_welcome = cplang('header_welcome');
 $header_logout = cplang('header_logout');
 $header_bbs = cplang('header_bbs');
-if(isfounder()) {
-	cplang('founder_admin');
-} else {
-	if($GLOBALS['admincp']->adminsession['cpgroupid']) {
-		$cpgroup = C::t('common_admincp_group')->fetch($GLOBALS['admincp']->adminsession['cpgroupid']);
-		$cpadmingroup = $cpgroup['cpgroupname'];
-	} else {
-		cplang('founder_master');
-	}
-}
+$cpadmingroup = isfounder() ? cplang('founder_admin') : ($GLOBALS['admincp']->adminsession['cpgroupid'] ? DB::result_first("SELECT cpgroupname FROM ".DB::table('common_admincp_group')." WHERE cpgroupid='".$GLOBALS['admincp']->adminsession['cpgroupid']."'") : cplang('founder_master'));
+
 require './source/admincp/admincp_menu.php';
 $basescript = ADMINSCRIPT;
-
-$shownotice = '';
-if($_G['uid'] && $_G['member']['allowadmincp'] == 1 && ($_G['setting']['showpatchnotice'] == 1 || !isset($_G['cookie']['checkpatch']))) {
-	$discuz_patch = new discuz_patch();
-	if($_G['setting']['showpatchnotice'] == 1) {
-		$notice = $discuz_patch->fetch_patch_notice();
-		if($notice['data']) {
-			$shownotice = '<div class="notice"><a href="'.$basescript.'?action=patch" id="notice">'.($notice['fixed'] ? $lang['patch_fix_complete'] : $lang['patch_fix_rigth_now']).'</a></div>';
-		}
-	}
-	if(!isset($_G['cookie']['checkpatch'])) {
-		$discuz_patch->check_patch();
-	}
-}
-if($_G['uid'] && $_G['member']['allowadmincp'] == 1 && !$shownotice && $_G['setting']['upgrade']) {
-	$shownotice = '<div class="notice"><a href="'.$basescript.'?action=upgrade" id="notice">'.$lang['upgrade_right_now'].'</a></div>';
-}
-if($_G['uid'] && $_G['member']['allowadmincp'] == 1 && !isset($_G['cookie']['checkupgrade'])) {
-	$discuz_upgrade = new discuz_upgrade();
-	if($discuz_upgrade->check_upgrade()) {
-		if(empty($shownotice)) {
-			$shownotice = '<div class="notice"><a href="'.$basescript.'?action=upgrade" id="notice">'.$lang['upgrade_right_now'].'</a></div>';
-		}
-	}
-	dsetcookie('checkupgrade', 1, 7200);
-}
-
 echo <<<EOT
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -66,16 +31,15 @@ echo <<<EOT
 <meta http-equiv="Content-Type" content="text/html; charset=$charset">
 <meta content="Comsenz Inc." name="Copyright" />
 <link rel="stylesheet" href="static/image/admincp/admincp.css?{$_G[style][verhash]}" type="text/css" media="all" />
-<script src="{$_G[setting][jspath]}common.js?{$_G[style][verhash]}" type="text/javascript"></script>
+<script src="static/js/common.js?{$_G[style][verhash]}" type="text/javascript"></script>
 </head>
 <body style="margin: 0px" scroll="no">
 <div id="append_parent"></div>
-$shownotice
 <table id="frametable" cellpadding="0" cellspacing="0" width="100%" height="100%">
 <tr>
 <td colspan="2" height="90">
 <div class="mainhd">
-<a href="$basescript?frames=yes&action=index" class="logo">Discuz! Administrator's Control Panel</a>
+<a href="admin.php?action=index" class="logo">Discuz! Administrator's Control Panel</a>
 <div class="uinfo" id="frameuinfo">
 <p>$header_welcome, $cpadmingroup <em>{$_G['member']['username']}</em> [<a href="$basescript?action=logout" target="_top">$header_logout</a>]</p>
 <p class="btnlink"><a href="index.php" target="_blank">$header_bbs</a></p>
@@ -111,7 +75,7 @@ echo <<<EOT
 </div>
 <div class="navbd"></div>
 <div class="sitemapbtn">
-	<div style="float: left; margin:-7px 10px 0 0"><form name="search" method="post" autocomplete="off" action="$basescript?action=search" target="main"><input type="text" name="keywords" value="" class="txt" x-webkit-speech speech /> <input type="hidden" name="searchsubmit" value="yes" class="btn" /><input type="submit" name="searchsubmit" value="$lang[search]" class="btn" style="margin-top: 5px;vertical-align:middle" /></form></div>
+	<div style="float: left; margin:-7px 10px 0 0"><form name="search" method="post" autocomplete="off" action="$basescript?action=search" target="main"><input type="text" name="keywords" value="" class="txt" /> <input type="hidden" name="searchsubmit" value="yes" class="btn" /><input type="submit" name="searchsubmit" value="$lang[search]" class="btn" style="margin-top: 5px;vertical-align:middle" /></form></div>
 	<span id="add2custom" style="display: none"></span>
 	<a href="###" id="cpmap" onclick="showMap();return false;"><img src="static/image/admincp/btn_map.gif" title="$lang[admincp_maptext]" width="46" height="18" /></a>
 </div>
@@ -146,7 +110,7 @@ echo <<<EOT
 </div>
 <div class="copyright">
 	<p>Powered by <a href="http://www.discuz.net/" target="_blank">Discuz!</a> {$_G['setting']['version']}</p>
-	<p>&copy; 2001-2012, <a href="http://www.comsenz.com/" target="_blank">Comsenz Inc.</a></p>
+	<p>&copy; 2001-2011, <a href="http://www.comsenz.com/" target="_blank">Comsenz Inc.</a></p>
 </div>
 
 <div id="cpmap_menu" class="custom" style="display: none">
@@ -280,11 +244,7 @@ echo <<<EOT
 		}
 	}
 	function menuNewwin(obj) {
-		var href = obj.parentNode.href;
-		if(obj.parentNode.href.indexOf(admincpfilename + '?') != -1) {
-			href += '&frames=yes';
-		}
-		window.open(href);
+		window.open(obj.parentNode.href);
 		doane();
 	}
 	function initCpMenus(menuContainerid) {
@@ -373,23 +333,23 @@ echo <<<EOT
 		var ul, hrefs, s = '', count = 0;
 		for(var k in headers) {
 			if(headers[k] != 'index' && headers[k] != 'uc') {
-				s += '<tr><td valign="top"><h4>' + $('header_' + headers[k]).innerHTML + '</h4></td><td valign="top">';
+				s += '<td valign="top"><ul class="cmblock"><li><h4>' + $('header_' + headers[k]).innerHTML + '</h4></li>';
 				ul = $('menu_' + headers[k]);
 				if(!ul) {
 					continue;
 				}
 				hrefs = ul.getElementsByTagName('a');
 				for(var i = 0; i < hrefs.length; i++) {
-					s += '<a href="' + hrefs[i].href + '" target="' + hrefs[i].target + '" k="' + headers[k] + '">' + hrefs[i].innerHTML + '</a>';
+					s += '<li><a href="' + hrefs[i].href + '" target="' + hrefs[i].target + '" k="' + headers[k] + '">' + hrefs[i].innerHTML + '</a></li>';
 				}
-				s += '</td></tr>';
+				s += '<li></li></ul></td>';
 				count++;
 			}
 		}
-		var width = 720;
+		var width = (count > 11 ? 11 : count) * 80;
 		s = '<div class="cnote" style="width:' + width + 'px"><span class="right"><a href="###" class="flbc" onclick="hideMenu();return false;"></a></span><h3>$lang[admincp_maptitle]</h3></div>' +
-			'<div class="cmlist" style="width:' + width + 'px;height: 410px"><table id="mapmenu" cellspacing="0" cellpadding="0">' + s +
-			'</table></div>';
+			'<div class="cmlist" style="width:' + width + 'px"><table id="mapmenu" cellspacing="0" cellpadding="0" ><tr>' + s +
+			'</tr></table></div>';
 		$('cmain').innerHTML = s;
 		$('cmain').style.width = (width > 1000 ? 1000 : width) + 'px';
 	}

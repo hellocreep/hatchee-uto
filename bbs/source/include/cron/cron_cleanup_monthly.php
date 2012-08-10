@@ -12,6 +12,6 @@ if(!defined('IN_DISCUZ')) {
 }
 
 
-C::t('common_mytask')->delete_exceed(2592000);
+DB::query("DELETE FROM ".DB::table('common_mytask')." WHERE status='-1' AND dateline<'$_G[timestamp]'-2592000", 'UNBUFFERED');
 
 ?>

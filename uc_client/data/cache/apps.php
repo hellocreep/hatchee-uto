@@ -7,33 +7,20 @@ $_CACHE['apps'] = array (
     'name' => '友途',
     'url' => 'http://127.0.0.1/uto',
     'ip' => '127.0.0.1',
-    'viewprourl' => '',
-    'apifilename' => 'uc.php',
     'charset' => '',
     'synlogin' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-    ),
-    'recvnote' => '1',
+    'extra' => 'a:2:{s:7:"apppath";s:0:"";s:8:"extraurl";a:0:{}}',
   ),
   2 => 
   array (
     'appid' => '2',
     'type' => 'UCHOME',
     'name' => '个人家园',
-    'url' => 'http://127.0.0.1/uto/utohome',
-    'ip' => '127.0.0.1',
-    'viewprourl' => '',
-    'apifilename' => 'uc.php',
+    'url' => 'http://127.0.0.1/uto/mhome',
+    'ip' => '',
     'charset' => 'utf-8',
     'synlogin' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-      'extraurl' => '			',
-    ),
-    'recvnote' => '1',
+    'extra' => '',
   ),
   3 => 
   array (
@@ -41,17 +28,10 @@ $_CACHE['apps'] = array (
     'type' => 'DISCUZX',
     'name' => '论坛',
     'url' => 'http://127.0.0.1/uto/bbs',
-    'ip' => '127.0.0.1',
-    'viewprourl' => '',
-    'apifilename' => 'uc.php',
-    'charset' => '',
+    'ip' => '',
+    'charset' => 'utf-8',
     'synlogin' => '1',
-    'extra' => 
-    array (
-      'apppath' => '',
-      'extraurl' => '			',
-    ),
-    'recvnote' => '1',
+    'extra' => '',
   ),
   'UC_API' => 'http://127.0.0.1/uto/ucenter',
 );

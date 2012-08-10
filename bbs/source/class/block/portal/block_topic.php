@@ -4,13 +4,13 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_topic.php 30584 2012-06-05 06:54:07Z zhangguosheng $
+ *      $Id: block_topic.php 10773 2010-05-14 10:53:42Z xupeng $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class block_topic extends discuz_block {
+class block_topic {
 	var $setting = array();
 	function block_topic() {
 		$this->setting = array(
@@ -66,11 +66,10 @@ class block_topic extends discuz_block {
 
 	function fields() {
 		return array(
-				'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
 				'url' => array('name' => lang('blockclass', 'blockclass_topic_field_url'), 'formtype' => 'text', 'datatype' => 'string'),
 				'title' => array('name' => lang('blockclass', 'blockclass_topic_field_title'), 'formtype' => 'title', 'datatype' => 'title'),
 				'pic' => array('name' => lang('blockclass', 'blockclass_topic_field_pic'), 'formtype' => 'pic', 'datatype' => 'pic'),
-				'summary' => array('name' => lang('blockclass', 'blockclass_topic_field_summary'), 'formtype' => 'summary', 'datatype' => 'summary'),
+				'summary' => array('name' => lang('blockclass', 'blockclass_topic_field_title'), 'formtype' => 'summary', 'datatype' => 'summary'),
 				'uid' => array('name' => lang('blockclass', 'blockclass_topic_field_uid'), 'formtype' => 'text', 'datatype' => 'int'),
 				'username' => array('name' => lang('blockclass', 'blockclass_topic_field_username'), 'formtype' => 'text', 'datatype' => 'string'),
 				'dateline' => array('name' => lang('blockclass', 'blockclass_topic_field_dateline'), 'formtype' => 'date', 'datatype' => 'date'),
@@ -83,6 +82,10 @@ class block_topic extends discuz_block {
 		$settings = $this->setting;
 
 		return $settings;
+	}
+
+	function cookparameter($parameter) {
+		return $parameter;
 	}
 
 	function getdata($style, $parameter) {
@@ -115,7 +118,10 @@ class block_topic extends discuz_block {
 			$wherearr[] = "cover != ''";
 		}
 		$wherearr[] = "closed = '0'";
-		foreach(C::t('portal_topic')->fetch_all_by_search_where($wherearr, "ORDER BY $orderby DESC", $startrow, $items) as $data) {
+		$wheresql = $wherearr ? implode(' AND ', $wherearr) : '1';
+		$sql = "SELECT * FROM ".DB::table('portal_topic')." WHERE $wheresql ORDER BY $orderby DESC";
+		$query = DB::query($sql." LIMIT $startrow,$items;");
+		while($data = DB::fetch($query)) {
 			if(empty($data['cover'])) {
 				$data['cover'] = STATICURL.'image/common/nophoto.gif';
 				$data['picflag'] = '0';

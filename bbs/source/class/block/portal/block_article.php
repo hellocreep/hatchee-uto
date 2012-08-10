@@ -4,13 +4,13 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_article.php 29655 2012-04-24 05:51:56Z zhangguosheng $
+ *      $Id: block_article.php 11853 2010-06-17 09:23:42Z xupeng $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
-class block_article extends discuz_block {
+class block_article {
 	var $setting = array();
 	function block_article() {
 		global $_G;
@@ -120,7 +120,6 @@ class block_article extends discuz_block {
 
 	function fields() {
 		return array(
-				'id' => array('name' => lang('blockclass', 'blockclass_field_id'), 'formtype' => 'text', 'datatype' => 'int'),
 				'uid' => array('name' => lang('blockclass', 'blockclass_article_field_uid'), 'formtype' => 'text', 'datatype' => 'int'),
 				'username' => array('name' => lang('blockclass', 'blockclass_article_field_username'), 'formtype' => 'text', 'datatype' => 'string'),
 				'avatar' => array('name' => lang('blockclass', 'blockclass_article_field_avatar'), 'formtype' => 'text', 'datatype' => 'string'),
@@ -196,6 +195,10 @@ class block_article extends discuz_block {
 		return $settings;
 	}
 
+	function cookparameter($parameter) {
+		return $parameter;
+	}
+
 	function getdata($style, $parameter) {
 		global $_G;
 
@@ -229,7 +232,6 @@ class block_article extends discuz_block {
 
 		$list = array();
 		$wheres = array();
-
 		if($aids) {
 			$wheres[] = 'at.aid IN ('.dimplode($aids).')';
 		}
@@ -248,12 +250,7 @@ class block_article extends discuz_block {
 			$catid = array_unique($catid);
 			$wheres[] = 'at.catid IN ('.dimplode($catid).')';
 		}
-		if(!$aids && !$catid && $_G['setting']['blockmaxaggregationitem']) {
-			if(($maxid = $this->getmaxid() - $_G['setting']['blockmaxaggregationitem'] ) > 0) {
-				$wheres[] = 'at.aid > '.$maxid;
-			}
-		}
-		if(empty($aids) && ($picrequired)) {
+		if($picrequired) {
 			$wheres[] = "at.pic != ''";
 		}
 		if($publishdateline) {
@@ -327,18 +324,6 @@ class block_article extends discuz_block {
 		}
 		return array('html' => '', 'data' => $list);
 	}
-
-	function getmaxid() {
-		loadcache('databasemaxid');
-		$data = getglobal('cache/databasemaxid');
-		if(!isset($data['article']) || TIMESTAMP - $data['article']['dateline'] >= 86400) {
-			$data['article']['dateline'] = TIMESTAMP;
-			$data['article']['id'] = DB::result_first('SELECT MAX(aid) FROM '.DB::table('portal_article_title'));
-			savecache('databasemaxid', $data);
-		}
-		return $data['article']['id'];
-	}
-
 }
 
 ?>

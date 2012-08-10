@@ -34,10 +34,10 @@
 						<ul class="routelist clearfix">
 							<?php foreach($tour as $company):?>
 								<li>
-								<span class="days"><?php echo $company['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $company['Id'];?>"><?php echo $company['name'];?></a></h2>
-								<p><?php echo mb_substr($company['intro'],0,90,'utf-8').'......';?><a href="tourdetail/?tid=<?php echo $company['Id'];?>">更多</a></p>
+								<span class="days"><?php echo $company['days'];?></span><h2><a href="tourdetail/tour/<?php echo $company['Id'];?>"><?php echo $company['name'];?></a></h2>
+								<p><?php echo mb_substr($company['intro'],0,90,'utf-8').'......';?><a href="tourdetail/tour/<?php echo $company['Id'];?>">更多</a></p>
 								<dl class="route-detail">
-									<dt><a href="tourdetail/?tid=<?php echo $company['Id'];?>"><img width="240" height="140" alt="<?php echo $company['name'];?>" src="<?php echo $company['thumbnail'];?>"></a></dt>
+									<dt><a href="tourdetail/tour/<?php echo $company['Id'];?>"><img width="240" height="140" alt="<?php echo $company['name'];?>" src="<?php echo $company['thumbnail'];?>"></a></dt>
 									<dd>
 										<span>旅行地区：</span><div><?php echo str_replace(',','、',substr($company['destination'],0,-1));?></div>
 									</dd>
@@ -49,7 +49,7 @@
 									</dd>
 									
 									<dd class="last">
-										<a class="btn" href="tourdetail/?tid=<?php echo $company['Id'];?>">线路详情</a>	
+										<a class="btn" href="tourdetail/tour/<?php echo $company['Id'];?>">线路详情</a>	
 									</dd>
 								</dl>
 								</li>
@@ -66,17 +66,17 @@
 						<ul class="clearfix">
 							<?php foreach($note as $travel):?>
 								<li>
-								<a href="aboutus/note?id=<?php echo $travel['Id'];?>">
+								<a href="aboutus/note/<?php echo $travel['Id'];?>">
 									<img alt="" src="<?php echo $travel['thumb'];?>"></a>
 								<h5>
-									<a href="aboutus/note?id=<?php echo $travel['Id'];?>"><?php echo $travel['title'];?></a>
+									<a href="aboutus/note/<?php echo $travel['Id'];?>"><?php echo $travel['title'];?></a>
 								</h5>
 								<p>
 									活动时间：<?php echo $travel['tour_time'];?><br>
 									活动人数：<?php echo $travel['people'];?>人<br>
 									公司名称：<?php echo $travel['company'];?>
 								</p>
-								<a href="aboutus/note?id=<?php echo $travel['Id'];?>" class="detail">活动详情</a>
+								<a href="aboutus/note/<?php echo $travel['Id'];?>" class="detail">活动详情</a>
 								</li>
 							<?php endforeach;?>
 							
@@ -90,13 +90,13 @@
 						<ul>
 							<?php foreach($expand as $list):?>
 								<li>
-								<a href="expandtour/expand?id=<?php echo $list['Id'];?>"><img src="<?php echo $list['thumbnail'];?>" alt="<?php echo $list['title'];?>"></a>
-								<h5><a href="expandtour/expand?id=<?php echo $list['Id'];?>"><?php echo $list['title'];?></a></h5>	
+								<a href="expandtour/expand/<?php echo $list['Id'];?>"><img src="<?php echo $list['thumbnail'];?>" alt="<?php echo $list['title'];?>"></a>
+								<h5><a href="expandtour/expand/<?php echo $list['Id'];?>"><?php echo $list['title'];?></a></h5>	
 								<p>
 									<?php echo $list['intro'];?>
 								</p>
 								<p>
-									活动天数：<?php echo $list['day'];?> <a class="detail" href="expandtour/expand?id=<?php echo $list['Id'];?>">活动详情</a>
+									活动天数：<?php echo $list['day'];?> <a class="detail" href="expandtour/expand/<?php echo $list['Id'];?>">活动详情</a>
 								</p>
 							</li>
 							<?php endforeach;?>

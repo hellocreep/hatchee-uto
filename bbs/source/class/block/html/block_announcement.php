@@ -4,14 +4,14 @@
  *      [Discuz!] (C)2001-2099 Comsenz Inc.
  *      This is NOT a freeware, use is subject to license terms
  *
- *      $Id: block_announcement.php 25525 2011-11-14 04:39:11Z zhangguosheng $
+ *      $Id: block_activity.php 6799 2010-03-25 12:56:43Z monkey $
  */
 
 if(!defined('IN_DISCUZ')) {
 	exit('Access Denied');
 }
 
-class block_announcement extends discuz_block {
+class block_announcement {
 
 	var $setting = array();
 
@@ -69,11 +69,16 @@ class block_announcement extends discuz_block {
 		return $settings;
 	}
 
+	function cookparameter($parameter) {
+		return $parameter;
+	}
+
 	function getdata($style, $parameter) {
 		global $_G;
 
+		$parameter = $this->cookparameter($parameter);
 
-		$type           = !empty($parameter['type']) && is_array($parameter['type']) ? array_map('intval', $parameter['type']) : array('0');
+		$type           = !empty($parameter['type']) && is_array($parameter['type']) ? daddslashes($parameter['type']) : array('0');
 		$titlelength	= !empty($parameter['titlelength']) ? intval($parameter['titlelength']) : 40;
 		$summarylength	= !empty($parameter['summarylength']) ? intval($parameter['summarylength']) : 80;
 		$startrow       = !empty($parameter['startrow']) ? intval($parameter['startrow']) : '0';
@@ -82,9 +87,12 @@ class block_announcement extends discuz_block {
 		$bannedids = !empty($parameter['bannedids']) ? explode(',', $parameter['bannedids']) : array();
 
 		$time = TIMESTAMP;
-
+		$typesql = ' AND `type` IN ('.dimplode($type).')';
+		$bansql = $bannedids ? ' AND id NOT IN ('.dimplode($bannedids).')' : '';
+		$sql = 'SELECT * FROM '.DB::table('forum_announcement')." WHERE starttime <= '$time' AND (endtime = '' || endtime >= '$time') $typesql $bansql ORDER BY displayorder DESC LIMIT $startrow, $items";
 		$list = array();
-		foreach(C::t('forum_announcement')->fetch_all_by_time($time, $type, $bannedids, $startrow, $items) as $data) {
+		$query = DB::query($sql);
+		while($data = DB::fetch($query)) {
 			$list[] = array(
 				'id' => $data['id'],
 				'idtype' => 'announcementid',

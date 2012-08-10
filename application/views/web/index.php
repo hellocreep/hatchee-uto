@@ -21,13 +21,16 @@
 					<div class="slide carousel" id="myCarousel">
 						<div class="carousel-inner">					
 							<div class="item active">
-								<a href="tourdetail/?tid=30"><img src="assets/images/banner/gonggashan-banner.jpg"></a>
+								<a href="tourdetail/tour/29"><img src="assets/images/banner/siguniangshan-banner2.jpg"></a>
 							</div>
 							<div class="item">
-								<a href="tourdetail/?tid=29"><img src="assets/images/banner/siguniangshan-banner.jpg"></a>
+								<a href="tourdetail/tour/30"><img src="assets/images/banner/gonggashan-banner.jpg"></a>
 							</div>
 							<div class="item">
-								<a href="tourdetail/?tid=33"><img src="assets/images/banner/emeishan-banner.jpg"></a>
+								<a href="index/tour/yading"><img src="assets/images/banner/daocheng-banner.jpg"></a>
+							</div>
+							<div class="item">
+								<a href="index/tour/jiuzhai"><img src="assets/images/banner/jiuzhai-banner.jpg"></a>
 							</div>
 						</div>
 						<!-- <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
@@ -37,6 +40,7 @@
 							<li class="current">1</li>
 							<li>2</li>
 							<li>3</li>
+							<li>4</li>
 						</ul>
 
 					</div>
@@ -62,7 +66,8 @@
 							<?php endforeach;?>
 						</dl>
 					</div>
-					<div class="col col-theme">
+
+					<!--<div class="col col-theme">
 						<h2>主题旅行</h2>
 						<p>
 							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。多个炫彩主题，数条顶级行程，让您玩转四川。　
@@ -82,10 +87,34 @@
 							<?php endforeach;?>
 													
 						</ul>
-					</div>
+					</div>-->
 
 					
-
+					<div class="col col-playonly">
+						<h2>纯玩包团</h2>
+						<p>
+							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。多个炫彩主题，数条顶级行程，让您玩转四川。　
+						</p>
+						<ul>
+							<li>
+								<div class="li-lt">
+									<img src="http://placehold.it/50x30">
+								</div>
+								<div class="li-m">
+									<h4><a href="">贡嘎雪山、泉华滩、新都桥、雅家梗6日游</a></h4>
+									<p>
+										40%以上的跟团客人首选此行程，价格公道，行程经典！
+									</p>
+								</div>
+								<div class="li-rt">
+									<i>￥2880</i>
+									<span>每周二、周五成都出发</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+					
+					
 					<div class="col col-com">
 						<h2>公司出游</h2>
 						<ul>

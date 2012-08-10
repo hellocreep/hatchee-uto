@@ -39,9 +39,10 @@ h1,h2,h3,h4,h5{
 	
 	font-family:'Microsoft YaHei','SimSun';
 }
-.h-color:{
+.h-color{
 	color: #DF5031;
 }
+
 h1{
 	font-size:19px;
 	margin:0 0 16px;

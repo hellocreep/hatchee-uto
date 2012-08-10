@@ -96,21 +96,24 @@
 							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。多个炫彩主题，数条顶级行程，让您玩转四川。　
 						</p>
 						<ul>
+							
+						<?php foreach($group as $grouptour):?>
 							<li>
 								<div class="li-lt">
-									<img src="http://placehold.it/50x30">
+									<a href="tourdetail/tour/<?php echo $grouptour['Id']?>"><img src="<?php echo $grouptour['thumbnail'];?>"></a>
 								</div>
 								<div class="li-mt">
-									<h4><a href="">贡嘎雪山、泉华滩、新都桥、雅家梗6日游</a></h4>
+									<h4><a href="tourdetail/tour/<?php echo $grouptour['Id']?>"><?php echo $grouptour['title'];?></a></h4>
 									<p>
-										40%以上的跟团客人首选此行程，价格公道，行程经典！
+										<?php echo $grouptour['discount'];?>
 									</p>
 								</div>
 								<div class="li-rt">
-									<i>￥2880</i>
-									<span>每周二、周五成都出发</span>
+									<i><?php echo $grouptour['price'];?></i>
+									<span><?php echo $grouptour['departure'];?></span>
 								</div>
 							</li>
+						<?php endforeach;?>
 						</ul>
 					</div>
 					

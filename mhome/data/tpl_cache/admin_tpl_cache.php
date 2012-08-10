@@ -1,4 +1,4 @@
-<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('admin/tpl/cache|admin/tpl/header|admin/tpl/side|admin/tpl/footer|template/default/header|template/default/footer', '1344500005', 'admin/tpl/cache');?><?php $_TPL['menunames'] = array(
+<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('admin/tpl/cache|admin/tpl/header|admin/tpl/side|admin/tpl/footer|template/default/header|template/default/footer', '1344580994', 'admin/tpl/cache');?><?php $_TPL['menunames'] = array(
 		'index' => '管理首页',
 		'config' => '站点设置',
 		'privacy' => '隐私设置',
@@ -150,6 +150,7 @@
 <li><img src="image/app/event.gif"/><a href="space.php?do=event">活动</a><em><a href="cp.php?ac=event" class="gray">发起</a></em></li>
 <li><img src="image/app/share.gif"><a href="space.php?do=share">分享</a></li>
 <li><img src="image/app/topic.gif"><a href="space.php?do=topic">热闹</a></li>
+<li><img src="image/app/blog.gif"><a href="space.php?do=order">订单</a><em></li>
 </ul>
 
 <ul class="app_list topline" id="my_defaultapp">

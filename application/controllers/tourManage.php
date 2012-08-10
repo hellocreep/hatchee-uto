@@ -117,11 +117,13 @@ class Tourmanage extends CI_Controller{
 				$group.=$g.",";
 			}
 		}
+		$this->load->model('attribute');
 		if(count($data->destination)!='')
 		{
 			foreach($data->destination as $des)
 			{
 				$destination.=$des.",";
+				$desid.=$this->attribute->getdesid($des).",";
 			}
 		}
 		
@@ -158,6 +160,7 @@ class Tourmanage extends CI_Controller{
 				'tags'=>$tags,
 				'theme'=>$theme,
 				'destination'=>$destination,
+				'desid'=>$desid,
 				'groups'=>$group,
 				'tour_type'=>$tour_type,
 				'tour_map'=>$tour_map,
@@ -313,11 +316,14 @@ class Tourmanage extends CI_Controller{
 				$group.=$ter.",";
 			}
 		}
+		$this->load->model('attribute');
+		$desid='';
 		if(count($data->destination)!='')
 		{
 			foreach($data->destination as $des)
 			{
 				$destination.=$des.",";
+				$desid.=$this->attribute->getdesid($des).",";
 			}
 		}
 		
@@ -354,6 +360,7 @@ class Tourmanage extends CI_Controller{
 				'departure'=>$departure,
 				'theme'=>$theme,
 				'destination'=>$destination,
+				'desid'=>$desid,
 				'groups'=>$group,
 				'tour_type'=>$tour_type,
 				'tour_map'=>$tour_map,

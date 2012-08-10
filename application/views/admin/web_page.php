@@ -28,6 +28,8 @@
 					title: $('input[name="title"]').val(),
 					keywords: $('input[name="keyword"]').val(),
 					description: $('input[name="des"]').val(),
+					termtour: $('input[name="termtours"]').val(),
+					group:$('input[name="groups"]').val(),
 					content: $('textarea[name="content"]').val()
 				}
 				$.ajax({
@@ -100,7 +102,23 @@
 							</p>
 						</div>
 					</div>
-
+					<div class="control-group">
+						<label class="control-label" for="des">活动线路：</label>
+						<div class="controls">
+							<input class="input-xlarge" type="text" name="termtours" value="<?php echo $info[0]->termtour; ?>"><span style="color:#bbb; font-size:11px">(填线路的Id，用 “,” 号隔开)</span>
+							<p class="help-block">
+							</p>
+						</div>
+					</div>
+					<div class="control-group">
+						<label class="control-label" for="des">纯玩跟团线路：</label>
+						<div class="controls">
+							<input class="input-xlarge" type="text" name="groups" value="<?php echo $info[0]->group; ?>">
+							<span style="color:#bbb; font-size:11px">(填线路的Id，用 “,” 号隔开)</span>
+							<p class="help-block">
+							</p>
+						</div>
+					</div>
 					<div class="control-group">
 						<label class="control-label" for="content">内容：</label>
 						<div class="controls">

@@ -1,4 +1,4 @@
-<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('template/default/space_order_list|template/default/header|template/default/footer', '1344500205', 'template/default/space_order_list');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
+<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('template/default/space_order_list|template/default/header|template/default/footer', '1344581018', 'template/default/space_order_list');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -104,6 +104,7 @@
 <li><img src="image/app/event.gif"/><a href="space.php?do=event">活动</a><em><a href="cp.php?ac=event" class="gray">发起</a></em></li>
 <li><img src="image/app/share.gif"><a href="space.php?do=share">分享</a></li>
 <li><img src="image/app/topic.gif"><a href="space.php?do=topic">热闹</a></li>
+<li><img src="image/app/blog.gif"><a href="space.php?do=order">订单</a><em></li>
 </ul>
 
 <ul class="app_list topline" id="my_defaultapp">
@@ -167,7 +168,7 @@
 <?php if(is_array($orderlist)) { foreach($orderlist as $list) { ?>
 <li>
 <span><?=$list['uuid']?></span>
-<h4><?=$list['title']?></h4>
+<h4><a href="space.php?uid=<?=$space['uid']?>&do=order&id=<?=$list['uuid']?>" target="_blank"><?=$list['title']?></a></h4>
 </li>
 <?php } } ?>
 </ul>

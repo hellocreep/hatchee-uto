@@ -160,7 +160,7 @@ class Show extends CI_Model
 		$query=$this->db->get();
 		return $query->row_array();
 	}
-	public function tourthemelist($key,$start,$per_page,$action,$sort)
+	public function tourthemelist($key,$keyid,$start,$per_page,$action,$sort)
 	{
 		if($action!='')
 		{
@@ -177,7 +177,7 @@ class Show extends CI_Model
 		{
 			$orderby=' order by sortid asc';
 		}
-		$sql="select * from uto_tour where ispublish='1' and tour_type !=2 and destination LIKE '%".$key."%' ".$orderby." limit ".$start.",".$per_page;
+		$sql="select * from uto_tour where ispublish='1' and tour_type !=2 and destination LIKE '%".$key."%' or desid like '".$keyid."' ".$orderby." limit ".$start.",".$per_page;
 		$query=$this->db->query($sql);
 		return $query->result_array();
 	}

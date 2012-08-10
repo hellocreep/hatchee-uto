@@ -90,10 +90,10 @@
 								<span class="days"><?php echo $tour[$i]['days'];?></span>
 								<span class="tags tags<?php echo$tour[$i]['tour_type']?>"> 独立成团 </span>
 
-								<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
-								<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
+								<h2><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
+								<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>">更多</a></p>
 									<dl class="route-detail">
-									<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140"/></a></dt>
+									<dt><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140"/></a></dt>
 									<dd>
 										<span>旅行主题：</span><div><?php echo str_replace(',','、',substr($tour[$i]['theme'],0,-1));?></div>
 									</dd>
@@ -124,17 +124,19 @@
 									</span>	
 									</dd>
 									<dd class="last">
-										<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
+										<a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 									</dd>
 				
 								</dl>
 								</li>
 								<?php elseif($tour[$i]['tour_type']=='0'):?>
 									<li>
-									<span class="days"><?php echo $tour[$i]['days'];?></span><h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
-									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
+									<span class="days"><?php echo $tour[$i]['days'];?></span>
+									<span class="tags tags<?php echo$tour[$i]['tour_type']?>"> 友途活动 </span>
+									<h2><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
+									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>">更多</a></p>
 									<dl class="route-detail">
-										<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" alt="<?php echo $tour[$i]['name'];?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140" /></a></dt>
+										<dt><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>" alt="<?php echo $tour[$i]['name'];?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140" /></a></dt>
 										<dd>
 											<span><b>旅行主题：&nbsp;&nbsp;</b></span><div><?php echo str_replace(',','、',substr($tour[$i]['theme'],0,-1));?></div>
 										</dd>
@@ -154,7 +156,7 @@
 											<span class="promotion"><img src="assets/images/promotion100.png"></span>
 										</dd>
 										<dd class="last">
-											<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
+											<a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 										</dd>
 					
 									</dl>
@@ -173,10 +175,10 @@
 
 									<?php endif ;?>
 
-									<h2><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
-									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>">更多</a></p>
+									<h2><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>"><?php echo $tour[$i]['name'];?></a></h2>
+									<p><?php echo str_replace('<br>','',mb_substr($tour[$i]['intro'],0,90,'utf-8')).'......';?><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>">更多</a></p>
 									<dl class="route-detail">
-										<dt><a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" alt="<?php echo $tour[$i]['name'];?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140" /></a></dt>
+										<dt><a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>" alt="<?php echo $tour[$i]['name'];?>"><img src="<?php echo $tour[$i]['thumbnail']?>" alt="<?php echo $tour[$i]['name'];?>" width="240" height="140" /></a></dt>
 										<!-- <dd>
 											<span><b>旅行主题：&nbsp;&nbsp;</b></span><div><?php echo str_replace(',','、',substr($tour[$i]['theme'],0,-1));?></div>
 										</dd> -->
@@ -208,7 +210,7 @@
 											<span class="promotion"><img src="assets/images/promotion100.png"></span>
 										</dd>-->
 										<dd class="last">
-											<a href="tourdetail/?tid=<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
+											<a href="tourdetail/tour/<?php echo $tour[$i]['Id']?>" class="btn">线路详情</a>	
 										</dd>
 					
 									</dl>

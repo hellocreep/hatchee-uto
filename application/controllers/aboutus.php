@@ -64,7 +64,7 @@ class Aboutus extends CI_Controller {
 	}
 	public function note()
 	{
-		$id=addslashes($_GET['id']);
+		$id=$this->uri->segment(3);
 		$this->load->model('travel');
 		$data['note']=$this->travel->getnote($id);
 		if(!$this->travel->getupnote($id))

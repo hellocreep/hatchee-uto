@@ -9,7 +9,7 @@ class Expandtour extends CI_Controller
 	}
 
 	public function expand(){
-		$id=addslashes($_GET['id']);
+		$id=$this->uri->segment(3);
 		$this->load->model('expand');
 		$data['expand'] = $this->expand->getexpand($id);
 		$customerip=$this->input->ip_address();

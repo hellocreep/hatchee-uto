@@ -337,7 +337,7 @@ var tour = {
 			<td class='t_name'>" +result[i].name+ "</td> \
 			<td class='t_price' rel='"+result[i].price+"'>"+result[i].price+"</td> \
 			<td>"+result[i].edit_time+"</td> \
-			<td><i class='icon-share'></i><a target='_blank' href='tourdetail/?tid="+result[i].Id+"'>预览</a> \
+			<td><i class='icon-share'></i><a target='_blank' href='tourdetail/tour/"+result[i].Id+"'>预览</a> \
 			<i class='icon-pencil'></i><a href='tourmanage/edittour/?tid="+result[i].Id+"' class='edit-tour'>修改</a> \
 			<i class='icon-trash'></i><a class='del-tour' href='#'>删除</a>"+who_edit+"</td></tr>";
 		}
@@ -486,7 +486,7 @@ var travel_note = {
 			note_list += "<tr><td class='n_id'>"+result[i].Id+"</td> \
 			<td class='n_title'>" +result[i].title+ "</td> \
 			<td>"+result[i].edit_time+"</td> \
-			<td><i class='icon-share'></i><a target='_blank' href='aboutus/note?id="+result[i].Id+"'>预览</a> \
+			<td><i class='icon-share'></i><a target='_blank' href='aboutus/note/"+result[i].Id+"'>预览</a> \
 			<i class='icon-pencil'></i><a href='travelnote/noteupdate/"+result[i].Id+"' class='edit-note'>修改</a> \
 			<i class='icon-trash'></i><a class='del-note' href='javascript:;'>删除</a></td></tr>";
 		}
@@ -540,7 +540,7 @@ var expand = {
 			expand_list += "<tr><td class='e_id'>"+result[i].Id+"</td> \
 			<td class='e_title'>" +result[i].title+ "</td> \
 			<td>"+result[i].edit_time+"</td> \
-			<td><i class='icon-share'></i><a target='_blank' href='expandtour/expand?id="+result[i].Id+"'>预览</a> \
+			<td><i class='icon-share'></i><a target='_blank' href='expandtour/expand/"+result[i].Id+"'>预览</a> \
 			<i class='icon-pencil'></i><a href='expandtour/expandupdate/"+result[i].Id+"' class='edit-expand'>修改</a> \
 			<i class='icon-trash'></i><a class='del-note' href='javascript:;'>删除</a></td></tr>";
 		}

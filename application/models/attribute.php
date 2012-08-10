@@ -66,6 +66,14 @@ class Attribute extends CI_Model
 		$this->db->delete("uto_destination");
 		return $this->db->affected_rows();
 	}
+	public function getdesid($des){
+		$this->db->select('Id');
+		$this->db->where('name',$des);
+		$this->db->from("uto_destination");
+		$query=$this->db->get();
+		$res=$query->row_array();
+		return $res['Id'];
+	}
 	/**********出行时间*****************************/
 	public function listtime()
 	{

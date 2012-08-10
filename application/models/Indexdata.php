@@ -49,5 +49,18 @@ class Indexdata extends CI_Model
 		$query=$this->db->get();
 		return $query->result_array();
 	}
+	function getgroup($id)
+	{
+		$arrid=explode(',',$id);
+		for($i=0;$i<count($arrid);$i++)
+		{
+			$this->db->where('Id',$arrid[0]);
+			$this->db->where('tour_type','4');
+			$this->db->from('uto_tour');
+			$query=$this->db->get();
+			$res[]=$query->row_array();	
+		}
+		return $res;
+	}
 }
 ?>

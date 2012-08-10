@@ -128,7 +128,9 @@ class Index extends CI_Controller
 
 		$data['count']=$count;
 		$data['pagenow']=$page;
-		$data['tour']=$this->show->tourthemelist($dess['name'],$start,$per_page,$action,$sort);
+		$this->load->model('attribute');
+		$desid=$this->attribute->getdesid($dess['name']);
+		$data['tour']=$this->show->tourthemelist($dess['name'],$desid,$start,$per_page,$action,$sort);
 	
 		$data['bread']=$bread;	
 		$data['dess']=$this->show->deslist();

@@ -697,6 +697,18 @@ a.online img{
 .col-tour dd:hover{
 	background: #F8EFDA;
 }
+.col-playonly .li-lt{
+	width: 50px;
+	float: left;
+}
+.col-playonly .li-mt{
+	width: 380px;
+	float: left;
+}
+.col-playonly .li-rt{
+	width: 240px;
+	float: left;
+}
 .col-theme ul{
 	float: left;
 	overflow: hidden;

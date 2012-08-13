@@ -45,17 +45,17 @@
 						<!-- <h4>快速报名：</h4> -->
 						<div class="j-left">
 							<p>
-								<b>选择期数：</b>
-								<select size="3" multiple="multiple">
+								<b>活动期数：</b>
+								<ul>
 									<?php if(isset($tour[0]->term)): ?>
 									<?php foreach(explode("<br />",$tour[0]->term) as $term): ?>
-										<option class="term" value="<?php echo $term;?>"><?php echo $term;?></option>
+										<li><?php echo $term;?></li>
 									<?php endforeach;?>
 									<?php endif;?>
-								</select>
+								</ul>
 							</p>
-							<p>
-								<b>参加人数：</b>
+							<!-- <p> -->
+								<!-- <b>参加人数：</b>
 								<select id="peo">
 									<option class="people">1</option>
 									<option class="people" selected>2</option>
@@ -68,11 +68,11 @@
 									<option class="people">9</option>
 									<option class="people">10</option>
 									<option class="people" value="more">更多</option>
-								</select>
+								</select> -->
 								
-								<input class="btn" id="inquiry" value="在线报名" type="submit"><span class="promotion"><img src="assets/images/promotion100.png"></span>
+								<!-- <input class="btn" id="inquiry" value="在线报名" type="submit"><span class="promotion"><img src="assets/images/promotion100.png"></span> -->
 								<!-- <input class="people" type="text"> -->
-							</p>
+							<!-- </p> -->
 							<!-- <p class="pad">
 								<input class="btn" id="inquiry" value="在线报名" type="submit"><span class="promotion"><img src="assets/images/promotion100.png"></span>
 							</p> -->
@@ -117,13 +117,16 @@
 							<div class="experience">
 								<?php echo $tour[0] -> content;?>
 							</div>
-							<?php endif;?>
+						<?php endif;?>
+						<span style="text-decoration:underline; cursor:pointer; color:#30625E; font-size:15px; float:right;" onclick="$('.sub-nav li').eq(1).click();">>>具体行程</span>
 							<h4>线路地图</h4>
-								<div>
-									<?php if(isset($tour[0]->tour_map)): ?>
-										<img src="<?php echo $tour[0]->tour_map; ?>" alt="map" width="670px" height="580px" >
-									<?php endif;?>
-								</div>
+							<div>
+								<?php if(isset($tour[0]->tour_map)): ?>
+									<img src="<?php echo $tour[0]->tour_map; ?>" alt="map" width="670px" height="580px" >
+								<?php endif;?>
+							</div>
+
+
 						</div>
 						<div class="unit route">
 							<!-- 具体行程 -->

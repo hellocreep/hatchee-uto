@@ -93,14 +93,14 @@
 					<div class="col col-playonly">
 						<h2>纯玩跟团</h2>
 						<p>
-							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。多个炫彩主题，数条顶级行程，让您玩转四川。　
+							只做纯玩与品质有关的事情；与四川市面上接待质量最好的旅行社强强联合发团；这条线在某某网上的价格比友途旅行网便宜多少多少，为什么？ 同一款产品，有推荐购物、强制购物，所以价格很多也有很大的差别。我们的报价是市面上接待质量最好的旅行社价格，是纯玩不购物团的价格。
 						</p>
 						<ul>
 							
 						<?php foreach($group as $grouptour):?>
 							<li>
 								<div class="li-lt">
-									<a href="tourdetail/tour/<?php echo $grouptour['Id']?>"><img src="<?php echo $grouptour['thumbnail'];?>"></a>
+									<a href="tourdetail/tour/<?php echo $grouptour['Id']?>"><img width="50" height="30" src="<?php echo $grouptour['thumbnail'];?>"></a>
 								</div>
 								<div class="li-mt">
 									<h4><a href="tourdetail/tour/<?php echo $grouptour['Id']?>"><?php echo $grouptour['title'];?></a></h4>
@@ -109,7 +109,8 @@
 									</p>
 								</div>
 								<div class="li-rt">
-									<i><?php echo $grouptour['price'];?></i>
+
+									<i>￥<?php echo $grouptour['price'];?></i><br>
 									<span><?php echo $grouptour['departure'];?></span>
 								</div>
 							</li>

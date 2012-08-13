@@ -1,4 +1,4 @@
-<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('template/default/space_order_list|template/default/header|template/default/footer', '1344581018', 'template/default/space_order_list');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
+<?php if(!defined('IN_UCHOME')) exit('Access Denied');?><?php subtplcheck('template/default/space_order_list|template/default/header|template/default/footer', '1344841418', 'template/default/space_order_list');?><?php if(empty($_SGLOBAL['inajax'])) { ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -162,13 +162,19 @@
 
 <?php } ?>
 
-<div>
 <h2 class="title"><img src="image/app/blog.gif" />订单</h2>
+<div class="tabs_header">
+<ul class="tabs">
+<li class="active"><a href="space.php?uid=<?=$space['uid']?>&do=<?=$do?>&view=me"><span>我的订单</span></a></li>	
+</ul>
+</div>
+<div class="list">
 <ul>
 <?php if(is_array($orderlist)) { foreach($orderlist as $list) { ?>
 <li>
-<span><?=$list['uuid']?></span>
-<h4><a href="space.php?uid=<?=$space['uid']?>&do=order&id=<?=$list['uuid']?>" target="_blank"><?=$list['title']?></a></h4>
+<span ><?=$list['uuid']?></span>
+<a href="cp.php?ac=share&type=order&id=<?=$list['oid']?>" id="a_share_<?=$list['oid']?>" onclick="ajaxmenu(event, this.id, 1)" class="a_share">分享</a>
+<h4><a href="space.php?uid=<?=$space['uid']?>&do=order&id=<?=$list['oid']?>" target="_blank"><?=$list['title']?></a></h4>
 </li>
 <?php } } ?>
 </ul>

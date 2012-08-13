@@ -158,8 +158,12 @@ input.people{
 }
 
 .j-left{
-	width:400px;
+	width:460px;
 	float:left;
+}
+.j-left ul li{
+	list-style-type: disc;
+	list-style-position: inside;
 }
 .j-left .big{
 	font-size: 16px;
@@ -185,11 +189,11 @@ span.promotion img{
 	vertical-align: middle;
 }
 .j-right{
-	margin: 50px 0 0 0;
-	width:230px;
-	border-left: 1px dashed #ccc;
-	padding-left: 40px;
-	float:right;
+	border-left: 1px dashed #CCCCCC;
+	float: right;
+	margin: 20px 0 0;
+	padding-left: 15px;
+	width: 200px;
 }
 .j-right p{
 	margin: 10px 0 0 9px;

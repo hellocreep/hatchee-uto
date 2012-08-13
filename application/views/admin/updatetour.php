@@ -179,7 +179,7 @@
 				<div class="control-group">
 					<label class="control-label" for="departure">出发时间：</label>
 					<div class="controls">
-						<input name="departure" class="input-small" type="text">
+						<input name="departure" class="input-small" type="text" value="<?php echo $tour[0] -> departure; ?>" >
 					</div>
 				</div>
 				

@@ -15,10 +15,11 @@ class Index extends CI_Controller
 		$bread='<a href="themetour">主题旅行</a> > 目的地 > '.$key;
 		$this->load->model('webpage');
 		$data['webinfo'] = $this->webpage->getpage('theme_tour');
+		$this->load->model('attribute');
+		$desid=$this->attribute->getdesid($dess['name']);
+		$num=$this->show->alltour($des,$desid);
 		
-		$num=$this->show->alltour($des);
-		
-		$per_page=5;
+		$per_page=8;
 		$count=ceil($num/$per_page);
 		if(isset($_GET['page']))
 		{
@@ -128,8 +129,7 @@ class Index extends CI_Controller
 
 		$data['count']=$count;
 		$data['pagenow']=$page;
-		$this->load->model('attribute');
-		$desid=$this->attribute->getdesid($dess['name']);
+		
 		$data['tour']=$this->show->tourthemelist($dess['name'],$desid,$start,$per_page,$action,$sort);
 	
 		$data['bread']=$bread;	

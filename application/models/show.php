@@ -139,9 +139,9 @@ class Show extends CI_Model
 		return $query->row_array();
 
 	}
-	public function alltour($key)
+	public function alltour($key,$keyid)
 	{
-		$sql="select id from uto_tour where ispublish='1' and tour_type !=2 and destination LIKE '%".$key."%' order by sortid asc";
+		$sql="select id from uto_tour where ispublish='1' and tour_type !=2 and destination LIKE '%".$key."%' or desid like '".$keyid."' order by sortid asc";
 		$query=$this->db->query($sql);
 		return $query->num_rows();
 	}

@@ -118,6 +118,7 @@ class Tourmanage extends CI_Controller{
 			}
 		}
 		$this->load->model('attribute');
+		$desid='';
 		if(count($data->destination)!='')
 		{
 			foreach($data->destination as $des)

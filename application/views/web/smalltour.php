@@ -253,14 +253,12 @@
 							<?php endif;?>
 						</p>
 						<p>
-						
+					<?php if(isset($tour[0]->content) && $tour[0]->content!=''):?>
 						<h4>行程亮点及体验：</h4>
 						<div class="experience">
-							<?php if(isset($tour[0]->content)):
-							?>
 							<?php echo $tour[0] -> content;?>
-							<?php endif;?>
 						</div>
+					<?php endif;?>
 					</div> <!-- end of .unit -->
 
 					<div class="unit route"> <!-- 具体行程 -->

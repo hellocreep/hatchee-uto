@@ -112,13 +112,12 @@
 								<?php echo $tour[0] -> route_intro;?>
 								<?php endif;?>
 							</p>
+							<?php if(isset($tour[0]->content) && $tour[0]->content!=''):?>
 							<h4>行程亮点及体验：</h4>
 							<div class="experience">
-								<?php if(isset($tour[0]->content)):
-								?>
 								<?php echo $tour[0] -> content;?>
-								<?php endif;?>
 							</div>
+							<?php endif;?>
 							<h4>线路地图</h4>
 								<div>
 									<?php if(isset($tour[0]->tour_map)): ?>

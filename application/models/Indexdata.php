@@ -9,7 +9,7 @@ class Indexdata extends CI_Model
 	function getterm()//获得活动排期线路
 	{
 		$this->db->where('tour_type','0');
-		$this->db->limit('2');
+		$this->db->limit('3');
 		$this->db->order_by('Id','desc');
 		$this->db->from('uto_tour');
 		$query=$this->db->get();

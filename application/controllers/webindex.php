@@ -12,6 +12,7 @@ class Webindex extends CI_Controller
 		$this->load->model('webpage');
 		$data['webinfo']=$this->webpage->getpage('index');
 		$group=$data['webinfo'][0]->group;
+		$terms=$data['webinfo'][0]->termtour;
 		$data['group']=$this->indexdata->getgroup($group);
 		$data['term']=$this->indexdata->getterm();
 		$data['theme']=$this->indexdata->gettheme();

@@ -81,6 +81,7 @@ class Tourmanage extends CI_Controller{
 		$route=$data->route;
 		$route_intro=$data->route_intro;
 		$intro=$data->intro;//线路简介
+		$introfile=$data->introfile;
 		$content=$data->content;
 		$departure=$data->departure;
 		$notice=$data->notice;
@@ -167,6 +168,7 @@ class Tourmanage extends CI_Controller{
 				'tour_map'=>$tour_map,
 				'ispublish'=>$ispublish,
 				'departure'=>$departure,
+				'introfile'=>$introfile,
 				'sortid'=>$sortid,
 				'company_intro'=>$data->company_intro
 				
@@ -280,6 +282,7 @@ class Tourmanage extends CI_Controller{
 		$route=$data->route;
 		$route_intro=$data->route_intro;
 		$intro=$data->intro;//线路简介
+		$introfile=$data->introfile;
 		$content=$data->content;
 		$departure=$data->departure;
 		$notice=$data->notice;
@@ -350,6 +353,7 @@ class Tourmanage extends CI_Controller{
 				'route'=>$route,
 				'route_intro'=>$route_intro,
 				'intro'=>$intro,
+				'introfile'=>$introfile,
 				'content'=>$content,
 				'gallery'=>$gallery,
 				'notice'=>$notice,

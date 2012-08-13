@@ -193,7 +193,12 @@
 							<textarea name="route_intro" class="input-xlarge" rows="3"></textarea>
 						</div>
 					</div>
-					
+					<div class="control-group">
+						<label class="control-label" for="route_intro">行程文件：</label>
+						<div class="controls">
+							<input type="text" name="introfile" class="input-xlarge" >
+						</div>
+					</div>
 					<div class="control-group">
 						<label class="control-label" for="days">行程天数：</label>
 						<div class="controls">

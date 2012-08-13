@@ -298,6 +298,7 @@ var submittour = function(){
 			route : route.toString(),
 			route_intro:  $('textarea[name="route_intro"]').val(),
 			intro : $('textarea[name="intro"]').val(),
+			introfile :$('input[name="introfile"]').val(),
 			content : $('textarea[name="content"]').val(),
 			map: $( 'input[name="map"]').val()||'',
 			gallery : gallery.toString(),//$('input[name="gallery"]').val(),

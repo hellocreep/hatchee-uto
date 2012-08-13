@@ -224,7 +224,12 @@
 						<textarea name="route_intro" class="input-xlarge" rows="3" value="<?php echo $tour[0] -> route_intro; ?>"><?php echo $tour[0] -> route_intro; ?></textarea>
 					</div>
 				</div>
-
+				<div class="control-group">
+						<label class="control-label" for="route_intro">行程文件：</label>
+						<div class="controls">
+							<input type="text" name="introfile" class="input-xlarge" value="<?php echo $tour[0] ->introfile; ?>">
+						</div>
+					</div>
 				<div class="control-group">
 					<label class="control-label" for="days">行程天数：</label>
 					<div class="controls">

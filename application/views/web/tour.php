@@ -119,12 +119,12 @@
 							</div>
 						<?php endif;?>
 						<span style="text-decoration:underline; cursor:pointer; color:#30625E; font-size:15px; float:right;" onclick="$('.sub-nav li').eq(1).click();">>>具体行程</span>
+							<?php if(isset($tour[0]->tour_map) && $tour[0]->tour_map!=''): ?>
 							<h4>线路地图</h4>
 							<div>
-								<?php if(isset($tour[0]->tour_map)): ?>
 									<img src="<?php echo $tour[0]->tour_map; ?>" alt="map" width="670px" height="580px" >
-								<?php endif;?>
 							</div>
+							<?php endif;?>
 
 
 						</div>
@@ -133,8 +133,7 @@
 							<?php if(isset($route)):
 							?>
 							<?php for($i=0;$i<count($route);$i++):?>
-<?php if(($i+1)%2==0):
-							?>
+							<?php if(($i+1)%2==0):?>
 							<dl class="odd">
 								<dt>
 									<h4> Day <?php echo $i + 1;?></h4>

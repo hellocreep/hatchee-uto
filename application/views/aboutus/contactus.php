@@ -43,7 +43,7 @@
 							<dd><a href="mailto:bm@utotrip.com"><span>bm@utotrip.com</span></a></dd>
 						</dl>	
 					</div>
-					<p><b>友途旅行网：</b>成都雅竹国际旅行社有限公司官方预定网站</p>
+					<p><b>友途网</b>，是成都雅竹国际旅行社有限公司的官方预定网站</p>
 					<p><b>友途地址：</b> 成都市武侯区武阳大道1段288号中央花园城市别墅1栋23号</p>
 					<div class="separator"></div>
 					<h2>在线咨询</h2>

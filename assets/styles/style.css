@@ -698,6 +698,7 @@ a.online img{
 	background: #F8EFDA;
 }
 .col-playonly li{
+	margin: 5px 0 0;
 	border-bottom: 1px dashed #ddd;
 	display: block;
 	float: left;
@@ -829,6 +830,7 @@ a.online img{
 	font-family: "微软雅黑";
 	*display: inline;
 }
+.homert .sidetag,
 .homert .idea,
 .homert .leader,
 .homert .social{
@@ -838,6 +840,20 @@ a.online img{
 	box-shadow: 0 1px #C9C8BA;
 	margin-top: 10px;
 }
+.homert .sidetag{
+	padding: 5px;
+}
+.homert .sidetag p{
+	margin: 0;
+	/*text-align: center;*/
+}
+.homert .sidetag a{
+	display: block;
+	float: left;
+	padding: 4px 6px;
+
+}
+
 .homert h3{
 	text-indent: 10px;
 }
@@ -927,6 +943,9 @@ a.online img{
 .leader li span{
 	line-height: 40px;
 	margin: 0 10px 0 0;
+	float: right;
+}
+.leader li .more{
 	float: right;
 }
 

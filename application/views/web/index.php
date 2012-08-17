@@ -67,33 +67,10 @@
 						</dl>
 					</div>
 
-					<!--<div class="col col-theme">
-						<h2>主题旅行</h2>
-						<p>
-							友途的系列主题旅行产品，延续友途轻户外体验旅行方式，但出行时间、人数、地方等等由您来定，所有行程可独立包团、可拼团、也可只租车+酒店的自由行方式。多个炫彩主题，数条顶级行程，让您玩转四川。　
-						</p>
-						<ul>
-							<?php foreach($theme as $themetour):?>
-								<li>
-								<a href="tourdetail/tour/<?php echo $themetour['Id']?>"><img src="<?php echo $themetour['thumbnail']?>">
-								<div>
-									<h4><?php echo $themetour['title'];?></h4>
-									<p>
-										<?php echo mb_substr(str_replace('<br>','',$themetour['intro']),0,40,'utf-8').'......';?>
-									</p>
-								</div>
-								</a>
-							</li>	
-							<?php endforeach;?>
-													
-						</ul>
-					</div>-->
-
-					
 					<div class="col col-playonly">
 						<h2>纯玩跟团</h2>
 						<p>
-							只做纯玩与品质有关的事情；与四川市面上接待质量最好的旅行社强强联合发团；这条线在某某网上的价格比友途旅行网便宜多少多少，为什么？ 同一款产品，有推荐购物、强制购物，所以价格很多也有很大的差别。我们的报价是市面上接待质量最好的旅行社价格，是纯玩不购物团的价格。
+							从友途诞生第一日起，我们就决定：只做与品质相关的事情！市面上常规旅游跟团，很多看上去价格很低，但实际上游客最终所支付的费用并不低，因为那些低价团的操作者总是会用带领客人进旅游购物店消费（获取佣金）和增加额外旅游点或者旅游活动的方式来补足旅行社的利润和导游司机的收入。友途只做纯玩团，也就是不进店、不加点的跟团旅游，表面上价格是高了一些，但最终您为这次旅游所支付的总支出并不高，而且保证了您愉悦的体验和美好的心情！ 
 						</p>
 						<ul>
 							
@@ -171,14 +148,39 @@
 					</div>
 				</div>	
 
-
-
-
-
 				<div class="homert">
 					<div class="choose">
 						<img src="assets/images/head-top.jpg">
 					</div>
+
+					<div class="sidetag clearfix">
+						<p id="tagcloud">
+							<a href="index/tour/danba" style="font-size:18px;color:#87A800;">丹巴</a>  
+							<a href="index/tour/yading" style="font-size:22px;color:#DE2159;">稻城亚丁</a>  
+							<a href="index/tour/luguhu" style="font-size:18px;color:#87A800;">泸沽湖</a>
+							<a href="index/tour/jiuzhai" style="font-size:22px;color:#DE2159;">九寨沟</a>  
+							<a href="index/tour/yanzigou" style="font-size:16px;color:#DE2159;">燕子沟</a> 
+							<!-- <a href="" style="font-size:22px;color:#039FAF;">大美川西</a>   -->
+							<a href="index/tour/hailuogou" style="font-size:16px;color:#87A800;">海螺沟</a>
+							<a href="index/tour/danba" style="font-size:13px;color:#DE2159;">丹巴</a> 
+							<a href="index/tour/mugecuo" style="font-size:16px;color:#87A800;">木格措</a> 
+							<a href="index/tour/emeishan" style="font-size:14px;color:#FF7600;">峨眉山</a> 
+							<a href="index/tour/gongga" style="font-size:14px;color:#DE2159;">贡嘎</a> 
+							<a href="index/tour/siguniangshan" style="font-size:22px;color:#039FAF;">四姑娘山</a>
+							<a href="index/tour/qingcheng" style="font-size:13px;color:#FF7600;">青城山</a>
+							<a href="index/tour/xichang" style="font-size:18px;color:#87A800;">西昌</a>
+						</p>
+					</div>
+
+					<script type="text/javascript">
+						$("#tagcloud a").hover(function(){
+							var color = $(this).css('color');
+							$(this).css({"color":"#F5F5EB", "background-color":color});
+						}, function(){
+							var bgcolor = $(this).css('background-color');
+							$(this).css({"color":bgcolor, "background":"#F5F5EB"});
+						})
+					</script>
 
 					<div class="idea clearfix">
 						<h3>友途始终如一的理念</h3>
@@ -255,16 +257,17 @@
 								<b>袁辰恺（圆小胖）</b>
 								<span>友途小编</span>
 							</li>
-							<li>
+							<!-- <li>
 								<i class="img06"></i>
 								<b>亓纯静</b>
 								<span>友途小编</span>
-							</li>
+							</li> -->
 							<li>
 								<a class="more" href="aboutus/leader">>>详情</a>
 							</li>
 						</ul>
 					</div>
+
 
 					<div class="social clearfix">
 						<h3>关注友途， 关注不一样的旅行</h3>

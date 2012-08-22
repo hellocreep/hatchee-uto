@@ -6,15 +6,15 @@ class Indexdata extends CI_Model
 		parent::__construct();
 		$this->load->database();
 	}
-	function getterm()//获得活动排期线路
-	{
-		$this->db->where('tour_type','0');
-		$this->db->limit('3');
-		$this->db->order_by('Id','desc');
-		$this->db->from('uto_tour');
-		$query=$this->db->get();
-		return $query->result_array();
-	}
+	// function getterm()//获得活动排期线路
+	// {
+	// 	$this->db->where('tour_type','0');
+	// 	$this->db->limit('3');
+	// 	$this->db->order_by('Id','desc');
+	// 	$this->db->from('uto_tour');
+	// 	$query=$this->db->get();
+	// 	return $query->result_array();
+	// }
 	function gettheme()//获得小包团线路
 	{
 		$this->db->where('tour_type','1');
@@ -62,5 +62,22 @@ class Indexdata extends CI_Model
 		}
 		return $res;
 	}
+
+	function getterm($id)
+	{
+		$arrid=explode(',',$id);
+		for($i=0;$i<count($arrid);$i++)
+		{
+			$this->db->where('Id',$arrid[$i]);
+			$this->db->where('tour_type','0');
+			$this->db->from('uto_tour');
+			$query=$this->db->get();
+			$res[$i]=$query->row_array();	
+		}
+		return $res;
+	}
+
+
+
 }
 ?>

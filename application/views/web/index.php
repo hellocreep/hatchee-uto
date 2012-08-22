@@ -52,6 +52,7 @@
 								友途活动是友途旅行网官方品牌活动 - 独家、趣味、探索、自由。目前以前往“大美川西”贡嘎山和四姑娘为主，固定排期，承诺一人发团，成都集结，全国统一价，无购物，加点，一路随时停车，回归最简单，最快乐的旅行。
 							</dt>
 							<?php foreach($term as $termtour):?>
+
 							<dd>
 								<a href="tourdetail/tour/<?php echo $termtour['Id']?>"><img src="<?php echo $termtour['thumbnail'];?>"></a>
 								<h4><a href="tourdetail/tour/<?php echo $termtour['Id']?>"><?php echo $termtour['title'];?></a></h4>

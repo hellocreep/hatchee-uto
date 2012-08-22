@@ -163,7 +163,7 @@ p.pagenating{
 
 
 
-/*------------ Page jion --------------*/
+/*------------ Page join --------------*/
 .hire{
 	margin: 20px 0 0 0;
 }
@@ -183,3 +183,26 @@ p.pagenating{
 
 
 
+/*------------ Page pay --------------*/
+
+.bank{
+	width: 720px;
+	margin: 10px 0;
+}
+.bank td{
+	vertical-align: middle;
+	border: 1px solid #ddd;
+	padding: 3px 5px;
+}
+.bank .col1{
+	width: 255px;
+}
+.bank .col2{
+	width: 52px;
+}
+.bank .col3{
+	width: 330px;
+}
+.bank .col4{
+	width: 60px;
+}

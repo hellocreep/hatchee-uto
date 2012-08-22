@@ -2,7 +2,7 @@
 
 <div class="footer clearfix">
 	<p class="footnav">
-	<a href="aboutus">关于我们</a> | <a href="aboutus/mission">友途使命</a> | <a href="aboutus/contactus">联系我们</a> | <a href="aboutus/join">加入友途</a>	
+	<a href="aboutus">关于我们</a> | <a href="aboutus/mission">友途使命</a> | <a href="aboutus/contactus">联系我们</a> | <a href="aboutus/join">加入友途</a> | <a href="aboutus/pay">支付方式</a>	
 	</p>
 	<p><span>友途旅行网是成都雅竹国际旅行社有限公司唯一官方网站   许可证号：L-SC-A00273</span></p>
 	<p> 

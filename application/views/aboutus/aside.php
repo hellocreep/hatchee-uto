@@ -7,5 +7,6 @@
 		<dd><a class="a-review" href="aboutus/review">精彩回顾</a></dd>
 		<dd><a class="a-join" href="aboutus/join">加入友途</a></dd>
 		<dd><a class="a-contactus" href="aboutus/contactus">联系我们</a></dd>
+		<dd><a class="a-pay" href="aboutus/pay">支付方式</a></dd>
 	</dl>
 </div>
